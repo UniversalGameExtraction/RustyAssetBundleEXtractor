@@ -10,6 +10,14 @@ edition = "2021"
 # binary-reader = "0.4.5"
 byteorder = "1.4.3"
 
+# lazy_static - https://crates.io/crates/lazy_static
+# used for CommongString - constant hashmap
+lazy_static = "1.4.0"
+
+# paste - https://crates.io/crates/paste
+# make macros easier
+paste = "1.0.12"
+
 # Compression Libs
 # ZLIB & GZIP - https://crates.io/crates/libflate
 libflate = "1.3.0"
@@ -45,3 +53,7 @@ lz4_flex = "0.10"
 # bitflag - https://crates.io/crates/bitflags
 bitflags = "1.3.2"
 num_enum = "0.5.11" # https://crates.io/crates/num_enum
+
+# UnityCN Encryption
+aes = "0.8.2"
+cbc = "0.1.2"
