@@ -37,25 +37,25 @@ pub trait ReadUrexExt: ReadBytesExt {
         }
     }
 
+    fn read_string<T: ByteOrder>(&mut self) -> Result<String, std::io::Error> {
+        let len = self.read_array_len::<T>()?;
+        self.read_string_sized(len)
+    }
+
+    fn read_string_sized(&mut self, len: usize) -> Result<String, std::io::Error> {
+        let s = String::from_utf8(self.read_bytes_sized(len).unwrap()).unwrap();
+        Ok(s)
+    }
+
+    fn read_bytes<T: ByteOrder>(&mut self) -> Result<Vec<u8>, std::io::Error> {
+        let len = self.read_array_len::<T>()?;
+        self.read_bytes_sized(len)
+    }
+
     fn read_bytes_sized(&mut self, len: usize) -> Result<Vec<u8>, std::io::Error> {
         let mut buf = vec![0; len];
         self.read_exact(&mut buf)?;
         Ok(buf)
-    }
-
-    fn read_string<T: ByteOrder>(&mut self) -> Result<String, std::io::Error> {
-        let len = self.read_array_len::<T>()?;
-        let mut buf = vec![0; len];
-        self.read_exact(&mut buf)?;
-        let s = String::from_utf8(buf).unwrap();
-        Ok(s)
-    }
-
-    fn read_string_sized(&mut self, len: usize) -> Result<String, std::io::Error> {
-        let mut buf = vec![0; len];
-        self.read_exact(&mut buf)?;
-        let s = String::from_utf8(buf).unwrap();
-        Ok(s)
     }
 
     fn read_bool(&mut self) -> Result<bool, std::io::Error> {
@@ -82,6 +82,10 @@ pub trait ReadSeekUrexExt: ReadUrexExt + Seek {
             self.seek(std::io::SeekFrom::Current(diff as i64))?;
         }
         Ok(())
+    }
+
+    fn align4(&mut self) -> Result<(), std::io::Error> {
+        self.align(4)
     }
 }
 
