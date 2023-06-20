@@ -8,7 +8,7 @@ use bitflags::bitflags;
 use byteorder::{BigEndian, ByteOrder, ReadBytesExt};
 
 #[derive(Debug, Copy, Clone)]
-struct SerializedFileHeader {
+pub struct SerializedFileHeader {
     m_MetadataSize: u32,
     m_FileSize: i64,
     m_Version: u32,
@@ -66,19 +66,19 @@ impl SerializedFileHeader {
 }
 
 #[derive(Debug, Clone)]
-struct SerializedType {
-    m_ClassID: i32,
-    m_IsStrippedType: bool,
-    m_ScriptTypeIndex: i16,
-    m_ScriptID: [u8; 16],
-    m_OldTypeHash: [u8; 16],
-    m_Type: Option<TypeTreeNode>,
+pub struct SerializedType {
+    pub m_ClassID: i32,
+    pub m_IsStrippedType: bool,
+    pub m_ScriptTypeIndex: i16,
+    pub m_ScriptID: [u8; 16],
+    pub m_OldTypeHash: [u8; 16],
+    pub m_Type: Option<TypeTreeNode>,
     // for reftypes
-    m_ClassName: Option<String>,
-    m_NameSpace: Option<String>,
-    m_AsmName: Option<String>,
+    pub m_ClassName: Option<String>,
+    pub m_NameSpace: Option<String>,
+    pub m_AsmName: Option<String>,
     // for non ref-types
-    m_TypeDependencies: Vec<i32>,
+    pub m_TypeDependencies: Vec<i32>,
 }
 impl SerializedType {
     pub fn from_reader<T: std::io::Read + std::io::Seek, B: ByteOrder>(
@@ -147,7 +147,7 @@ impl SerializedType {
 }
 
 #[derive(Debug, Clone)]
-struct LocalSerializedObjectIdentifier {
+pub struct LocalSerializedObjectIdentifier {
     m_LocalSerializedFileIndex: i32,
     m_LocalIdentifierInFile: i64,
 }
@@ -171,21 +171,22 @@ impl LocalSerializedObjectIdentifier {
 }
 
 #[derive(Debug, Clone)]
-struct ObjectInfo {
-    m_PathID: i64,
-    m_Offset: i64,
-    m_Size: u32,
-    m_TypeID: i32,
-    m_ClassID: i32,
-    m_IsDestroyed: Option<u16>,
-    m_ScriptTypeIndex: Option<i16>,
-    m_Stripped: Option<u8>,
+pub struct ObjectInfo {
+    pub m_PathID: i64,
+    pub m_Offset: i64,
+    pub m_Size: u32,
+    pub m_TypeID: i32,
+    pub m_ClassID: i32,
+    pub m_IsDestroyed: Option<u16>,
+    pub m_ScriptTypeIndex: Option<i16>,
+    pub m_Stripped: Option<u8>,
 }
 impl ObjectInfo {
     pub fn from_reader<T: std::io::Read + std::io::Seek, B: ByteOrder>(
         reader: &mut T,
         header: &SerializedFileHeader,
         bigIDEnabled: Option<i32>,
+        types: &[SerializedType],
     ) -> Result<ObjectInfo, std::io::Error> {
         let mut objectInfo = ObjectInfo {
             m_PathID: 0,
@@ -216,12 +217,8 @@ impl ObjectInfo {
         objectInfo.m_TypeID = reader.read_i32::<B>()?;
         if header.m_Version < SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits() {
             objectInfo.m_ClassID = reader.read_u16::<B>()? as i32;
-            // objectInfo.serializedType = m_Types.Find(x => x.classID == objectInfo.typeID);
         } else {
-            // TODO: implement
-            // var type = m_Types[objectInfo.typeID];
-            // objectInfo.serializedType = type;
-            //objectInfo.m_ClassID = typ.classID;
+            objectInfo.m_ClassID = types[objectInfo.m_TypeID as usize].m_ClassID;
         }
         if header.m_Version < SerializedFileFormatVersion::HAS_SCRIPT_TYPE_INDEX.bits() {
             objectInfo.m_IsDestroyed = Some(reader.read_u16::<B>()?);
@@ -244,7 +241,7 @@ impl ObjectInfo {
 }
 
 #[derive(Debug, Clone)]
-struct ScriptType {
+pub struct ScriptType {
     localSerializedFileIndex: i32,
     localIdentifierInFile: i64,
 }
@@ -268,7 +265,7 @@ impl ScriptType {
 }
 
 #[derive(Debug, Clone)]
-struct FileIdentifier {
+pub struct FileIdentifier {
     tempEmpty: Option<String>,
     guid: Option<Vec<u8>>,
     typeId: Option<i32>,
@@ -304,15 +301,15 @@ impl FileIdentifier {
 #[derive(Debug, Clone)]
 pub struct SerializedFile {
     header: SerializedFileHeader,
-    m_UnityVersion: Option<String>,
-    m_TargetPlatform: Option<i32>,
-    m_bigIDEnabled: Option<i32>,
-    m_Types: Vec<SerializedType>,
-    m_Objects: Vec<ObjectInfo>,
-    m_ScriptTypes: Option<Vec<ScriptType>>,
-    m_Externals: Vec<FileIdentifier>,
-    m_RefTypes: Option<Vec<SerializedType>>,
-    m_UserInformation: Option<String>,
+    pub m_UnityVersion: Option<String>,
+    pub m_TargetPlatform: Option<i32>,
+    pub m_bigIDEnabled: Option<i32>,
+    pub m_Types: Vec<SerializedType>,
+    pub m_Objects: Vec<ObjectInfo>,
+    pub m_ScriptTypes: Option<Vec<ScriptType>>,
+    pub m_Externals: Vec<FileIdentifier>,
+    pub m_RefTypes: Option<Vec<SerializedType>>,
+    pub m_UserInformation: Option<String>,
 }
 
 impl SerializedFile {
@@ -365,7 +362,7 @@ impl SerializedFile {
 
         // Read Types
         let typeCount = reader.read_i32::<B>()?;
-        let m_Types = (0..typeCount)
+        let m_Types: Vec<SerializedType> = (0..typeCount)
             .map(|_| {
                 let x =
                     SerializedType::from_reader::<T, B>(reader, &header, m_EnabledTypeTree, false);
@@ -382,8 +379,8 @@ impl SerializedFile {
 
         // Read Objects
         let objectCount = reader.read_i32::<B>()?;
-        let m_Objects = (0..objectCount)
-            .map(|_| ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled).unwrap())
+        let m_Objects: Vec<ObjectInfo> = (0..objectCount)
+            .map(|_| ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled, &m_Types).unwrap())
             .collect();
 
         let m_ScriptTypes = None;
@@ -456,7 +453,7 @@ impl UnityFile for SerializedFile {
 }
 
 bitflags! {
-    struct SerializedFileFormatVersion: u32 {
+    pub struct SerializedFileFormatVersion: u32 {
         const UNSUPPORTED = 1;
         const UNKNOWN_2 = 2;
         const UNKNOWN_3 = 3;

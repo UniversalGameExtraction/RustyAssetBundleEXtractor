@@ -39,7 +39,7 @@ bitflags! {
 
 #[derive(Debug, Eq, PartialEq, TryFromPrimitive)]
 #[repr(u32)]
-enum CompressionType {
+pub enum CompressionType {
     None = 0,
     Lzma = 1,
     Lz4 = 2,
@@ -47,7 +47,7 @@ enum CompressionType {
     Lzham = 4,
 }
 
-struct BundleFileHeader {
+pub struct BundleFileHeader {
     signature: String,
     version: u32,
     unity_version: String,
@@ -91,22 +91,22 @@ impl BundleFileHeader {
     }
 }
 
-struct StorageBlock {
+pub struct StorageBlock {
     compressed_size: u32,
     uncompressed_size: u32,
     flags: u32,
 }
 
 pub struct BundleFile {
-    m_Header: BundleFileHeader,
-    m_BlocksInfo: Vec<StorageBlock>,
-    m_DirectoryInfo: Vec<FileEntry>,
-    m_BlockReader: Cursor<Vec<u8>>,
+    pub m_Header: BundleFileHeader,
+    pub m_BlocksInfo: Vec<StorageBlock>,
+    pub m_DirectoryInfo: Vec<FileEntry>,
+    pub m_BlockReader: Cursor<Vec<u8>>,
     _decryptor: Option<ArchiveStorageDecryptor>,
 }
 
 impl BundleFile {
-    fn from_reader<T: Read + Seek>(
+    pub fn from_reader<T: Read + Seek>(
         reader: &mut T,
         config: &ExtractionConfig,
     ) -> Result<Self, Error> {
@@ -356,31 +356,5 @@ impl UnityFile for BundleFile {
         Self: Sized,
     {
         BundleFile::from_reader(reader, config)
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::config::ExtractionConfig;
-
-    #[test]
-    fn test_unityfs() {
-        let raw = include_bytes!("../../tests/char_118_yuki.ab");
-        let mut reader = std::io::Cursor::new(raw);
-        let bundle = super::BundleFile::from_reader(&mut reader, &ExtractionConfig::new()).unwrap();
-        //println!("{:?}", bundle);
-        println!();
-    }
-
-    #[test]
-    fn test_cn_encryption() {
-        let raw = include_bytes!("../../tests/pgr");
-        let mut reader = std::io::Cursor::new(raw);
-        let config = ExtractionConfig {
-            unitycn_key: Some("kurokurokurokuro".as_bytes().try_into().unwrap()),
-            fallback_unity_version: "2020.3.0f1".to_owned(),
-        };
-        let bundle = super::BundleFile::from_reader(&mut reader, &config).unwrap();
-        //println!("{:?}", bundle);
     }
 }

@@ -4,7 +4,7 @@ mod unityfile;
 mod webfile;
 
 pub use bundlefile::BundleFile;
-// pub use serialzedfile::SerializedFile;
+pub use serialzedfile::SerializedFile;
 // pub use webfile::WebFile;
 pub use unityfile::UnityFile;
 
