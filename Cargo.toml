@@ -57,3 +57,8 @@ num_enum = "0.5.11" # https://crates.io/crates/num_enum
 # UnityCN Encryption
 aes = "0.8.2"
 cbc = "0.1.2"
+
+# Object Serialization & Export
+serde = {version = "1.0.164", features = ["derive"]}
+serde_json = "1.0"
+serde_yaml = "0.9"
