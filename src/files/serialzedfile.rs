@@ -362,6 +362,22 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
         }
     }
 
+    pub fn peak_name(&mut self) -> Result<String, std::io::Error> {
+        self.reader
+            .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))
+            .unwrap();
+
+        // todo - check against typeid
+        match self.file.m_Header.m_Endianess {
+            0 => self.reader.read_string::<LittleEndian>(),
+            1 => self.reader.read_string::<BigEndian>(),
+            _ => Err(std::io::Error::new(
+                std::io::ErrorKind::NotFound,
+                "Unknown endianess!",
+            )),
+        }
+    }
+
     parse_as!(json, serde_json::Value);
     parse_as!(yaml, Result<serde_yaml::Value, serde_yaml::Error>);
 }
