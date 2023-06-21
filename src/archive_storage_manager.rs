@@ -77,10 +77,6 @@ impl ArchiveStorageDecryptor {
         let data_sum: usize = bytes.iter().fold(0, |acc, x| acc + *x as usize);
 
         while offset < size {
-            println!("{} {}", offset, index);
-            if offset == 48685 {
-                println!("{} {}", offset, index);
-            }
             offset = self.decrypt(bytes, offset, index, size)?;
             index += 1;
         }
