@@ -487,7 +487,7 @@ impl SerializedFile {
         if header.m_Version >= SerializedFileFormatVersion::SUPPORTS_REF_OBJECT.bits() {
             let refTypesCount = reader.read_i32::<B>()?;
             let m_RefTypes: Option<Vec<SerializedType>> = Some(
-                (0..typeCount)
+                (0..refTypesCount)
                     .map(|_| {
                         SerializedType::from_reader::<T, B>(
                             reader,
