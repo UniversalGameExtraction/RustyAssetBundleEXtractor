@@ -39,7 +39,6 @@ use std::{
 use urex::files::{BundleFile, SerializedFile};
 use urex::config::ExtractionConfig;
 
-
 let mut reader = File::open(fp).unwrap();
 let export_dir = Path::new("dump");
 
@@ -86,6 +85,7 @@ for directory in &bundle.m_DirectoryInfo {
                     .unwrap()
                     .write_all(json.to_string().as_bytes())
                     .unwrap();
+
                 // parse the object as yaml
                 let yaml = handler.parse_as_yaml().unwrap().unwrap();
                 // println!("{:?}", yaml);
@@ -93,6 +93,22 @@ for directory in &bundle.m_DirectoryInfo {
                     .unwrap()
                     .write_all(serde_yaml::to_string(&yaml).unwrap().as_bytes())
                     .unwrap();
+
+                // parse the object as msgpack
+                let msgpack = handler.parse_as_msgpack().unwrap();
+                File::create(format!("{}.msgpack", dst_path.to_string_lossy()))
+                    .unwrap()
+                    .write_all(&msgpack)
+                    .unwrap();
+
+                // serialize as actual class
+                // note: a small part of the object classes isn't implemented yet
+                if object.m_ClassID == urex::objects::map::AssetBundle {
+                    let ab = handler
+                        .parse::<urex::objects::classes::AssetBundle>()
+                        .unwrap();
+                    println!("{:?}", ab);
+                }
             }
         }
         Err(e) => {
