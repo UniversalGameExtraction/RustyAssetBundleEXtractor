@@ -1,8 +1,8 @@
 use lazy_static::lazy_static;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 lazy_static! {
-    pub static ref COMMONSTRING: HashMap<u32, &'static str> = [
+    pub static ref COMMONSTRING: BTreeMap<u32, &'static str> = [
         (0, "AABB"),
         (5, "AnimationClip"),
         (19, "AnimationCurve"),
