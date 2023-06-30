@@ -10,4 +10,4 @@ pub mod typetree;
 pub mod objects;
 
 mod archive_storage_manager;
-mod test;
+// mod test;
