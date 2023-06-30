@@ -7,5 +7,7 @@ pub mod config;
 pub mod files;
 pub mod read_ext;
 pub mod typetree;
-// pub mod classes;
+pub mod objects;
+
 mod archive_storage_manager;
+mod test;
