@@ -1,9 +1,23 @@
 [package]
 name = "urex"
-version = "0.0.0"
+version = "0.0.1"
 edition = "2021"
+include = [
+    "src/*",
+    "Cargo.toml",
+    "README.md",
+    "LICENSE-APACHE",
+    "LICENSE-MIT",
+    "COPYRIGHT"
+]
+authors = ["Rudolf Kolbe <rkolbe96@gmail.com>"]
+description = "wip UnityRustExtractor and patcher"
+documentation = "https://docs.rs/urex"
+homepage = "https://crates.io/crates/urex"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/UnityRustEXtractor/urex"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 # Binary Reader/Write - https://crates.io/crates/binary-reader
