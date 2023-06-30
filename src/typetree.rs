@@ -4,7 +4,8 @@ use crate::read_ext::ReadSeekUrexExt;
 use crate::read_ext::ReadUrexExt;
 use bitflags::bitflags;
 use byteorder::{ByteOrder, ReadBytesExt};
-use std::io::{Read, Seek};
+use rmp;
+use std::io::{Read, Seek, Write};
 
 bitflags! {
     struct TransferMetaFlags: i32 {
@@ -77,7 +78,7 @@ macro_rules! generate_read_as {
                         $conv_u8(reader.read_u8().unwrap())
                     }
                     "char" => {
-                        $conv_str(reader.read_string::<B>().unwrap())
+                        $conv_str((reader.read_u8().unwrap() as char).to_string())
                     }
                     "SInt16" | "short" => {
                         $conv_i16(reader.read_i16::<B>().unwrap())
@@ -420,4 +421,122 @@ impl TypeTreeNode {
             serde_yaml::to_value(map)
         }
     );
+
+    #[doc = "Parses the data as of the object into the msgpack."]
+    pub fn read_as_msgpack<R: Read + Seek, B: ByteOrder>(
+        &self,
+        reader: &mut R,
+    ) -> Result<Vec<u8>, std::io::Error> {
+        let mut buf = std::io::Cursor::new(Vec::new());
+        self._read_as_msgpack::<R, B, std::io::Cursor<Vec<u8>>>(reader, &mut buf)?;
+        Ok(buf.into_inner())
+    }
+
+    pub fn _read_as_msgpack<R: Read + Seek, B: ByteOrder, W: Write>(
+        &self,
+        reader: &mut R,
+        writer: &mut W,
+    ) -> Result<(), std::io::Error> {
+        // pub fn read_as_json2<R: Read + Seek, B: ByteOrder>(
+        //     &self,
+        //     reader: &mut R,
+        // ) -> Result<serde_json::Value, std::io::Error> {
+        let mut align = self.requires_align();
+        match self.m_Type.as_str() {
+            "SInt8" => rmp::encode::write_i8::<W>(writer, reader.read_i8().unwrap()),
+            "UInt8" => rmp::encode::write_u8::<W>(writer, reader.read_u8().unwrap()),
+            "char" => rmp::encode::write_str::<W>(
+                writer,
+                (reader.read_u8().unwrap() as char).to_string().as_str(),
+            ),
+            "SInt16" | "short" => {
+                rmp::encode::write_i16::<W>(writer, reader.read_i16::<B>().unwrap())
+            }
+            "UInt16" | "unsigned short" => {
+                rmp::encode::write_u16::<W>(writer, reader.read_u16::<B>().unwrap())
+            }
+            "SInt32" | "int" => {
+                rmp::encode::write_i32::<W>(writer, reader.read_i32::<B>().unwrap())
+            }
+            "UInt32" | "unsigned int" | "Type*" => {
+                rmp::encode::write_u32::<W>(writer, reader.read_u32::<B>().unwrap())
+            }
+            "SInt64" | "long long" => {
+                rmp::encode::write_i64::<W>(writer, reader.read_i64::<B>().unwrap())
+            }
+            "UInt64" | "unsigned long long" | "FileSize" => {
+                rmp::encode::write_u64::<W>(writer, reader.read_u64::<B>().unwrap())
+            }
+            "bool" => match rmp::encode::write_bool::<W>(writer, reader.read_bool().unwrap()){
+                Ok(_) => Ok(()),
+                Err(e) => {
+                    Err(rmp::encode::ValueWriteError::InvalidDataWrite(e))
+                }
+            },
+            "float" => rmp::encode::write_f32::<W>(writer, reader.read_f32::<B>().unwrap()),
+            "double" => rmp::encode::write_f64::<W>(writer, reader.read_f64::<B>().unwrap()),
+            "string" => {
+                align |= &self.children[0].requires_align();
+                rmp::encode::write_str::<W>(writer, &reader.read_string::<B>().unwrap())
+            }
+            "TypelessData" => rmp::encode::write_bin(writer, &reader.read_bytes::<B>().unwrap()),
+            "map" => {
+                // map m_Container
+                //  Array Array
+                //      int size
+                //      pair data
+                //          TYPE first
+                //          TYPE second
+                //assert_eq!(self.children.len(), 1);
+                let size = reader.read_array_len::<B>().unwrap();
+                //assert_eq!(self.children[0].children.len(), 2);
+                let pair = &self.children[0].children[1];
+                align |= pair.requires_align();
+                //assert_eq!(pair.children.len(), 2);
+                let first = &pair.children[0];
+                let second = &pair.children[1];
+
+                rmp::encode::write_array_len(writer, size as u32).unwrap();
+                for _ in 0..size {
+                    rmp::encode::write_array_len(writer, 2).unwrap();
+                    first._read_as_msgpack::<R,B,W>(reader, writer)?;
+                    second._read_as_msgpack::<R,B,W>(reader, writer)?;
+                }
+                Ok(())
+            }
+            default => {
+                // array
+                //vector m_Component // ByteSize{ffffffff}, Index{1}, Version{1}, IsArray{0}, MetaFlag{8041}
+                //  Array Array // ByteSize{ffffffff}, Index{2}, Version{1}, IsArray{1}, MetaFlag{4041}
+                //      int size // ByteSize{4}, Index{3}, Version{1}, IsArray{0}, MetaFlag{41}
+                //      ComponentPair data // ByteSize{c}, Index{4}, Version{1}, IsArray{0}, MetaFlag{41}
+                if self.children.len() == 1 && self.children[0].m_Type == "Array" {
+                    let array = &self.children[0];
+                    align |= array.requires_align();
+
+                    let size = reader.read_array_len::<B>().unwrap();
+                    let array_node = &array.children[1];
+
+                    rmp::encode::write_array_len(writer, size as u32).unwrap();
+                    for _ in 0..size {
+                        array_node._read_as_msgpack::<R,B,W>(reader, writer)?;
+                    }
+                    Ok(())
+                } else {
+                    // class
+                    rmp::encode::write_map_len(writer, self.children.len() as u32).unwrap();
+                    for child in &self.children {
+                        rmp::encode::write_str(writer, &child.m_Name).unwrap();
+                        child._read_as_msgpack::<R,B,W>(reader, writer)?;
+                    }
+                    Ok(())
+                }
+            }
+        }
+        .unwrap();
+        if align {
+            reader.align4()?;
+        }
+        Ok(())
+    }
 }

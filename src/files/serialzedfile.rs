@@ -378,8 +378,14 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
         }
     }
 
+    pub fn parse<T: serde::de::DeserializeOwned>(&mut self) -> std::io::Result<T> {
+        let transmission = self.parse_as_msgpack().unwrap();
+        Ok(rmp_serde::from_slice::<T>(&&transmission.as_slice()).unwrap())
+    }
+
     parse_as!(json, serde_json::Value);
     parse_as!(yaml, Result<serde_yaml::Value, serde_yaml::Error>);
+    parse_as!(msgpack, Vec<u8>);
 }
 
 #[derive(Debug, Clone)]
