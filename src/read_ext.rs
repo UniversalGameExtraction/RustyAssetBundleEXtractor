@@ -43,8 +43,10 @@ pub trait ReadUrexExt: ReadBytesExt {
     }
 
     fn read_string_sized(&mut self, len: usize) -> Result<String, std::io::Error> {
-        let s = String::from_utf8(self.read_bytes_sized(len).unwrap()).unwrap();
-        Ok(s)
+        match String::from_utf8(self.read_bytes_sized(len).unwrap()) {
+            Ok(s) => Ok(s),
+            Err(e) => Err(std::io::Error::new(std::io::ErrorKind::InvalidData, e)),
+        }
     }
 
     fn read_bytes<T: ByteOrder>(&mut self) -> Result<Vec<u8>, std::io::Error> {
