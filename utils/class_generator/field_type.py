@@ -22,11 +22,41 @@ class Typ:
         else:
             return False
 
+    def __hash__(self) -> int:
+        return hash(self.value)
+
     def __repr__(self) -> str:
+        self.doc_str
+
+    def typ_str(self) -> str:
         return self.value
 
-    def __hash__(self) -> int:
-        return hash(self.__repr__())
+    def doc_str(self) -> str:
+        return self.typ_str()
+
+
+class PPtrTyp(Typ):
+    value: str
+
+    def __init__(self, value: str) -> None:
+        if value.startswith("PPtr<"):
+            self.value = value[5:-1]
+        else:
+            self.value = value
+
+    def typ_str(self) -> str:
+        return "PPtr"
+
+    def doc_str(self) -> str:
+        return f"PPtr<{self.value}>"
+
+    @staticmethod
+    def find_common_superior(*types: PPtrTyp) -> Typ:
+        unique_types = set(types)
+        if len(unique_types) == 1:
+            return types[0]
+        else:
+            return PPtrTyp(" | ".join(t.value for t in types))
 
 
 class EnumTyp(Typ):
@@ -43,11 +73,11 @@ class EnumTyp(Typ):
         else:
             return False
 
-    def __repr__(self) -> str:
-        return f"Enum<|{', '.join(t.__repr__() for t in self.types)}|>"
+    def typ_str(self) -> str:
+        return f"Enum<|{', '.join(t.typ_str() for t in self.types)}|>"
 
     def __hash__(self) -> int:
-        return hash(self.__repr__())
+        return hash(self.doc_str())
 
 
 class IntTyp(Typ):
@@ -79,11 +109,11 @@ class IntTyp(Typ):
         else:
             return False
 
-    def __repr__(self) -> str:
+    def typ_str(self) -> str:
         return f"{'i' if self.signed else 'u'}{self.size}"
 
     def __hash__(self) -> int:
-        return hash(self.__repr__())
+        return hash(self.doc_str())
 
 
 class FloatTyp(Typ):
@@ -102,11 +132,11 @@ class FloatTyp(Typ):
         else:
             return False
 
-    def __repr__(self) -> str:
+    def typ_str(self) -> str:
         return f"f{self.size}"
 
     def __hash__(self) -> int:
-        return hash(self.__repr__())
+        return hash(self.doc_str())
 
 
 class ArrayTyp(Typ):
@@ -132,11 +162,14 @@ class ArrayTyp(Typ):
         else:
             return False
 
-    def __repr__(self) -> str:
-        return f"Vec<{self.typ.__repr__()}>"
+    def typ_str(self) -> str:
+        return f"Vec<{self.typ.typ_str()}>"
+
+    def doc_str(self) -> str:
+        return f"Vec<{self.typ.doc_str()}>"
 
     def __hash__(self) -> int:
-        return hash(self.__repr__())
+        return hash(self.doc_str())
 
 
 class PairTyp(Typ):
@@ -173,8 +206,11 @@ class PairTyp(Typ):
         else:
             return False
 
-    def __repr__(self) -> str:
-        return f"({self.first.__repr__()}, {self.second.__repr__()})"
+    def typ_str(self) -> str:
+        return f"({self.first.typ_str()}, {self.second.typ_str()})"
+
+    def doc_str(self) -> str:
+        return f"({self.first.doc_str()}, {self.second.doc_str()})"
 
     def __hash__(self) -> int:
-        return hash(self.__repr__())
+        return hash(self.doc_str())

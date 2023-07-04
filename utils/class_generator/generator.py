@@ -7,7 +7,7 @@ from collections import defaultdict
 import json
 
 from config import METADATA_PATH, TYPETREEDUMPS_PATH
-from field_type import Typ, EnumTyp, IntTyp, ArrayTyp, FloatTyp, PairTyp
+from field_type import Typ, EnumTyp, IntTyp, ArrayTyp, FloatTyp, PairTyp, PPtrTyp
 from metadata_scraper import UnityClass
 
 OFFICIAL_DOC_URL = "https://docs.unity3d.com/ScriptReference/{}.html"
@@ -100,31 +100,13 @@ class AllClassHandler:
 
     def write_rs(self, f: TextIO):
         f.writelines(
-            ["#![allow(warnings)]", "use serde::{Deserialize, Serialize};" "\n"]
+            [
+                "#![allow(warnings)]\n",
+                "use crate::objects::PPtr;\n",
+                "use serde::{Deserialize, Serialize};\n",
+                "\n",
+            ]
         )
-        f.write(
-            """#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct PPtr {
-    pub m_FileID: i64,
-    pub m_PathID: i64,
-}
-impl PPtr {
-    fn get_object_handler<'a, R: std::io::Read + std::io::Seek>(
-        &'a self,
-        asset: &'a crate::files::SerializedFile,
-        reader: &'a mut R,
-    ) -> std::io::Result<crate::files::ObjectHandler<R>> {
-        match asset.m_Objects.iter().find(|x| x.m_PathID == self.m_PathID) {
-            Some(objectinfo) => Ok(asset.get_object_handler(objectinfo, reader)),
-            None => Err(std::io::Error::new(
-                std::io::ErrorKind::NotFound,
-                "Object not found",
-            )),
-        }
-    }
-}"""
-        )
-        f.write("\n\n")
 
         for cls in sorted(self.classes.values(), key=lambda x: x.name):
             meta = self.metadata.get(cls.name)
@@ -293,8 +275,11 @@ class Class:
                 if doc is not None:
                     doc = doc.strip().replace("\n", "")
                     field_lines.append(f"  /**{doc}*/")
-            if field.optional:
-                field_lines.append(field.generate_rust_doc())
+
+            field_doc = field.generate_rust_doc()
+            if field.optional or "PPtr" in field_doc:
+                field_lines.append(field_doc)
+
             field_lines.append(field.generate_rust_field())
 
         return "\n".join(
@@ -388,7 +373,7 @@ class Field:
             else:
                 typ = EnumTyp(types)
 
-        typ = typ.__repr__()
+        typ = typ.typ_str()
         if self.optional:
             typ = f"Option<{typ}>"
 
@@ -397,7 +382,7 @@ class Field:
     def generate_rust_doc(self) -> str:
         return "  /// " + "; ".join(
             [
-                f"{typ.__repr__()}: ({versions[0]} - {versions[-1]})"
+                f"{typ.doc_str()}: ({versions[0]} - {versions[-1]})"
                 for typ, versions in self.types.items()
             ]
         )
@@ -470,7 +455,7 @@ class NodeH:
                 self.SubNodes[1].get_rust_type(classes, version),
             )
         elif self.TypeName.startswith("PPtr<"):
-            return Typ("PPtr")
+            return PPtrTyp(self.TypeName)
         else:
             # custom class
             typ = self.TypeName

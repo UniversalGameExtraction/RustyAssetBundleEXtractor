@@ -9,31 +9,44 @@ pub struct AABB {
     pub m_Extent: Vector3f,
 }
 
-/// AddedComponent is a sub class of the Unity engine since version 2022.2.0b16.
+/// ASTCImporter is a  class of the Unity engine since version 5.0.0f4.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ASTCImporter {
+    pub m_AssetBundleName: String,
+    pub m_AssetBundleVariant: String,
+    pub m_Name: String,
+    pub m_UserData: String,
+}
+
+/// AddedComponent is a sub class of the Unity engine since version 2022.2.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SceneManagement.AddedComponent.html):
 /**
 Class with information about a component that has been added to a Prefab instance.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AddedComponent {
-    pub addedObject: PPtr, /*<Component>*/
+    /// PPtr<Component>: (2022.2.0b1 - 2022.3.2f1)
+    pub addedObject: PPtr,
     pub insertIndex: i32,
-    pub targetCorrespondingSourceObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2022.2.0b1 - 2022.3.2f1)
+    pub targetCorrespondingSourceObject: PPtr,
 }
 
-/// AddedGameObject is a sub class of the Unity engine since version 2022.2.0b16.
+/// AddedGameObject is a sub class of the Unity engine since version 2022.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SceneManagement.AddedGameObject.html):
 /**
 Class with information about a GameObject that has been added as a child under a Prefab instance.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AddedGameObject {
-    pub addedObject: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2022.1.0b1 - 2022.3.2f1)
+    pub addedObject: PPtr,
     pub insertIndex: i32,
-    pub targetCorrespondingSourceObject: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2022.1.0b1 - 2022.3.2f1)
+    pub targetCorrespondingSourceObject: PPtr,
 }
 
-/// AimConstraint is a  class of the Unity engine since version 2018.4.15f1.
+/// AimConstraint is a  class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.AimConstraint.html):
 /**
 Constrains the orientation of an object relative to the position of one or more source objects, such that the object is facing the average position of the sources.
@@ -48,7 +61,8 @@ pub struct AimConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The rotation used when the sources have a total weight of 0.*/
     pub m_RotationAtRest: Vector3f,
     /**Represents an offset from the constrained orientation.*/
@@ -60,16 +74,17 @@ pub struct AimConstraint {
     /**The weight of the constraint component.*/
     pub m_Weight: f32,
     /**The world up object, used to calculate the world up vector when the world up Type is AimConstraint.WorldUpType.ObjectUp or AimConstraint.WorldUpType.ObjectRotationUp.*/
-    pub m_WorldUpObject: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_WorldUpObject: PPtr,
     /**The world up Vector used when the world up type is AimConstraint.WorldUpType.Vector or AimConstraint.WorldUpType.ObjectRotationUp.*/
     pub m_WorldUpVector: Vector3f,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_Active: Option<bool>,
-    /// bool: (2018.4.15f1 - 2021.2.16f1)
+    /// bool: (2018.1.0b2 - 2022.1.0a9)
     pub m_IsContraintActive: Option<bool>,
 }
 
-/// AndroidAssetPackImporter is a  class of the Unity engine since version 2020.3.42f1.
+/// AndroidAssetPackImporter is a  class of the Unity engine since version 2019.4.29f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AndroidAssetPackImporter.html):
 /**
 Represents an Android asset pack directory in a project.
@@ -80,7 +95,8 @@ pub struct AndroidAssetPackImporter {
     pub m_AssetBundleName: String,
     /**Get or set the AssetBundle variant.*/
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.4.29f1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     /**The name of the object.*/
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -101,19 +117,22 @@ See Also: An overview of animation scripting in Unity is here.
 pub struct Animation {
     /**When turned on, animations will be executed in the physics loop. This is only useful in conjunction with kinematic rigidbodies.*/
     pub m_AnimatePhysics: bool,
-    pub m_Animation: PPtr, /*<AnimationClip>*/
-    pub m_Animations: Vec<PPtr /*<AnimationClip>*/>,
+    /// PPtr<AnimationClip>: (3.4.0 - 2022.3.2f1)
+    pub m_Animation: PPtr,
+    /// Vec<PPtr<AnimationClip>>: (3.4.0 - 2022.3.2f1)
+    pub m_Animations: Vec<PPtr>,
     /**Controls culling of this Animation component.*/
     pub m_CullingType: i32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Should the default animation clip (the Animation.clip property) automatically start playing on startup?*/
     pub m_PlayAutomatically: bool,
     /**How should time beyond the playback range of the clip be treated?*/
     pub m_WrapMode: i32,
-    /// AABB: (3.4.0 - 3.4.0)
+    /// AABB: (3.4.0 - 4.2.2)
     pub m_UserAABB: Option<AABB>,
 }
 
@@ -139,41 +158,46 @@ pub struct AnimationClip {
     pub m_ScaleCurves: Vec<Vector3Curve>,
     /**Sets the default wrap mode used in the animation state.*/
     pub m_WrapMode: i32,
-    /// AnimationClipBindingConstant: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 4.7.2)
+    pub m_AnimationType: Option<i32>,
+    /// AnimationClipBindingConstant: (4.3.0 - 2022.3.2f1)
     pub m_ClipBindingConstant: Option<AnimationClipBindingConstant>,
-    /// Vec<Vector3Curve>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<Vector3Curve>: (5.3.0f1 - 2022.3.2f1)
     pub m_EulerCurves: Option<Vec<Vector3Curve>>,
     /**Returns true if the Animation has animation on the root transform.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_HasGenericRootTransform: Option<bool>,
     /**Returns true if the AnimationClip has editor curves for its root motion.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_HasMotionFloatCurves: Option<bool>,
     /**Set to true if the AnimationClip will be used with the Legacy Animation component ( instead of the Animator ).*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_Legacy: Option<bool>,
-    /// ClipMuscleConstant: (5.6.0b2 - 2022.2.0b16)
+    /// ClipMuscleConstant: (4.0.0 - 2022.3.2f1)
     pub m_MuscleClip: Option<ClipMuscleConstant>,
-    /// u32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (4.0.0 - 2022.3.2f1)
     pub m_MuscleClipSize: Option<u32>,
-    /// Vec<PPtrCurve>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<PPtrCurve>: (4.3.0 - 2022.3.2f1)
     pub m_PPtrCurves: Option<Vec<PPtrCurve>>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_UseHighQualityCurve: Option<bool>,
 }
 
-/// AnimationClipBindingConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// AnimationClipBindingConstant is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimationClipBindingConstant {
     pub genericBindings: Vec<GenericBinding>,
-    pub pptrCurveMapping: Vec<PPtr /*<Object>*/>,
+    /// Vec<PPtr<Object>>: (4.3.0 - 2022.3.2f1)
+    pub pptrCurveMapping: Vec<PPtr>,
 }
 
-/// AnimationClipOverride is a sub class of the Unity engine since version 5.6.0b2.
+/// AnimationClipOverride is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimationClipOverride {
-    pub m_OriginalClip: PPtr, /*<AnimationClip>*/
-    pub m_OverrideClip: PPtr, /*<AnimationClip>*/
+    /// PPtr<AnimationClip>: (4.3.0 - 2022.3.2f1)
+    pub m_OriginalClip: PPtr,
+    /// PPtr<AnimationClip>: (4.3.0 - 2022.3.2f1)
+    pub m_OverrideClip: PPtr,
 }
 
 /// AnimationCurve is a sub class of the Unity engine since version 3.4.0.
@@ -186,7 +210,7 @@ pub struct AnimationCurve {
     pub m_Curve: Vec<Keyframe>,
     pub m_PostInfinity: i32,
     pub m_PreInfinity: i32,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.3.0f1 - 2022.3.2f1)
     pub m_RotationOrder: Option<i32>,
 }
 
@@ -217,7 +241,8 @@ pub struct AnimationEvent {
     /**Function call options.*/
     pub messageOptions: i32,
     /**Object reference parameter that is stored in the event and will be sent to the function.*/
-    pub objectReferenceParameter: PPtr, /*<Object>*/
+    /// PPtr<Object>: (3.4.0 - 2022.3.2f1)
+    pub objectReferenceParameter: PPtr,
     /**The time at which the event will be fired off.*/
     pub time: f32,
 }
@@ -226,38 +251,53 @@ pub struct AnimationEvent {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimationManager {}
 
-/// Animator is a  class of the Unity engine since version 5.6.0b2.
+/// Animator is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animator.html):
 /**
 Interface to control the Mecanim animation system.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Animator {
-    pub m_AllowConstantClipSamplingOptimization: bool,
     /**Should root motion be applied?*/
     pub m_ApplyRootMotion: bool,
     /**Gets/Sets the current Avatar.*/
-    pub m_Avatar: PPtr, /*<Avatar>*/
-    pub m_Controller: PPtr, /*<RuntimeAnimatorController>*/
+    /// PPtr<Avatar>: (4.0.0 - 2022.3.2f1)
+    pub m_Avatar: PPtr,
+    /// PPtr<AnimatorController>: (4.0.0 - 4.2.2); PPtr<RuntimeAnimatorController>: (4.3.0 - 2022.3.2f1)
+    pub m_Controller: PPtr,
     /**Controls culling of this Animator component.*/
     pub m_CullingMode: i32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.0.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /// bool: (4.5.3 - 2022.3.2f1)
+    pub m_AllowConstantClipSamplingOptimization: Option<bool>,
+    /// bool: (4.0.0 - 4.3.4)
+    pub m_AnimatePhysics: Option<bool>,
     /**Returns true if the object has a transform hierarchy.*/
-    pub m_HasTransformHierarchy: bool,
-    pub m_LinearVelocityBlending: bool,
-    /**Specifies the update mode of the Animator.*/
-    pub m_UpdateMode: i32,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
+    pub m_HasTransformHierarchy: Option<bool>,
+    /// bool: (2018.1.0b2 - 2022.2.0a18)
     pub m_KeepAnimatorControllerStateOnDisable: Option<bool>,
+    /**Controls the behaviour of the Animator component when a GameObject is disabled.*/
+    /// bool: (2020.3.43f1 - 2022.3.2f1)
+    pub m_KeepAnimatorStateOnDisable: Option<bool>,
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub m_LinearVelocityBlending: Option<bool>,
     /**Automatic stabilization of feet during transition and blending.*/
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2020.3.43f1 - 2022.3.2f1)
     pub m_StabilizeFeet: Option<bool>,
+    /**Specifies the update mode of the Animator.*/
+    /// i32: (4.5.0 - 2022.3.2f1)
+    pub m_UpdateMode: Option<i32>,
+    /**Specifies whether playable graph values are reset or preserved when the Animator is disabled.*/
+    /// bool: (2020.3.46f1 - 2022.3.2f1)
+    pub m_WriteDefaultValuesOnDisable: Option<bool>,
 }
 
-/// AnimatorCondition is a sub class of the Unity engine since version 5.6.0b2.
+/// AnimatorCondition is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.AnimatorCondition.html):
 /**
 Condition that is used to determine if a transition must be taken.
@@ -269,7 +309,7 @@ pub struct AnimatorCondition {
     pub m_EventTreshold: f32,
 }
 
-/// AnimatorController is a  class of the Unity engine since version 5.6.0b2.
+/// AnimatorController is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.AnimatorController.html):
 /**
 The Animator Controller controls animation through layers with state machines, controlled by parameters.
@@ -277,18 +317,22 @@ The Animator Controller controls animation through layers with state machines, c
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimatorController {
     /**Retrieves all AnimationClip used by the controller.*/
-    pub m_AnimationClips: Vec<PPtr /*<AnimationClip>*/>,
+    /// Vec<PPtr<AnimationClip>>: (4.0.0 - 2022.3.2f1)
+    pub m_AnimationClips: Vec<PPtr>,
     pub m_Controller: ControllerConstant,
     pub m_ControllerSize: u32,
-    pub m_MultiThreadedStateMachine: bool,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_StateMachineBehaviourVectorDescription: StateMachineBehaviourVectorDescription,
-    pub m_StateMachineBehaviours: Vec<PPtr /*<MonoBehaviour>*/>,
     pub m_TOS: Vec<(u32, String)>,
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub m_MultiThreadedStateMachine: Option<bool>,
+    /// StateMachineBehaviourVectorDescription: (5.0.0f4 - 2022.3.2f1)
+    pub m_StateMachineBehaviourVectorDescription: Option<StateMachineBehaviourVectorDescription>,
+    /// Vec<PPtr<MonoBehaviour>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StateMachineBehaviours: Option<Vec<PPtr>>,
 }
 
-/// AnimatorOverrideController is a  class of the Unity engine since version 5.6.0b2.
+/// AnimatorOverrideController is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AnimatorOverrideController.html):
 /**
 Interface to control Animator Override Controller.
@@ -304,12 +348,13 @@ The AnimatorOverrideController.ApplyOverrides method is well suited for this cas
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimatorOverrideController {
     pub m_Clips: Vec<AnimationClipOverride>,
-    pub m_Controller: PPtr, /*<RuntimeAnimatorController>*/
+    /// PPtr<RuntimeAnimatorController>: (4.3.0 - 2022.3.2f1)
+    pub m_Controller: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
 }
 
-/// AnimatorState is a  class of the Unity engine since version 5.6.0b2.
+/// AnimatorState is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.AnimatorState.html):
 /**
 States are the basic building blocks of a state machine. Each state contains a Motion ( AnimationClip or BlendTree) which will play while the character is in that state. When an event in the game triggers a state transition, the character will be left in a new state whose animation sequence will then take over.
@@ -318,45 +363,54 @@ States are the basic building blocks of a state machine. Each state contains a M
 pub struct AnimatorState {
     /**Offset at which the animation loop starts. Useful for synchronizing looped animations.Units is normalized time.*/
     pub m_CycleOffset: f32,
-    /**The animator controller parameter that drives the cycle offset value.*/
-    pub m_CycleOffsetParameter: String,
-    /**Define if the cycle offset value is driven by an Animator controller parameter or by the value set in the editor.*/
-    pub m_CycleOffsetParameterActive: bool,
     /**Should Foot IK be respected for this state.*/
     pub m_IKOnFeet: bool,
     /**Should the state be mirrored.*/
     pub m_Mirror: bool,
-    /**The animator controller parameter that drives the mirror value.*/
-    pub m_MirrorParameter: String,
-    /**Define if the mirror value is driven by an Animator controller parameter or by the value set in the editor.*/
-    pub m_MirrorParameterActive: bool,
     /**The motion assigned to this state.*/
-    pub m_Motion: PPtr, /*<Motion>*/
+    /// PPtr<Motion>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Motion: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
     pub m_Position: Vector3f,
     /**The default speed of the motion.*/
     pub m_Speed: f32,
-    /**The animator controller parameter that drives the speed value.*/
-    pub m_SpeedParameter: String,
-    /**Define if the speed value is driven by an Animator controller parameter or by the value set in the editor.*/
-    pub m_SpeedParameterActive: bool,
-    pub m_StateMachineBehaviours: Vec<PPtr /*<MonoBehaviour>*/>,
+    /// Vec<PPtr<MonoBehaviour>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StateMachineBehaviours: Vec<PPtr>,
     /**A tag can be used to identify a state.*/
     pub m_Tag: String,
     /**The transitions that are going out of the state.*/
-    pub m_Transitions: Vec<PPtr /*<AnimatorStateTransition>*/>,
+    /// Vec<PPtr<AnimatorStateTransition>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Transitions: Vec<PPtr>,
     /**Whether or not the AnimatorStates writes back the default values for properties that are not animated by its Motion.*/
     pub m_WriteDefaultValues: bool,
+    /**The animator controller parameter that drives the cycle offset value.*/
+    /// String: (5.1.0f1 - 2022.3.2f1)
+    pub m_CycleOffsetParameter: Option<String>,
+    /**Define if the cycle offset value is driven by an Animator controller parameter or by the value set in the editor.*/
+    /// bool: (5.1.0f1 - 2022.3.2f1)
+    pub m_CycleOffsetParameterActive: Option<bool>,
+    /**The animator controller parameter that drives the mirror value.*/
+    /// String: (5.1.0f1 - 2022.3.2f1)
+    pub m_MirrorParameter: Option<String>,
+    /**Define if the mirror value is driven by an Animator controller parameter or by the value set in the editor.*/
+    /// bool: (5.1.0f1 - 2022.3.2f1)
+    pub m_MirrorParameterActive: Option<bool>,
+    /**The animator controller parameter that drives the speed value.*/
+    /// String: (5.1.0f1 - 2022.3.2f1)
+    pub m_SpeedParameter: Option<String>,
+    /**Define if the speed value is driven by an Animator controller parameter or by the value set in the editor.*/
+    /// bool: (5.1.0f1 - 2022.3.2f1)
+    pub m_SpeedParameterActive: Option<bool>,
     /**If timeParameterActive is true, the value of this Parameter will be used instead of normalized time.*/
-    /// String: (2017.4.33f1 - 2022.2.0b16)
+    /// String: (2017.2.0b2 - 2022.3.2f1)
     pub m_TimeParameter: Option<String>,
     /**If true, use value of given Parameter as normalized time.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub m_TimeParameterActive: Option<bool>,
 }
 
-/// AnimatorStateMachine is a  class of the Unity engine since version 5.6.0b2.
+/// AnimatorStateMachine is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.AnimatorStateMachine.html):
 /**
 A graph controlling the interaction of states. Each state references a motion.
@@ -366,29 +420,31 @@ pub struct AnimatorStateMachine {
     /**The position of the AnyState node.*/
     pub m_AnyStatePosition: Vector3f,
     /**The list of AnyState transitions.*/
-    pub m_AnyStateTransitions: Vec<PPtr /*<AnimatorStateTransition>*/>,
+    /// Vec<PPtr<AnimatorStateTransition>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_AnyStateTransitions: Vec<PPtr>,
     pub m_ChildStateMachines: Vec<ChildAnimatorStateMachine>,
     pub m_ChildStates: Vec<ChildAnimatorState>,
     /**The state that the state machine will be in when it starts.*/
-    pub m_DefaultState: PPtr, /*<AnimatorState>*/
+    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    pub m_DefaultState: PPtr,
     /**The position of the entry node.*/
     pub m_EntryPosition: Vector3f,
     /**The list of entry transitions in the state machine.*/
-    pub m_EntryTransitions: Vec<PPtr /*<AnimatorTransition>*/>,
+    /// Vec<PPtr<AnimatorTransition>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_EntryTransitions: Vec<PPtr>,
     /**The position of the exit node.*/
     pub m_ExitPosition: Vector3f,
     /**The name of the object.*/
     pub m_Name: String,
     /**The position of the parent state machine node. Only valid when in a hierachic state machine.*/
     pub m_ParentStateMachinePosition: Vector3f,
-    pub m_StateMachineBehaviours: Vec<PPtr /*<MonoBehaviour>*/>,
-    pub m_StateMachineTransitions: Vec<(
-        PPtr, /*<AnimatorStateMachine>*/
-        Vec<PPtr /*<AnimatorTransition>*/>,
-    )>,
+    /// Vec<PPtr<MonoBehaviour>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StateMachineBehaviours: Vec<PPtr>,
+    /// Vec<(PPtr<AnimatorStateMachine>, Vec<PPtr<AnimatorTransition>>)>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StateMachineTransitions: Vec<(PPtr, Vec<PPtr>)>,
 }
 
-/// AnimatorStateTransition is a  class of the Unity engine since version 5.6.0b2.
+/// AnimatorStateTransition is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.AnimatorStateTransition.html):
 /**
 Transitions define when and how the state machine switch from one state to another. AnimatorStateTransition always originate from an Animator State (or AnyState) and have timing parameters.
@@ -400,14 +456,14 @@ pub struct AnimatorStateTransition {
     pub m_CanTransitionToSelf: bool,
     /**AnimatorCondition conditions that need to be met for a transition to happen.*/
     pub m_Conditions: Vec<AnimatorCondition>,
-    pub m_DstState: PPtr,        /*<AnimatorState>*/
-    pub m_DstStateMachine: PPtr, /*<AnimatorStateMachine>*/
+    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    pub m_DstState: PPtr,
+    /// PPtr<AnimatorStateMachine>: (5.0.0f4 - 2022.3.2f1)
+    pub m_DstStateMachine: PPtr,
     /**If AnimatorStateTransition.hasExitTime is true, exitTime represents the exact time at which the transition can take effect.This is represented in normalized time, so for example an exit time of 0.75 means that on the first frame where 75% of the animation has played, the Exit Time condition will be true. On the next frame, the condition will be false.For looped animations, transitions with exit times smaller than 1 will be evaluated every loop, so you can use this to time your transition with the proper timing in the animation, every loop.Transitions with exit times greater than one will be evaluated only once, so they can be used to exit at a specific time, after a fixed number of loops. For example, a transition with an exit time of 3.5 will be evaluated once, after three and a half loops.*/
     pub m_ExitTime: f32,
     /**When active the transition will have an exit time condition.*/
     pub m_HasExitTime: bool,
-    /**Determines whether the duration of the transition is reported in a fixed duration in seconds or as a normalized time.*/
-    pub m_HasFixedDuration: bool,
     /**Which AnimatorState transitions can interrupt the Transition.*/
     pub m_InterruptionSource: i32,
     /**Is the transition destination the exit of the current state machine.*/
@@ -422,9 +478,12 @@ pub struct AnimatorStateTransition {
     pub m_Solo: bool,
     pub m_TransitionDuration: f32,
     pub m_TransitionOffset: f32,
+    /**Determines whether the duration of the transition is reported in a fixed duration in seconds or as a normalized time.*/
+    /// bool: (5.1.0f1 - 2022.3.2f1)
+    pub m_HasFixedDuration: Option<bool>,
 }
 
-/// AnimatorTransition is a  class of the Unity engine since version 5.6.0b2.
+/// AnimatorTransition is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.AnimatorTransition.html):
 /**
 Transitions define when and how the state machine switch from on state to another. AnimatorTransition always originate from a StateMachine or a StateMachine entry. They do not define timing parameters.
@@ -434,8 +493,10 @@ A transition happens when all its conditions are met.
 pub struct AnimatorTransition {
     /**AnimatorCondition conditions that need to be met for a transition to happen.*/
     pub m_Conditions: Vec<AnimatorCondition>,
-    pub m_DstState: PPtr,        /*<AnimatorState>*/
-    pub m_DstStateMachine: PPtr, /*<AnimatorStateMachine>*/
+    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    pub m_DstState: PPtr,
+    /// PPtr<AnimatorStateMachine>: (5.0.0f4 - 2022.3.2f1)
+    pub m_DstStateMachine: PPtr,
     /**Is the transition destination the exit of the current state machine.*/
     pub m_IsExit: bool,
     /**Mutes the transition. The transition will never occur.*/
@@ -446,7 +507,7 @@ pub struct AnimatorTransition {
     pub m_Solo: bool,
 }
 
-/// AnimatorTransitionBase is a  class of the Unity engine since version 5.6.0b2.
+/// AnimatorTransitionBase is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.AnimatorTransitionBase.html):
 /**
 Base class for animator transitions. Transitions define when and how the state machine switches from one state to another.
@@ -456,8 +517,10 @@ A transition happens when all its conditions are met.
 pub struct AnimatorTransitionBase {
     /**AnimatorCondition conditions that need to be met for a transition to happen.*/
     pub m_Conditions: Vec<AnimatorCondition>,
-    pub m_DstState: PPtr,        /*<AnimatorState>*/
-    pub m_DstStateMachine: PPtr, /*<AnimatorStateMachine>*/
+    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    pub m_DstState: PPtr,
+    /// PPtr<AnimatorStateMachine>: (5.0.0f4 - 2022.3.2f1)
+    pub m_DstStateMachine: PPtr,
     /**Is the transition destination the exit of the current state machine.*/
     pub m_IsExit: bool,
     /**Mutes the transition. The transition will never occur.*/
@@ -483,25 +546,25 @@ pub struct Annotation {
 pub struct AnnotationManager {
     pub m_CurrentPreset_m_AnnotationList: Vec<Annotation>,
     pub m_RecentlyChanged: Vec<Annotation>,
-    /// f32: (2021.2.16f1 - 2022.2.0b16)
+    /// f32: (2021.1.0b1 - 2022.3.2f1)
     pub m_FadeGizmoSize: Option<f32>,
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.1.0b1 - 2022.3.2f1)
     pub m_FadeGizmos: Option<bool>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 3.4.2)
     pub m_IconSize: Option<f32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_ShowGrid: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.0f3 - 2022.3.2f1)
     pub m_ShowSelectionOutline: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.0f3 - 2022.3.2f1)
     pub m_ShowSelectionWire: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub m_Use3dGizmos: Option<bool>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (3.5.0 - 2022.3.2f1)
     pub m_WorldIconSize: Option<f32>,
 }
 
-/// AreaEffector2D is a  class of the Unity engine since version 5.6.0b2.
+/// AreaEffector2D is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AreaEffector2D.html):
 /**
 Applies forces within an area.
@@ -517,8 +580,6 @@ pub struct AreaEffector2D {
     pub m_Drag: f32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
-    /**The angle of the force to be applied.*/
-    pub m_ForceAngle: f32,
     /**The magnitude of the force to be applied.*/
     pub m_ForceMagnitude: f32,
     /**The target for where the effector applies any force.*/
@@ -526,14 +587,22 @@ pub struct AreaEffector2D {
     /**The variation of the magnitude of the force to be applied.*/
     pub m_ForceVariation: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /**The angle of the force to be applied.*/
+    /// f32: (5.0.2f1 - 2022.3.2f1)
+    pub m_ForceAngle: Option<f32>,
+    /// f32: (5.0.0f4 - 5.0.1f1)
+    pub m_ForceDirection: Option<f32>,
     /**Should the collider-mask be used or the global collision matrix?*/
-    pub m_UseColliderMask: bool,
+    /// bool: (5.0.2f1 - 2022.3.2f1)
+    pub m_UseColliderMask: Option<bool>,
     /**Should the forceAngle use global space?*/
-    pub m_UseGlobalAngle: bool,
+    /// bool: (5.0.2f1 - 2022.3.2f1)
+    pub m_UseGlobalAngle: Option<bool>,
 }
 
-/// ArticulationBody is a  class of the Unity engine since version 2020.1.0a20.
+/// ArticulationBody is a  class of the Unity engine since version 2020.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ArticulationBody.html):
 /**
 A body that forms part of a Physics articulation.
@@ -553,7 +622,8 @@ pub struct ArticulationBody {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2020.1.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Allows you to specify that this body is not movable.*/
     pub m_Immovable: bool,
     /**Allows you to specify the amount of friction that is applied as a result of the parent body moving relative to this body.*/
@@ -579,37 +649,37 @@ pub struct ArticulationBody {
     /**The properties of drive along or around Z.*/
     pub m_ZDrive: ArticulationDrive,
     /**The center of mass of the body defined in local space.*/
-    /// Vector3f: (2022.2.0b16 - 2022.2.0b16)
+    /// Vector3f: (2022.2.0b1 - 2022.3.2f1)
     pub m_CenterOfMass: Option<Vector3f>,
     /**The ArticulationBody's collision detection mode.*/
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.3.5f1 - 2022.3.2f1)
     pub m_CollisionDetectionMode: Option<i32>,
-    /// bool: (2020.1.0a20 - 2020.3.42f1)
+    /// bool: (2020.1.0b1 - 2021.2.0a20)
     pub m_ComputeParentAnchor: Option<bool>,
     /**The additional layers that all Colliders attached to this ArticulationBody should exclude when deciding if the Collider can come into contact with another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ImplicitCom: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ImplicitTensor: Option<bool>,
     /**The additional layers that all Colliders attached to this ArticulationBody should include when deciding if a the Collider can come into contact with another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
-    /// Quaternionf: (2022.2.0b16 - 2022.2.0b16)
+    /// Quaternionf: (2022.2.0b1 - 2022.3.2f1)
     pub m_InertiaRotation: Option<Quaternionf>,
     /**The inertia tensor of this body.*/
-    /// Vector3f: (2022.2.0b16 - 2022.2.0b16)
+    /// Vector3f: (2022.2.0b1 - 2022.3.2f1)
     pub m_InertiaTensor: Option<Vector3f>,
     /**Whether the parent anchor should be computed automatically or not.*/
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_MatchAnchors: Option<bool>,
     /**Controls whether gravity affects this articulation body.*/
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_UseGravity: Option<bool>,
 }
 
-/// ArticulationDrive is a sub class of the Unity engine since version 2020.1.0a20.
+/// ArticulationDrive is a sub class of the Unity engine since version 2020.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ArticulationDrive.html):
 /**
 Drive applies forces and torques to the connected bodies.
@@ -632,7 +702,7 @@ pub struct ArticulationDrive {
     /**The upper limit of motion for a particular degree of freedom.*/
     pub upperLimit: f32,
     /**Specifies which drive type to use for this drive.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub driveType: Option<i32>,
 }
 
@@ -640,55 +710,77 @@ pub struct ArticulationDrive {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AspectRatios {
     pub Others: bool,
-    /// bool: (3.4.0 - 2021.2.16f1)
+    /// bool: (3.4.0 - 2022.1.24f1)
     #[serde(alias = "16:10")]
     pub _16_10: Option<bool>,
-    /// bool: (3.4.0 - 2021.2.16f1)
+    /// bool: (3.4.0 - 2022.1.24f1)
     #[serde(alias = "16:9")]
     pub _16_9: Option<bool>,
-    /// bool: (3.4.0 - 2021.2.16f1)
+    /// bool: (3.4.0 - 2022.1.24f1)
     #[serde(alias = "4:3")]
     pub _4_3: Option<bool>,
-    /// bool: (3.4.0 - 2021.2.16f1)
+    /// bool: (3.4.0 - 2022.1.24f1)
     #[serde(alias = "5:4")]
     pub _5_4: Option<bool>,
 }
 
-/// AssemblyDefinitionAsset is a  class of the Unity engine since version 2017.4.33f1.
+/// AssemblyDefinitionAsset is a  class of the Unity engine since version 2017.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssemblyDefinitionAsset {
     pub m_Name: String,
     pub m_Script: String,
 }
 
-/// AssemblyDefinitionImporter is a  class of the Unity engine since version 2017.4.33f1.
+/// AssemblyDefinitionImporter is a  class of the Unity engine since version 2017.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssemblyDefinitionImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.3.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UserData: String,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// AssemblyDefinitionReferenceAsset is a  class of the Unity engine since version 2019.3.0f4.
+/// AssemblyDefinitionReferenceAsset is a  class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssemblyDefinitionReferenceAsset {
     pub m_Name: String,
     pub m_Script: String,
 }
 
-/// AssemblyDefinitionReferenceImporter is a  class of the Unity engine since version 2019.3.0f4.
+/// AssemblyDefinitionReferenceImporter is a  class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssemblyDefinitionReferenceImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.2.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
+}
+
+/// AssemblyJsonAsset is a  class of the Unity engine since version 2017.1.0b1.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AssemblyJsonAsset {
+    pub m_Name: String,
+    pub m_Script: String,
+    /// String: (2017.1.0b1 - 2017.1.0b1)
+    pub m_PathName: Option<String>,
+}
+
+/// AssemblyJsonImporter is a  class of the Unity engine since version 2017.1.0b1.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AssemblyJsonImporter {
+    pub m_AssetBundleName: String,
+    pub m_AssetBundleVariant: String,
+    pub m_Name: String,
+    pub m_UserData: String,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2017.2.0b10)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
 }
 
 /// Asset is a sub class of the Unity engine since version 3.4.0.
@@ -703,39 +795,53 @@ pub struct Asset {
     pub mainRepresentation: LibraryRepresentation,
     pub parent: GUID,
     pub representations: Vec<LibraryRepresentation>,
-    /// i32: (3.4.0 - 2020.1.0a20)
+    /// i32: (3.4.0 - 2020.1.17f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
-    /// i32: (5.6.0b2 - 2020.1.0a20)
+    /// i32: (5.0.0f4 - 2020.1.17f1)
     pub assetBundleIndex: Option<i32>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub digest: Option<MdFour>,
-    /// Vec<(String, GUID)>: (2018.4.15f1 - 2020.1.0a20)
-    pub guidOfPathLocationDependencies: Option<Vec<(String, GUID)>>,
-    /// Hash128: (5.6.0b2 - 2020.1.0a20)
-    pub hash: Option<Hash128>,
-    /// Vec<GUID>: (2018.4.15f1 - 2020.1.0a20)
+    /// Vec<(GUID, String)>: (2018.1.0b2 - 2018.2.21f1); Vec<(String, GUID)>: (2018.3.0f2 - 2020.1.17f1)
+    pub guidOfPathLocationDependencies: Option<Vec<(Enum_GUID__String, Enum_GUID__String)>>,
+    /// MdFour: (4.3.0 - 4.7.2); Hash128: (5.0.0f4 - 2020.1.17f1)
+    pub hash: Option<Enum_MdFour__Hash128>,
+    /// Vec<GUID>: (2018.1.0b2 - 2020.1.17f1)
     pub hashOfImportedAssetDependencies: Option<Vec<GUID>>,
-    /// Vec<GUID>: (2018.4.15f1 - 2020.1.0a20)
+    /// Vec<GUID>: (2018.1.0b2 - 2020.1.17f1)
     pub hashOfSourceAssetDependencies: Option<Vec<GUID>>,
-    /// i32: (5.6.0b2 - 2020.1.0a20)
+    /// i32: (3.5.0 - 2020.1.17f1)
     pub importerClassId: Option<i32>,
-    /// u32: (5.6.0b2 - 2020.1.0a20)
+    /// u32: (3.5.0 - 2020.1.17f1)
     pub importerVersionHash: Option<u32>,
-    /// u32: (3.4.0 - 3.4.0)
+    /// u32: (3.4.0 - 3.4.2)
     #[serde(alias = "metaModificationDate[0]")]
     pub metaModificationDate_0_: Option<u32>,
-    /// u32: (3.4.0 - 3.4.0)
+    /// u32: (3.4.0 - 3.4.2)
     #[serde(alias = "metaModificationDate[1]")]
     pub metaModificationDate_1_: Option<u32>,
-    /// u32: (3.4.0 - 3.4.0)
+    /// u32: (3.4.0 - 3.4.2)
     #[serde(alias = "modificationDate[0]")]
     pub modificationDate_0_: Option<u32>,
-    /// u32: (3.4.0 - 3.4.0)
+    /// u32: (3.4.0 - 3.4.2)
     #[serde(alias = "modificationDate[1]")]
     pub modificationDate_1_: Option<u32>,
-    /// String: (2017.4.33f1 - 2020.1.0a20)
+    /// String: (2017.2.5f1 - 2020.1.17f1)
     pub scriptedImporterClassID: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_GUID__String {
+    GUID(GUID),
+    String(String),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_MdFour__Hash128 {
+    MdFour(MdFour),
+    Hash128(Hash128),
 }
 
 /// AssetBundle is a  class of the Unity engine since version 3.4.0.
@@ -751,34 +857,39 @@ pub struct AssetBundle {
     pub m_MainAsset: AssetInfo,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_PreloadTable: Vec<PPtr /*<Object>*/>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<PPtr<Object>>: (3.4.0 - 2022.3.2f1)
+    pub m_PreloadTable: Vec<PPtr>,
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleName: Option<String>,
-    /// Vec<String>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<(i32, u32)>: (3.5.0 - 4.7.2)
+    pub m_ClassCompatibility: Option<Vec<(i32, u32)>>,
+    /// Vec<(i32, i32)>: (5.4.0f3 - 5.4.6f3)
+    pub m_ClassVersionMap: Option<Vec<(i32, i32)>>,
+    /// Vec<String>: (5.0.0f4 - 2022.3.2f1)
     pub m_Dependencies: Option<Vec<String>>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ExplicitDataLayout: Option<i32>,
     /**Return true if the AssetBundle is a streamed Scene AssetBundle.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_IsStreamedSceneAssetBundle: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b2 - 2022.3.2f1)
     pub m_PathFlags: Option<i32>,
-    /// u32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (4.2.0 - 2022.3.2f1)
     pub m_RuntimeCompatibility: Option<u32>,
-    /// Vec<(String, String)>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<(String, String)>: (2017.3.0b1 - 2022.3.2f1)
     pub m_SceneHashes: Option<Vec<(String, String)>>,
-    /// Vec<AssetBundleScriptInfo>: (3.4.0 - 3.4.0)
+    /// Vec<AssetBundleScriptInfo>: (3.4.0 - 4.7.2)
     pub m_ScriptCompatibility: Option<Vec<AssetBundleScriptInfo>>,
 }
 
-/// AssetBundleFullName is a sub class of the Unity engine since version 5.6.0b2.
+/// AssetBundleFullName is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetBundleFullName {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
 }
 
-/// AssetBundleInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// AssetBundleInfo is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Build.Content.AssetBundleInfo.html):
 /**
 Container for holding asset loading information for an AssetBundle to be built.
@@ -790,7 +901,7 @@ pub struct AssetBundleInfo {
     pub AssetBundleHash: Hash128,
 }
 
-/// AssetBundleManifest is a  class of the Unity engine since version 5.6.0b2.
+/// AssetBundleManifest is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AssetBundleManifest.html):
 /**
 Manifest for all the AssetBundles in the build.
@@ -822,29 +933,29 @@ An Interface for accessing assets and performing operations on assets.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetDatabase {
     pub m_Assets: Vec<(GUID, Asset)>,
-    /// Vec<(i32, AssetBundleFullName)>: (5.6.0b2 - 5.6.0b2)
+    /// Vec<(i32, AssetBundleFullName)>: (5.0.0f4 - 5.6.7f1)
     pub m_AssetBundleNames: Option<Vec<(i32, AssetBundleFullName)>>,
-    /// Vec<(String, AssetTimeStamp)>: (5.6.0b2 - 5.6.0b2)
+    /// Vec<(String, AssetTimeStamp)>: (3.5.0 - 5.6.7f1)
     pub m_AssetTimeStamps: Option<Vec<(String, AssetTimeStamp)>>,
-    /// AssetDatabaseMetrics: (5.6.0b2 - 5.6.0b2)
+    /// AssetDatabaseMetrics: (5.0.0f4 - 5.6.7f1)
     pub m_Metrics: Option<AssetDatabaseMetrics>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (3.5.0 - 5.6.7f1)
     pub m_UnityShadersVersion: Option<i32>,
-    /// Vec<(i32, u32)>: (5.6.0b2 - 5.6.0b2)
+    /// Vec<(i32, u32)>: (4.0.0 - 5.6.7f1)
     pub m_lastValidVersionHashes: Option<Vec<(i32, u32)>>,
 }
 
-/// AssetDatabaseMetrics is a sub class of the Unity engine since version 5.6.0b2.
+/// AssetDatabaseMetrics is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetDatabaseMetrics {
     pub totalAssetCount: i32,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.0.0f4 - 2017.4.5f1)
     pub nonProAssetCount: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.0.0f4 - 2017.4.5f1)
     pub nonProAssetsCreatedAfterProLicense: Option<i32>,
 }
 
-/// AssetDatabaseV1 is a  class of the Unity engine since version 2017.4.33f1.
+/// AssetDatabaseV1 is a  class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetDatabaseV1 {
     pub m_AssetBundleNames: Vec<(i32, AssetBundleFullName)>,
@@ -852,7 +963,10 @@ pub struct AssetDatabaseV1 {
     pub m_Assets: Vec<(GUID, Asset)>,
     pub m_Metrics: AssetDatabaseMetrics,
     pub m_UnityShadersVersion: i32,
-    pub m_lastValidVersions: Vec<(AssetImporterHashKey, u32)>,
+    /// Vec<(i32, u32)>: (2017.1.0b1 - 2017.1.0b1)
+    pub m_lastValidVersionHashes: Option<Vec<(i32, u32)>>,
+    /// Vec<(AssetImporterHashKey, u32)>: (2017.1.0b2 - 2020.1.17f1)
+    pub m_lastValidVersions: Option<Vec<(AssetImporterHashKey, u32)>>,
 }
 
 /// AssetImporter is a  class of the Unity engine since version 3.4.0.
@@ -862,43 +976,48 @@ Base class from which asset importers for specific asset types derive.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetImporter {
-    pub m_FileIDToRecycleName: Vec<(i32, String)>,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_NewHashIdentity: MdFour,
-    pub m_OldHashIdentity: MdFour,
+    /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
+    pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
+    /// MdFour: (3.4.0 - 3.4.2)
+    pub m_NewHashIdentity: Option<MdFour>,
+    /// MdFour: (3.4.0 - 3.4.2)
+    pub m_OldHashIdentity: Option<MdFour>,
 }
 
-/// AssetImporterHashKey is a sub class of the Unity engine since version 2017.4.33f1.
+/// AssetImporterHashKey is a sub class of the Unity engine since version 2017.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetImporterHashKey {
     pub ScriptClass: String,
-    /// i32: (2017.4.33f1 - 2020.1.0a20)
+    /// i32: (2017.1.0b2 - 2020.1.17f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
 
-/// AssetImporterLog is a  class of the Unity engine since version 2018.4.15f1.
+/// AssetImporterLog is a  class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetImporterLog {
     pub m_Logs: Vec<AssetImporter_ImportError>,
     pub m_Name: String,
 }
 
-/// AssetImporter_ImportError is a sub class of the Unity engine since version 2018.4.15f1.
+/// AssetImporter_ImportError is a sub class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetImporter_ImportError {
     pub error: String,
     pub file: String,
     pub line: i32,
     pub mode: i32,
-    pub object: PPtr, /*<Object>*/
+    /// PPtr<Object>: (2018.1.0b2 - 2022.2.0a13)
+    pub object: PPtr,
 }
 
 /// AssetInfo is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetInfo {
-    pub asset: PPtr, /*<Object>*/
+    /// PPtr<Object>: (3.4.0 - 2022.3.2f1)
+    pub asset: PPtr,
     pub preloadIndex: i32,
     pub preloadSize: i32,
 }
@@ -917,23 +1036,16 @@ pub struct AssetMetaData {
     pub labels: Vec<String>,
     pub originalName: String,
     pub pathName: String,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.0.0f4 - 2017.4.5f1)
     pub licenseType: Option<i32>,
-    /// u32: (3.4.0 - 5.6.0b2)
+    /// u32: (3.4.0 - 5.6.7f1)
     pub originalChangeset: Option<u32>,
-    /// MdFour: (3.4.0 - 3.4.0); Hash128: (5.6.0b2 - 5.6.0b2)
+    /// MdFour: (3.4.0 - 4.7.2); Hash128: (5.0.0f4 - 5.6.7f1)
     pub originalDigest: Option<Enum_MdFour__Hash128>,
-    /// GUID: (3.4.0 - 5.6.0b2)
+    /// GUID: (3.4.0 - 5.6.7f1)
     pub originalParent: Option<GUID>,
-    /// u64: (5.6.0b2 - 5.6.0b2)
+    /// u64: (5.0.0f4 - 2017.4.5f1)
     pub timeCreated: Option<u64>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum Enum_MdFour__Hash128 {
-    MdFour(MdFour),
-    Hash128(Hash128),
 }
 
 /// AssetServerCache is a  class of the Unity engine since version 3.4.0.
@@ -949,24 +1061,24 @@ pub struct AssetServerCache {
     pub m_WorkingItemMetaData: Vec<(GUID, CachedAssetMetaData)>,
 }
 
-/// AssetTimeStamp is a sub class of the Unity engine since version 5.6.0b2.
+/// AssetTimeStamp is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetTimeStamp {
-    /// u32: (5.6.0b2 - 2020.1.0a20)
+    /// u32: (3.5.0 - 2020.1.17f1)
     #[serde(alias = "metaModificationDate[0]")]
     pub metaModificationDate_0_: Option<u32>,
-    /// u32: (5.6.0b2 - 2020.1.0a20)
+    /// u32: (3.5.0 - 2020.1.17f1)
     #[serde(alias = "metaModificationDate[1]")]
     pub metaModificationDate_1_: Option<u32>,
-    /// u32: (5.6.0b2 - 2020.1.0a20)
+    /// u32: (3.5.0 - 2020.1.17f1)
     #[serde(alias = "modificationDate[0]")]
     pub modificationDate_0_: Option<u32>,
-    /// u32: (5.6.0b2 - 2020.1.0a20)
+    /// u32: (3.5.0 - 2020.1.17f1)
     #[serde(alias = "modificationDate[1]")]
     pub modificationDate_1_: Option<u32>,
 }
 
-/// AudioBuildInfo is a  class of the Unity engine since version 2018.4.15f1.
+/// AudioBuildInfo is a  class of the Unity engine since version 2018.4.13f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioBuildInfo {
     pub m_AudioClipCount: i32,
@@ -991,7 +1103,8 @@ pub struct AudioChorusFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Chorus modulation rate in hz. 0.0 to 20.0. Default = 0.8 hz.*/
     pub m_Rate: f32,
     /**Volume of 1st chorus tap. 0.0 to 1.0. Default = 0.5.*/
@@ -1000,7 +1113,7 @@ pub struct AudioChorusFilter {
     pub m_WetMix2: f32,
     /**Volume of 3rd chorus tap. This tap is 90 degrees out of phase of the second tap. 0.0 to 1.0. Default = 0.5.*/
     pub m_WetMix3: f32,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.1.5)
     pub m_FeedBack: Option<f32>,
 }
 
@@ -1016,50 +1129,50 @@ AudioClips are referenced and used by AudioSources to play sounds.See Also: Audi
 pub struct AudioClip {
     /**The name of the object.*/
     pub m_Name: String,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.7.2)
     pub m_3D: Option<bool>,
     /**Returns true if this audio clip is ambisonic (read-only).*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub m_Ambisonic: Option<bool>,
-    /// Vec<u8>: (3.4.0 - 3.4.0)
+    /// Vec<u8>: (3.4.0 - 4.7.2)
     pub m_AudioData: Option<Vec<u8>>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_BitsPerSample: Option<i32>,
     /**The number of channels in the audio clip. (Read Only)*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_Channels: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_CompressionFormat: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 4.7.2)
     pub m_Format: Option<i32>,
     /**The sample frequency of the clip in Hertz. (Read Only)*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_Frequency: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_IsTrackerFormat: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_Legacy3D: Option<bool>,
     /**The length of the audio clip in seconds. (Read Only)*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_Length: Option<f32>,
     /**Corresponding to the "Load In Background" flag in the inspector, when this flag is set, the loading will happen delayed without blocking the main thread.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_LoadInBackground: Option<bool>,
     /**The load type of the clip (read-only).*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_LoadType: Option<i32>,
     /**Preloads audio data of the clip when the clip asset is loaded. When this flag is off, scripts have to call AudioClip.LoadAudioData() to load the data before the clip can be played. Properties like length, channels and format are available before the audio data has been loaded.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_PreloadAudioData: Option<bool>,
-    /// StreamedResource: (5.6.0b2 - 2022.2.0b16)
+    /// StreamedResource: (5.0.0f4 - 2022.3.2f1)
     pub m_Resource: Option<StreamedResource>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 4.7.2)
     pub m_Stream: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_SubsoundIndex: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 4.7.2)
     pub m_Type: Option<i32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.7.2)
     pub m_UseHardware: Option<bool>,
 }
 
@@ -1076,7 +1189,8 @@ pub struct AudioDistortionFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
 }
 
 /// AudioEchoFilter is a  class of the Unity engine since version 3.4.0.
@@ -1096,7 +1210,8 @@ pub struct AudioEchoFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Volume of echo signal to pass to output. 0.0 to 1.0. Default = 1.0.*/
     pub m_WetMix: f32,
 }
@@ -1121,7 +1236,8 @@ pub struct AudioHighPassFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Determines how much the filter's self-resonance isdampened.*/
     pub m_HighpassResonanceQ: f32,
 }
@@ -1139,68 +1255,75 @@ pub struct AudioImporter {
     pub m_ForceToMono: bool,
     /**The name of the object.*/
     pub m_Name: String,
-    /// Vec<u8>: (3.4.0 - 3.4.0)
+    /// Vec<u8>: (3.4.0 - 3.5.7)
     #[serde(alias = "audio preview data")]
     pub audio_preview_data: Option<Vec<u8>>,
     /**When this flag is set, the audio clip will be treated as being ambisonic.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub m_Ambisonic: Option<bool>,
     /**Get or set the AssetBundle name.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleName: Option<String>,
     /**Get or set the AssetBundle variant.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// SampleSettings: (5.6.0b2 - 2022.2.0b16)
+    /// SampleSettings: (5.0.0f4 - 2022.3.2f1)
     pub m_DefaultSettings: Option<SampleSettings>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<(i32, String)>: (3.4.0 - 3.4.0)
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 4.7.2)
     pub m_Format: Option<i32>,
     /**Corresponding to the "Load In Background" flag in the AudioClip inspector, when this flag is set, the loading of the clip will happen delayed without blocking the main thread.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_LoadInBackground: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.7.2)
     pub m_Loopable: Option<bool>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_NewHashIdentity: Option<MdFour>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.1.2f1 - 2022.3.2f1)
     pub m_Normalize: Option<bool>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_OldHashIdentity: Option<MdFour>,
-    /// AudioImporterOutput: (5.6.0b2 - 2022.2.0b16)
-    pub m_Output: Option<AudioImporterOutput>,
-    /// Vec<(i32, SampleSettings)>: (5.6.0b2 - 2022.2.0b16)
+    /// Output: (4.0.0 - 4.7.2); AudioImporterOutput: (5.0.0f4 - 2022.3.2f1)
+    pub m_Output: Option<Enum_Output__AudioImporterOutput>,
+    /// Vec<(i32, SampleSettings)>: (5.0.0f4 - 2022.3.2f1)
     pub m_PlatformSettingOverrides: Option<Vec<(i32, SampleSettings)>>,
-    /// bool: (5.6.0b2 - 2021.2.16f1)
+    /// bool: (5.0.0f4 - 2022.2.0a16)
     pub m_PreloadAudioData: Option<bool>,
-    /// PreviewData: (5.6.0b2 - 2022.2.0b16)
+    /// PreviewData: (5.0.0f4 - 2022.3.2f1)
     pub m_PreviewData: Option<PreviewData>,
-    /// u32: (3.4.0 - 3.4.0)
+    /// u32: (3.4.0 - 3.5.7)
     pub m_PreviewDataLength: Option<u32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub m_Quality: Option<f32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 4.7.2)
     pub m_Stream: Option<i32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.7.2)
     pub m_UseHardware: Option<bool>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
     /**Get or set any user data.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (4.0.0 - 2022.3.2f1)
     pub m_UserData: Option<String>,
 }
 
-/// AudioImporterOutput is a sub class of the Unity engine since version 5.6.0b2.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_Output__AudioImporterOutput {
+    Output(Output),
+    AudioImporterOutput(AudioImporterOutput),
+}
+
+/// AudioImporterOutput is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioImporterOutput {
     pub editorOutputContainerFormat: i32,
     pub editorOutputSettings: SampleSettings,
     pub outputContainerFormat: i32,
     pub outputSettings: SampleSettings,
-    /// StreamedResource: (5.6.0b2 - 2017.4.33f1)
+    /// StreamedResource: (5.0.0f4 - 2017.4.40f1)
     pub playerResource: Option<StreamedResource>,
 }
 
@@ -1217,7 +1340,10 @@ pub struct AudioListener {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /// Vec<ExtensionPropertyValue>: (2017.2.0b2 - 2017.2.0b11)
+    pub m_ExtensionPropertyValues: Option<Vec<ExtensionPropertyValue>>,
 }
 
 /// AudioLowPassFilter is a  class of the Unity engine since version 3.4.0.
@@ -1232,11 +1358,12 @@ pub struct AudioLowPassFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Determines how much the filter's self-resonance is dampened.*/
     pub m_LowpassResonanceQ: f32,
     /**Lowpass cutoff frequency in hz. 10.0 to 22000.0. Default = 5000.0.*/
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.1.5f1)
     pub m_CutoffFrequency: Option<f32>,
 }
 
@@ -1245,36 +1372,36 @@ pub struct AudioLowPassFilter {
 pub struct AudioManager {
     pub m_DSPBufferSize: i32,
     pub m_Volume: f32,
-    /// i32: (3.4.0 - 2022.2.0b16)
+    /// i32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "Default Speaker Mode")]
     pub Default_Speaker_Mode: Option<i32>,
-    /// f32: (3.4.0 - 2022.2.0b16)
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "Doppler Factor")]
     pub Doppler_Factor: Option<f32>,
-    /// f32: (3.4.0 - 2022.2.0b16)
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "Rolloff Scale")]
     pub Rolloff_Scale: Option<f32>,
-    /// String: (2017.4.33f1 - 2022.2.0b16)
+    /// String: (2017.1.0b1 - 2022.3.2f1)
     pub m_AmbisonicDecoderPlugin: Option<String>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.2.0 - 2022.3.2f1)
     pub m_DisableAudio: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_RealVoiceCount: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.14f1 - 2022.3.2f1)
     pub m_RequestedDSPBufferSize: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_SampleRate: Option<i32>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.2.0f2 - 2022.3.2f1)
     pub m_SpatializerPlugin: Option<String>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub m_SpeedOfSound: Option<f32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_VirtualVoiceCount: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.3.6f1 - 2022.3.2f1)
     pub m_VirtualizeEffects: Option<bool>,
 }
 
-/// AudioMixer is a  class of the Unity engine since version 5.6.0b2.
+/// AudioMixer is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Audio.AudioMixer.html):
 /**
 AudioMixer asset.
@@ -1283,19 +1410,24 @@ This is a singleton representing a specific audio mixer asset in the project.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixer {
     pub m_EnableSuspend: bool,
-    pub m_MasterGroup: PPtr, /*<AudioMixerGroup>*/
+    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    pub m_MasterGroup: PPtr,
     pub m_MixerConstant: AudioMixerConstant,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_OutputGroup: PPtr, /*<AudioMixerGroup>*/
-    pub m_Snapshots: Vec<PPtr /*<AudioMixerSnapshot>*/>,
-    pub m_StartSnapshot: PPtr, /*<AudioMixerSnapshot>*/
+    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    pub m_OutputGroup: PPtr,
+    /// Vec<PPtr<AudioMixerSnapshot>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Snapshots: Vec<PPtr>,
+    /// PPtr<AudioMixerSnapshot>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StartSnapshot: PPtr,
     pub m_SuspendThreshold: f32,
     /**How time should progress for this AudioMixer. Used during Snapshot transitions.*/
-    pub m_UpdateMode: i32,
+    /// i32: (5.3.6f1 - 2022.3.2f1)
+    pub m_UpdateMode: Option<i32>,
 }
 
-/// AudioMixerConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// AudioMixerConstant is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerConstant {
     pub effectGUIDs: Vec<GUID>,
@@ -1310,25 +1442,30 @@ pub struct AudioMixerConstant {
     pub snapshotGUIDs: Vec<GUID>,
     pub snapshotNameBuffer: Vec<char>,
     pub snapshots: Vec<SnapshotConstant>,
-    /// Vec<GroupConnection>: (2021.2.16f1 - 2021.2.16f1)
+    /// Vec<GroupConnection>: (2021.2.0b1 - 2021.3.27f1)
     pub groupConnections: Option<Vec<GroupConnection>>,
 }
 
-/// AudioMixerController is a  class of the Unity engine since version 5.6.0b2.
+/// AudioMixerController is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerController {
     pub m_EnableSuspend: bool,
-    pub m_MasterGroup: PPtr, /*<AudioMixerGroup>*/
+    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    pub m_MasterGroup: PPtr,
     pub m_MixerConstant: AudioMixerConstant,
     pub m_Name: String,
-    pub m_OutputGroup: PPtr, /*<AudioMixerGroup>*/
-    pub m_Snapshots: Vec<PPtr /*<AudioMixerSnapshot>*/>,
-    pub m_StartSnapshot: PPtr, /*<AudioMixerSnapshot>*/
+    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    pub m_OutputGroup: PPtr,
+    /// Vec<PPtr<AudioMixerSnapshot>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Snapshots: Vec<PPtr>,
+    /// PPtr<AudioMixerSnapshot>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StartSnapshot: PPtr,
     pub m_SuspendThreshold: f32,
-    pub m_UpdateMode: i32,
+    /// i32: (5.3.6f1 - 2022.3.2f1)
+    pub m_UpdateMode: Option<i32>,
 }
 
-/// AudioMixerEffectController is a  class of the Unity engine since version 5.6.0b2.
+/// AudioMixerEffectController is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerEffectController {
     pub m_Bypass: bool,
@@ -1338,49 +1475,56 @@ pub struct AudioMixerEffectController {
     pub m_MixLevel: GUID,
     pub m_Name: String,
     pub m_Parameters: Vec<Parameter>,
-    pub m_SendTarget: PPtr, /*<AudioMixerEffectController>*/
+    /// PPtr<AudioMixerEffectController>: (5.0.0f4 - 2022.3.2f1)
+    pub m_SendTarget: PPtr,
 }
 
-/// AudioMixerGroup is a  class of the Unity engine since version 5.6.0b2.
+/// AudioMixerGroup is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html):
 /**
 Object representing a group in the mixer.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerGroup {
-    pub m_AudioMixer: PPtr, /*<AudioMixer>*/
-    pub m_Children: Vec<PPtr /*<AudioMixerGroup>*/>,
+    /// PPtr<AudioMixer>: (5.0.0f4 - 2022.3.2f1)
+    pub m_AudioMixer: PPtr,
+    /// Vec<PPtr<AudioMixerGroup>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Children: Vec<PPtr>,
     pub m_GroupID: GUID,
     /**The name of the object.*/
     pub m_Name: String,
 }
 
-/// AudioMixerGroupController is a  class of the Unity engine since version 5.6.0b2.
+/// AudioMixerGroupController is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerGroupController {
-    pub m_AudioMixer: PPtr, /*<AudioMixer>*/
-    pub m_Children: Vec<PPtr /*<AudioMixerGroup>*/>,
+    /// PPtr<AudioMixer>: (5.0.0f4 - 2022.3.2f1)
+    pub m_AudioMixer: PPtr,
+    /// Vec<PPtr<AudioMixerGroup>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Children: Vec<PPtr>,
     pub m_GroupID: GUID,
     pub m_Name: String,
 }
 
-/// AudioMixerSnapshot is a  class of the Unity engine since version 5.6.0b2.
+/// AudioMixerSnapshot is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerSnapshot.html):
 /**
 Object representing a snapshot in the mixer.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerSnapshot {
-    pub m_AudioMixer: PPtr, /*<AudioMixer>*/
+    /// PPtr<AudioMixer>: (5.0.0f4 - 2022.3.2f1)
+    pub m_AudioMixer: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
     pub m_SnapshotID: GUID,
 }
 
-/// AudioMixerSnapshotController is a  class of the Unity engine since version 5.6.0b2.
+/// AudioMixerSnapshotController is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerSnapshotController {
-    pub m_AudioMixer: PPtr, /*<AudioMixer>*/
+    /// PPtr<AudioMixer>: (5.0.0f4 - 2022.3.2f1)
+    pub m_AudioMixer: PPtr,
     pub m_Name: String,
     pub m_SnapshotID: GUID,
 }
@@ -1406,7 +1550,8 @@ pub struct AudioReverbFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Reference high frequency in hertz (Hz). Ranges from 1000.0 to 20000.0. Default is 5000.0.*/
     pub m_HFReference: f32,
     /**Reference low-frequency in hertz (Hz). Ranges from 20.0 to 1000.0. Default is 250.0.*/
@@ -1427,7 +1572,7 @@ pub struct AudioReverbFilter {
     pub m_RoomHF: f32,
     /**Room effect low-frequency level in millibels (mB). Ranges from -10000.0 to 0.0. Default is 0.0.*/
     pub m_RoomLF: f32,
-    /// f32: (3.4.0 - 5.6.0b2)
+    /// f32: (3.4.0 - 5.6.0b9)
     pub m_RoomRolloff: Option<f32>,
 }
 
@@ -1460,7 +1605,8 @@ pub struct AudioReverbZone {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Reference high frequency (hz).*/
     pub m_HFReference: f32,
     /**Reference low frequency (hz).*/
@@ -1485,7 +1631,7 @@ pub struct AudioReverbZone {
     pub m_RoomHF: i32,
     /**Relative room effect level at low frequencies.*/
     pub m_RoomLF: i32,
-    /// f32: (3.4.0 - 5.6.0b2)
+    /// f32: (3.4.0 - 5.6.0b9)
     pub m_RoomRolloffFactor: Option<f32>,
 }
 
@@ -1527,39 +1673,43 @@ pub struct AudioSource {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The pitch of the audio source.*/
     pub m_Pitch: f32,
     /**If set to true, the audio source will automatically start playing on awake.*/
     pub m_PlayOnAwake: bool,
     /**The volume of the audio source (0.0 to 1.0).*/
     pub m_Volume: f32,
-    pub m_audioClip: PPtr, /*<AudioClip>*/
+    /// PPtr<AudioClip>: (3.4.0 - 2022.3.2f1)
+    pub m_audioClip: PPtr,
     pub panLevelCustomCurve: AnimationCurve,
     pub rolloffCustomCurve: AnimationCurve,
     /**Sets/Gets how the AudioSource attenuates over distance.*/
     pub rolloffMode: i32,
     pub spreadCustomCurve: AnimationCurve,
     /**When set global effects on the AudioListener will not be applied to the audio signal generated by the AudioSource. Does not apply if the AudioSource is playing into a mixer group.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.2.0 - 2022.3.2f1)
     pub BypassListenerEffects: Option<bool>,
     /**When set doesn't route the signal from an AudioSource into the global reverb associated with reverb zones.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.2.0 - 2022.3.2f1)
     pub BypassReverbZones: Option<bool>,
     /**The target group to which the AudioSource should route its signal.*/
-    /// PPtr/*<AudioMixerGroup>*/: (5.6.0b2 - 2022.2.0b16)
-    pub OutputAudioMixerGroup: Option<PPtr /*<AudioMixerGroup>*/>,
+    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    pub OutputAudioMixerGroup: Option<PPtr>,
     /**Enables or disables spatialization.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.2.0f2 - 2022.3.2f1)
     pub Spatialize: Option<bool>,
     /**Determines if the spatializer effect is inserted before or after the effect filters.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.0f3 - 2022.3.2f1)
     pub SpatializePostEffects: Option<bool>,
-    /// AnimationCurve: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<ExtensionPropertyValue>: (2017.2.0b2 - 2017.2.0b11)
+    pub m_ExtensionPropertyValues: Option<Vec<ExtensionPropertyValue>>,
+    /// AnimationCurve: (5.0.0f4 - 2022.3.2f1)
     pub reverbZoneMixCustomCurve: Option<AnimationCurve>,
 }
 
-/// AutoOffMeshLinkData is a sub class of the Unity engine since version 5.6.0b2.
+/// AutoOffMeshLinkData is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AutoOffMeshLinkData {
     pub m_Area: u8,
@@ -1570,7 +1720,7 @@ pub struct AutoOffMeshLinkData {
     pub m_Start: Vector3f,
 }
 
-/// Avatar is a  class of the Unity engine since version 5.6.0b2.
+/// Avatar is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Avatar.html):
 /**
 Avatar definition.
@@ -1584,28 +1734,47 @@ pub struct Avatar {
     pub m_Name: String,
     pub m_TOS: Vec<(u32, String)>,
     /**Returns the HumanDescription used to create this Avatar.*/
-    /// HumanDescription: (2019.3.0f4 - 2022.2.0b16)
+    /// HumanDescription: (2019.1.0b1 - 2022.3.2f1)
     pub m_HumanDescription: Option<HumanDescription>,
 }
 
-/// AvatarConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// AvatarBodyMask is a  class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AvatarConstant {
-    pub m_AvatarSkeleton: OffsetPtr,
-    pub m_AvatarSkeletonPose: OffsetPtr,
-    pub m_DefaultPose: OffsetPtr,
-    pub m_Human: OffsetPtr,
-    pub m_HumanSkeletonIndexArray: Vec<i32>,
-    pub m_HumanSkeletonReverseIndexArray: Vec<i32>,
-    pub m_RootMotionBoneIndex: i32,
-    pub m_RootMotionBoneX: xform,
-    pub m_RootMotionSkeleton: OffsetPtr,
-    pub m_RootMotionSkeletonIndexArray: Vec<i32>,
-    pub m_RootMotionSkeletonPose: OffsetPtr,
-    pub m_SkeletonNameIDArray: Vec<u32>,
+pub struct AvatarBodyMask {
+    pub m_Mask: Vec<u32>,
+    pub m_Name: String,
 }
 
-/// AvatarMask is a  class of the Unity engine since version 5.6.0b2.
+/// AvatarConstant is a sub class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AvatarConstant {
+    pub m_Human: OffsetPtr,
+    pub m_HumanSkeletonIndexArray: Vec<i32>,
+    pub m_RootMotionBoneIndex: i32,
+    pub m_RootMotionBoneX: xform,
+    /// OffsetPtr: (4.3.0 - 2022.3.2f1)
+    pub m_AvatarSkeleton: Option<OffsetPtr>,
+    /// OffsetPtr: (4.3.0 - 2022.3.2f1)
+    pub m_AvatarSkeletonPose: Option<OffsetPtr>,
+    /// OffsetPtr: (4.3.0 - 2022.3.2f1)
+    pub m_DefaultPose: Option<OffsetPtr>,
+    /// Vec<i32>: (4.3.0 - 2022.3.2f1)
+    pub m_HumanSkeletonReverseIndexArray: Option<Vec<i32>>,
+    /// OffsetPtr: (4.3.0 - 2022.3.2f1)
+    pub m_RootMotionSkeleton: Option<OffsetPtr>,
+    /// Vec<i32>: (4.3.0 - 2022.3.2f1)
+    pub m_RootMotionSkeletonIndexArray: Option<Vec<i32>>,
+    /// OffsetPtr: (4.3.0 - 2022.3.2f1)
+    pub m_RootMotionSkeletonPose: Option<OffsetPtr>,
+    /// OffsetPtr: (4.0.0 - 4.2.2)
+    pub m_Skeleton: Option<OffsetPtr>,
+    /// Vec<u32>: (4.3.0 - 2022.3.2f1)
+    pub m_SkeletonNameIDArray: Option<Vec<u32>>,
+    /// OffsetPtr: (4.0.0 - 4.2.2)
+    pub m_SkeletonPose: Option<OffsetPtr>,
+}
+
+/// AvatarMask is a  class of the Unity engine since version 4.1.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AvatarMask.html):
 /**
 AvatarMask is used to mask out humanoid body parts and transforms.
@@ -1619,6 +1788,20 @@ pub struct AvatarMask {
     pub m_Name: String,
 }
 
+/// AvatarSkeletonMask is a  class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AvatarSkeletonMask {
+    pub elements: Vec<AvatarSkeletonMaskElement>,
+    pub m_Name: String,
+}
+
+/// AvatarSkeletonMaskElement is a sub class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AvatarSkeletonMaskElement {
+    pub path: String,
+    pub weight: f32,
+}
+
 /// Behaviour is a  class of the Unity engine since version 3.4.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Behaviour.html):
 /**
@@ -1630,10 +1813,11 @@ pub struct Behaviour {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
 }
 
-/// BillboardAsset is a  class of the Unity engine since version 5.6.0b2.
+/// BillboardAsset is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/BillboardAsset.html):
 /**
 BillboardAsset describes how a billboard is rendered.
@@ -1656,13 +1840,16 @@ pub struct BillboardAsset {
     /**The name of the object.*/
     pub m_Name: String,
     /**The material used for rendering.*/
-    pub material: PPtr, /*<Material>*/
+    /// PPtr<Material>: (5.0.0f4 - 2022.3.2f1)
+    pub material: PPtr,
     pub vertices: Vec<Vector2f>,
     /**Width of the billboard.*/
     pub width: f32,
+    /// Vec<u8>: (5.0.0f4 - 5.2.5f1)
+    pub rotated: Option<Vec<u8>>,
 }
 
-/// BillboardRenderer is a  class of the Unity engine since version 5.6.0b2.
+/// BillboardRenderer is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/BillboardRenderer.html):
 /**
 Renders a billboard from a BillboardAsset.
@@ -1671,53 +1858,74 @@ BillboardRenderers that share the same BillboardAsset can be rendered in a batch
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BillboardRenderer {
     /**The BillboardAsset to render.*/
-    pub m_Billboard: PPtr, /*<BillboardAsset>*/
+    /// PPtr<BillboardAsset>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Billboard: PPtr,
     pub m_CastShadows: u8,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    /**The light probe interpolation type.*/
-    pub m_LightProbeUsage: u8,
-    pub m_LightProbeVolumeOverride: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapIndexDynamic: u16,
     pub m_LightmapTilingOffset: Vector4f,
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
-    pub m_MotionVectors: u8,
+    /// Vec<PPtr<Material>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    pub m_ProbeAnchor: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
-    pub m_ReceiveShadows: u8,
+    pub m_ReceiveShadows: Enum_bool__u8,
     /**Should reflection probes be used for this Renderer?*/
-    pub m_ReflectionProbeUsage: u8,
-    pub m_SortingLayer: i16,
+    pub m_ReflectionProbeUsage: i32,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
-    pub m_StaticBatchInfo: StaticBatchInfo,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
-    /// u8: (2017.4.33f1 - 2022.2.0b16)
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
+    /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /**The light probe interpolation type.*/
+    /// u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeUsage: Option<u8>,
+    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: Option<PPtr>,
+    /// u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_MotionVectors: Option<u8>,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
+    /// i16: (5.6.0b1 - 2022.3.2f1)
+    pub m_SortingLayer: Option<i16>,
     /**Unique ID of the Renderer's sorting layer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_SortingLayerID: Option<i32>,
+    /// StaticBatchInfo: (5.5.0f3 - 2022.3.2f1)
+    pub m_StaticBatchInfo: Option<StaticBatchInfo>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
+    /// Vec<u32>: (5.0.0f4 - 5.4.6f3)
+    pub m_SubsetIndices: Option<Vec<u32>>,
+    /// bool: (5.0.0f4 - 5.3.8f2)
+    pub m_UseLightProbes: Option<bool>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_bool__u8 {
+    bool(bool),
+    u8(u8),
 }
 
 /// BitField is a sub class of the Unity engine since version 3.4.0.
@@ -1726,7 +1934,7 @@ pub struct BitField {
     pub m_Bits: u32,
 }
 
-/// BlendShapeData is a sub class of the Unity engine since version 5.6.0b2.
+/// BlendShapeData is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlendShapeData {
     pub channels: Vec<MeshBlendShapeChannel>,
@@ -1735,7 +1943,7 @@ pub struct BlendShapeData {
     pub vertices: Vec<BlendShapeVertex>,
 }
 
-/// BlendShapeVertex is a sub class of the Unity engine since version 5.6.0b2.
+/// BlendShapeVertex is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlendShapeVertex {
     pub index: u32,
@@ -1744,85 +1952,100 @@ pub struct BlendShapeVertex {
     pub vertex: Vector3f,
 }
 
-/// BlendTree is a  class of the Unity engine since version 5.6.0b2.
+/// BlendTree is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.BlendTree.html):
 /**
 Blend trees are used to blend continuously animation between their children. They can either be 1D or 2D.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlendTree {
-    /**Parameter that is used to compute the blending weight of the children in 1D blend trees or on the X axis of a 2D blend tree.*/
-    pub m_BlendParameter: String,
-    /**Parameter that is used to compute the blending weight of the children on the Y axis of a 2D blend tree.*/
-    pub m_BlendParameterY: String,
-    /**The Blending type can be either 1D or different types of 2D.*/
-    pub m_BlendType: i32,
-    pub m_Childs: Vec<ChildMotion>,
+    pub m_Childs: Vec<Enum_ChildMotion__Child>,
     /**Sets the maximum threshold that will be used by the ChildMotion. Only used when useAutomaticThresholds is true.*/
     pub m_MaxThreshold: f32,
     /**Sets the minimum threshold that will be used by the ChildMotion. Only used when useAutomaticThresholds is true.*/
     pub m_MinThreshold: f32,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_NormalizedBlendValues: bool,
     /**When active, the children's thresholds are automatically spread between 0 and 1.*/
     pub m_UseAutomaticThresholds: bool,
+    /// String: (4.0.0 - 4.1.5)
+    pub m_BlendEvent: Option<String>,
+    /// String: (4.1.0 - 4.1.5)
+    pub m_BlendEventY: Option<String>,
+    /**Parameter that is used to compute the blending weight of the children in 1D blend trees or on the X axis of a 2D blend tree.*/
+    /// String: (4.2.0 - 2022.3.2f1)
+    pub m_BlendParameter: Option<String>,
+    /**Parameter that is used to compute the blending weight of the children on the Y axis of a 2D blend tree.*/
+    /// String: (4.2.0 - 2022.3.2f1)
+    pub m_BlendParameterY: Option<String>,
+    /**The Blending type can be either 1D or different types of 2D.*/
+    /// u32: (4.1.0 - 4.1.5); i32: (4.2.0 - 2022.3.2f1)
+    pub m_BlendType: Option<i64>,
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub m_NormalizedBlendValues: Option<bool>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_ChildMotion__Child {
+    ChildMotion(ChildMotion),
+    Child(Child),
 }
 
 /// BoneInfluence is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BoneInfluence {
-    /// i32: (3.4.0 - 5.6.0b2)
+    /// i32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "boneIndex[0]")]
     pub boneIndex_0_: Option<i32>,
-    /// i32: (3.4.0 - 5.6.0b2)
+    /// i32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "boneIndex[1]")]
     pub boneIndex_1_: Option<i32>,
-    /// i32: (3.4.0 - 5.6.0b2)
+    /// i32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "boneIndex[2]")]
     pub boneIndex_2_: Option<i32>,
-    /// i32: (3.4.0 - 5.6.0b2)
+    /// i32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "boneIndex[3]")]
     pub boneIndex_3_: Option<i32>,
-    /// f32: (3.4.0 - 5.6.0b2)
+    /// f32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "weight[0]")]
     pub weight_0_: Option<f32>,
-    /// f32: (3.4.0 - 5.6.0b2)
+    /// f32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "weight[1]")]
     pub weight_1_: Option<f32>,
-    /// f32: (3.4.0 - 5.6.0b2)
+    /// f32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "weight[2]")]
     pub weight_2_: Option<f32>,
-    /// f32: (3.4.0 - 5.6.0b2)
+    /// f32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "weight[3]")]
     pub weight_3_: Option<f32>,
 }
 
-/// BoneWeights4 is a sub class of the Unity engine since version 2017.4.33f1.
+/// BoneWeights4 is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BoneWeights4 {
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     #[serde(alias = "boneIndex[0]")]
     pub boneIndex_0_: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     #[serde(alias = "boneIndex[1]")]
     pub boneIndex_1_: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     #[serde(alias = "boneIndex[2]")]
     pub boneIndex_2_: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     #[serde(alias = "boneIndex[3]")]
     pub boneIndex_3_: Option<i32>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b1 - 2022.3.2f1)
     #[serde(alias = "weight[0]")]
     pub weight_0_: Option<f32>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b1 - 2022.3.2f1)
     #[serde(alias = "weight[1]")]
     pub weight_1_: Option<f32>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b1 - 2022.3.2f1)
     #[serde(alias = "weight[2]")]
     pub weight_2_: Option<f32>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b1 - 2022.3.2f1)
     #[serde(alias = "weight[3]")]
     pub weight_3_: Option<f32>,
 }
@@ -1840,28 +2063,30 @@ pub struct BoxCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Specify if this collider is configured as a trigger.*/
     pub m_IsTrigger: bool,
     /**The material used by the collider.*/
-    pub m_Material: PPtr, /*<PhysicMaterial>*/
+    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The size of the box, measured in the object's local space.*/
     pub m_Size: Vector3f,
     /**The additional layers that this Collider should exclude when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The additional layers that this Collider should include when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider used when there is a conflicting decision on whether a Collider can contact another Collider.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ProvidesContacts: Option<bool>,
 }
 
-/// BoxCollider2D is a  class of the Unity engine since version 5.6.0b2.
+/// BoxCollider2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/BoxCollider2D.html):
 /**
 Collider for 2D physics representing an axis-aligned rectangle.
@@ -1869,55 +2094,63 @@ See Also: CircleCollider2D, PolygonCollider2D, EdgeCollider2D.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BoxCollider2D {
-    /**The density of the collider used to calculate its mass (when auto mass is enabled).*/
-    pub m_Density: f32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
-    /**The local offset of the collider geometry.*/
-    pub m_Offset: Vector2f,
+    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The width and height of the rectangle.*/
     pub m_Size: Vector2f,
-    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
-    pub m_UsedByComposite: bool,
-    /**Whether the collider is used by an attached effector or not.*/
-    pub m_UsedByEffector: bool,
     /**Determines whether the BoxCollider2D's shape is automatically updated based on a SpriteRenderer's tiling properties.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.0f1 - 2022.3.2f1)
     pub m_AutoTiling: Option<bool>,
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
+    /// Vector2f: (4.3.0 - 4.7.2)
+    pub m_Center: Option<Vector2f>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ContactCaptureLayers: Option<BitField>,
+    /**The density of the collider used to calculate its mass (when auto mass is enabled).*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_Density: Option<f32>,
     /**Controls the radius of all edges created by the collider.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (5.6.0f1 - 2022.3.2f1)
     pub m_EdgeRadius: Option<f32>,
     /**The additional Layers that this Collider2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The Layers that this Collider2D can receive forces from during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceReceiveLayers: Option<BitField>,
     /**The Layers that this Collider2D is allowed to send forces to during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceSendLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider2D used when there is a conflicting decision on whether a contact between itself and another Collision2D should happen or not.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
-    /// SpriteTilingProperty: (2017.4.33f1 - 2022.2.0b16)
+    /**The local offset of the collider geometry.*/
+    /// Vector2f: (5.0.0f4 - 2022.3.2f1)
+    pub m_Offset: Option<Vector2f>,
+    /// SpriteTilingProperty: (5.6.0f1 - 2022.3.2f1)
     pub m_SpriteTilingProperty: Option<SpriteTilingProperty>,
+    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
+    /// bool: (5.6.0b1 - 2022.3.2f1)
+    pub m_UsedByComposite: Option<bool>,
+    /**Whether the collider is used by an attached effector or not.*/
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub m_UsedByEffector: Option<bool>,
 }
 
-/// BrokenPrefabAsset is a  class of the Unity engine since version 2022.2.0b16.
+/// BrokenPrefabAsset is a  class of the Unity engine since version 2022.2.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/BrokenPrefabAsset.html):
 /**
 BrokenPrefabAsset is for Prefab files where the file content cannot be loaded without errors.
@@ -1925,7 +2158,8 @@ A Prefab Asset can be broken if the content of the file invalid or if it is a Va
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BrokenPrefabAsset {
-    pub m_BrokenParentPrefab: PPtr, /*<BrokenPrefabAsset>*/
+    /// PPtr<BrokenPrefabAsset>: (2022.2.0b1 - 2022.3.2f1)
+    pub m_BrokenParentPrefab: PPtr,
     /**Returns true if the content of the file is valid.*/
     pub m_IsPrefabFileValid: bool,
     /**Returns true if the prefab is a variant.*/
@@ -1936,16 +2170,16 @@ pub struct BrokenPrefabAsset {
     pub m_Name: String,
 }
 
-/// BufferBinding is a sub class of the Unity engine since version 5.6.0b2.
+/// BufferBinding is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BufferBinding {
     pub m_Index: i32,
     pub m_NameIndex: i32,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub m_ArraySize: Option<i32>,
 }
 
-/// BuildReport is a  class of the Unity engine since version 5.6.0b2.
+/// BuildReport is a  class of the Unity engine since version 5.4.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Build.Reporting.BuildReport.html):
 /**
 The BuildReport API gives you information about the Unity build process.
@@ -1953,7 +2187,8 @@ A BuildReport object is returned by BuildPipeline.BuildPlayer and can be used to
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuildReport {
-    pub m_Appendices: Vec<PPtr /*<Object>*/>,
+    /// Vec<PPtr<Object>>: (5.4.0f3 - 2022.3.2f1)
+    pub m_Appendices: Vec<PPtr>,
     pub m_BuildSteps: Vec<BuildStepInfo>,
     pub m_Files: Vec<BuildReportFile>,
     /**The name of the object.*/
@@ -1962,7 +2197,7 @@ pub struct BuildReport {
     pub m_Summary: BuildSummary,
 }
 
-/// BuildReportFile is a sub class of the Unity engine since version 5.6.0b2.
+/// BuildReportFile is a sub class of the Unity engine since version 5.4.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuildReportFile {
     pub id: u32,
@@ -1971,19 +2206,20 @@ pub struct BuildReportFile {
     pub totalSize: u64,
 }
 
-/// BuildReportPackedAssetInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// BuildReportPackedAssetInfo is a sub class of the Unity engine since version 5.4.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuildReportPackedAssetInfo {
-    pub buildTimeAssetPath: String,
     pub classID: i32,
     pub fileID: i64,
     pub packedSize: i128,
     pub sourceAssetGUID: GUID,
-    /// u64: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (5.4.2f2 - 2022.3.2f1)
+    pub buildTimeAssetPath: Option<String>,
+    /// u64: (2019.3.0b1 - 2022.3.2f1)
     pub offset: Option<u64>,
 }
 
-/// BuildReportScenesUsingAsset is a sub class of the Unity engine since version 2020.1.0a20.
+/// BuildReportScenesUsingAsset is a sub class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuildReportScenesUsingAsset {
     pub assetPath: String,
@@ -2003,62 +2239,77 @@ pub struct BuildSettings {
     pub hasPROVersion: bool,
     pub hasPublishingRights: bool,
     pub hasShadows: bool,
-    pub isDebugBuild: bool,
     pub isEducationalBuild: bool,
-    pub m_AuthToken: String,
     pub m_Version: String,
-    /// GUID: (2017.4.33f1 - 2022.2.0b16)
-    pub buildGUID: Option<GUID>,
-    /// Vec<String>: (5.6.0b2 - 2022.2.0b16)
+    /// GUID: (5.6.0f1 - 2022.2.1f1); String: (5.6.0b3 - 5.6.0b3)
+    pub buildGUID: Option<Enum_GUID__String>,
+    /// Vec<String>: (5.6.0b1 - 2022.3.2f1)
     pub buildTags: Option<Vec<String>>,
-    /// Vec<String>: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 5.2.5f1)
+    pub enableMultipleDisplays: Option<bool>,
+    /// Vec<String>: (5.4.0f3 - 2022.3.2f1)
     pub enabledVRDevices: Option<Vec<String>>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub hasClusterRendering: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.2.0 - 2022.3.2f1)
     pub hasLocalLightShadows: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (4.6.2 - 4.7.2)
+    pub hasOculusPlugin: Option<bool>,
+    /// bool: (3.4.0 - 5.2.5f1)
     pub hasRenderTexture: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.2.0 - 2022.3.2f1)
     pub hasSoftShadows: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.4.0 - 2022.2.1f1)
+    pub isDebugBuild: Option<bool>,
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub isEmbedded: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub isNoWatermarkBuild: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub isPrototypingBuild: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub isTrial: Option<bool>,
-    /// Vec<String>: (3.4.0 - 3.4.0)
+    /// bool: (2018.2.0b1 - 2018.2.8f1)
+    pub isWsaHolographicRemotingEnabled: Option<bool>,
+    /// Vec<String>: (3.4.0 - 5.0.4f1)
     pub levels: Option<Vec<String>>,
-    /// Vec<i32>: (5.6.0b2 - 2022.2.0b16)
+    /// String: (3.4.0 - 2022.2.0a18)
+    pub m_AuthToken: Option<String>,
+    /// Vec<i32>: (5.1.0f1 - 2022.3.2f1)
     pub m_GraphicsAPIs: Option<Vec<i32>>,
-    /// Vec<String>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<String>: (5.0.0f4 - 2022.3.2f1)
     pub preloadedPlugins: Option<Vec<String>>,
-    /// Vec<(i32, Hash128)>: (5.6.0b2 - 2020.1.0a20)
-    pub runtimeClassHashes: Option<Vec<(i32, Hash128)>>,
-    /// Vec<String>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<(i32, u32)>: (3.5.0 - 4.7.2); Vec<(i32, Hash128)>: (5.0.0f4 - 2020.2.0a19)
+    pub runtimeClassHashes: Option<Vec<(i32, Enum_Hash128__u32)>>,
+    /// Vec<String>: (5.1.0f1 - 2022.3.2f1)
     pub scenes: Option<Vec<String>>,
-    /// Vec<(Hash128, Hash128)>: (5.6.0b2 - 2020.1.0a20)
+    /// Vec<(Hash128, Hash128)>: (5.0.0f4 - 2020.2.0a19)
     pub scriptHashes: Option<Vec<(Hash128, Hash128)>>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub usesOnMouseEvents: Option<bool>,
 }
 
-/// BuildStepInfo is a sub class of the Unity engine since version 5.6.0b2.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_Hash128__u32 {
+    Hash128(Hash128),
+    u32(u32),
+}
+
+/// BuildStepInfo is a sub class of the Unity engine since version 5.4.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuildStepInfo {
     pub messages: Vec<BuildStepMessage>,
     pub stepName: String,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.1.0b2 - 2022.3.2f1)
     pub depth: Option<i32>,
-    /// u64: (5.6.0b2 - 2017.4.33f1)
+    /// u64: (5.4.0f3 - 2017.4.40f1)
     pub duration: Option<u64>,
-    /// u64: (2018.4.15f1 - 2022.2.0b16)
+    /// u64: (2018.1.0b2 - 2022.3.2f1)
     pub durationTicks: Option<u64>,
 }
 
-/// BuildStepMessage is a sub class of the Unity engine since version 5.6.0b2.
+/// BuildStepMessage is a sub class of the Unity engine since version 5.4.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Build.Reporting.BuildStepMessage.html):
 /**
 Contains information about a single log message recorded during the build process.
@@ -2068,12 +2319,12 @@ pub struct BuildStepMessage {
     /**The text content of the log message.*/
     pub content: String,
     /**The LogType of the log message.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.4.0f3 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
 
-/// BuildSummary is a sub class of the Unity engine since version 5.6.0b2.
+/// BuildSummary is a sub class of the Unity engine since version 5.4.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Build.Reporting.BuildSummary.html):
 /**
 Contains overall summary information about a build.
@@ -2081,13 +2332,11 @@ Contains overall summary information about a build.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuildSummary {
     pub assetBundleOptions: i32,
-    pub buildType: i32,
     pub crc: u32,
     /**The BuildOptions used for the build, as passed to BuildPipeline.BuildPlayer.*/
     pub options: i32,
     /**The output path for the build, as provided to BuildPipeline.BuildPlayer.*/
     pub outputPath: String,
-    pub platformGroupName: String,
     pub platformName: String,
     /**The total number of errors and exceptions recorded during the build process.*/
     pub totalErrors: i32,
@@ -2095,21 +2344,25 @@ pub struct BuildSummary {
     pub totalSize: u64,
     /**The total number of warnings recorded during the build process.*/
     pub totalWarnings: i32,
-    /// GUID: (2017.4.33f1 - 2022.2.0b16)
+    /// GUID: (5.6.0f1 - 2022.3.2f1)
     pub buildGUID: Option<GUID>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub buildResult: Option<i32>,
-    /// DateTime: (2018.4.15f1 - 2022.2.0b16)
+    /// DateTime: (2018.1.0b2 - 2022.3.2f1)
     pub buildStartTime: Option<DateTime>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
+    pub buildType: Option<i32>,
+    /// String: (5.4.0f3 - 2017.4.40f1)
     pub name: Option<String>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// String: (5.6.0b1 - 2022.3.2f1)
+    pub platformGroupName: Option<String>,
+    /// i32: (2021.2.0f1 - 2022.3.2f1)
     pub subtarget: Option<i32>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.5.0f3 - 2017.1.5f1)
     pub success: Option<bool>,
-    /// u64: (5.6.0b2 - 2017.4.33f1)
+    /// u64: (5.4.0f3 - 2017.4.40f1)
     pub totalTimeMS: Option<u64>,
-    /// u64: (2018.4.15f1 - 2022.2.0b16)
+    /// u64: (2018.1.0b2 - 2022.3.2f1)
     pub totalTimeTicks: Option<u64>,
 }
 
@@ -2118,24 +2371,28 @@ pub struct BuildSummary {
 pub struct BuildTargetSettings {
     pub m_BuildTarget: String,
     pub m_TextureFormat: i32,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 5.4.6f3)
+    pub m_AllowsAlphaSplitting: Option<bool>,
+    /// i32: (3.5.0 - 5.4.6f3)
+    pub m_CompressionQuality: Option<i32>,
+    /// i32: (5.5.0f3 - 2017.4.40f1)
     pub m_LoadingBehavior: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 5.4.6f3)
     pub m_MaxTextureSize: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.5.0f3 - 2017.4.40f1)
     pub m_TextureHeight: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.5.0f3 - 2017.4.40f1)
     pub m_TextureWidth: Option<i32>,
 }
 
-/// BuildTextureStackReference is a sub class of the Unity engine since version 2020.1.0a20.
+/// BuildTextureStackReference is a sub class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuildTextureStackReference {
     pub groupName: String,
     pub itemName: String,
 }
 
-/// BuiltAssetBundleInfo is a sub class of the Unity engine since version 2017.4.33f1.
+/// BuiltAssetBundleInfo is a sub class of the Unity engine since version 5.5.4f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuiltAssetBundleInfo {
     pub bundleArchiveFile: u32,
@@ -2143,20 +2400,21 @@ pub struct BuiltAssetBundleInfo {
     pub packagedFileIndices: Vec<u32>,
 }
 
-/// BuiltAssetBundleInfoSet is a  class of the Unity engine since version 2017.4.33f1.
+/// BuiltAssetBundleInfoSet is a  class of the Unity engine since version 5.5.4f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuiltAssetBundleInfoSet {
     pub bundleInfos: Vec<BuiltAssetBundleInfo>,
 }
 
-/// BuiltinShaderSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// BuiltinShaderSettings is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuiltinShaderSettings {
     pub m_Mode: i32,
-    pub m_Shader: PPtr, /*<Shader>*/
+    /// PPtr<Shader>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Shader: PPtr,
 }
 
-/// BuoyancyEffector2D is a  class of the Unity engine since version 5.6.0b2.
+/// BuoyancyEffector2D is a  class of the Unity engine since version 5.3.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/BuoyancyEffector2D.html):
 /**
 Applies forces to simulate buoyancy, fluid-flow and fluid drag.
@@ -2179,7 +2437,8 @@ pub struct BuoyancyEffector2D {
     /**The random variation of the force used to similate fluid flow.*/
     pub m_FlowVariation: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**A force applied to slow linear movement of any Collider2D in contact with the effector.*/
     pub m_LinearDrag: f32,
     /**Defines an arbitrary horizontal line that represents the fluid surface level.*/
@@ -2199,21 +2458,25 @@ pub struct CachedAssetMetaData {
     pub pathName: String,
 }
 
-/// CachedSpriteAtlas is a  class of the Unity engine since version 5.6.0b2.
+/// CachedSpriteAtlas is a  class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CachedSpriteAtlas {
-    pub alphaTextures: Vec<PPtr /*<Texture2D>*/>,
     pub frames: Vec<((GUID, i64), SpriteRenderData)>,
-    pub textures: Vec<PPtr /*<Texture2D>*/>,
+    /// Vec<PPtr<Texture2D>>: (4.3.0 - 2022.3.2f1)
+    pub textures: Vec<PPtr>,
+    /// Vec<PPtr<Texture2D>>: (5.2.0f2 - 2022.3.2f1)
+    pub alphaTextures: Option<Vec<PPtr>>,
 }
 
-/// CachedSpriteAtlasRuntimeData is a  class of the Unity engine since version 2017.4.33f1.
+/// CachedSpriteAtlasRuntimeData is a  class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CachedSpriteAtlasRuntimeData {
-    pub alphaTextures: Vec<PPtr /*<Texture2D>*/>,
+    /// Vec<PPtr<Texture2D>>: (2017.1.0b1 - 2022.3.2f1)
+    pub alphaTextures: Vec<PPtr>,
     pub frames: Vec<((GUID, i64), SpriteAtlasData)>,
-    pub textures: Vec<PPtr /*<Texture2D>*/>,
-    /// Hash128: (2020.1.0a20 - 2022.2.0b16)
+    /// Vec<PPtr<Texture2D>>: (2017.1.0b1 - 2022.3.2f1)
+    pub textures: Vec<PPtr>,
+    /// Hash128: (2020.1.0b1 - 2022.3.2f1)
     pub currentPackingHash: Option<Hash128>,
 }
 
@@ -2240,95 +2503,97 @@ pub struct Camera {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_NormalizedViewPortRect: Rectf,
     /**The rendering path that should be used, if possible.*/
     pub m_RenderingPath: i32,
     /**Destination render texture.*/
-    pub m_TargetTexture: PPtr, /*<RenderTexture>*/
+    /// PPtr<RenderTexture>: (3.4.0 - 2022.3.2f1)
+    pub m_TargetTexture: PPtr,
     /**Is the camera orthographic (true) or perspective (false)?*/
     pub orthographic: bool,
     /**The distance of the far clipping plane from the Camera, in world units.*/
-    /// f32: (3.4.0 - 2022.2.0b16)
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "far clip plane")]
     pub far_clip_plane: Option<f32>,
     /**The vertical field of view of the Camera, in degrees.*/
-    /// f32: (3.4.0 - 2022.2.0b16)
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "field of view")]
     pub field_of_view: Option<f32>,
     /**Dynamic Resolution Scaling.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_AllowDynamicResolution: Option<bool>,
     /**MSAA rendering.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.6.0b1 - 2022.3.2f1)
     pub m_AllowMSAA: Option<bool>,
     /**The camera anamorphism. To use this property, enable UsePhysicalProperties.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub m_Anamorphism: Option<f32>,
     /**The camera aperture. To use this property, enable UsePhysicalProperties.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub m_Aperture: Option<f32>,
     /**The camera barrel clipping. To use this property, enable UsePhysicalProperties.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BarrelClipping: Option<f32>,
     /**The blade count in the lens of the camera. To use this property, enable UsePhysicalProperties.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BladeCount: Option<i32>,
     /**The curvature of the blades. To use this property, enable UsePhysicalProperties.*/
-    /// Vector2f: (2022.2.0b16 - 2022.2.0b16)
+    /// Vector2f: (2022.2.0b1 - 2022.3.2f1)
     pub m_Curvature: Option<Vector2f>,
     /**The camera focal length, expressed in millimeters. To use this property, enable UsePhysicalProperties.*/
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.2.0b1 - 2022.3.2f1)
     pub m_FocalLength: Option<f32>,
     /**The focus distance of the lens. To use this property, enable UsePhysicalProperties.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub m_FocusDistance: Option<f32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.6.0b1 - 2022.3.2f1)
     pub m_ForceIntoRT: Option<bool>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_GateFitMode: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub m_HDR: Option<bool>,
     /**The sensor sensitivity of the camera. To use this property, enable UsePhysicalProperties.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_Iso: Option<i32>,
     /**The lens offset of the camera. The lens shift is relative to the sensor size. For example, a lens shift of 0.5 offsets the sensor by half its horizontal size.*/
-    /// Vector2f: (2018.4.15f1 - 2022.2.0b16)
+    /// Vector2f: (2018.2.0b1 - 2022.3.2f1)
     pub m_LensShift: Option<Vector2f>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_OcclusionCulling: Option<bool>,
     /**The size of the camera sensor, expressed in millimeters.*/
-    /// Vector2f: (2018.4.15f1 - 2022.2.0b16)
+    /// Vector2f: (2018.2.0b1 - 2022.3.2f1)
     pub m_SensorSize: Option<Vector2f>,
     /**The exposure time of the camera, in seconts. To use this property, enable UsePhysicalProperties.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub m_ShutterSpeed: Option<f32>,
     /**Distance to a point where virtual eyes converge.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.5.0 - 2022.3.2f1)
     pub m_StereoConvergence: Option<f32>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.1.0f1 - 2017.2.0b10)
     pub m_StereoMirrorMode: Option<bool>,
     /**The distance between the virtual eyes. Use this to query or set the current eye separation. Note that most VR devices provide this value, in which case setting the value will have no effect.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.5.0 - 2022.3.2f1)
     pub m_StereoSeparation: Option<f32>,
     /**Set the target display for this Camera.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
-    pub m_TargetDisplay: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (4.5.0 - 5.2.5f1); i32: (5.3.0f1 - 2022.3.2f1)
+    pub m_TargetDisplay: Option<i64>,
+    /// i32: (5.1.3f1 - 2022.3.2f1)
     pub m_TargetEye: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_projectionMatrixMode: Option<i32>,
     /**The distance of the near clipping plane from the the Camera, in world units.*/
-    /// f32: (3.4.0 - 2022.2.0b16)
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "near clip plane")]
     pub near_clip_plane: Option<f32>,
     /**Camera's half-size when in orthographic mode.*/
-    /// f32: (3.4.0 - 2022.2.0b16)
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "orthographic size")]
     pub orthographic_size: Option<f32>,
 }
 
-/// Canvas is a  class of the Unity engine since version 5.6.0b2.
+/// Canvas is a  class of the Unity engine since version 4.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Canvas.html):
 /**
 Element that can be used for screen rendering.
@@ -2336,37 +2601,56 @@ Elements on a canvas are rendered AFTER Scene rendering, either from an attached
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Canvas {
-    pub m_Camera: PPtr, /*<Camera>*/
+    /// PPtr<Camera>: (4.5.0 - 2022.3.2f1)
+    pub m_Camera: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    /**Allows for nested canvases to override pixelPerfect settings inherited from parent canvases.*/
-    pub m_OverridePixelPerfect: bool,
-    /**Override the sorting of canvas.*/
-    pub m_OverrideSorting: bool,
+    /// PPtr<GameObject>: (4.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Force elements in the canvas to be aligned with pixels. Only applies with renderMode is Screen Space.*/
     pub m_PixelPerfect: bool,
-    /**How far away from the camera is the Canvas generated.*/
-    pub m_PlaneDistance: f32,
-    pub m_ReceivesEvents: bool,
     /**Is the Canvas in World or Overlay mode?*/
     pub m_RenderMode: i32,
-    pub m_SortingBucketNormalizedSize: f32,
-    /**Unique ID of the Canvas' sorting layer.*/
-    pub m_SortingLayerID: i32,
-    /**Canvas' order within a sorting layer.*/
-    pub m_SortingOrder: i16,
-    /**For Overlay mode, display index on which the UI canvas will appear.*/
-    pub m_TargetDisplay: i8,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f1 - 2022.3.2f1)
     pub m_AdditionalShaderChannelsFlag: Option<i32>,
+    /// f32: (4.5.0 - 4.5.5)
+    pub m_Alpha: Option<f32>,
+    /// bool: (4.5.0 - 4.5.5)
+    pub m_Normals: Option<bool>,
+    /**Allows for nested canvases to override pixelPerfect settings inherited from parent canvases.*/
+    /// bool: (4.6.0 - 2022.3.2f1)
+    pub m_OverridePixelPerfect: Option<bool>,
+    /**Override the sorting of canvas.*/
+    /// bool: (4.6.0 - 2022.3.2f1)
+    pub m_OverrideSorting: Option<bool>,
+    /**How far away from the camera is the Canvas generated.*/
+    /// f32: (4.6.0 - 2022.3.2f1)
+    pub m_PlaneDistance: Option<f32>,
+    /// bool: (4.5.0 - 4.5.5)
+    pub m_PositionUVs: Option<bool>,
+    /// bool: (4.6.0 - 2022.3.2f1)
+    pub m_ReceivesEvents: Option<bool>,
+    /// f32: (5.3.4f1 - 2022.3.2f1)
+    pub m_SortingBucketNormalizedSize: Option<f32>,
+    /**Unique ID of the Canvas' sorting layer.*/
+    /// u32: (4.6.0 - 4.7.2); i32: (5.0.0f4 - 2022.3.2f1)
+    pub m_SortingLayerID: Option<i64>,
+    /**Canvas' order within a sorting layer.*/
+    /// i16: (4.6.0 - 2022.3.2f1)
+    pub m_SortingOrder: Option<i16>,
+    /**For Overlay mode, display index on which the UI canvas will appear.*/
+    /// i8: (5.3.0f1 - 2022.3.2f1)
+    pub m_TargetDisplay: Option<i8>,
     /**Should the Canvas size be updated based on the render target when a manual Camera.Render call is performed.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub m_UpdateRectTransformForStandalone: Option<i32>,
+    /**Should the Canvas vertex color always be in gamma space before passing to the UI shaders in linear color space work flow.*/
+    /// bool: (2022.2.15f1 - 2022.3.2f1)
+    pub m_VertexColorAlwaysGammaSpace: Option<bool>,
 }
 
-/// CanvasGroup is a  class of the Unity engine since version 5.6.0b2.
+/// CanvasGroup is a  class of the Unity engine since version 4.6.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CanvasGroup.html):
 /**
 A Canvas placable element that can be used to modify children Alpha, Raycasting, Enabled state.
@@ -2386,17 +2670,19 @@ pub struct CanvasGroup {
     pub m_Alpha: f32,
     /**Does this group block raycasting (allow collision).*/
     pub m_BlocksRaycasts: bool,
-    /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
-    pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.6.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Should the group ignore parent groups?*/
     pub m_IgnoreParentGroups: bool,
     /**Is the group interactable (are the elements beneath the group enabled).*/
     pub m_Interactable: bool,
+    /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
+    /// u8: (4.6.1 - 2022.3.2f1)
+    pub m_Enabled: Option<u8>,
 }
 
-/// CanvasRenderer is a  class of the Unity engine since version 5.6.0b2.
+/// CanvasRenderer is a  class of the Unity engine since version 4.6.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CanvasRenderer.html):
 /**
 A component that will render to the screen after all normal rendering has completed when attached to a Canvas. Designed for GUI application.
@@ -2405,9 +2691,10 @@ See Also:Canvas.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CanvasRenderer {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.6.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Indicates whether geometry emitted by this renderer can be ignored when the vertex color alpha is close to zero for every vertex of the mesh.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub m_CullTransparentMesh: Option<bool>,
 }
 
@@ -2426,30 +2713,32 @@ pub struct CapsuleCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The height of the capsule measured in the object's local space.*/
     pub m_Height: f32,
     /**Specify if this collider is configured as a trigger.*/
     pub m_IsTrigger: bool,
     /**The material used by the collider.*/
-    pub m_Material: PPtr, /*<PhysicMaterial>*/
+    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The radius of the sphere, measured in the object's local space.*/
     pub m_Radius: f32,
     /**The additional layers that this Collider should exclude when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The additional layers that this Collider should include when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider used when there is a conflicting decision on whether a Collider can contact another Collider.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ProvidesContacts: Option<bool>,
 }
 
-/// CapsuleCollider2D is a  class of the Unity engine since version 5.6.0b2.
+/// CapsuleCollider2D is a  class of the Unity engine since version 5.5.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CapsuleCollider2D.html):
 /**
 A capsule-shaped primitive collider.
@@ -2464,39 +2753,42 @@ pub struct CapsuleCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.5.0f3 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
+    /// PPtr<PhysicsMaterial2D>: (5.5.0f3 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The local offset of the collider geometry.*/
     pub m_Offset: Vector2f,
     /**The width and height of the capsule area.*/
     pub m_Size: Vector2f,
-    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
-    pub m_UsedByComposite: bool,
     /**Whether the collider is used by an attached effector or not.*/
     pub m_UsedByEffector: bool,
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ContactCaptureLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The Layers that this Collider2D can receive forces from during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceReceiveLayers: Option<BitField>,
     /**The Layers that this Collider2D is allowed to send forces to during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceSendLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider2D used when there is a conflicting decision on whether a contact between itself and another Collision2D should happen or not.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
+    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
+    /// bool: (5.6.0b1 - 2022.3.2f1)
+    pub m_UsedByComposite: Option<bool>,
 }
 
 /// Channel is a sub class of the Unity engine since version 3.4.0.
@@ -2507,7 +2799,7 @@ pub struct Channel {
     pub curve: AnimationCurve,
 }
 
-/// ChannelInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// ChannelInfo is a sub class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/MPE.ChannelInfo.html):
 /**
 A structure that contains the connection information of a Channel in ChannelService.
@@ -2533,7 +2825,8 @@ pub struct CharacterController {
     /**The center of the character's capsule relative to the transform's position.*/
     pub m_Center: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The height of the character's capsule.*/
     pub m_Height: f32,
     /**Gets or sets the minimum move distance of the character controller.*/
@@ -2547,25 +2840,25 @@ pub struct CharacterController {
     /**The character controllers step offset in meters.*/
     pub m_StepOffset: f32,
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_Enabled: Option<bool>,
     /**The additional layers that this Collider should exclude when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The additional layers that this Collider should include when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**Specify if this collider is configured as a trigger.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_IsTrigger: Option<bool>,
     /**A decision priority assigned to this Collider used when there is a conflicting decision on whether a Collider can contact another Collider.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**The material used by the collider.*/
-    /// PPtr/*<PhysicMaterial>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_Material: Option<PPtr /*<PhysicMaterial>*/>,
+    /// PPtr<PhysicMaterial>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Material: Option<PPtr>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ProvidesContacts: Option<bool>,
 }
 
@@ -2582,11 +2875,11 @@ pub struct CharacterInfo {
     pub uv: Rectf,
     pub vert: Rectf,
     /**The horizontal distance, rounded to the nearest integer, from the origin of this character to the origin of the next character.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.3.0f1 - 2022.3.2f1)
     pub advance: Option<f32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub flipped: Option<bool>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.2.5f1)
     pub width: Option<f32>,
 }
 
@@ -2607,9 +2900,11 @@ pub struct CharacterJoint {
     /**The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.*/
     pub m_BreakTorque: f32,
     /**A reference to another rigidbody this joint connects to.*/
-    pub m_ConnectedBody: PPtr, /*<Rigidbody>*/
+    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    pub m_ConnectedBody: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The upper limit around the primary axis of the character joint.*/
     pub m_HighTwistLimit: SoftJointLimit,
     /**The lower limit around the primary axis of the character joint.*/
@@ -2621,44 +2916,62 @@ pub struct CharacterJoint {
     /**The secondary axis around which the joint can rotate.*/
     pub m_SwingAxis: Vector3f,
     /**Should the connectedAnchor be calculated automatically?*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_AutoConfigureConnectedAnchor: Option<bool>,
     /**Position of the anchor relative to the connected Rigidbody.*/
-    /// Vector3f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector3f: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedAnchor: Option<Vector3f>,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr/*<ArticulationBody>*/: (2020.3.42f1 - 2022.2.0b16)
-    pub m_ConnectedArticulationBody: Option<PPtr /*<ArticulationBody>*/>,
+    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_ConnectedMassScale: Option<f32>,
     /**Enable collision between bodies connected with the joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.5.0 - 2022.3.2f1)
     pub m_EnableCollision: Option<bool>,
     /**Toggle preprocessing for this joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_EnablePreprocessing: Option<bool>,
     /**Brings violated constraints back into alignment even when the solver fails.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_EnableProjection: Option<bool>,
+    /// bool: (2017.1.0b2 - 2017.1.0b5)
+    pub m_Enabled: Option<bool>,
     /**The scale to apply to the inverse mass and inertia tensor of the body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_MassScale: Option<f32>,
     /**Set the angular tolerance threshold (in degrees) for projection.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_ProjectionAngle: Option<f32>,
     /**Set the linear tolerance threshold for projection.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_ProjectionDistance: Option<f32>,
     /**The configuration of the spring attached to the swing limits of the joint.*/
-    /// SoftJointLimitSpring: (5.6.0b2 - 2022.2.0b16)
+    /// SoftJointLimitSpring: (5.0.0f4 - 2022.3.2f1)
     pub m_SwingLimitSpring: Option<SoftJointLimitSpring>,
     /**The configuration of the spring attached to the twist limits of the joint.*/
-    /// SoftJointLimitSpring: (5.6.0b2 - 2022.2.0b16)
+    /// SoftJointLimitSpring: (5.0.0f4 - 2022.3.2f1)
     pub m_TwistLimitSpring: Option<SoftJointLimitSpring>,
 }
 
-/// ChildAnimatorState is a sub class of the Unity engine since version 5.6.0b2.
+/// Child is a sub class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Child {
+    pub m_IsAnim: bool,
+    /// PPtr<Motion>: (4.0.0 - 4.7.2)
+    pub m_Motion: PPtr,
+    pub m_Threshold: f32,
+    pub m_TimeScale: f32,
+    /// f32: (4.1.0 - 4.7.2)
+    pub m_CycleOffset: Option<f32>,
+    /// bool: (4.1.0 - 4.7.2)
+    pub m_Mirror: Option<bool>,
+    /// Vector2f: (4.1.0 - 4.7.2)
+    pub m_Position: Option<Vector2f>,
+}
+
+/// ChildAnimatorState is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.ChildAnimatorState.html):
 /**
 Structure that represents a state in the context of its parent state machine.
@@ -2668,10 +2981,11 @@ pub struct ChildAnimatorState {
     /**The position the the state node in the context of its parent state machine.*/
     pub m_Position: Vector3f,
     /**The state.*/
-    pub m_State: PPtr, /*<AnimatorState>*/
+    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    pub m_State: PPtr,
 }
 
-/// ChildAnimatorStateMachine is a sub class of the Unity engine since version 5.6.0b2.
+/// ChildAnimatorStateMachine is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.ChildAnimatorStateMachine.html):
 /**
 Structure that represents a state machine in the context of its parent state machine.
@@ -2681,10 +2995,11 @@ pub struct ChildAnimatorStateMachine {
     /**The position of the state machine node in the context of its parent state machine.*/
     pub m_Position: Vector3f,
     /**The state machine.*/
-    pub m_StateMachine: PPtr, /*<AnimatorStateMachine>*/
+    /// PPtr<AnimatorStateMachine>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StateMachine: PPtr,
 }
 
-/// ChildMotion is a sub class of the Unity engine since version 5.6.0b2.
+/// ChildMotion is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.ChildMotion.html):
 /**
 Structure that represents a motion in the context of its parent blend tree.
@@ -2698,7 +3013,8 @@ pub struct ChildMotion {
     /**Mirror of the child.*/
     pub m_Mirror: bool,
     /**The motion itself.*/
-    pub m_Motion: PPtr, /*<Motion>*/
+    /// PPtr<Motion>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Motion: PPtr,
     /**The position of the child. Used in 2D blend trees.*/
     pub m_Position: Vector2f,
     /**The threshold of the child. Used in 1D blend trees.*/
@@ -2707,7 +3023,7 @@ pub struct ChildMotion {
     pub m_TimeScale: f32,
 }
 
-/// CircleCollider2D is a  class of the Unity engine since version 5.6.0b2.
+/// CircleCollider2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CircleCollider2D.html):
 /**
 Collider for 2D physics representing an circle.
@@ -2715,66 +3031,75 @@ See Also: BoxCollider class, PolygonCollider2D class.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CircleCollider2D {
-    /**The density of the collider used to calculate its mass (when auto mass is enabled).*/
-    pub m_Density: f32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
-    /**The local offset of the collider geometry.*/
-    pub m_Offset: Vector2f,
+    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**Radius of the circle.*/
     pub m_Radius: f32,
-    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
-    pub m_UsedByComposite: bool,
-    /**Whether the collider is used by an attached effector or not.*/
-    pub m_UsedByEffector: bool,
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
+    /// Vector2f: (4.3.0 - 4.7.2)
+    pub m_Center: Option<Vector2f>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ContactCaptureLayers: Option<BitField>,
+    /**The density of the collider used to calculate its mass (when auto mass is enabled).*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_Density: Option<f32>,
     /**The additional Layers that this Collider2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The Layers that this Collider2D can receive forces from during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceReceiveLayers: Option<BitField>,
     /**The Layers that this Collider2D is allowed to send forces to during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceSendLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider2D used when there is a conflicting decision on whether a contact between itself and another Collision2D should happen or not.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
+    /**The local offset of the collider geometry.*/
+    /// Vector2f: (5.0.0f4 - 2022.3.2f1)
+    pub m_Offset: Option<Vector2f>,
+    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
+    /// bool: (5.6.0b1 - 2022.3.2f1)
+    pub m_UsedByComposite: Option<bool>,
+    /**Whether the collider is used by an attached effector or not.*/
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub m_UsedByEffector: Option<bool>,
 }
 
-/// ClampVelocityModule is a sub class of the Unity engine since version 5.6.0b2.
+/// ClampVelocityModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClampVelocityModule {
     pub dampen: f32,
     pub enabled: bool,
-    pub inWorldSpace: bool,
     pub magnitude: MinMaxCurve,
     pub separateAxis: bool,
     pub x: MinMaxCurve,
     pub y: MinMaxCurve,
     pub z: MinMaxCurve,
-    /// MinMaxCurve: (2017.4.33f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2017.2.0b2 - 2022.3.2f1)
     pub drag: Option<MinMaxCurve>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
+    pub inWorldSpace: Option<bool>,
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub multiplyDragByParticleSize: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub multiplyDragByParticleVelocity: Option<bool>,
 }
 
-/// ClassInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// ClassInfo is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClassInfo {
     pub m_AssemblyNameIndex: i32,
@@ -2783,9 +3108,11 @@ pub struct ClassInfo {
     pub m_MethodIndex: i32,
     pub m_NamespaceIndex: i32,
     pub m_NumOfMethods: i32,
+    /// String: (2019.4.29f1 - 2019.4.40f1)
+    pub m_NamespaceName: Option<String>,
 }
 
-/// ClassMethodInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// ClassMethodInfo is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClassMethodInfo {
     pub m_ClassIndex: i32,
@@ -2793,14 +3120,15 @@ pub struct ClassMethodInfo {
     pub m_OrderNumber: i32,
 }
 
-/// Clip is a sub class of the Unity engine since version 5.6.0b2.
+/// Clip is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Clip {
-    pub m_ConstantClip: ConstantClip,
     pub m_DenseClip: DenseClip,
     pub m_StreamedClip: StreamedClip,
-    /// Box<OffsetPtr>: (5.6.0b2 - 2017.4.33f1)
+    /// Box<OffsetPtr>: (4.0.0 - 2018.2.21f1)
     pub m_Binding: Option<Box<OffsetPtr>>,
+    /// ConstantClip: (4.3.0 - 2022.3.2f1)
+    pub m_ConstantClip: Option<ConstantClip>,
 }
 
 /// ClipAnimationInfo is a sub class of the Unity engine since version 3.4.0.
@@ -2810,54 +3138,58 @@ pub struct ClipAnimationInfo {
     pub lastFrame: Enum_i32__f32,
     pub name: String,
     pub wrapMode: i32,
-    /// bool: (3.4.0 - 2022.2.0b16)
+    /// bool: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "loop")]
     pub _loop: Option<bool>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.3.0f1 - 2022.3.2f1)
     pub additiveReferencePoseFrame: Option<f32>,
-    /// Vec<u32>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u32>: (4.0.0 - 2022.3.2f1)
     pub bodyMask: Option<Vec<u32>>,
-    /// Vec<ClipAnimationInfoCurve>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<ClipAnimationInfoCurve>: (4.0.0 - 2022.3.2f1)
     pub curves: Option<Vec<ClipAnimationInfoCurve>>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.0.0 - 2022.3.2f1)
     pub cycleOffset: Option<f32>,
-    /// Vec<AnimationEvent>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<AnimationEvent>: (4.3.0 - 2022.3.2f1)
     pub events: Option<Vec<AnimationEvent>>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.3.0f1 - 2022.3.2f1)
     pub hasAdditiveReferencePose: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub heightFromFeet: Option<bool>,
-    /// i64: (2019.3.0f4 - 2022.2.0b16)
+    /// i64: (2019.1.0b1 - 2022.3.2f1)
     pub internalID: Option<i64>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 4.0.1)
+    pub keepAdditionalBonesAnimation: Option<bool>,
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub keepOriginalOrientation: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub keepOriginalPositionXZ: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub keepOriginalPositionY: Option<bool>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.0.0 - 2022.3.2f1)
     pub level: Option<f32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub loopBlend: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub loopBlendOrientation: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub loopBlendPositionXZ: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub loopBlendPositionY: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub loopTime: Option<bool>,
-    /// PPtr/*<AvatarMask>*/: (5.6.0b2 - 2022.2.0b16)
-    pub maskSource: Option<PPtr /*<AvatarMask>*/>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<AvatarMask>: (4.3.0 - 2022.3.2f1)
+    pub maskSource: Option<PPtr>,
+    /// i32: (4.3.0 - 2022.3.2f1)
     pub maskType: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub mirror: Option<bool>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.0.0 - 2022.3.2f1)
     pub orientationOffsetY: Option<f32>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<AvatarSkeletonMaskElement>: (4.0.0 - 4.0.1)
+    pub skeletonMaskElements: Option<Vec<AvatarSkeletonMaskElement>>,
+    /// String: (4.0.0 - 2022.3.2f1)
     pub takeName: Option<String>,
-    /// Vec<TransformMaskElement>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<TransformMaskElement>: (4.1.0 - 2022.3.2f1)
     pub transformMask: Option<Vec<TransformMaskElement>>,
 }
 
@@ -2868,7 +3200,7 @@ pub enum Enum_i32__f32 {
     f32(f32),
 }
 
-/// ClipAnimationInfoCurve is a sub class of the Unity engine since version 5.6.0b2.
+/// ClipAnimationInfoCurve is a sub class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ClipAnimationInfoCurve.html):
 /**
 Stores a curve and its name that will be used to create additional curves during the import process.
@@ -2881,11 +3213,11 @@ pub struct ClipAnimationInfoCurve {
     pub name: String,
 }
 
-/// ClipMuscleConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// ClipMuscleConstant is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClipMuscleConstant {
     pub m_AverageAngularSpeed: f32,
-    pub m_AverageSpeed: float3,
+    pub m_AverageSpeed: Enum_float4__float3,
     pub m_Clip: OffsetPtr,
     pub m_CycleOffset: f32,
     pub m_DeltaPose: HumanPose,
@@ -2900,20 +3232,37 @@ pub struct ClipMuscleConstant {
     pub m_LoopBlendOrientation: bool,
     pub m_LoopBlendPositionXZ: bool,
     pub m_LoopBlendPositionY: bool,
-    pub m_LoopTime: bool,
     pub m_Mirror: bool,
     pub m_OrientationOffsetY: f32,
     pub m_RightFootStartX: xform,
-    pub m_StartAtOrigin: bool,
     pub m_StartTime: f32,
     pub m_StartX: xform,
     pub m_StopTime: f32,
-    pub m_StopX: xform,
     pub m_ValueArrayDelta: Vec<ValueDelta>,
-    pub m_ValueArrayReferencePose: Vec<f32>,
+    /// Vec<i32>: (4.0.0 - 4.2.2)
+    pub m_AdditionalCurveIndexArray: Option<Vec<i32>>,
+    /// bool: (4.3.0 - 2022.3.2f1)
+    pub m_LoopTime: Option<bool>,
+    /// xform: (4.0.0 - 4.7.2)
+    pub m_MotionStartX: Option<xform>,
+    /// xform: (4.0.0 - 4.7.2)
+    pub m_MotionStopX: Option<xform>,
+    /// bool: (5.5.0f3 - 2022.3.2f1)
+    pub m_StartAtOrigin: Option<bool>,
+    /// xform: (5.5.0f3 - 2022.3.2f1)
+    pub m_StopX: Option<xform>,
+    /// Vec<f32>: (5.3.0f1 - 2022.3.2f1)
+    pub m_ValueArrayReferencePose: Option<Vec<f32>>,
 }
 
-/// Cloth is a  class of the Unity engine since version 5.6.0b2.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_float4__float3 {
+    float4(float4),
+    float3(float3),
+}
+
+/// Cloth is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Cloth.html):
 /**
 The Cloth class provides an interface to cloth simulation physics.
@@ -2923,7 +3272,8 @@ pub struct Cloth {
     /**Bending stiffness of the cloth.*/
     pub m_BendingStiffness: f32,
     /**An array of CapsuleColliders which this Cloth instance should collide with.*/
-    pub m_CapsuleColliders: Vec<PPtr /*<CapsuleCollider>*/>,
+    /// Vec<PPtr<CapsuleCollider>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_CapsuleColliders: Vec<PPtr>,
     /**The cloth skinning coefficients used to set up how the cloth interacts with the skinned mesh.*/
     pub m_Coefficients: Vec<ClothConstrainCoefficients>,
     /**How much to increase mass of colliding particles.*/
@@ -2937,15 +3287,16 @@ pub struct Cloth {
     /**The friction of the cloth when colliding with the character.*/
     pub m_Friction: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**A random, external acceleration applied to the cloth.*/
     pub m_RandomAcceleration: Vector3f,
     /**Cloth's sleep threshold.*/
     pub m_SleepThreshold: f32,
-    pub m_SolverFrequency: f32,
+    pub m_SolverFrequency: Enum_u32__f32,
     /**An array of ClothSphereColliderPairs which this Cloth instance should collide with.*/
-    pub m_SphereColliders:
-        Vec<Enum_PPtr___SphereCollider_____PPtr___SphereCollider______ClothSphereColliderPair>,
+    /// Vec<(PPtr<SphereCollider>, PPtr<SphereCollider>)>: (5.0.0f4 - 2019.1.0a10); Vec<ClothSphereColliderPair>: (2019.1.0b1 - 2022.3.2f1)
+    pub m_SphereColliders: Vec<Enum_PPtr__PPtr___ClothSphereColliderPair>,
     /**Stretching stiffness of the cloth.*/
     pub m_StretchingStiffness: f32,
     pub m_UseContinuousCollision: bool,
@@ -2957,39 +3308,35 @@ pub struct Cloth {
     pub m_WorldAccelerationScale: f32,
     /**How much world-space movement of the character will affect cloth vertices.*/
     pub m_WorldVelocityScale: f32,
-    /// Vec<u32>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<u32>: (2017.3.0b1 - 2022.3.2f1)
     pub m_SelfAndInterCollisionIndices: Option<Vec<u32>>,
     /**Minimum distance at which two cloth particles repel each other (default: 0.0).*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.3.0b1 - 2022.3.2f1)
     pub m_SelfCollisionDistance: Option<f32>,
     /**Self-collision stiffness defines how strong the separating impulse should be for colliding particles.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.3.0b1 - 2022.3.2f1)
     pub m_SelfCollisionStiffness: Option<f32>,
     /**Add one virtual particle per triangle to improve collision stability.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_UseVirtualParticles: Option<bool>,
-    /// Vec<u32>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<u32>: (2017.3.0b1 - 2022.3.2f1)
     pub m_VirtualParticleIndices: Option<Vec<u32>>,
-    /// Vec<Vector3f>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<Vector3f>: (2017.3.0b1 - 2022.3.2f1)
     pub m_VirtualParticleWeights: Option<Vec<Vector3f>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_PPtr___SphereCollider_____PPtr___SphereCollider______ClothSphereColliderPair {
-    PPtr___SphereCollider_____PPtr___SphereCollider___(
-        (
-            PPtr, /*<SphereCollider>*/
-            PPtr, /*<SphereCollider>*/
-        ),
-    ),
+pub enum Enum_PPtr__PPtr___ClothSphereColliderPair {
+    PPtr__PPtr((PPtr, PPtr)),
     ClothSphereColliderPair(ClothSphereColliderPair),
 }
 
 /// ClothAttachment is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClothAttachment {
-    pub m_Collider: PPtr, /*<Collider>*/
+    /// PPtr<Collider>: (3.4.0 - 4.7.2)
+    pub m_Collider: PPtr,
     pub m_Tearable: bool,
     pub m_TwoWayInteraction: bool,
 }
@@ -2999,9 +3346,9 @@ pub struct ClothAttachment {
 pub struct ClothConstrainCoefficients {
     pub collisionSphereDistance: f32,
     pub maxDistance: f32,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub collisionSphereRadius: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub maxDistanceBias: Option<f32>,
 }
 
@@ -3010,17 +3357,30 @@ pub struct ClothConstrainCoefficients {
 pub struct ClothRenderer {
     pub m_CastShadows: bool,
     pub m_Enabled: bool,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    pub m_GameObject: PPtr,
     pub m_LightmapIndex: u8,
     pub m_LightmapTilingOffset: Vector4f,
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (3.4.0 - 4.7.2)
+    pub m_Materials: Vec<PPtr>,
     pub m_PauseWhenNotVisible: bool,
     pub m_ReceiveShadows: bool,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (3.4.0 - 4.7.2)
+    pub m_StaticBatchRoot: PPtr,
     pub m_SubsetIndices: Vec<u32>,
+    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    pub m_LightProbeAnchor: Option<PPtr>,
+    /// i16: (4.3.0 - 4.3.4)
+    pub m_SortingLayer: Option<i16>,
+    /// u32: (4.5.0 - 4.7.2)
+    pub m_SortingLayerID: Option<u32>,
+    /// i16: (4.3.0 - 4.7.2)
+    pub m_SortingOrder: Option<i16>,
+    /// bool: (3.5.0 - 4.7.2)
+    pub m_UseLightProbes: Option<bool>,
 }
 
-/// ClothSphereColliderPair is a sub class of the Unity engine since version 2019.3.0f4.
+/// ClothSphereColliderPair is a sub class of the Unity engine since version 2019.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ClothSphereColliderPair.html):
 /**
 A pair of SphereColliders used to define shapes for Cloth objects to collide against.
@@ -3029,16 +3389,26 @@ A ClothSphereColliderPair can contain either a single valid SphereCollider insta
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClothSphereColliderPair {
     /**The first SphereCollider of a ClothSphereColliderPair.*/
-    pub first: PPtr, /*<SphereCollider>*/
+    /// PPtr<SphereCollider>: (2019.1.0b1 - 2022.3.2f1)
+    pub first: PPtr,
     /**The second SphereCollider of a ClothSphereColliderPair.*/
-    pub second: PPtr, /*<SphereCollider>*/
+    /// PPtr<SphereCollider>: (2019.1.0b1 - 2022.3.2f1)
+    pub second: PPtr,
 }
 
-/// CloudWebServicesManager is a  class of the Unity engine since version 5.6.0b2.
+/// CloudServiceHandlerBehaviour is a  class of the Unity engine since version 5.1.0f1.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CloudServiceHandlerBehaviour {
+    pub m_Enabled: u8,
+    /// PPtr<GameObject>: (5.1.0f1 - 5.1.5f1)
+    pub m_GameObject: PPtr,
+}
+
+/// CloudWebServicesManager is a  class of the Unity engine since version 5.1.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CloudWebServicesManager {}
 
-/// ClusterInput is a sub class of the Unity engine since version 5.6.0b2.
+/// ClusterInput is a sub class of the Unity engine since version 5.3.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ClusterInput.html):
 /**
 Interface for reading and writing inputs in a Unity Cluster.
@@ -3053,19 +3423,19 @@ pub struct ClusterInput {
     pub m_Type: i32,
 }
 
-/// ClusterInputManager is a  class of the Unity engine since version 5.6.0b2.
+/// ClusterInputManager is a  class of the Unity engine since version 5.3.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClusterInputManager {
     pub m_Inputs: Vec<ClusterInput>,
 }
 
-/// CollabEditorSettings is a sub class of the Unity engine since version 2017.4.33f1.
+/// CollabEditorSettings is a sub class of the Unity engine since version 2017.1.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CollabEditorSettings {
     pub inProgressEnabled: bool,
 }
 
-/// CollisionModule is a sub class of the Unity engine since version 5.6.0b2.
+/// CollisionModule is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.CollisionModule.html):
 /**
 Script interface for the CollisionModule of a Particle System.
@@ -3073,64 +3443,87 @@ See Also: ParticleSystem, ParticleSystem.collision.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CollisionModule {
-    /**Control which Layers this Particle System collides with.*/
-    pub collidesWith: BitField,
-    pub collidesWithDynamic: bool,
-    pub collisionMessages: bool,
-    pub collisionMode: i32,
     /**Specifies whether the CollisionModule is enabled or disabled.*/
     pub enabled: bool,
-    pub interiorCollisions: bool,
-    /**How much force is applied to each particle after a collision.*/
-    pub m_Bounce: MinMaxCurve,
-    /**How much speed does each particle lose after a collision.*/
-    pub m_Dampen: MinMaxCurve,
-    pub m_EnergyLossOnCollision: MinMaxCurve,
-    /**The maximum number of collision shapes Unity considers for particle collisions. It ignores excess shapes. Terrains take priority.*/
-    pub maxCollisionShapes: i32,
-    /**Kill particles whose speed goes above this threshold, after a collision.*/
-    pub maxKillSpeed: f32,
     /**Kill particles whose speed falls below this threshold, after a collision.*/
     pub minKillSpeed: f32,
-    /**Specifies the accuracy of particle collisions against colliders in the Scene.*/
-    pub quality: i32,
-    /**A multiplier that Unity applies to the size of each particle before collisions are processed.*/
-    pub radiusScale: f32,
-    /**Size of voxels in the collision cache.*/
-    pub voxelSize: f32,
     /**The type of particle collision to perform.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
+    /**How much force is applied to each particle after a collision.*/
+    /// f32: (3.5.0 - 5.2.5f1)
+    pub bounce: Option<f32>,
     /**How much force is applied to a Collider when hit by particles from this Particle System.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b1 - 2022.3.2f1)
     pub colliderForce: Option<f32>,
-    /// Vec<PPtr/*<Transform>*/>: (2020.3.42f1 - 2022.2.0b16)
-    pub m_Planes: Option<Vec<PPtr /*<Transform>*/>>,
+    /**Control which Layers this Particle System collides with.*/
+    /// BitField: (4.0.0 - 2022.3.2f1)
+    pub collidesWith: Option<BitField>,
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub collidesWithDynamic: Option<bool>,
+    /// bool: (4.2.0 - 2022.3.2f1)
+    pub collisionMessages: Option<bool>,
+    /// i32: (5.3.0f1 - 2022.3.2f1)
+    pub collisionMode: Option<i32>,
+    /**How much speed does each particle lose after a collision.*/
+    /// f32: (3.5.0 - 5.2.5f1)
+    pub dampen: Option<f32>,
+    /// f32: (3.5.0 - 5.2.5f1)
+    pub energyLossOnCollision: Option<f32>,
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub interiorCollisions: Option<bool>,
+    /**How much force is applied to each particle after a collision.*/
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub m_Bounce: Option<MinMaxCurve>,
+    /**How much speed does each particle lose after a collision.*/
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub m_Dampen: Option<MinMaxCurve>,
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub m_EnergyLossOnCollision: Option<MinMaxCurve>,
+    /// Vec<PPtr<Transform>>: (2020.2.0b1 - 2022.3.2f1)
+    pub m_Planes: Option<Vec<PPtr>>,
+    /**The maximum number of collision shapes Unity considers for particle collisions. It ignores excess shapes. Terrains take priority.*/
+    /// i32: (5.3.0f1 - 2022.3.2f1)
+    pub maxCollisionShapes: Option<i32>,
+    /**Kill particles whose speed goes above this threshold, after a collision.*/
+    /// f32: (5.4.0f3 - 2022.3.2f1)
+    pub maxKillSpeed: Option<f32>,
     /**Specifies whether the physics system considers the collision angle when it applies forces from particles to Colliders.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub multiplyColliderForceByCollisionAngle: Option<bool>,
     /**Specifies whether the physics system considers particle sizes when it applies forces to Colliders.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub multiplyColliderForceByParticleSize: Option<bool>,
     /**Specifies whether the physics system considers particle speeds when it applies forces to Colliders.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub multiplyColliderForceByParticleSpeed: Option<bool>,
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2020.1.0a20)
-    pub plane0: Option<PPtr /*<Transform>*/>,
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2020.1.0a20)
-    pub plane1: Option<PPtr /*<Transform>*/>,
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2020.1.0a20)
-    pub plane2: Option<PPtr /*<Transform>*/>,
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2020.1.0a20)
-    pub plane3: Option<PPtr /*<Transform>*/>,
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2020.1.0a20)
-    pub plane4: Option<PPtr /*<Transform>*/>,
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2020.1.0a20)
-    pub plane5: Option<PPtr /*<Transform>*/>,
+    /// f32: (4.0.0 - 5.2.5f1)
+    pub particleRadius: Option<f32>,
+    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    pub plane0: Option<PPtr>,
+    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    pub plane1: Option<PPtr>,
+    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    pub plane2: Option<PPtr>,
+    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    pub plane3: Option<PPtr>,
+    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    pub plane4: Option<PPtr>,
+    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    pub plane5: Option<PPtr>,
+    /**Specifies the accuracy of particle collisions against colliders in the Scene.*/
+    /// i32: (4.0.0 - 2022.3.2f1)
+    pub quality: Option<i32>,
+    /**A multiplier that Unity applies to the size of each particle before collisions are processed.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub radiusScale: Option<f32>,
+    /**Size of voxels in the collision cache.*/
+    /// f32: (4.0.0 - 2022.3.2f1)
+    pub voxelSize: Option<f32>,
 }
 
-/// ColorBySpeedModule is a sub class of the Unity engine since version 5.6.0b2.
+/// ColorBySpeedModule is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.ColorBySpeedModule.html):
 /**
 Script interface for the ColorBySpeedModule of a Particle System.
@@ -3145,7 +3538,7 @@ pub struct ColorBySpeedModule {
     pub range: Vector2f,
 }
 
-/// ColorModule is a sub class of the Unity engine since version 5.6.0b2.
+/// ColorModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ColorModule {
     pub enabled: bool,
@@ -3155,15 +3548,15 @@ pub struct ColorModule {
 /// ColorRGBA is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ColorRGBA {
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub a: Option<f32>,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub b: Option<f32>,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub g: Option<f32>,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub r: Option<f32>,
-    /// u32: (3.4.0 - 2017.4.33f1)
+    /// u32: (3.4.0 - 2018.2.21f1)
     pub rgba: Option<u32>,
 }
 
@@ -3177,16 +3570,18 @@ See Also: ScriptableObject as a way to create scripts that do not attach to any 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Component {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
 }
 
-/// ComponentPair is a sub class of the Unity engine since version 5.6.0b2.
+/// ComponentPair is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComponentPair {
-    pub component: PPtr, /*<Component>*/
+    /// PPtr<Component>: (5.5.0f3 - 2022.3.2f1)
+    pub component: PPtr,
 }
 
-/// CompositeCollider2D is a  class of the Unity engine since version 5.6.0b2.
+/// CompositeCollider2D is a  class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CompositeCollider2D.html):
 /**
 A Collider that can merge other Colliders together.
@@ -3201,14 +3596,16 @@ pub struct CompositeCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.6.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Specifies when to generate the Composite Collider geometry.*/
     pub m_GenerationType: i32,
     /**Specifies the type of geometry the Composite Collider should generate.*/
     pub m_GeometryType: i32,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
+    /// PPtr<PhysicsMaterial2D>: (5.6.0b1 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The local offset of the collider geometry.*/
     pub m_Offset: Vector2f,
     /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
@@ -3218,36 +3615,36 @@ pub struct CompositeCollider2D {
     /**Controls the minimum distance allowed between generated vertices.*/
     pub m_VertexDistance: f32,
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
-    /// PPtr/*<GameObject>*/: (2022.2.0b16 - 2022.2.0b16)
-    pub m_CompositeGameObject: Option<PPtr /*<GameObject>*/>,
+    /// PPtr<GameObject>: (2022.1.18f1 - 2022.3.2f1)
+    pub m_CompositeGameObject: Option<PPtr>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ContactCaptureLayers: Option<BitField>,
     /**Controls the radius of all edges created by the Collider.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (5.6.0f1 - 2022.3.2f1)
     pub m_EdgeRadius: Option<f32>,
     /**The additional Layers that this Collider2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The Layers that this Collider2D can receive forces from during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceReceiveLayers: Option<BitField>,
     /**The Layers that this Collider2D is allowed to send forces to during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceSendLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider2D used when there is a conflicting decision on whether a contact between itself and another Collision2D should happen or not.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**Vertices are offset by this distance when compositing multiple physic shapes. Any vertices between shapes within this distance are combined.*/
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.3f1 - 2022.3.2f1)
     pub m_OffsetDistance: Option<f32>,
     /**When the value is true, the Collider uses an additional Delaunay triangulation step to produce the Collider mesh. When the value is false, this additional step does not occur.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_UseDelaunayMesh: Option<bool>,
 }
 
@@ -3274,22 +3671,24 @@ pub struct CompressedMesh {
     pub m_UV: PackedBitVector,
     pub m_Vertices: PackedBitVector,
     pub m_Weights: PackedBitVector,
-    /// PackedBitVector: (3.4.0 - 3.4.0)
+    /// PackedBitVector: (3.4.0 - 4.7.2)
     pub m_BindPoses: Option<PackedBitVector>,
-    /// PackedBitVector: (5.6.0b2 - 2022.2.0b16)
+    /// PackedBitVector: (3.5.0 - 4.7.2)
+    pub m_Colors: Option<PackedBitVector>,
+    /// PackedBitVector: (5.0.0f4 - 2022.3.2f1)
     pub m_FloatColors: Option<PackedBitVector>,
-    /// u32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (5.0.0f4 - 2022.3.2f1)
     pub m_UVInfo: Option<u32>,
 }
 
-/// ComputeBufferCounter is a sub class of the Unity engine since version 5.6.0b2.
+/// ComputeBufferCounter is a sub class of the Unity engine since version 5.2.3f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeBufferCounter {
     pub bindpoint: i32,
     pub offset: i32,
 }
 
-/// ComputeShader is a  class of the Unity engine since version 5.6.0b2.
+/// ComputeShader is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ComputeShader.html):
 /**
 Compute Shader asset.
@@ -3301,7 +3700,12 @@ They correspond to compute shader assets in the project (.compute files).Compute
 pub struct ComputeShader {
     /**The name of the object.*/
     pub m_Name: String,
-    pub variants: Vec<Enum_ComputeShaderPlatformVariant__ComputeShaderVariant>,
+    /// Vec<ComputeShaderCB>: (4.0.0 - 4.7.2)
+    pub constantBuffers: Option<Vec<ComputeShaderCB>>,
+    /// Vec<ComputeShaderKernel>: (4.0.0 - 4.7.2)
+    pub kernels: Option<Vec<ComputeShaderKernel>>,
+    /// Vec<ComputeShaderVariant>: (5.0.0f4 - 2020.1.0a8); Vec<ComputeShaderPlatformVariant>: (2020.1.0b1 - 2022.3.2f1)
+    pub variants: Option<Vec<Enum_ComputeShaderPlatformVariant__ComputeShaderVariant>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -3311,48 +3715,59 @@ pub enum Enum_ComputeShaderPlatformVariant__ComputeShaderVariant {
     ComputeShaderVariant(ComputeShaderVariant),
 }
 
-/// ComputeShaderBuiltinSampler is a sub class of the Unity engine since version 5.6.0b2.
+/// ComputeShaderBuiltinSampler is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderBuiltinSampler {
     pub bindPoint: i32,
     pub sampler: i64,
 }
 
-/// ComputeShaderCB is a sub class of the Unity engine since version 5.6.0b2.
+/// ComputeShaderCB is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderCB {
     pub byteSize: i32,
-    pub name: String,
+    pub name: Enum_FastPropertyName__String,
     pub params: Vec<ComputeShaderParam>,
 }
 
-/// ComputeShaderImporter is a  class of the Unity engine since version 5.6.0b2.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_FastPropertyName__String {
+    FastPropertyName(FastPropertyName),
+    String(String),
+}
+
+/// ComputeShaderImporter is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ComputeShaderImporter.html):
 /**
 Define compute shader import settings in the Unity Editor.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderImporter {
-    /**Get or set the AssetBundle name.*/
-    pub m_AssetBundleName: String,
-    /**Get or set the AssetBundle variant.*/
-    pub m_AssetBundleVariant: String,
     /**The name of the object.*/
     pub m_Name: String,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// u32: (5.6.0b2 - 2020.3.42f1)
+    /**Get or set the AssetBundle name.*/
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleName: Option<String>,
+    /**Get or set the AssetBundle variant.*/
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleVariant: Option<String>,
+    /// u32: (5.3.2f1 - 2020.3.48f1)
     pub m_CurrentAPIMask: Option<u32>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
+    /// i32: (5.0.0f4 - 5.3.1f1)
+    pub m_CurrentBuildTarget: Option<i32>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**This property has no effect.*/
-    /// i32: (2020.3.42f1 - 2021.2.16f1)
+    /// i32: (2020.2.0b1 - 2022.1.0a9)
     pub m_PreprocessorOverride: Option<i32>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// ComputeShaderKernel is a sub class of the Unity engine since version 5.6.0b2.
+/// ComputeShaderKernel is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderKernel {
     pub builtinSamplers: Vec<ComputeShaderBuiltinSampler>,
@@ -3361,49 +3776,50 @@ pub struct ComputeShaderKernel {
     pub inBuffers: Vec<ComputeShaderResource>,
     pub outBuffers: Vec<ComputeShaderResource>,
     pub textures: Vec<ComputeShaderResource>,
-    pub threadGroupSize: Vec<u32>,
-    /// Vec<u32>: (2020.1.0a20 - 2022.2.0b16)
+    /// Vec<u32>: (2020.1.0b1 - 2022.3.2f1)
     pub cbVariantIndices: Option<Vec<u32>>,
-    /// String: (5.6.0b2 - 2019.3.0f4)
-    pub name: Option<String>,
-    /// i64: (2021.2.16f1 - 2022.2.0b16)
+    /// FastPropertyName: (4.0.0 - 5.5.6f1); String: (5.6.0b1 - 2020.1.0a8)
+    pub name: Option<Enum_FastPropertyName__String>,
+    /// i64: (2021.1.0b1 - 2022.3.2f1)
     pub requirements: Option<i64>,
+    /// Vec<u32>: (5.4.0f3 - 2022.3.2f1)
+    pub threadGroupSize: Option<Vec<u32>>,
 }
 
-/// ComputeShaderKernelParent is a sub class of the Unity engine since version 2020.1.0a20.
+/// ComputeShaderKernelParent is a sub class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderKernelParent {
     pub name: String,
-    /// Vec<String>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<String>: (2022.1.0b1 - 2022.3.2f1)
     pub dynamicKeywords: Option<Vec<String>>,
-    /// Vec<String>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<String>: (2020.2.0b1 - 2022.3.2f1)
     pub globalKeywords: Option<Vec<String>>,
-    /// Vec<String>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<String>: (2020.2.0b1 - 2022.3.2f1)
     pub localKeywords: Option<Vec<String>>,
-    /// Vec<ComputeShaderKernel>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<ComputeShaderKernel>: (2022.1.0b1 - 2022.3.2f1)
     pub uniqueVariants: Option<Vec<ComputeShaderKernel>>,
-    /// Vec<String>: (2020.1.0a20 - 2020.1.0a20)
+    /// Vec<String>: (2020.1.0b1 - 2020.2.0a13)
     pub validKeywords: Option<Vec<String>>,
-    /// Vec<(String, u32)>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<(String, u32)>: (2022.1.0b1 - 2022.3.2f1)
     pub variantIndices: Option<Vec<(String, u32)>>,
-    /// Vec<(String, ComputeShaderKernel)>: (2020.1.0a20 - 2021.2.16f1)
+    /// Vec<(String, ComputeShaderKernel)>: (2020.1.0b1 - 2022.1.0a13)
     pub variantMap: Option<Vec<(String, ComputeShaderKernel)>>,
 }
 
-/// ComputeShaderParam is a sub class of the Unity engine since version 5.6.0b2.
+/// ComputeShaderParam is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderParam {
     pub arraySize: i64,
     pub colCount: i64,
-    pub name: String,
+    pub name: Enum_FastPropertyName__String,
     pub offset: i64,
     pub rowCount: i64,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
 
-/// ComputeShaderPlatformVariant is a sub class of the Unity engine since version 2020.1.0a20.
+/// ComputeShaderPlatformVariant is a sub class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderPlatformVariant {
     pub constantBuffers: Vec<ComputeShaderCB>,
@@ -3413,31 +3829,44 @@ pub struct ComputeShaderPlatformVariant {
     pub targetRenderer: i32,
 }
 
-/// ComputeShaderResource is a sub class of the Unity engine since version 5.6.0b2.
+/// ComputeShaderResource is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderResource {
     pub bindPoint: i32,
-    pub generatedName: String,
-    pub name: String,
-    /// ComputeBufferCounter: (5.6.0b2 - 2017.4.33f1)
+    pub name: Enum_FastPropertyName__String,
+    /// ComputeBufferCounter: (5.2.3f1 - 2017.4.40f1)
     pub counter: Option<ComputeBufferCounter>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// FastPropertyName: (5.1.0f1 - 5.5.6f1); String: (5.6.0b1 - 2022.3.2f1)
+    pub generatedName: Option<Enum_FastPropertyName__String>,
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub samplerBindPoint: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (5.1.0f1 - 5.2.2f1)
+    pub secondaryBindPoint: Option<i32>,
+    /// i32: (2018.2.0f2 - 2022.3.2f1)
     pub texDimension: Option<i32>,
 }
 
-/// ComputeShaderVariant is a sub class of the Unity engine since version 5.6.0b2.
+/// ComputeShaderVariant is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComputeShaderVariant {
     pub constantBuffers: Vec<ComputeShaderCB>,
     pub kernels: Vec<ComputeShaderKernel>,
-    pub resourcesResolved: bool,
     pub targetLevel: i32,
     pub targetRenderer: i32,
+    /// bool: (5.1.0f1 - 2020.1.0a8)
+    pub resourcesResolved: Option<bool>,
 }
 
-/// ConfigSetting is a sub class of the Unity engine since version 5.6.0b2.
+/// Condition is a sub class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Condition {
+    pub m_ConditionEvent: String,
+    pub m_ConditionMode: i32,
+    pub m_EventTreshold: f32,
+    pub m_ExitTime: f32,
+}
+
+/// ConfigSetting is a sub class of the Unity engine since version 5.4.2f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ConfigSetting {
     pub flags: u32,
@@ -3479,9 +3908,11 @@ pub struct ConfigurableJoint {
     /**If enabled, all Target values will be calculated in world space instead of the object's local space.*/
     pub m_ConfiguredInWorldSpace: bool,
     /**A reference to another rigidbody this joint connects to.*/
-    pub m_ConnectedBody: PPtr, /*<Rigidbody>*/
+    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    pub m_ConnectedBody: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Boundary defining upper rotation restriction, based on delta from original rotation.*/
     pub m_HighAngularXLimit: SoftJointLimit,
     /**Boundary defining movement restriction, based on distance from the joint's origin.*/
@@ -3521,54 +3952,56 @@ pub struct ConfigurableJoint {
     /**Allow movement along the Z axis to be Free, completely Locked, or Limited according to Linear Limit.*/
     pub m_ZMotion: i32,
     /**The configuration of the spring attached to the angular X limit of the joint.*/
-    /// SoftJointLimitSpring: (5.6.0b2 - 2022.2.0b16)
+    /// SoftJointLimitSpring: (5.0.0f4 - 2022.3.2f1)
     pub m_AngularXLimitSpring: Option<SoftJointLimitSpring>,
     /**The configuration of the spring attached to the angular Y and angular Z limits of the joint.*/
-    /// SoftJointLimitSpring: (5.6.0b2 - 2022.2.0b16)
+    /// SoftJointLimitSpring: (5.0.0f4 - 2022.3.2f1)
     pub m_AngularYZLimitSpring: Option<SoftJointLimitSpring>,
     /**Should the connectedAnchor be calculated automatically?*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_AutoConfigureConnectedAnchor: Option<bool>,
     /**Position of the anchor relative to the connected Rigidbody.*/
-    /// Vector3f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector3f: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedAnchor: Option<Vector3f>,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr/*<ArticulationBody>*/: (2020.3.42f1 - 2022.2.0b16)
-    pub m_ConnectedArticulationBody: Option<PPtr /*<ArticulationBody>*/>,
+    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_ConnectedMassScale: Option<f32>,
     /**Enable collision between bodies connected with the joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.5.0 - 2022.3.2f1)
     pub m_EnableCollision: Option<bool>,
     /**Toggle preprocessing for this joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_EnablePreprocessing: Option<bool>,
+    /// bool: (2017.1.0b2 - 2017.1.0b5)
+    pub m_Enabled: Option<bool>,
     /**The configuration of the spring attached to the linear limit of the joint.*/
-    /// SoftJointLimitSpring: (5.6.0b2 - 2022.2.0b16)
+    /// SoftJointLimitSpring: (5.0.0f4 - 2022.3.2f1)
     pub m_LinearLimitSpring: Option<SoftJointLimitSpring>,
     /**The scale to apply to the inverse mass and inertia tensor of the body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_MassScale: Option<f32>,
     /**Enable this property to swap the order in which the physics engine processes the Rigidbodies involved in the joint. This results in different joint motion but has no impact on Rigidbodies and anchors.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub m_SwapBodies: Option<bool>,
 }
 
-/// ConstantBuffer is a sub class of the Unity engine since version 5.6.0b2.
+/// ConstantBuffer is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ConstantBuffer {
     pub m_MatrixParams: Vec<MatrixParameter>,
     pub m_NameIndex: i32,
     pub m_Size: i32,
     pub m_VectorParams: Vec<VectorParameter>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.3.2f1 - 2022.3.2f1)
     pub m_IsPartialCB: Option<bool>,
-    /// Vec<StructParameter>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<StructParameter>: (2017.3.0b1 - 2022.3.2f1)
     pub m_StructParams: Option<Vec<StructParameter>>,
 }
 
-/// ConstantClip is a sub class of the Unity engine since version 5.6.0b2.
+/// ConstantClip is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ConstantClip {
     pub data: Vec<f32>,
@@ -3589,7 +4022,8 @@ pub struct ConstantForce {
     /**The force applied to the rigidbody every frame.*/
     pub m_Force: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The force - relative to the rigid bodies coordinate system - applied every frame.*/
     pub m_RelativeForce: Vector3f,
     /**The torque - relative to the rigid bodies coordinate system - applied every frame.*/
@@ -3598,7 +4032,7 @@ pub struct ConstantForce {
     pub m_Torque: Vector3f,
 }
 
-/// ConstantForce2D is a  class of the Unity engine since version 5.6.0b2.
+/// ConstantForce2D is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ConstantForce2D.html):
 /**
 Applies both linear and angular (torque) forces continuously to the rigidbody each physics update.
@@ -3613,14 +4047,15 @@ pub struct ConstantForce2D {
     /**The linear force applied to the rigidbody each physics update.*/
     pub m_Force: Vector2f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The linear force, relative to the rigid-body coordinate system, applied each physics update.*/
     pub m_RelativeForce: Vector2f,
     /**The torque applied to the rigidbody each physics update.*/
     pub m_Torque: f32,
 }
 
-/// ConstraintSource is a sub class of the Unity engine since version 2018.4.15f1.
+/// ConstraintSource is a sub class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.ConstraintSource.html):
 /**
 Represents a source for the constraint.
@@ -3628,25 +4063,29 @@ Represents a source for the constraint.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ConstraintSource {
     /**The transform component of the source object.*/
-    pub sourceTransform: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2018.1.0b2 - 2022.3.2f1)
+    pub sourceTransform: PPtr,
     /**The weight of the source in the evaluation of the constraint.*/
     pub weight: f32,
 }
 
-/// ControllerConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// ControllerConstant is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ControllerConstant {
     pub m_DefaultValues: OffsetPtr,
-    pub m_LayerArray: Vec<OffsetPtr>,
     pub m_StateMachineArray: Vec<OffsetPtr>,
     pub m_Values: OffsetPtr,
+    /// Vec<OffsetPtr>: (4.0.0 - 4.2.2)
+    pub m_HumanLayerArray: Option<Vec<OffsetPtr>>,
+    /// Vec<OffsetPtr>: (4.3.0 - 2022.3.2f1)
+    pub m_LayerArray: Option<Vec<OffsetPtr>>,
 }
 
-/// CrashReportManager is a  class of the Unity engine since version 5.6.0b2.
+/// CrashReportManager is a  class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CrashReportManager {}
 
-/// CrashReportingSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// CrashReportingSettings is a sub class of the Unity engine since version 5.4.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CrashReporting.CrashReportingSettings.html):
 /**
 Editor API for the Unity Services editor feature. Normally CrashReporting is enabled from the Services window, but if writing your own editor extension, this API can be used.
@@ -3655,13 +4094,13 @@ Editor API for the Unity Services editor feature. Normally CrashReporting is ena
 pub struct CrashReportingSettings {
     pub m_Enabled: bool,
     pub m_EventUrl: String,
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.3.0f2 - 2022.3.2f1)
     pub m_LogBufferSize: Option<u32>,
-    /// String: (2017.4.33f1 - 2017.4.33f1)
+    /// String: (2017.2.0b2 - 2018.2.21f1)
     pub m_NativeEventUrl: Option<String>,
 }
 
-/// Cubemap is a  class of the Unity engine since version 5.6.0b2.
+/// Cubemap is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Cubemap.html):
 /**
 Class for handling cube maps, Use this to create or modify existing cube map assets.
@@ -3677,46 +4116,53 @@ pub struct Cubemap {
     /**Whether Unity stores an additional copy of this texture's pixel data in CPU-addressable memory.*/
     pub m_IsReadable: bool,
     pub m_LightmapFormat: i32,
-    pub m_MipCount: i32,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_SourceTextures: Vec<PPtr /*<Texture2D>*/>,
-    pub m_StreamData: StreamingInfo,
+    /// Vec<PPtr<Texture2D>>: (4.0.0 - 2022.3.2f1)
+    pub m_SourceTextures: Vec<PPtr>,
     pub m_TextureDimension: i32,
     pub m_TextureFormat: i32,
     pub m_TextureSettings: GLTextureSettings,
     /**Width of the Texture in pixels (Read Only).*/
     pub m_Width: i32,
-    /// Vec<u8>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u8>: (4.0.0 - 2022.3.2f1)
     #[serde(alias = "image data")]
     pub image_data: Option<Vec<u8>>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.1.0a20 - 2021.2.16f1)
+    /// bool: (2019.3.0f6 - 2022.2.0a18)
     pub m_IgnoreMasterTextureLimit: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0f1 - 2022.3.2f1)
     pub m_IgnoreMipmapLimit: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2019.4.9f1 - 2022.3.2f1)
     pub m_IsPreProcessed: Option<bool>,
-    /// String: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (5.2.0f2 - 2022.3.2f1)
+    pub m_MipCount: Option<i32>,
+    /// bool: (4.0.0 - 5.1.5f1)
+    pub m_MipMap: Option<bool>,
+    /// String: (2022.2.0f1 - 2022.3.2f1)
     pub m_MipmapLimitGroupName: Option<String>,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub m_MipsStripped: Option<i32>,
-    /// Vec<u8>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<u8>: (2020.2.0b1 - 2022.3.2f1)
     pub m_PlatformBlob: Option<Vec<u8>>,
+    /// bool: (4.0.0 - 5.4.6f3)
+    pub m_ReadAllowed: Option<bool>,
+    /// StreamingInfo: (5.3.0f1 - 2022.3.2f1)
+    pub m_StreamData: Option<StreamingInfo>,
     /**Determines whether mipmap streaming is enabled for this Texture.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub m_StreamingMipmaps: Option<bool>,
     /**Sets the relative priority for this Texture when reducing memory size to fit within the memory budget.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_StreamingMipmapsPriority: Option<i32>,
 }
 
-/// CubemapArray is a  class of the Unity engine since version 5.6.0b2.
+/// CubemapArray is a  class of the Unity engine since version 5.5.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CubemapArray.html):
 /**
 Class for handling Cubemap arrays.
@@ -3749,24 +4195,25 @@ pub struct CubemapArray {
     pub m_MipCount: i32,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_StreamData: StreamingInfo,
     pub m_TextureSettings: GLTextureSettings,
     /**Width of the Texture in pixels (Read Only).*/
     pub m_Width: i32,
-    /// Vec<u8>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u8>: (5.5.0f3 - 2022.3.2f1)
     #[serde(alias = "image data")]
     pub image_data: Option<Vec<u8>>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// StreamingInfo: (5.6.0b1 - 2022.3.2f1)
+    pub m_StreamData: Option<StreamingInfo>,
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub m_UsageMode: Option<i32>,
 }
 
-/// CustomCollider2D is a  class of the Unity engine since version 2021.2.16f1.
+/// CustomCollider2D is a  class of the Unity engine since version 2021.2.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CustomCollider2D.html):
 /**
 Represents a Collider2D that is configured by assigning PhysicsShape2D geometry to it via a PhysicsShapeGroup2D.
@@ -3780,10 +4227,12 @@ pub struct CustomCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2021.2.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
+    /// PPtr<PhysicsMaterial2D>: (2021.2.0b1 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The local offset of the collider geometry.*/
     pub m_Offset: Vector2f,
     /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
@@ -3791,29 +4240,29 @@ pub struct CustomCollider2D {
     /**Whether the collider is used by an attached effector or not.*/
     pub m_UsedByEffector: bool,
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ContactCaptureLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The Layers that this Collider2D can receive forces from during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceReceiveLayers: Option<BitField>,
     /**The Layers that this Collider2D is allowed to send forces to during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceSendLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider2D used when there is a conflicting decision on whether a contact between itself and another Collision2D should happen or not.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
 }
 
-/// CustomDataModule is a sub class of the Unity engine since version 5.6.0b2.
+/// CustomDataModule is a sub class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.CustomDataModule.html):
 /**
 Script interface for the CustomDataModule of a Particle System.
@@ -3839,7 +4288,7 @@ pub struct CustomDataModule {
     pub vectorComponentCount1: i32,
 }
 
-/// CustomRenderTexture is a  class of the Unity engine since version 5.6.0b2.
+/// CustomRenderTexture is a  class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/CustomRenderTexture.html):
 /**
 Custom Render Textures are an extension to Render Textures that allow you to render directly to the Texture using a Shader.
@@ -3861,12 +4310,15 @@ pub struct CustomRenderTexture {
     /**Height of the Texture in pixels (Read Only).*/
     pub m_Height: i32,
     pub m_InitColor: ColorRGBA,
-    pub m_InitMaterial: PPtr, /*<Material>*/
-    pub m_InitTexture: PPtr,  /*<Texture>*/
+    /// PPtr<Material>: (5.6.0b1 - 2022.3.2f1)
+    pub m_InitMaterial: PPtr,
+    /// PPtr<Texture>: (5.6.0b1 - 2022.3.2f1)
+    pub m_InitTexture: PPtr,
     /**Determine how Unity initializes a texture.*/
     pub m_InitializationMode: i32,
     /**The Material that Unity uses to initialize the content of a Custom Render Texture.*/
-    pub m_Material: PPtr, /*<Material>*/
+    /// PPtr<Material>: (5.6.0b1 - 2022.3.2f1)
+    pub m_Material: PPtr,
     pub m_MipMap: bool,
     /**The name of the object.*/
     pub m_Name: String,
@@ -3888,49 +4340,72 @@ pub struct CustomRenderTexture {
     pub m_Width: i32,
     /**When this parameter is set to true, Unity wraps Update zones around the border of the Custom Render Texture. Otherwise, Unity clamps Update zones at the border of the Custom Render Texture.*/
     pub m_WrapUpdateZones: bool,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_BindMS: Option<bool>,
-    /// i32: (5.6.0b2 - 2020.3.42f1)
+    /// i32: (5.6.0b1 - 2021.2.0a17)
     pub m_DepthFormat: Option<i32>,
     /**The format of the depth/stencil buffer.*/
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_DepthStencilFormat: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.1.0b1 - 2022.3.2f1)
     pub m_EnableCompatibleFormat: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f1 - 2022.3.2f1)
     pub m_InitSource: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.2.0b1 - 2022.3.2f1)
     pub m_MipCount: Option<i32>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0f1 - 2022.3.2f1)
     pub m_ShadowSamplingMode: Option<i32>,
     /**Is the render texture marked to be scaled by the Dynamic Resolution system.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_UseDynamicScale: Option<bool>,
+}
+
+/// DDSImporter is a  class of the Unity engine since version 4.0.0.
+/// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/DDSImporter.html):
+/**
+Texture importer lets you modify Texture2D import settings for DDS textures from editor scripts.
+*/
+#[derive(Debug, Serialize, Deserialize)]
+pub struct DDSImporter {
+    /**The name of the object.*/
+    pub m_Name: String,
+    /**Get or set any user data.*/
+    pub m_UserData: String,
+    /**Get or set the AssetBundle name.*/
+    /// String: (5.0.0f4 - 5.5.6f1)
+    pub m_AssetBundleName: Option<String>,
+    /**Get or set the AssetBundle variant.*/
+    /// String: (5.0.0f4 - 5.5.6f1)
+    pub m_AssetBundleVariant: Option<String>,
+    /// bool: (5.5.0f3 - 5.5.6f1)
+    pub m_IsReadable: Option<bool>,
 }
 
 /// DataTemplate is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DataTemplate {
-    pub m_Father: PPtr, /*<DataTemplate>*/
+    /// PPtr<DataTemplate>: (3.4.0 - 3.4.2)
+    pub m_Father: PPtr,
     pub m_IsDataTemplate: bool,
     pub m_LastMergeIdentifier: GUID,
     pub m_Name: String,
-    pub m_Objects: Vec<PPtr /*<EditorExtension>*/>,
+    /// Vec<PPtr<EditorExtension>>: (3.4.0 - 3.4.2)
+    pub m_Objects: Vec<PPtr>,
 }
 
-/// DateTime is a sub class of the Unity engine since version 2018.4.15f1.
+/// DateTime is a sub class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DateTime {
     pub ticks: i64,
 }
 
-/// DefaultAsset is a  class of the Unity engine since version 5.6.0b2.
+/// DefaultAsset is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/DefaultAsset.html):
 /**
 DefaultAsset is used for assets that do not have a specific type (yet).
@@ -3944,20 +4419,22 @@ pub struct DefaultAsset {
     pub m_Name: String,
 }
 
-/// DefaultImporter is a  class of the Unity engine since version 5.6.0b2.
+/// DefaultImporter is a  class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DefaultImporter {
-    pub m_AssetBundleName: String,
-    pub m_AssetBundleVariant: String,
     pub m_Name: String,
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleName: Option<String>,
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleVariant: Option<String>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// DefaultPreset is a sub class of the Unity engine since version 2018.4.15f1.
+/// DefaultPreset is a sub class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Presets.DefaultPreset.html):
 /**
 This structure defines a default Preset.
@@ -3966,20 +4443,22 @@ See Preset.GetDefaultListForType and Preset.SetDefaultListForType for usage.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DefaultPreset {
     /**The Preset applied to an object instance when it matches the search filter defined by DefaultPreset.m_Filter.*/
-    pub m_Preset: PPtr, /*<Preset>*/
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// PPtr<Preset>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_Preset: PPtr,
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_Disabled: Option<bool>,
     /**The search filter that is compared against the object instance. The DefaultPreset.m_Preset is applied to the object instance if it matches the search filter.*/
-    /// String: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (2019.3.0b1 - 2022.3.2f1)
     pub m_Filter: Option<String>,
 }
 
-/// DefaultPresetList is a sub class of the Unity engine since version 2018.4.15f1.
+/// DefaultPresetList is a sub class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DefaultPresetList {
-    #[serde(alias = "type")]
-    pub _type: PresetType,
     pub defaultPresets: Vec<DefaultPreset>,
+    /// PresetType: (2018.1.0b2 - 2019.3.0a8)
+    #[serde(alias = "type")]
+    pub _type: Option<PresetType>,
 }
 
 /// DeletedItem is a sub class of the Unity engine since version 3.4.0.
@@ -3990,12 +4469,12 @@ pub struct DeletedItem {
     pub fullPath: String,
     pub guid: GUID,
     pub parent: GUID,
-    /// i32: (3.4.0 - 5.6.0b2)
+    /// i32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
 
-/// DenseClip is a sub class of the Unity engine since version 5.6.0b2.
+/// DenseClip is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DenseClip {
     pub m_BeginTime: f32,
@@ -4005,7 +4484,7 @@ pub struct DenseClip {
     pub m_SampleRate: f32,
 }
 
-/// Derived is a  class of the Unity engine since version 2019.3.0f4.
+/// Derived is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Derived {}
 
@@ -4017,30 +4496,31 @@ pub struct DetailDatabase {
     pub m_PatchCount: i32,
     pub m_PatchSamples: i32,
     pub m_Patches: Vec<DetailPatch>,
-    pub m_PreloadTextureAtlasData: Vec<PPtr /*<Texture2D>*/>,
+    /// Vec<PPtr<Texture2D>>: (3.4.0 - 2022.3.2f1)
+    pub m_PreloadTextureAtlasData: Vec<PPtr>,
     pub m_TreeInstances: Vec<TreeInstance>,
     pub m_TreePrototypes: Vec<TreePrototype>,
     pub m_WavingGrassAmount: f32,
     pub m_WavingGrassSpeed: f32,
     pub m_WavingGrassStrength: f32,
-    /// PPtr/*<Shader>*/: (2022.2.0b16 - 2022.2.0b16)
+    /// PPtr<Shader>: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "m_DefaultShaders[0]")]
-    pub m_DefaultShaders_0_: Option<PPtr /*<Shader>*/>,
-    /// PPtr/*<Shader>*/: (2022.2.0b16 - 2022.2.0b16)
+    pub m_DefaultShaders_0_: Option<PPtr>,
+    /// PPtr<Shader>: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "m_DefaultShaders[1]")]
-    pub m_DefaultShaders_1_: Option<PPtr /*<Shader>*/>,
-    /// PPtr/*<Shader>*/: (2022.2.0b16 - 2022.2.0b16)
+    pub m_DefaultShaders_1_: Option<PPtr>,
+    /// PPtr<Shader>: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "m_DefaultShaders[2]")]
-    pub m_DefaultShaders_2_: Option<PPtr /*<Shader>*/>,
-    /// PPtr/*<Shader>*/: (2019.3.0f4 - 2020.3.42f1)
-    pub m_DetailBillboardShader: Option<PPtr /*<Shader>*/>,
-    /// PPtr/*<Shader>*/: (2019.3.0f4 - 2020.3.42f1)
-    pub m_DetailMeshGrassShader: Option<PPtr /*<Shader>*/>,
-    /// PPtr/*<Shader>*/: (2019.3.0f4 - 2020.3.42f1)
-    pub m_DetailMeshLitShader: Option<PPtr /*<Shader>*/>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    pub m_DefaultShaders_2_: Option<PPtr>,
+    /// PPtr<Shader>: (2019.1.0f2 - 2021.1.28f1)
+    pub m_DetailBillboardShader: Option<PPtr>,
+    /// PPtr<Shader>: (2019.1.0f2 - 2021.1.28f1)
+    pub m_DetailMeshGrassShader: Option<PPtr>,
+    /// PPtr<Shader>: (2019.1.0f2 - 2021.1.28f1)
+    pub m_DetailMeshLitShader: Option<PPtr>,
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_DetailScatterMode: Option<i32>,
-    /// Vec<Vector3f>: (3.4.0 - 2020.1.0a20)
+    /// Vec<Vector3f>: (3.4.0 - 2020.2.0a21)
     pub m_RandomRotations: Option<Vec<Vector3f>>,
 }
 
@@ -4048,11 +4528,11 @@ pub struct DetailDatabase {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DetailPatch {
     pub layerIndices: Vec<u8>,
-    /// AABB: (3.4.0 - 2020.1.0a20)
+    /// AABB: (3.4.0 - 2020.2.0a21)
     pub bounds: Option<AABB>,
-    /// Vec<u8>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<u8>: (2022.2.0b1 - 2022.3.2f1)
     pub coverage: Option<Vec<u8>>,
-    /// Vec<u8>: (3.4.0 - 2021.2.16f1)
+    /// Vec<u8>: (3.4.0 - 2022.1.24f1)
     pub numberOfObjects: Option<Vec<u8>>,
 }
 
@@ -4078,54 +4558,60 @@ pub struct DetailPrototype {
     /**Controls the spatial frequency of the noise pattern used to vary the scale and color of the detail objects.*/
     pub noiseSpread: f32,
     /**GameObject used by the DetailPrototype.*/
-    pub prototype: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub prototype: PPtr,
     /**Texture used by the DetailPrototype.*/
-    pub prototypeTexture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    pub prototypeTexture: PPtr,
     /**Render mode for the DetailPrototype.*/
     pub renderMode: i32,
     /**Indicates whether this detail prototype uses the Mesh object from the GameObject specified by prototype.*/
     pub usePrototypeMesh: i32,
     /**Rotate detail axis parallel to the ground's normal direction, so that the detail is perpendicular to the ground.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub alignToGround: Option<f32>,
-    /// f32: (3.4.0 - 2020.1.0a20)
+    /// f32: (3.4.0 - 2020.2.0a21)
     pub bendFactor: Option<f32>,
     /**Controls detail density for this detail prototype, relative to it's size.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub density: Option<f32>,
-    /// f32: (2020.3.42f1 - 2022.2.0b16)
+    /// f32: (2020.2.0f1 - 2022.3.2f1)
     pub holeTestRadius: Option<f32>,
-    /// f32: (3.4.0 - 2020.3.42f1)
+    /// f32: (3.4.0 - 2021.1.28f1)
     pub lightmapFactor: Option<f32>,
     /**Specifies the random seed value for detail object placement.*/
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub noiseSeed: Option<i32>,
     /**Controls how Unity generates the detail positions.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub positionJitter: Option<f32>,
+    /// f32: (2022.2.0a13 - 2022.2.0a13)
+    pub positionOrderliness: Option<f32>,
     /**Controls the detail's target coverage.*/
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub targetCoverage: Option<f32>,
     /**Indicates the global density scale set in the terrain settings affects this detail prototype.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub useDensityScaling: Option<i32>,
     /**Indicates whether this detail prototype uses  GPU Instancing for rendering.*/
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub useInstancing: Option<i32>,
 }
 
-/// DeviceNone is a sub class of the Unity engine since version 5.6.0b2.
+/// DeviceNone is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DeviceNone {}
 
-/// DirectorGenericBinding is a sub class of the Unity engine since version 2017.4.33f1.
+/// DirectorGenericBinding is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DirectorGenericBinding {
-    pub key: PPtr,   /*<Object>*/
-    pub value: PPtr, /*<Object>*/
+    /// PPtr<Object>: (2017.1.0b1 - 2022.3.2f1)
+    pub key: PPtr,
+    /// PPtr<Object>: (2017.1.0b1 - 2022.3.2f1)
+    pub value: PPtr,
 }
 
-/// DistanceJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// DistanceJoint2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/DistanceJoint2D.html):
 /**
 Joint that keeps two Rigidbody2D objects a fixed distance apart.
@@ -4135,33 +4621,43 @@ Note that unlike the SpringJoint2D component, the distance separating the object
 pub struct DistanceJoint2D {
     /**The joint's anchor point on the object that has the joint component.*/
     pub m_Anchor: Vector2f,
-    /**Should the connectedAnchor be calculated automatically?*/
-    pub m_AutoConfigureConnectedAnchor: bool,
-    /**Should the distance be calculated automatically?*/
-    pub m_AutoConfigureDistance: bool,
-    /**The force that needs to be applied for this joint to break.*/
-    pub m_BreakForce: f32,
-    /**The torque that needs to be applied for this joint to break.*/
-    pub m_BreakTorque: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
+    /// PPtr<Rigidbody2D>: (4.3.0 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**The distance separating the two ends of the joint.*/
     pub m_Distance: f32,
-    /**Should the two rigid bodies connected with this joint collide with each other?*/
-    pub m_EnableCollision: bool,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    /**Whether to maintain a maximum distance only or not.  If not then the absolute distance will be maintained instead.*/
-    pub m_MaxDistanceOnly: bool,
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /**Should the connectedAnchor be calculated automatically?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_AutoConfigureConnectedAnchor: Option<bool>,
+    /**Should the distance be calculated automatically?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_AutoConfigureDistance: Option<bool>,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
+    /**The force that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakForce: Option<f32>,
+    /**The torque that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakTorque: Option<f32>,
+    /// bool: (4.3.0 - 5.0.0f4)
+    pub m_CollideConnected: Option<bool>,
+    /**Should the two rigid bodies connected with this joint collide with each other?*/
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_EnableCollision: Option<bool>,
+    /**Whether to maintain a maximum distance only or not.  If not then the absolute distance will be maintained instead.*/
+    /// bool: (4.5.0 - 2022.3.2f1)
+    pub m_MaxDistanceOnly: Option<bool>,
 }
 
-/// EdgeCollider2D is a  class of the Unity engine since version 5.6.0b2.
+/// EdgeCollider2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/EdgeCollider2D.html):
 /**
 Collider for 2D physics representing an arbitrary set of connected edges (lines) defined by its vertices.
@@ -4169,59 +4665,65 @@ See Also: BoxCollider2D, CircleCollider2D, PolygonCollider2D.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EdgeCollider2D {
-    /**The density of the collider used to calculate its mass (when auto mass is enabled).*/
-    pub m_Density: f32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
-    /**The local offset of the collider geometry.*/
-    pub m_Offset: Vector2f,
+    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**Get or set the points defining multiple continuous edges.*/
     pub m_Points: Vec<Vector2f>,
-    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
-    pub m_UsedByComposite: bool,
-    /**Whether the collider is used by an attached effector or not.*/
-    pub m_UsedByEffector: bool,
     /**Defines the position of a virtual point adjacent to the end point of the EdgeCollider2D.*/
-    /// Vector2f: (2020.1.0a20 - 2022.2.0b16)
+    /// Vector2f: (2020.1.0b1 - 2022.3.2f1)
     pub m_AdjacentEndPoint: Option<Vector2f>,
     /**Defines the position of a virtual point adjacent to the start point of the EdgeCollider2D.*/
-    /// Vector2f: (2020.1.0a20 - 2022.2.0b16)
+    /// Vector2f: (2020.1.0b1 - 2022.3.2f1)
     pub m_AdjacentStartPoint: Option<Vector2f>,
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ContactCaptureLayers: Option<BitField>,
+    /**The density of the collider used to calculate its mass (when auto mass is enabled).*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_Density: Option<f32>,
     /**Controls the radius of all edges created by the collider.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (5.6.0f1 - 2022.3.2f1)
     pub m_EdgeRadius: Option<f32>,
     /**The additional Layers that this Collider2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The Layers that this Collider2D can receive forces from during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceReceiveLayers: Option<BitField>,
     /**The Layers that this Collider2D is allowed to send forces to during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceSendLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider2D used when there is a conflicting decision on whether a contact between itself and another Collision2D should happen or not.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
+    /**The local offset of the collider geometry.*/
+    /// Vector2f: (5.0.0f4 - 2022.3.2f1)
+    pub m_Offset: Option<Vector2f>,
     /**Set this to true to use the adjacentEndPoint to form the collision normal that is used to calculate the collision response when a collision occurs at the Edge Collider's end point. Set this to false to not use the adjacentEndPoint, and the collision normal becomes the direction of motion of the collision.*/
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_UseAdjacentEndPoint: Option<bool>,
     /**Set this to true to use the adjacentStartPoint to form the collision normal that is used to calculate the collision response when a collision occurs at the Edge Collider's start point. Set this to false to not use the adjacentStartPoint, and the collision normal becomes the direction of motion of the collision.*/
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_UseAdjacentStartPoint: Option<bool>,
+    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
+    /// bool: (5.6.0b1 - 2022.3.2f1)
+    pub m_UsedByComposite: Option<bool>,
+    /**Whether the collider is used by an attached effector or not.*/
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub m_UsedByEffector: Option<bool>,
 }
 
 /// EditorBuildSettings is a  class of the Unity engine since version 3.4.0.
@@ -4234,26 +4736,26 @@ See Also: EditorBuildSettingsScene, EditorUserBuildSettings, BuildPlayerOptions.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EditorBuildSettings {
     pub m_Scenes: Vec<Scene>,
-    /// Vec<(String, PPtr/*<Object>*/)>: (2018.4.15f1 - 2022.2.0b16)
-    pub m_configObjects: Option<Vec<(String, PPtr /*<Object>*/)>>,
+    /// Vec<(String, PPtr<Object>)>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_configObjects: Option<Vec<(String, PPtr)>>,
 }
 
 /// EditorExtensionImpl is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EditorExtensionImpl {
-    /// Vec<u8>: (3.4.0 - 3.4.0)
+    /// Vec<u8>: (3.4.0 - 3.4.2)
     pub gFlattenedTypeTree: Option<Vec<u8>>,
-    /// PPtr/*<DataTemplate>*/: (3.4.0 - 3.4.0)
-    pub m_DataTemplate: Option<PPtr /*<DataTemplate>*/>,
-    /// PPtr/*<EditorExtension>*/: (3.4.0 - 3.4.0)
-    pub m_Object: Option<PPtr /*<EditorExtension>*/>,
-    /// bitset: (3.4.0 - 3.4.0)
+    /// PPtr<DataTemplate>: (3.4.0 - 3.4.2)
+    pub m_DataTemplate: Option<PPtr>,
+    /// PPtr<EditorExtension>: (3.4.0 - 3.4.2)
+    pub m_Object: Option<PPtr>,
+    /// bitset: (3.4.0 - 3.4.2)
     pub m_OverrideVariable: Option<bitset>,
-    /// PPtr/*<EditorExtensionImpl>*/: (3.4.0 - 3.4.0)
-    pub m_TemplateFather: Option<PPtr /*<EditorExtensionImpl>*/>,
+    /// PPtr<EditorExtensionImpl>: (3.4.0 - 3.4.2)
+    pub m_TemplateFather: Option<PPtr>,
 }
 
-/// EditorProjectAccess is a  class of the Unity engine since version 2018.4.15f1.
+/// EditorProjectAccess is a  class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EditorProjectAccess {
     pub m_Name: String,
@@ -4267,101 +4769,103 @@ Use EditorSettings to apply Editor Project Settings to your Unity Project. You c
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EditorSettings {
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.1.0f1 - 2022.3.2f1)
     pub m_AssetNamingUsesSpace: Option<bool>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0f1 - 2022.3.2f1)
     pub m_AssetPipelineMode: Option<i32>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.1.0f2 - 2022.3.2f1)
     pub m_AsyncShaderCompilation: Option<bool>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_Bc7TextureCompressor: Option<i32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2021.3.10f1 - 2022.3.2f1)
     pub m_CacheServerDownloadBatchSize: Option<i32>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_CacheServerEnableAuth: Option<bool>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.3.0f1 - 2022.3.2f1)
     pub m_CacheServerEnableDownload: Option<bool>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_CacheServerEnableTls: Option<bool>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.3.0f1 - 2022.3.2f1)
     pub m_CacheServerEnableUpload: Option<bool>,
-    /// String: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (2019.3.0f1 - 2022.3.2f1)
     pub m_CacheServerEndpoint: Option<String>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0f1 - 2022.3.2f1)
     pub m_CacheServerMode: Option<i32>,
-    /// String: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (2019.3.0f1 - 2022.3.2f1)
     pub m_CacheServerNamespacePrefix: Option<String>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.40f1 - 2022.3.2f1)
     pub m_CacheServerValidationMode: Option<i32>,
-    /// bool: (2020.1.0a20 - 2021.2.16f1)
+    /// bool: (2020.1.0b1 - 2022.1.0a9)
     pub m_CachingShaderPreprocessor: Option<bool>,
-    /// CollabEditorSettings: (2017.4.33f1 - 2019.3.0f4)
+    /// CollabEditorSettings: (2017.1.0f2 - 2020.1.0a12)
     pub m_CollabEditorSettings: Option<CollabEditorSettings>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.3.0 - 2022.3.2f1)
     pub m_DefaultBehaviorMode: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_DisableCookiesInLightmapper: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_EnableEditorAsyncCPUTextureLoading: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_EnableEnlightenBakedGI: Option<bool>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2020.2.0a12 - 2020.2.0a16)
+    pub m_EnableRoslynAnalyzers: Option<bool>,
+    /// bool: (2019.1.0b1 - 2022.3.2f1)
     pub m_EnableTextureStreamingInEditMode: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub m_EnableTextureStreamingInPlayMode: Option<bool>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     pub m_EnterPlayModeOptions: Option<i32>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.3.0b1 - 2022.3.2f1)
     pub m_EnterPlayModeOptionsEnabled: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub m_EtcTextureBestCompressor: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub m_EtcTextureCompressorBehavior: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub m_EtcTextureFastCompressor: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub m_EtcTextureNormalCompressor: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0); String: (5.6.0b2 - 2019.3.0f4)
+    /// i32: (3.4.0 - 3.5.7); String: (4.0.0 - 2020.1.0a12)
     pub m_ExternalVersionControlSupport: Option<Enum_i32__String>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.1.0f1 - 2022.3.2f1)
     pub m_GameObjectNamingDigits: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.1.0f1 - 2022.3.2f1)
     pub m_GameObjectNamingScheme: Option<i32>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_InspectorUseIMGUIDefaultInspector: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_LineEndingsForNewScripts: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_PrefabModeAllowAutoSave: Option<bool>,
-    /// PPtr/*<SceneAsset>*/: (2018.4.15f1 - 2022.2.0b16)
-    pub m_PrefabRegularEnvironment: Option<PPtr /*<SceneAsset>*/>,
-    /// PPtr/*<SceneAsset>*/: (2018.4.15f1 - 2022.2.0b16)
-    pub m_PrefabUIEnvironment: Option<PPtr /*<SceneAsset>*/>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<SceneAsset>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_PrefabRegularEnvironment: Option<PPtr>,
+    /// PPtr<SceneAsset>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_PrefabUIEnvironment: Option<PPtr>,
+    /// String: (5.2.0f2 - 2022.3.2f1)
     pub m_ProjectGenerationIncludedExtensions: Option<String>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.2.0f2 - 2022.3.2f1)
     pub m_ProjectGenerationRootNamespace: Option<String>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_RefreshImportMode: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_SerializationMode: Option<i32>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_SerializeInlineMappingsOnOneLine: Option<bool>,
-    /// bool: (2019.3.0f4 - 2019.3.0f4)
+    /// bool: (2019.2.0b1 - 2020.1.0a12)
     pub m_ShowLightmapResolutionOverlay: Option<bool>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub m_SpritePackerCacheSize: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.3.0 - 2022.3.2f1)
     pub m_SpritePackerMode: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.1.0f1 - 2022.3.2f1)
     pub m_SpritePackerPaddingPower: Option<i32>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.3.0b1 - 2022.3.2f1)
     pub m_UseLegacyProbeSampleCount: Option<bool>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (5.5.0f3 - 2018.2.21f1)
     pub m_UserGeneratedProjectSuffix: Option<String>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 5.4.6f3)
     pub m_WebSecurityEmulationEnabled: Option<i32>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 5.4.6f3)
     pub m_WebSecurityEmulationHostUrl: Option<String>,
 }
 
@@ -4370,6 +4874,25 @@ pub struct EditorSettings {
 pub enum Enum_i32__String {
     i32(i32),
     String(String),
+}
+
+/// EditorUSerSettings is a  class of the Unity engine since version 3.5.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct EditorUSerSettings {
+    pub m_VCAutomaticAdd: bool,
+    pub m_VCDebugCmd: bool,
+    pub m_VCDebugCom: bool,
+    pub m_VCDebugOut: bool,
+    /// Vec<(String, String)>: (4.0.0 - 4.0.1)
+    pub m_ConfigValues: Option<Vec<(String, String)>>,
+    /// String: (3.5.0 - 3.5.7)
+    pub m_VCPassword: Option<String>,
+    /// String: (3.5.0 - 3.5.7)
+    pub m_VCServer: Option<String>,
+    /// String: (3.5.0 - 3.5.7)
+    pub m_VCUserName: Option<String>,
+    /// String: (3.5.0 - 3.5.7)
+    pub m_VCWorkspace: Option<String>,
 }
 
 /// EditorUserBuildSettings is a  class of the Unity engine since version 3.4.0.
@@ -4390,249 +4913,298 @@ pub struct EditorUserBuildSettings {
     pub m_SelectedAndroidSubtarget: i32,
     pub m_SelectedBuildTargetGroup: i32,
     pub m_SelectedStandaloneTarget: i32,
-    /// String: (2021.2.16f1 - 2022.2.0b16)
+    /// String: (2021.2.0b1 - 2022.3.2f1)
     pub m_ActiveBuildPlatformGroupName: Option<String>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.6.0b1 - 2022.3.2f1)
     pub m_ActiveBuildTargetGroup: Option<i32>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_ActiveStandaloneBuildSubtarget: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_AndroidBuildSystem: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f1 - 2022.3.2f1)
     pub m_AndroidBuildType: Option<i32>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.1.0b1 - 2022.3.2f1)
     pub m_AndroidCreateSymbols: Option<i32>,
-    /// bool: (2018.4.15f1 - 2020.3.42f1)
+    /// bool: (2018.4.13f1 - 2021.1.0a6)
     pub m_AndroidCreateSymbolsZip: Option<bool>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.1.0b2 - 2022.3.2f1)
     pub m_AndroidCurrentDeploymentTargetId: Option<String>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_AndroidDebugMinification: Option<i32>,
-    /// String: (2017.4.33f1 - 2022.2.0b16)
+    /// String: (2017.2.0b2 - 2022.3.2f1)
     pub m_AndroidDeviceSocketAddress: Option<String>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_AndroidReleaseMinification: Option<i32>,
-    /// bool: (2018.4.15f1 - 2018.4.15f1)
+    /// bool: (2018.3.0f2 - 2018.4.36f1)
     pub m_AndroidUseLegacySdkTools: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.4.17f1 - 2022.3.2f1)
     pub m_BuildAppBundle: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_BuildScriptsOnly: Option<bool>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.3.0b1 - 2022.3.2f1)
     pub m_BuildWithDeepProfilingSupport: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.1f1 - 2022.3.2f1)
     pub m_CompressFilesInPackage: Option<bool>,
-    /// bool: (5.6.0b2 - 2020.3.42f1)
+    /// bool: (5.0.0f4 - 2021.1.28f1)
     pub m_CompressWithPsArc: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.6.0b1 - 2022.3.2f1)
     pub m_CreateRomFileForSwitch: Option<bool>,
-    /// bool: (5.6.0b2 - 2020.1.0a20)
+    /// bool: (5.6.0b1 - 2020.1.0a21)
     pub m_CreateSolutionFileForSwitch: Option<bool>,
-    /// bool: (2018.4.15f1 - 2018.4.15f1)
+    /// bool: (2018.2.0b1 - 2019.2.21f1)
     pub m_DatalessPlayer: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.2f1 - 2022.3.2f1)
     pub m_EnableDebugPadForSwitch: Option<bool>,
-    /// bool: (5.6.0b2 - 2020.3.42f1)
+    /// bool: (4.2.0 - 2021.2.0a19)
     pub m_EnableHeadlessMode: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_EnableHeapInspectorForSwitch: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2019.4.38f1 - 2022.3.2f1)
     pub m_EnableRomCompressionForSwitch: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_ExplicitArrayBoundsChecks: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.4.0f3 - 2022.3.2f1)
     pub m_ExplicitDivideByZeroChecks: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub m_ExplicitNullChecks: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.0f3 - 2022.3.2f1)
     pub m_ExportAsGoogleAndroidProject: Option<bool>,
-    /// String: (2017.4.33f1 - 2018.4.15f1)
+    /// String: (5.6.0f1 - 2019.3.0a10)
     pub m_FacebookAccessToken: Option<String>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.6.0b1 - 2017.2.5f1)
     pub m_FacebookCreatePackageForSubmission: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.3f1 - 2022.3.2f1)
     pub m_ForceInstallation: Option<bool>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.2.2f1 - 5.6.7f1)
     pub m_ForceOptimizeScriptCompilation: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (4.5.0 - 4.7.2)
+    pub m_GenerateMetroReferenceProjects: Option<bool>,
+    /// bool: (2018.4.35f1 - 2022.3.2f1)
     pub m_GenerateNintendoSwitchShaderInfo: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.0.0f4 - 2018.4.36f1)
     pub m_GenerateWSAReferenceProjects: Option<bool>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_HTCSScriptDebuggingForSwitch: Option<bool>,
-    /// i32: (2021.2.16f1 - 2021.2.16f1)
+    /// i32: (2021.2.0b1 - 2022.1.0a13)
     pub m_Il2CppCodeGeneration: Option<i32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_MovePackageToDiscOuterEdge: Option<bool>,
-    /// bool: (2018.4.15f1 - 2019.3.0f4)
+    /// bool: (2018.3.0f2 - 2020.1.0a9)
     pub m_NVNDrawValidation: Option<bool>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_NVNDrawValidationHeavy: Option<bool>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_NVNDrawValidationLight: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.6.0b1 - 2022.3.2f1)
     pub m_NVNGraphicsDebuggerForSwitch: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_NVNShaderDebugging: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_NeedSubmissionMaterials: Option<bool>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_OverrideMaxTextureSize: Option<i32>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_OverrideTextureCompression: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.3.7f1 - 2022.3.2f1)
     pub m_PS4HardwareTarget: Option<i32>,
-    /// String: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2019.4.23f1 - 2019.4.40f1)
+    pub m_PS5KeepPackageFiles: Option<bool>,
+    /// String: (2019.4.23f1 - 2019.4.40f1)
+    pub m_PS5WorkspaceName: Option<String>,
+    /// String: (2021.2.14f1 - 2022.3.2f1)
     pub m_PathOnRemoteDevice: Option<String>,
-    /// Vec<(String, PlatformSettingsData)>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<(String, PlatformSettingsData)>: (5.4.0f3 - 2022.3.2f1)
     pub m_PlatformSettings: Option<Vec<(String, PlatformSettingsData)>>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.2f1 - 2022.3.2f1)
     pub m_RedirectWritesToHostMountForSwitch: Option<bool>,
-    /// String: (2021.2.16f1 - 2022.2.0b16)
+    /// String: (2021.2.14f1 - 2022.3.2f1)
     pub m_RemoteDeviceAddress: Option<String>,
-    /// String: (2021.2.16f1 - 2022.2.0b16)
+    /// String: (2021.2.14f1 - 2022.3.2f1)
     pub m_RemoteDeviceExports: Option<String>,
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.14f1 - 2022.3.2f1)
     pub m_RemoteDeviceInfo: Option<bool>,
-    /// String: (2021.2.16f1 - 2022.2.0b16)
+    /// String: (2021.2.14f1 - 2022.3.2f1)
     pub m_RemoteDeviceUsername: Option<String>,
-    /// String: (2020.3.42f1 - 2022.2.0b16)
+    /// String: (2019.4.38f1 - 2022.3.2f1)
     pub m_RomCompressionConfigForSwitch: Option<String>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.38f1 - 2022.3.2f1)
     pub m_RomCompressionLevelForSwitch: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.38f1 - 2022.3.2f1)
     pub m_RomCompressionTypeForSwitch: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2019.4.38f1 - 2022.3.2f1)
     pub m_SaveADFForSwitch: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_SelectedAndroidETC2Fallback: Option<i32>,
-    /// String: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (4.2.0 - 5.3.8f2)
+    pub m_SelectedBlackBerryBuildType: Option<i32>,
+    /// i32: (4.2.0 - 5.3.8f2)
+    pub m_SelectedBlackBerrySubtarget: Option<i32>,
+    /// String: (2021.2.0b1 - 2022.3.2f1)
     pub m_SelectedBuildPlatformGroupName: Option<String>,
-    /// Vec<(String, i32)>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<(String, i32)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_SelectedCompressionType: Option<Vec<(String, i32)>>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_SelectedEmbeddedLinuxArchitecture: Option<i32>,
-    /// i32: (5.6.0b2 - 2018.4.15f1)
+    /// i32: (5.6.0b1 - 2019.3.0a10)
     pub m_SelectedFacebookTarget: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.1.0f1 - 2022.3.2f1)
     pub m_SelectedIOSBuildType: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.5.3 - 4.7.2)
+    pub m_SelectedMetroBuildAndRunDeployTarget: Option<i32>,
+    /// i32: (4.0.0 - 4.7.2)
+    pub m_SelectedMetroBuildType: Option<i32>,
+    /// i32: (4.3.0 - 4.7.2)
+    pub m_SelectedMetroSDK: Option<i32>,
+    /// i32: (4.2.0 - 4.7.2)
+    pub m_SelectedMetroTarget: Option<i32>,
+    /// i32: (4.0.0 - 5.4.1f1)
+    pub m_SelectedPS3Subtarget: Option<i32>,
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_SelectedPS4Subtarget: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (2019.4.23f1 - 2019.4.40f1)
+    pub m_SelectedPS5CompressionLevel: Option<i32>,
+    /// i32: (2019.4.23f1 - 2019.4.40f1)
+    pub m_SelectedPS5CompressionType: Option<i32>,
+    /// i32: (2019.4.23f1 - 2019.4.40f1)
+    pub m_SelectedPS5Subtarget: Option<i32>,
+    /// i32: (5.0.0f4 - 2017.4.40f1)
     pub m_SelectedPSMSubtarget: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (4.5.0 - 2018.2.21f1)
     pub m_SelectedPSP2Subtarget: Option<i32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_SelectedQNXArchitecture: Option<i32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_SelectedQNXOsVersion: Option<i32>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_SelectedStandaloneBuildSubtarget: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (4.5.0 - 2018.1.9f2)
     pub m_SelectedTizenSubtarget: Option<i32>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.3.0f2 - 2022.3.2f1)
     pub m_SelectedWSAArchitecture: Option<String>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_SelectedWSABuildAndRunDeployTarget: Option<i32>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.3.0f2 - 2022.3.2f1)
     pub m_SelectedWSAMinUWPSDK: Option<String>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.0.0f4 - 2017.1.0b1)
     pub m_SelectedWSASDK: Option<i32>,
-    /// i32: (5.6.0b2 - 2020.3.42f1)
+    /// i32: (5.5.0f3 - 2021.1.28f1)
     pub m_SelectedWSASubtarget: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.2.0f2 - 2022.3.2f1)
     pub m_SelectedWSAUWPBuildType: Option<i32>,
-    /// String: (2017.4.33f1 - 2022.2.0b16)
+    /// String: (5.5.2f1 - 2022.3.2f1)
     pub m_SelectedWSAUWPSDK: Option<String>,
-    /// String: (2017.4.33f1 - 2022.2.0b16)
+    /// String: (2017.3.0b1 - 2022.3.2f1)
     pub m_SelectedWSAUWPVSVersion: Option<String>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_SelectedWebGLSubtarget: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.5.0 - 4.3.4)
+    pub m_SelectedWiiDebugLevel: Option<i32>,
+    /// i32: (3.4.0 - 4.3.4)
     pub m_SelectedWiiSubtarget: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.2.0f2 - 2017.4.40f1)
     pub m_SelectedWiiUBootMode: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.2.0f2 - 2017.4.40f1)
     pub m_SelectedWiiUBuildOutput: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.2.0f2 - 2017.4.40f1)
     pub m_SelectedWiiUDebugLevel: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_SelectedXboxOneDeployDrive: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_SelectedXboxOneDeployMethod: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 5.4.6f3)
+    pub m_SelectedXboxRunMethod: Option<i32>,
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_SelectedXboxSubtarget: Option<i32>,
-    /// bool: (3.4.0 - 2020.3.42f1)
+    /// bool: (3.4.0 - 2021.1.28f1)
     pub m_SymlinkLibraries: Option<bool>,
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_SymlinkSources: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.1.0f1 - 2022.3.2f1)
     pub m_SymlinkTrampoline: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2019.4.24f1 - 2022.3.2f1)
     pub m_UseLegacyNvnPoolAllocatorForSwitch: Option<bool>,
-    /// Vec<bool>: (5.6.0b2 - 2018.4.15f1)
+    /// Vec<bool>: (5.3.0f1 - 2018.4.36f1)
     pub m_WSADotNetNativeEnabled: Option<Vec<bool>>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.1.0b1 - 2022.3.2f1)
     pub m_WaitForPlayerConnection: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// i32: (5.0.0f4 - 5.3.8f2)
+    pub m_WebGLOptimizationLevel: Option<i32>,
+    /// bool: (5.4.0f3 - 2018.4.36f1)
     pub m_WebGLUsePreBuiltUnityEngine: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.5.0 - 5.1.5f1)
+    pub m_WebPlayerDeployOnline: Option<bool>,
+    /// bool: (3.4.0 - 3.5.7)
     pub m_WebPlayerNaClSupport: Option<bool>,
-    /// bool: (3.4.0 - 5.6.0b2)
+    /// bool: (3.4.0 - 2017.1.5f1)
     pub m_WebPlayerOfflineDeployment: Option<bool>,
-    /// bool: (3.4.0 - 5.6.0b2)
+    /// bool: (3.4.0 - 2017.1.5f1)
     pub m_WebPlayerStreamed: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2017.4.40f1)
     pub m_WiiUEnableNetAPI: Option<bool>,
-    /// String: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (2019.2.0b1 - 2022.3.2f1)
     pub m_WindowsDevicePortalAddress: Option<String>,
-    /// String: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (2019.2.0b1 - 2022.3.2f1)
     pub m_WindowsDevicePortalUsername: Option<String>,
-    /// bool: (2018.4.15f1 - 2018.4.15f1)
+    /// bool: (2018.2.0b1 - 2019.1.0a12)
     pub m_WsaHolographicRemoting: Option<bool>,
-    /// String: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (3.5.0 - 3.5.7)
+    pub m_XboxCompressedXex: Option<bool>,
+    /// String: (5.3.0f1 - 2019.1.14f1)
     pub m_XboxOneNetworkSharePath: Option<String>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_XboxOneStreamingInstallLaunchChunkRange: Option<i32>,
-    /// String: (5.6.0b2 - 2018.4.15f1)
+    /// String: (5.3.0f1 - 2019.1.14f1)
     pub m_XboxOneUsername: Option<String>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_macosXcodeBuildConfig: Option<i32>,
 }
 
-/// EditorUserSettings is a  class of the Unity engine since version 5.6.0b2.
+/// EditorUserSettings is a  class of the Unity engine since version 4.1.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EditorUserSettings {
-    pub m_ConfigSettings: Vec<(String, ConfigSetting)>,
-    pub m_SemanticMergeMode: i32,
     pub m_VCAutomaticAdd: bool,
     pub m_VCDebugCmd: bool,
     pub m_VCDebugCom: bool,
     pub m_VCDebugOut: bool,
-    pub m_VCShowFailedCheckout: bool,
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_ArtifactGarbageCollection: Option<bool>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2019.2.0b1 - 2019.2.21f1)
+    pub m_AssetPipelineMode: Option<i32>,
+    /// i32: (2019.3.0b1 - 2020.1.0a8)
+    pub m_AssetPipelineMode2: Option<i32>,
+    /// i32: (2019.2.0b1 - 2020.1.0a8)
+    pub m_CacheServerMode: Option<i32>,
+    /// Vec<String>: (2019.2.0b1 - 2020.1.0a8)
+    pub m_CacheServers: Option<Vec<String>>,
+    /// Vec<(String, ConfigSetting)>: (5.4.2f2 - 2022.3.2f1)
+    pub m_ConfigSettings: Option<Vec<(String, ConfigSetting)>>,
+    /// Vec<(String, String)>: (4.1.0 - 5.4.1f1)
+    pub m_ConfigValues: Option<Vec<(String, String)>>,
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_DesiredImportWorkerCount: Option<i32>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0f1 - 2022.3.2f1)
     pub m_IdleImportWorkerShutdownDelay: Option<i32>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
+    pub m_SemanticMergeMode: Option<i32>,
+    /// i32: (2021.2.0f1 - 2022.3.2f1)
     pub m_StandbyImportWorkerCount: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.6f1 - 2022.3.2f1)
     pub m_VCAllowAsyncUpdate: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_VCHierarchyOverlayIcons: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_VCOtherOverlayIcons: Option<bool>,
-    /// bool: (2019.3.0f4 - 2020.1.0a20)
+    /// bool: (2019.3.0b1 - 2020.1.17f1)
     pub m_VCOverlayIcons: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.4.5f1 - 2022.3.2f1)
     pub m_VCOverwriteFailedCheckoutAssets: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_VCProjectOverlayIcons: Option<bool>,
+    /// bool: (5.1.0f1 - 2022.3.2f1)
+    pub m_VCShowFailedCheckout: Option<bool>,
 }
 
-/// EffectConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// EffectConstant is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EffectConstant {
     pub bypass: bool,
@@ -4641,7 +5213,7 @@ pub struct EffectConstant {
     pub prevEffectIndex: u32,
     pub sendTargetEffectIndex: u32,
     pub wetMixLevelIndex: u32,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
@@ -4655,7 +5227,8 @@ pub struct EllipsoidParticleEmitter {
     pub m_Ellipsoid: Vector3f,
     pub m_Emit: bool,
     pub m_Enabled: bool,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    pub m_GameObject: PPtr,
     pub m_MinEmitterRange: f32,
     pub m_OneShot: bool,
     pub maxEmission: f32,
@@ -4669,19 +5242,19 @@ pub struct EllipsoidParticleEmitter {
     pub rndVelocity: Vector3f,
     pub tangentVelocity: Vector3f,
     pub worldVelocity: Vector3f,
-    /// bool: (3.4.0 - 2017.4.33f1)
+    /// bool: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "Simulate in Worldspace?")]
     pub Simulate_in_Worldspace_: Option<bool>,
 }
 
-/// EmbeddedNativeType is a sub class of the Unity engine since version 2019.3.0f4.
+/// EmbeddedNativeType is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EmbeddedNativeType {
     pub m_FloatArray: Vec<f32>,
     pub m_String: String,
 }
 
-/// EmissionModule is a sub class of the Unity engine since version 5.6.0b2.
+/// EmissionModule is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.EmissionModule.html):
 /**
 Script interface for the EmissionModule of a Particle System.
@@ -4693,62 +5266,70 @@ pub struct EmissionModule {
     pub enabled: bool,
     /**The current number of bursts.*/
     pub m_BurstCount: i32,
-    /**The rate at which the emitter spawns new particles over distance.*/
-    pub rateOverDistance: MinMaxCurve,
-    /**The rate at which the emitter spawns new particles over time.*/
-    pub rateOverTime: MinMaxCurve,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// u16: (3.5.0 - 5.3.8f2); i32: (5.4.0f3 - 5.6.0b4)
     pub cnt0: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// u16: (3.5.0 - 5.3.8f2); i32: (5.4.0f3 - 5.6.0b4)
     pub cnt1: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// u16: (3.5.0 - 5.3.8f2); i32: (5.4.0f3 - 5.6.0b4)
     pub cnt2: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// u16: (3.5.0 - 5.3.8f2); i32: (5.4.0f3 - 5.6.0b4)
     pub cnt3: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// u16: (5.3.0f1 - 5.3.8f2); i32: (5.4.0f3 - 5.6.0b4)
     pub cntmax0: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// u16: (5.3.0f1 - 5.3.8f2); i32: (5.4.0f3 - 5.6.0b4)
     pub cntmax1: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// u16: (5.3.0f1 - 5.3.8f2); i32: (5.4.0f3 - 5.6.0b4)
     pub cntmax2: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// u16: (5.3.0f1 - 5.3.8f2); i32: (5.4.0f3 - 5.6.0b4)
     pub cntmax3: Option<i32>,
-    /// Vec<ParticleSystemEmissionBurst>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<ParticleSystemEmissionBurst>: (5.6.0f1 - 2022.3.2f1)
     pub m_Bursts: Option<Vec<ParticleSystemEmissionBurst>>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (3.5.0 - 5.4.6f3)
+    pub m_Type: Option<i32>,
+    /// MinMaxCurve: (3.5.0 - 5.4.6f3)
+    pub rate: Option<MinMaxCurve>,
+    /**The rate at which the emitter spawns new particles over distance.*/
+    /// MinMaxCurve: (5.5.0f3 - 2022.3.2f1)
+    pub rateOverDistance: Option<MinMaxCurve>,
+    /**The rate at which the emitter spawns new particles over time.*/
+    /// MinMaxCurve: (5.5.0f3 - 2022.3.2f1)
+    pub rateOverTime: Option<MinMaxCurve>,
+    /// f32: (3.5.0 - 5.6.0b4)
     pub time0: Option<f32>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// f32: (3.5.0 - 5.6.0b4)
     pub time1: Option<f32>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// f32: (3.5.0 - 5.6.0b4)
     pub time2: Option<f32>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// f32: (3.5.0 - 5.6.0b4)
     pub time3: Option<f32>,
 }
 
-/// EmptyObject is a  class of the Unity engine since version 2019.3.0f4.
+/// EmptyObject is a  class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EmptyObject {}
 
-/// EnlightenRendererInformation is a sub class of the Unity engine since version 5.6.0b2.
+/// EnlightenRendererInformation is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EnlightenRendererInformation {
     pub dynamicLightmapSTInSystem: Vector4f,
     pub instanceHash: Hash128,
-    pub renderer: PPtr, /*<Object>*/
+    /// PPtr<Object>: (5.0.0f4 - 2022.3.2f1)
+    pub renderer: PPtr,
     pub systemId: i32,
 }
 
-/// EnlightenSceneMapping is a sub class of the Unity engine since version 5.6.0b2.
+/// EnlightenSceneMapping is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EnlightenSceneMapping {
-    pub m_Probesets: Vec<Hash128>,
     pub m_Renderers: Vec<EnlightenRendererInformation>,
     pub m_SystemAtlases: Vec<EnlightenSystemAtlasInformation>,
     pub m_Systems: Vec<EnlightenSystemInformation>,
     pub m_TerrainChunks: Vec<EnlightenTerrainChunksInformation>,
+    /// Vec<Hash128>: (5.3.0f1 - 2022.3.2f1)
+    pub m_Probesets: Option<Vec<Hash128>>,
 }
 
-/// EnlightenSystemAtlasInformation is a sub class of the Unity engine since version 5.6.0b2.
+/// EnlightenSystemAtlasInformation is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EnlightenSystemAtlasInformation {
     pub atlasHash: Hash128,
@@ -4756,7 +5337,7 @@ pub struct EnlightenSystemAtlasInformation {
     pub firstSystemId: i32,
 }
 
-/// EnlightenSystemInformation is a sub class of the Unity engine since version 5.6.0b2.
+/// EnlightenSystemInformation is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EnlightenSystemInformation {
     pub atlasIndex: i32,
@@ -4768,7 +5349,7 @@ pub struct EnlightenSystemInformation {
     pub rendererSize: u32,
 }
 
-/// EnlightenTerrainChunksInformation is a sub class of the Unity engine since version 5.6.0b2.
+/// EnlightenTerrainChunksInformation is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EnlightenTerrainChunksInformation {
     pub firstSystemId: i32,
@@ -4785,32 +5366,42 @@ pub struct ExpandedData {
     pub m_ScriptClass: String,
 }
 
-/// ExposedReferenceTable is a sub class of the Unity engine since version 2017.4.33f1.
+/// ExposedReferenceTable is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ExposedReferenceTable {
-    pub m_References: Vec<(String, PPtr /*<Object>*/)>,
+    /// Vec<(String, PPtr<Object>)>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_References: Vec<(String, PPtr)>,
 }
 
-/// Expression is a sub class of the Unity engine since version 2018.4.15f1.
+/// Expression is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Expression {
     pub op: i32,
     pub valueIndex: i32,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     #[serde(alias = "data[0]")]
     pub data_0_: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     #[serde(alias = "data[1]")]
     pub data_1_: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     #[serde(alias = "data[2]")]
     pub data_2_: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     #[serde(alias = "data[3]")]
     pub data_3_: Option<i32>,
 }
 
-/// ExternalForcesModule is a sub class of the Unity engine since version 5.6.0b2.
+/// ExtensionPropertyValue is a sub class of the Unity engine since version 2017.2.0b2.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ExtensionPropertyValue {
+    pub extensionName: String,
+    pub pluginName: String,
+    pub propertyName: String,
+    pub propertyValue: f32,
+}
+
+/// ExternalForcesModule is a sub class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.ExternalForcesModule.html):
 /**
 Script interface for the ExternalForcesModule of a Particle System.
@@ -4821,19 +5412,63 @@ pub struct ExternalForcesModule {
     /**Specifies whether the ExternalForcesModule is enabled or disabled.*/
     pub enabled: bool,
     /**Apply all Force Fields belonging to a matching Layer to this Particle System.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub influenceFilter: Option<i32>,
-    /// Vec<PPtr/*<ParticleSystemForceField>*/>: (2018.4.15f1 - 2022.2.0b16)
-    pub influenceList: Option<Vec<PPtr /*<ParticleSystemForceField>*/>>,
+    /// Vec<PPtr<ParticleSystemForceField>>: (2018.3.0f2 - 2022.3.2f1)
+    pub influenceList: Option<Vec<PPtr>>,
     /**Particle System Force Field Components with a matching Layer affect this Particle System.*/
-    /// BitField: (2018.4.15f1 - 2022.2.0b16)
+    /// BitField: (2018.3.0f2 - 2022.3.2f1)
     pub influenceMask: Option<BitField>,
     /**Multiplies the magnitude of external forces affecting the particles.*/
-    /// f32: (5.6.0b2 - 2018.4.15f1)
+    /// f32: (4.0.0 - 2019.2.0a8)
     pub multiplier: Option<f32>,
     /**Multiplies the magnitude of applied external forces.*/
-    /// MinMaxCurve: (2019.3.0f4 - 2022.2.0b16)
+    /// MinMaxCurve: (2019.1.0f2 - 2022.3.2f1)
     pub multiplierCurve: Option<MinMaxCurve>,
+}
+
+/// FalloffTable is a sub class of the Unity engine since version 2017.1.0b1.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct FalloffTable {
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[0]")]
+    pub m_Table_0_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[10]")]
+    pub m_Table_10_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[11]")]
+    pub m_Table_11_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[12]")]
+    pub m_Table_12_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[1]")]
+    pub m_Table_1_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[2]")]
+    pub m_Table_2_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[3]")]
+    pub m_Table_3_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[4]")]
+    pub m_Table_4_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[5]")]
+    pub m_Table_5_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[6]")]
+    pub m_Table_6_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[7]")]
+    pub m_Table_7_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[8]")]
+    pub m_Table_8_: Option<f32>,
+    /// f32: (2017.1.0b1 - 2017.1.0b10)
+    #[serde(alias = "m_Table[9]")]
+    pub m_Table_9_: Option<f32>,
 }
 
 /// FastPropertyName is a sub class of the Unity engine since version 3.4.0.
@@ -4855,27 +5490,31 @@ pub struct FixedJoint {
     /**The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.*/
     pub m_BreakTorque: f32,
     /**A reference to another rigidbody this joint connects to.*/
-    pub m_ConnectedBody: PPtr, /*<Rigidbody>*/
+    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    pub m_ConnectedBody: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr/*<ArticulationBody>*/: (2020.3.42f1 - 2022.2.0b16)
-    pub m_ConnectedArticulationBody: Option<PPtr /*<ArticulationBody>*/>,
+    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_ConnectedMassScale: Option<f32>,
     /**Enable collision between bodies connected with the joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.5.0 - 2022.3.2f1)
     pub m_EnableCollision: Option<bool>,
     /**Toggle preprocessing for this joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_EnablePreprocessing: Option<bool>,
+    /// bool: (2017.1.0b2 - 2017.1.0b5)
+    pub m_Enabled: Option<bool>,
     /**The scale to apply to the inverse mass and inertia tensor of the body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_MassScale: Option<f32>,
 }
 
-/// FixedJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// FixedJoint2D is a  class of the Unity engine since version 5.3.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/FixedJoint2D.html):
 /**
 Connects two Rigidbody2D together at their anchor points using a configurable spring.
@@ -4892,7 +5531,8 @@ pub struct FixedJoint2D {
     pub m_BreakTorque: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
+    /// PPtr<Rigidbody2D>: (5.3.0f1 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**The amount by which the spring force is reduced in proportion to the movement speed.*/
     pub m_DampingRatio: f32,
     /**Should the two rigid bodies connected with this joint collide with each other?*/
@@ -4902,9 +5542,10 @@ pub struct FixedJoint2D {
     /**The frequency at which the spring oscillates around the distance between the objects.*/
     pub m_Frequency: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
 }
 
@@ -4919,7 +5560,8 @@ You can reference flares and assign them to a Light at runtime.See Also: Flare a
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Flare {
     pub m_Elements: Vec<FlareElement>,
-    pub m_FlareTexture: PPtr, /*<Texture>*/
+    /// PPtr<Texture>: (3.4.0 - 2022.3.2f1)
+    pub m_FlareTexture: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
     pub m_TextureLayout: i32,
@@ -4946,8 +5588,9 @@ pub struct FloatCurve {
     pub classID: i32,
     pub curve: AnimationCurve,
     pub path: String,
-    pub script: PPtr, /*<MonoScript>*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// PPtr<MonoScript>: (3.4.0 - 2022.3.2f1)
+    pub script: PPtr,
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub flags: Option<i32>,
 }
 
@@ -4964,7 +5607,8 @@ pub struct Font {
     pub m_AsciiStartOffset: i32,
     pub m_CharacterRects: Vec<CharacterInfo>,
     pub m_ConvertCase: i32,
-    pub m_DefaultMaterial: PPtr, /*<Material>*/
+    /// PPtr<Material>: (3.4.0 - 2022.3.2f1)
+    pub m_DefaultMaterial: PPtr,
     pub m_DefaultStyle: u32,
     pub m_FontData: Vec<char>,
     pub m_FontNames: Vec<String>,
@@ -4974,38 +5618,39 @@ pub struct Font {
     pub m_LineSpacing: f32,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_Texture: PPtr, /*<Texture>*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<Texture>: (3.4.0 - 2022.3.2f1)
+    pub m_Texture: PPtr,
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_CharacterPadding: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_CharacterSpacing: Option<i32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.4.0f3 - 2022.3.2f1)
     pub m_Descent: Option<f32>,
-    /// Vec<PPtr/*<Font>*/>: (5.6.0b2 - 2022.2.0b16)
-    pub m_FallbackFonts: Option<Vec<PPtr /*<Font>*/>>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// Vec<PPtr<Font>>: (4.0.0 - 2022.3.2f1)
+    pub m_FallbackFonts: Option<Vec<PPtr>>,
+    /// i32: (3.4.0 - 3.5.7)
     pub m_FontCountX: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.5.7)
     pub m_FontCountY: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_FontRenderingMode: Option<i32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 3.5.7)
     pub m_GridFont: Option<bool>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.2.5f1)
     pub m_Kerning: Option<f32>,
-    /// Vec<(i32, f32)>: (3.4.0 - 3.4.0)
+    /// Vec<(i32, f32)>: (3.4.0 - 3.5.7)
     pub m_PerCharacterKerning: Option<Vec<(i32, f32)>>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.0.0 - 2022.3.2f1)
     pub m_PixelScale: Option<f32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_ShouldRoundAdvanceValue: Option<bool>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.3.0f1 - 2022.3.2f1)
     pub m_Tracking: Option<f32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.5f1 - 2022.3.2f1)
     pub m_UseLegacyBoundsCalculation: Option<bool>,
 }
 
-/// ForceModule is a sub class of the Unity engine since version 5.6.0b2.
+/// ForceModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ForceModule {
     pub enabled: bool,
@@ -5016,7 +5661,7 @@ pub struct ForceModule {
     pub z: MinMaxCurve,
 }
 
-/// FrictionJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// FrictionJoint2D is a  class of the Unity engine since version 5.3.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/FrictionJoint2D.html):
 /**
 Applies both force and torque to reduce both the linear and angular velocities to zero.
@@ -5034,23 +5679,25 @@ pub struct FrictionJoint2D {
     pub m_BreakTorque: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
+    /// PPtr<Rigidbody2D>: (5.3.0f1 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**Should the two rigid bodies connected with this joint collide with each other?*/
     pub m_EnableCollision: bool,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The maximum force that can be generated when trying to maintain the friction joint constraint.*/
     pub m_MaxForce: f32,
     /**The maximum torque that can be generated when trying to maintain the friction joint constraint.*/
     pub m_MaxTorque: f32,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
 }
 
-/// GISettings is a sub class of the Unity engine since version 5.6.0b2.
+/// GISettings is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GISettings {
     pub m_AlbedoBoost: f32,
@@ -5059,7 +5706,7 @@ pub struct GISettings {
     pub m_EnableRealtimeLightmaps: bool,
     pub m_EnvironmentLightingMode: u32,
     pub m_IndirectOutputScale: f32,
-    /// f32: (5.6.0b2 - 2017.4.33f1)
+    /// f32: (5.0.0f4 - 2018.2.21f1)
     pub m_TemporalCoherenceThreshold: Option<f32>,
 }
 
@@ -5069,29 +5716,29 @@ pub struct GLTextureSettings {
     pub m_Aniso: i32,
     pub m_FilterMode: i32,
     pub m_MipBias: f32,
-    /// i32: (3.4.0 - 5.6.0b2)
+    /// i32: (3.4.0 - 5.6.7f1)
     pub m_WrapMode: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_WrapU: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_WrapV: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_WrapW: Option<i32>,
 }
 
 /// GUID is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GUID {
-    /// u32: (3.4.0 - 2022.2.0b16)
+    /// u32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "data[0]")]
     pub data_0_: Option<u32>,
-    /// u32: (3.4.0 - 2022.2.0b16)
+    /// u32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "data[1]")]
     pub data_1_: Option<u32>,
-    /// u32: (3.4.0 - 2022.2.0b16)
+    /// u32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "data[2]")]
     pub data_2_: Option<u32>,
-    /// u32: (3.4.0 - 2022.2.0b16)
+    /// u32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "data[3]")]
     pub data_3_: Option<u32>,
 }
@@ -5108,19 +5755,22 @@ pub struct GUIText {
     pub m_Alignment: i16,
     pub m_Anchor: i16,
     pub m_Enabled: u8,
-    pub m_Font: PPtr, /*<Font>*/
+    /// PPtr<Font>: (3.4.0 - 2019.3.0a3)
+    pub m_Font: PPtr,
     pub m_FontSize: i32,
     pub m_FontStyle: i32,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2019.3.0a3)
+    pub m_GameObject: PPtr,
     pub m_LineSpacing: f32,
-    pub m_Material: PPtr, /*<Material>*/
+    /// PPtr<Material>: (3.4.0 - 2019.3.0a3)
+    pub m_Material: PPtr,
     pub m_PixelCorrect: bool,
     pub m_PixelOffset: Vector2f,
     pub m_TabSize: f32,
     pub m_Text: String,
-    /// ColorRGBA: (5.6.0b2 - 2018.4.15f1)
+    /// ColorRGBA: (4.2.0 - 2019.3.0a3)
     pub m_Color: Option<ColorRGBA>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (4.0.0 - 2019.3.0a3)
     pub m_RichText: Option<bool>,
 }
 
@@ -5130,11 +5780,13 @@ pub struct GUITexture {
     pub m_BottomBorder: i32,
     pub m_Color: ColorRGBA,
     pub m_Enabled: u8,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2019.3.0a3)
+    pub m_GameObject: PPtr,
     pub m_LeftBorder: i32,
     pub m_PixelInset: Rectf,
     pub m_RightBorder: i32,
-    pub m_Texture: PPtr, /*<Texture>*/
+    /// PPtr<Texture>: (3.4.0 - 2019.3.0a3)
+    pub m_Texture: PPtr,
     pub m_TopBorder: i32,
 }
 
@@ -5150,7 +5802,8 @@ Note: Many variables in the GameObject class have been removed. To access GameOb
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GameObject {
-    pub m_Component: Vec<Enum_i32__PPtr___Component______ComponentPair>,
+    /// Vec<(i32, PPtr<Component>)>: (3.4.0 - 5.4.6f3); Vec<ComponentPair>: (5.5.0f3 - 2022.3.2f1)
+    pub m_Component: Vec<Enum_i32__PPtr___ComponentPair>,
     pub m_IsActive: Enum_u8__bool,
     /**The layer the GameObject is in.*/
     pub m_Layer: u32,
@@ -5162,8 +5815,8 @@ pub struct GameObject {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_i32__PPtr___Component______ComponentPair {
-    i32__PPtr___Component___((i32, PPtr /*<Component>*/)),
+pub enum Enum_i32__PPtr___ComponentPair {
+    i32__PPtr((i32, PPtr)),
     ComponentPair(ComponentPair),
 }
 
@@ -5174,7 +5827,7 @@ pub enum Enum_u8__bool {
     bool(bool),
 }
 
-/// GameObjectRecorder is a  class of the Unity engine since version 2017.4.33f1.
+/// GameObjectRecorder is a  class of the Unity engine since version 2017.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.GameObjectRecorder.html):
 /**
 Records the changing properties of a GameObject as the Scene runs and saves the information into an AnimationClip.
@@ -5186,26 +5839,30 @@ pub struct GameObjectRecorder {
     pub m_Name: String,
 }
 
-/// GenericBinding is a sub class of the Unity engine since version 5.6.0b2.
+/// GenericBinding is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GenericBinding {
     pub attribute: u32,
     pub customType: u8,
     pub isPPtrCurve: u8,
     pub path: u32,
-    pub script: PPtr, /*<Object>*/
-    pub typeID: i32,
-    /// u8: (2022.2.0b16 - 2022.2.0b16)
+    /// PPtr<Object>: (4.3.0 - 2022.3.2f1)
+    pub script: PPtr,
+    /// u16: (4.3.0 - 5.5.6f1)
+    pub classID: Option<u16>,
+    /// u8: (2022.1.0b1 - 2022.3.2f1)
     pub isIntCurve: Option<u8>,
-    /// u8: (2022.2.0b16 - 2022.2.0b16)
+    /// u8: (2022.2.0b1 - 2022.3.2f1)
     pub isSerializeReferenceCurve: Option<u8>,
+    /// i32: (5.6.0b1 - 2022.3.2f1)
+    pub typeID: Option<i32>,
 }
 
 /// GlobalGameManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GlobalGameManager {}
 
-/// Google is a sub class of the Unity engine since version 5.6.0b2.
+/// Google is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Google {
     pub depthFormat: i32,
@@ -5221,131 +5878,190 @@ See Also: GradientColorKey, GradientAlphaKey, SerializedProperty.gradientValue.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Gradient {
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub atime0: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub atime1: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub atime2: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub atime3: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub atime4: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub atime5: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub atime6: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub atime7: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub ctime0: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub ctime1: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub ctime2: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub ctime3: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub ctime4: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub ctime5: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub ctime6: Option<u16>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// u16: (5.5.0f3 - 2022.3.2f1)
     pub ctime7: Option<u16>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub key0: Option<ColorRGBA>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub key1: Option<ColorRGBA>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub key2: Option<ColorRGBA>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub key3: Option<ColorRGBA>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub key4: Option<ColorRGBA>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub key5: Option<ColorRGBA>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub key6: Option<ColorRGBA>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub key7: Option<ColorRGBA>,
     /**Indicates the color space that the gradient color keys are using.*/
-    /// i8: (2022.2.0b16 - 2022.2.0b16)
+    /// i8: (2022.2.0b1 - 2022.3.2f1)
     pub m_ColorSpace: Option<i8>,
-    /// ColorRGBA: (3.4.0 - 3.4.0)
+    /// ColorRGBA: (3.4.0 - 5.4.6f3)
     #[serde(alias = "m_Color[0]")]
     pub m_Color_0_: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 3.4.0)
+    /// ColorRGBA: (3.4.0 - 5.4.6f3)
     #[serde(alias = "m_Color[1]")]
     pub m_Color_1_: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 3.4.0)
+    /// ColorRGBA: (3.4.0 - 5.4.6f3)
     #[serde(alias = "m_Color[2]")]
     pub m_Color_2_: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 3.4.0)
+    /// ColorRGBA: (3.4.0 - 5.4.6f3)
     #[serde(alias = "m_Color[3]")]
     pub m_Color_3_: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 3.4.0)
+    /// ColorRGBA: (3.4.0 - 5.4.6f3)
     #[serde(alias = "m_Color[4]")]
     pub m_Color_4_: Option<ColorRGBA>,
     /**Controls how the gradient colors are interpolated.*/
-    /// i32: (5.6.0b2 - 2021.2.16f1); u8: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.1.24f1); u8: (2022.2.0b1 - 2022.3.2f1)
     pub m_Mode: Option<i32>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (5.5.0f3 - 2022.3.2f1)
     pub m_NumAlphaKeys: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (5.5.0f3 - 2022.3.2f1)
     pub m_NumColorKeys: Option<u8>,
 }
 
-/// GraphicsSettings is a  class of the Unity engine since version 5.6.0b2.
+/// GradientNEW is a sub class of the Unity engine since version 3.5.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GradientNEW {
+    pub atime0: u16,
+    pub atime1: u16,
+    pub atime2: u16,
+    pub atime3: u16,
+    pub atime4: u16,
+    pub atime5: u16,
+    pub atime6: u16,
+    pub atime7: u16,
+    pub ctime0: u16,
+    pub ctime1: u16,
+    pub ctime2: u16,
+    pub ctime3: u16,
+    pub ctime4: u16,
+    pub ctime5: u16,
+    pub ctime6: u16,
+    pub ctime7: u16,
+    pub key0: ColorRGBA,
+    pub key1: ColorRGBA,
+    pub key2: ColorRGBA,
+    pub key3: ColorRGBA,
+    pub key4: ColorRGBA,
+    pub key5: ColorRGBA,
+    pub key6: ColorRGBA,
+    pub key7: ColorRGBA,
+    pub m_NumAlphaKeys: u8,
+    pub m_NumColorKeys: u8,
+}
+
+/// GraphicsSettings is a  class of the Unity engine since version 4.2.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Rendering.GraphicsSettings.html):
 /**
 Script interface for Graphics Settings.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GraphicsSettings {
-    pub m_AlwaysIncludedShaders: Vec<PPtr /*<Shader>*/>,
-    pub m_Deferred: BuiltinShaderSettings,
-    pub m_DeferredReflections: BuiltinShaderSettings,
-    pub m_DepthNormals: BuiltinShaderSettings,
-    pub m_LensFlare: BuiltinShaderSettings,
-    pub m_LightHalo: BuiltinShaderSettings,
-    pub m_LightsUseLinearIntensity: bool,
-    pub m_MotionVectors: BuiltinShaderSettings,
-    pub m_PreloadedShaders: Vec<PPtr /*<ShaderVariantCollection>*/>,
-    pub m_ScreenSpaceShadows: BuiltinShaderSettings,
-    pub m_SpritesDefaultMaterial: PPtr, /*<Material>*/
-    pub m_TierSettings_Tier1: TierGraphicsSettings,
-    pub m_TierSettings_Tier2: TierGraphicsSettings,
-    pub m_TierSettings_Tier3: TierGraphicsSettings,
-    pub m_TransparencySortAxis: Vector3f,
-    pub m_TransparencySortMode: i32,
-    /// bool: (2019.3.0f4 - 2019.3.0f4)
+    /// Vec<PPtr<Shader>>: (4.2.0 - 2022.3.2f1)
+    pub m_AlwaysIncludedShaders: Vec<PPtr>,
+    /// bool: (2019.3.0b1 - 2020.1.0a7)
     pub m_AllowEnlightenSupportForUpgradedProject: Option<bool>,
-    /// PPtr/*<MonoBehaviour>*/: (2017.4.33f1 - 2022.2.0b16)
-    pub m_CustomRenderPipeline: Option<PPtr /*<MonoBehaviour>*/>,
-    /// u32: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.3.45f1 - 2022.3.2f1)
+    pub m_CameraRelativeLightCulling: Option<bool>,
+    /// bool: (2020.3.45f1 - 2022.3.2f1)
+    pub m_CameraRelativeShadowCulling: Option<bool>,
+    /// PPtr<MonoBehaviour>: (5.6.0f1 - 2022.3.2f1)
+    pub m_CustomRenderPipeline: Option<PPtr>,
+    /// u32: (2020.2.0b1 - 2022.3.2f1)
     pub m_DefaultRenderingLayerMask: Option<u32>,
-    /// BuiltinShaderSettings: (5.6.0b2 - 2021.2.16f1)
+    /// BuiltinShaderSettings: (5.0.0f4 - 2022.3.2f1)
+    pub m_Deferred: Option<BuiltinShaderSettings>,
+    /// BuiltinShaderSettings: (5.2.0f2 - 2022.3.2f1)
+    pub m_DeferredReflections: Option<BuiltinShaderSettings>,
+    /// BuiltinShaderSettings: (5.4.0f3 - 2022.3.2f1)
+    pub m_DepthNormals: Option<BuiltinShaderSettings>,
+    /// BuiltinShaderSettings: (5.0.0f4 - 2022.1.24f1)
     pub m_LegacyDeferred: Option<BuiltinShaderSettings>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// BuiltinShaderSettings: (5.4.0f3 - 2022.3.2f1)
+    pub m_LensFlare: Option<BuiltinShaderSettings>,
+    /// BuiltinShaderSettings: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightHalo: Option<BuiltinShaderSettings>,
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LightProbeOutsideHullStrategy: Option<i32>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.6.0b1 - 5.6.0b9)
     pub m_LightsUseCCT: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.0f1 - 2022.3.2f1)
     pub m_LightsUseColorTemperature: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (5.6.0b1 - 2022.3.2f1)
+    pub m_LightsUseLinearIntensity: Option<bool>,
+    /// bool: (2018.4.6f1 - 2022.3.2f1)
     pub m_LogWhenShaderIsCompiled: Option<bool>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// BuiltinShaderSettings: (5.4.0f3 - 2022.3.2f1)
+    pub m_MotionVectors: Option<BuiltinShaderSettings>,
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_PreloadShadersBatchTimeLimit: Option<i32>,
-    /// Vec<(String, PPtr/*<Object>*/)>: (2021.2.16f1 - 2022.2.0b16)
-    pub m_SRPDefaultSettings: Option<Vec<(String, PPtr /*<Object>*/)>>,
-    /// Vec<PlatformShaderDefines>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<PPtr<ShaderVariantCollection>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_PreloadedShaders: Option<Vec<PPtr>>,
+    /// Vec<(String, PPtr<Object>)>: (2021.2.0b1 - 2022.3.2f1)
+    pub m_SRPDefaultSettings: Option<Vec<(String, PPtr)>>,
+    /// BuiltinShaderSettings: (5.4.0f3 - 2022.3.2f1)
+    pub m_ScreenSpaceShadows: Option<BuiltinShaderSettings>,
+    /// Vec<PlatformShaderDefines>: (2017.1.0b2 - 2022.3.2f1)
     pub m_ShaderDefinesPerShaderCompiler: Option<Vec<PlatformShaderDefines>>,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// PlatformShaderSettings: (5.3.0f1 - 5.3.8f2)
+    pub m_ShaderSettings: Option<PlatformShaderSettings>,
+    /// PlatformShaderSettings: (5.4.0f3 - 5.4.6f3)
+    pub m_ShaderSettings_Tier1: Option<PlatformShaderSettings>,
+    /// PlatformShaderSettings: (5.4.0f3 - 5.4.6f3)
+    pub m_ShaderSettings_Tier2: Option<PlatformShaderSettings>,
+    /// PlatformShaderSettings: (5.4.0f3 - 5.4.6f3)
+    pub m_ShaderSettings_Tier3: Option<PlatformShaderSettings>,
+    /// PPtr<Material>: (5.4.0f3 - 2022.3.2f1)
+    pub m_SpritesDefaultMaterial: Option<PPtr>,
+    /// TierGraphicsSettings: (5.5.0f3 - 2022.3.2f1)
+    pub m_TierSettings_Tier1: Option<TierGraphicsSettings>,
+    /// TierGraphicsSettings: (5.5.0f3 - 2022.3.2f1)
+    pub m_TierSettings_Tier2: Option<TierGraphicsSettings>,
+    /// TierGraphicsSettings: (5.5.0f3 - 2022.3.2f1)
+    pub m_TierSettings_Tier3: Option<TierGraphicsSettings>,
+    /// Vector3f: (5.6.0b1 - 2022.3.2f1)
+    pub m_TransparencySortAxis: Option<Vector3f>,
+    /// i32: (5.6.0b1 - 2022.3.2f1)
+    pub m_TransparencySortMode: Option<i32>,
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub m_VideoShadersIncludeMode: Option<i32>,
 }
 
-/// Grid is a  class of the Unity engine since version 2017.4.33f1.
+/// Grid is a  class of the Unity engine since version 2017.2.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Grid.html):
 /**
 Grid is the base class for plotting a layout of uniformly spaced points and lines.
@@ -5364,10 +6080,11 @@ pub struct Grid {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
 }
 
-/// GroupConnection is a sub class of the Unity engine since version 2021.2.16f1.
+/// GroupConnection is a sub class of the Unity engine since version 2021.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GroupConnection {
     pub sendEffectIndex: u32,
@@ -5375,7 +6092,7 @@ pub struct GroupConnection {
     pub targetGroupIndex: u32,
 }
 
-/// GroupConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// GroupConstant is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GroupConstant {
     pub bypassEffects: bool,
@@ -5384,7 +6101,7 @@ pub struct GroupConstant {
     pub pitchIndex: u32,
     pub solo: bool,
     pub volumeIndex: u32,
-    /// u32: (2019.3.0f4 - 2020.1.0a20)
+    /// u32: (2019.1.0b1 - 2022.1.0a9)
     pub sendIndex: Option<u32>,
 }
 
@@ -5393,11 +6110,12 @@ pub struct GroupConstant {
 pub struct Halo {
     pub m_Color: ColorRGBA,
     pub m_Enabled: u8,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_Size: f32,
 }
 
-/// HandPose is a sub class of the Unity engine since version 5.6.0b2.
+/// HandPose is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HandPose {
     pub m_CloseOpen: f32,
@@ -5408,7 +6126,7 @@ pub struct HandPose {
     pub m_Override: f32,
 }
 
-/// Hash128 is a sub class of the Unity engine since version 5.6.0b2.
+/// Hash128 is a sub class of the Unity engine since version 4.1.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Hash128.html):
 /**
 Represents  a 128-bit hash value.
@@ -5421,57 +6139,57 @@ The hash algorithm used to compute Hash128 values is SpookyHash V2. Note that wh
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Hash128 {
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[0]")]
     pub bytes_0_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[10]")]
     pub bytes_10_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[11]")]
     pub bytes_11_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[12]")]
     pub bytes_12_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[13]")]
     pub bytes_13_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[14]")]
     pub bytes_14_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[15]")]
     pub bytes_15_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[1]")]
     pub bytes_1_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[2]")]
     pub bytes_2_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[3]")]
     pub bytes_3_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[4]")]
     pub bytes_4_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[5]")]
     pub bytes_5_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[6]")]
     pub bytes_6_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[7]")]
     pub bytes_7_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[8]")]
     pub bytes_8_: Option<u8>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (4.1.0 - 2022.3.2f1)
     #[serde(alias = "bytes[9]")]
     pub bytes_9_: Option<u8>,
 }
 
-/// HeightMeshBVNode is a sub class of the Unity engine since version 5.6.0b2.
+/// HeightMeshBVNode is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HeightMeshBVNode {
     pub i: i32,
@@ -5480,7 +6198,7 @@ pub struct HeightMeshBVNode {
     pub n: i32,
 }
 
-/// HeightMeshData is a sub class of the Unity engine since version 5.6.0b2.
+/// HeightMeshData is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HeightMeshData {
     pub m_Bounds: AABB,
@@ -5497,37 +6215,44 @@ pub struct Heightmap {
     pub m_MinMaxPatchHeights: Vec<f32>,
     pub m_PrecomputedError: Vec<f32>,
     pub m_Scale: Vector3f,
-    /// PPtr/*<PhysicMaterial>*/: (3.4.0 - 3.4.0)
-    pub m_DefaultPhysicMaterial: Option<PPtr /*<PhysicMaterial>*/>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// PPtr<PhysicMaterial>: (3.4.0 - 4.7.2)
+    pub m_DefaultPhysicMaterial: Option<PPtr>,
+    /// bool: (2019.3.0b1 - 2022.3.2f1)
     pub m_EnableHolesTextureCompression: Option<bool>,
-    /// i32: (3.4.0 - 2018.4.15f1)
+    /// bool: (2019.3.0a5 - 2019.3.0a7)
+    pub m_EnableSurfaceMaskTextureCompression: Option<bool>,
+    /// i32: (3.4.0 - 2019.3.0a4)
     pub m_Height: Option<i32>,
-    /// Vec<u8>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<u8>: (2019.3.0b1 - 2022.3.2f1)
     pub m_Holes: Option<Vec<u8>>,
-    /// Vec<u8>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<u8>: (2019.3.0b1 - 2022.3.2f1)
     pub m_HolesLOD: Option<Vec<u8>>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     pub m_Resolution: Option<i32>,
-    /// f32: (5.6.0b2 - 2018.4.15f1)
+    /// Vec<u8>: (2019.3.0a5 - 2019.3.0a7)
+    pub m_SurfaceMask: Option<Vec<u8>>,
+    /// Vec<u8>: (2019.3.0a5 - 2019.3.0a7)
+    pub m_SurfaceMaskLOD: Option<Vec<u8>>,
+    /// f32: (5.0.0f4 - 2019.3.0a8)
     pub m_Thickness: Option<f32>,
-    /// i32: (3.4.0 - 2018.4.15f1)
+    /// i32: (3.4.0 - 2019.3.0a4)
     pub m_Width: Option<i32>,
 }
 
-/// HeightmapData is a sub class of the Unity engine since version 5.6.0b2.
+/// HeightmapData is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HeightmapData {
-    pub terrainData: PPtr, /*<Object>*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// PPtr<Object>: (3.5.0 - 2022.3.2f1)
+    pub terrainData: PPtr,
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub isRotated: Option<bool>,
-    /// Vector3f: (5.6.0b2 - 2021.2.16f1)
+    /// Vector3f: (3.5.0 - 2022.1.24f1)
     pub position: Option<Vector3f>,
-    /// Matrix4x4f: (2022.2.0b16 - 2022.2.0b16)
+    /// Matrix4x4f: (2022.2.0b1 - 2022.3.2f1)
     pub surfaceToTerrain: Option<Matrix4x4f>,
 }
 
-/// HierarchicalSceneData is a sub class of the Unity engine since version 2019.3.0f4.
+/// HierarchicalSceneData is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HierarchicalSceneData {
     pub m_SceneGUID: GUID,
@@ -5536,12 +6261,16 @@ pub struct HierarchicalSceneData {
 /// HierarchyState is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HierarchyState {
-    pub expanded: Vec<PPtr /*<Object>*/>,
+    /// Vec<PPtr<Object>>: (3.4.0 - 2022.3.2f1)
+    pub expanded: Vec<PPtr>,
+    /// Vec<PPtr<Object>>: (3.4.0 - 2022.3.2f1)
+    pub selection: Vec<PPtr>,
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "scrollposition.x")]
-    pub scrollposition_x: f32,
+    pub scrollposition_x: Option<f32>,
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "scrollposition.y")]
-    pub scrollposition_y: f32,
-    pub selection: Vec<PPtr /*<Object>*/>,
+    pub scrollposition_y: Option<f32>,
 }
 
 /// HingeJoint is a  class of the Unity engine since version 3.4.0.
@@ -5565,9 +6294,11 @@ pub struct HingeJoint {
     /**The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.*/
     pub m_BreakTorque: f32,
     /**A reference to another rigidbody this joint connects to.*/
-    pub m_ConnectedBody: PPtr, /*<Rigidbody>*/
+    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    pub m_ConnectedBody: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Limit of angular rotation (in degrees) on the hinge joint.*/
     pub m_Limits: JointLimits,
     /**The motor will apply a force up to a maximum force to achieve the target velocity in degrees per second.*/
@@ -5581,35 +6312,37 @@ pub struct HingeJoint {
     /**Enables the joint's spring. Disabled by default.*/
     pub m_UseSpring: bool,
     /**Should the connectedAnchor be calculated automatically?*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_AutoConfigureConnectedAnchor: Option<bool>,
     /**Position of the anchor relative to the connected Rigidbody.*/
-    /// Vector3f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector3f: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedAnchor: Option<Vector3f>,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr/*<ArticulationBody>*/: (2020.3.42f1 - 2022.2.0b16)
-    pub m_ConnectedArticulationBody: Option<PPtr /*<ArticulationBody>*/>,
+    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_ConnectedMassScale: Option<f32>,
     /**Enable collision between bodies connected with the joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.5.0 - 2022.3.2f1)
     pub m_EnableCollision: Option<bool>,
     /**Toggle preprocessing for this joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_EnablePreprocessing: Option<bool>,
+    /// bool: (2017.1.0b2 - 2017.1.0b5)
+    pub m_Enabled: Option<bool>,
     /**If enabled, the angle of the hinge is extended to [-360, 360] degrees.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExtendedLimits: Option<bool>,
     /**The scale to apply to the inverse mass and inertia tensor of the body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_MassScale: Option<f32>,
     /**Defines whether the HingeJoint.spring outputs accelerations instead of forces.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_UseAcceleration: Option<bool>,
 }
 
-/// HingeJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// HingeJoint2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/HingeJoint2D.html):
 /**
 Joint that allows a Rigidbody2D object to rotate around a point in space or a point on another object.
@@ -5619,41 +6352,57 @@ See Also: DistanceJoint2D, SliderJoint2D, SpringJoint2D, JointAngleLimits2D.
 pub struct HingeJoint2D {
     /**The joint's anchor point on the object that has the joint component.*/
     pub m_Anchor: Vector2f,
-    pub m_AngleLimits: JointAngleLimits2D,
-    /**Should the connectedAnchor be calculated automatically?*/
-    pub m_AutoConfigureConnectedAnchor: bool,
-    /**The force that needs to be applied for this joint to break.*/
-    pub m_BreakForce: f32,
-    /**The torque that needs to be applied for this joint to break.*/
-    pub m_BreakTorque: f32,
+    pub m_AngleLimits: Enum_JointAngleLimit2D__JointAngleLimits2D,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
-    /**Should the two rigid bodies connected with this joint collide with each other?*/
-    pub m_EnableCollision: bool,
+    /// PPtr<Rigidbody2D>: (4.3.0 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Parameters for the motor force applied to the joint.*/
     pub m_Motor: JointMotor2D,
     /**Should limits be placed on the range of rotation?*/
     pub m_UseLimits: bool,
     /**Should the joint be rotated automatically by a motor torque?*/
     pub m_UseMotor: bool,
+    /**Should the connectedAnchor be calculated automatically?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_AutoConfigureConnectedAnchor: Option<bool>,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
+    /**The force that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakForce: Option<f32>,
+    /**The torque that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakTorque: Option<f32>,
+    /// bool: (4.3.0 - 5.0.0f4)
+    pub m_CollideConnected: Option<bool>,
+    /**Should the two rigid bodies connected with this joint collide with each other?*/
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_EnableCollision: Option<bool>,
 }
 
-/// HoloLens is a sub class of the Unity engine since version 2017.4.33f1.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_JointAngleLimit2D__JointAngleLimits2D {
+    JointAngleLimit2D(JointAngleLimit2D),
+    JointAngleLimits2D(JointAngleLimits2D),
+}
+
+/// HoloLens is a sub class of the Unity engine since version 5.6.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HoloLens {
-    pub depthBufferSharingEnabled: bool,
     pub depthFormat: i32,
+    /// bool: (2017.3.0f3 - 2020.2.0a15)
+    pub depthBufferSharingEnabled: Option<bool>,
 }
 
-/// HumanBone is a sub class of the Unity engine since version 5.6.0b2.
+/// HumanBone is a sub class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/HumanBone.html):
 /**
 The mapping between a bone in the model and the conceptual bone in the Mecanim human anatomy.
@@ -5670,7 +6419,7 @@ pub struct HumanBone {
     pub m_Limit: SkeletonBoneLimit,
 }
 
-/// HumanDescription is a sub class of the Unity engine since version 5.6.0b2.
+/// HumanDescription is a sub class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/HumanDescription.html):
 /**
 Class that holds humanoid avatar parameters to pass to the AvatarBuilder.BuildHumanAvatar function.
@@ -5683,9 +6432,6 @@ pub struct HumanDescription {
     /**Modification to the minimum distance between the feet of a humanoid model.*/
     pub m_FeetSpacing: f32,
     pub m_ForeArmTwist: f32,
-    pub m_HasExtraRoot: bool,
-    /**True for any human that has a translation Degree of Freedom (DoF). It is set to false by default.*/
-    pub m_HasTranslationDoF: bool,
     /**Mapping between Mecanim bone names and bone names in the rig.*/
     pub m_Human: Vec<HumanBone>,
     /**Amount by which the leg's length is allowed to stretch when using IK.*/
@@ -5694,26 +6440,47 @@ pub struct HumanDescription {
     pub m_RootMotionBoneName: String,
     /**List of bone Transforms to include in the model.*/
     pub m_Skeleton: Vec<SkeletonBone>,
-    pub m_SkeletonHasParents: bool,
     /**Defines how the upper leg's roll/twisting is distributed between the thigh and knee joints.*/
     pub m_UpperLegTwist: f32,
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.0b1 - 2022.3.2f1)
     pub m_GlobalScale: Option<f32>,
-    /// Quaternionf: (5.6.0b2 - 2017.4.33f1)
+    /// Vec<HumanHandle>: (4.0.0 - 4.2.2)
+    pub m_Handles: Option<Vec<HumanHandle>>,
+    /// bool: (5.5.0f3 - 2022.3.2f1)
+    pub m_HasExtraRoot: Option<bool>,
+    /**True for any human that has a translation Degree of Freedom (DoF). It is set to false by default.*/
+    /// bool: (5.2.0f2 - 2022.3.2f1)
+    pub m_HasTranslationDoF: Option<bool>,
+    /// Quaternionf: (5.5.0f3 - 2018.2.12f1)
     pub m_RootMotionBoneRotation: Option<Quaternionf>,
+    /// bool: (5.5.0f3 - 2022.3.2f1)
+    pub m_SkeletonHasParents: Option<bool>,
 }
 
-/// HumanGoal is a sub class of the Unity engine since version 5.6.0b2.
+/// HumanGoal is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HumanGoal {
-    pub m_HintT: float3,
-    pub m_HintWeightT: f32,
     pub m_WeightR: f32,
     pub m_WeightT: f32,
     pub m_X: xform,
+    /// float4: (5.0.0f4 - 5.3.8f2); float3: (5.4.0f3 - 2022.3.2f1)
+    pub m_HintT: Option<Enum_float4__float3>,
+    /// f32: (5.0.0f4 - 2022.3.2f1)
+    pub m_HintWeightT: Option<f32>,
 }
 
-/// HumanPose is a sub class of the Unity engine since version 5.6.0b2.
+/// HumanHandle is a sub class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct HumanHandle {
+    pub m_BoneName: String,
+    pub m_LookAt: bool,
+    pub m_Name: String,
+    pub m_Position: Vector3f,
+    pub m_Rotation: Quaternionf,
+    pub m_Scale: Vector3f,
+}
+
+/// HumanPose is a sub class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/HumanPose.html):
 /**
 Retargetable humanoid pose.
@@ -5725,21 +6492,22 @@ pub struct HumanPose {
     pub m_DoFArray: Vec<f32>,
     pub m_GoalArray: Vec<HumanGoal>,
     pub m_LeftHandPose: HandPose,
-    pub m_LookAtPosition: float3,
+    pub m_LookAtPosition: Enum_float4__float3,
     pub m_LookAtWeight: float4,
     pub m_RightHandPose: HandPose,
     pub m_RootX: xform,
-    pub m_TDoFArray: Vec<float3>,
+    /// Vec<float4>: (5.2.0f2 - 5.3.8f2); Vec<float3>: (5.4.0f3 - 2022.3.2f1)
+    pub m_TDoFArray: Option<Vec<Enum_float4__float3>>,
 }
 
-/// HumanTemplate is a  class of the Unity engine since version 5.6.0b2.
+/// HumanTemplate is a  class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HumanTemplate {
     pub m_BoneTemplate: Vec<(String, String)>,
     pub m_Name: String,
 }
 
-/// IHVImageFormatImporter is a  class of the Unity engine since version 5.6.0b2.
+/// IHVImageFormatImporter is a  class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/IHVImageFormatImporter.html):
 /**
 Use IHVImageFormatImporter to modify Texture2D import settings for Textures in IHV (Independent Hardware Vendor) formats such as .DDS and .PVR from Editor scripts.
@@ -5757,23 +6525,23 @@ pub struct IHVImageFormatImporter {
     pub m_TextureSettings: GLTextureSettings,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**Enable if the texture should ignore any texture mipmap limit settings set in the Project Settings.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0f1 - 2022.3.2f1)
     pub m_IgnoreMipmapLimit: Option<bool>,
     /**Name of the texture mipmap limit group to which this texture belongs.*/
-    /// String: (2022.2.0b16 - 2022.2.0b16)
+    /// String: (2022.2.0f1 - 2022.3.2f1)
     pub m_MipmapLimitGroupName: Option<String>,
     /**Enable mipmap streaming for this texture.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub m_StreamingMipmaps: Option<bool>,
     /**Relative priority for this texture when reducing memory size in order to hit the memory budget.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_StreamingMipmapsPriority: Option<i32>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_sRGBTexture: Option<bool>,
 }
 
@@ -5788,12 +6556,12 @@ pub struct Image {
     pub m_Height: i32,
     pub m_RowBytes: i32,
     pub m_Width: i32,
-    /// Vec<u8>: (3.4.0 - 2020.1.0a20)
+    /// Vec<u8>: (3.4.0 - 2020.1.17f1)
     #[serde(alias = "image data")]
     pub image_data: Option<Vec<u8>>,
 }
 
-/// ImportLog is a  class of the Unity engine since version 2022.2.0b16.
+/// ImportLog is a  class of the Unity engine since version 2022.2.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AssetImporters.ImportLog.html):
 /**
 Container class that holds the collection of logs generated by an importer during the import process.
@@ -5806,17 +6574,18 @@ pub struct ImportLog {
     pub m_Name: String,
 }
 
-/// ImportLog_ImportLogEntry is a sub class of the Unity engine since version 2022.2.0b16.
+/// ImportLog_ImportLogEntry is a sub class of the Unity engine since version 2022.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ImportLog_ImportLogEntry {
     pub file: String,
     pub line: i32,
     pub message: String,
     pub mode: i32,
-    pub object: PPtr, /*<Object>*/
+    /// PPtr<Object>: (2022.2.0b1 - 2022.3.2f1)
+    pub object: PPtr,
 }
 
-/// InheritVelocityModule is a sub class of the Unity engine since version 5.6.0b2.
+/// InheritVelocityModule is a sub class of the Unity engine since version 5.3.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.InheritVelocityModule.html):
 /**
 The Inherit Velocity Module controls how the velocity of the emitter is transferred to the particles as they are emitted.
@@ -5834,28 +6603,44 @@ pub struct InheritVelocityModule {
     pub m_Mode: i32,
 }
 
-/// InitialModule is a sub class of the Unity engine since version 5.6.0b2.
+/// InitialModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InitialModule {
     pub enabled: bool,
-    pub gravityModifier: MinMaxCurve,
+    pub gravityModifier: Enum_f32__MinMaxCurve,
     pub maxNumParticles: i32,
-    pub randomizeRotationDirection: f32,
-    pub rotation3D: bool,
-    pub size3D: bool,
     pub startColor: MinMaxGradient,
     pub startLifetime: MinMaxCurve,
     pub startRotation: MinMaxCurve,
-    pub startRotationX: MinMaxCurve,
-    pub startRotationY: MinMaxCurve,
     pub startSize: MinMaxCurve,
-    pub startSizeY: MinMaxCurve,
-    pub startSizeZ: MinMaxCurve,
     pub startSpeed: MinMaxCurve,
-    /// Vector3f: (2021.2.16f1 - 2022.2.0b16)
+    /// Vector3f: (2021.1.0b1 - 2022.3.2f1)
     pub customEmitterVelocity: Option<Vector3f>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub gravitySource: Option<i32>,
+    /// f32: (3.5.0 - 5.2.5f1)
+    pub inheritVelocity: Option<f32>,
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub randomizeRotationDirection: Option<f32>,
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub rotation3D: Option<bool>,
+    /// bool: (5.4.0f3 - 2022.3.2f1)
+    pub size3D: Option<bool>,
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub startRotationX: Option<MinMaxCurve>,
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub startRotationY: Option<MinMaxCurve>,
+    /// MinMaxCurve: (5.4.0f3 - 2022.3.2f1)
+    pub startSizeY: Option<MinMaxCurve>,
+    /// MinMaxCurve: (5.4.0f3 - 2022.3.2f1)
+    pub startSizeZ: Option<MinMaxCurve>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_f32__MinMaxCurve {
+    f32(f32),
+    MinMaxCurve(MinMaxCurve),
 }
 
 /// InputAxis is a sub class of the Unity engine since version 3.4.0.
@@ -5875,7 +6660,7 @@ pub struct InputAxis {
     pub positiveButton: String,
     pub sensitivity: f32,
     pub snap: bool,
-    /// i32: (3.4.0 - 2022.2.0b16)
+    /// i32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
@@ -5891,7 +6676,7 @@ pub struct InputImportSettings {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct InputManager {
     pub m_Axes: Vec<InputAxis>,
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_UsePhysicalKeys: Option<bool>,
 }
 
@@ -5901,7 +6686,7 @@ pub struct InspectorExpandedState {
     pub m_ExpandedData: Vec<ExpandedData>,
 }
 
-/// IntPoint is a sub class of the Unity engine since version 5.6.0b2.
+/// IntPoint is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct IntPoint {
     pub X: i64,
@@ -5921,8 +6706,10 @@ pub struct InteractiveCloth {
     pub m_Enabled: u8,
     pub m_ExternalAcceleration: Vector3f,
     pub m_Friction: f32,
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    pub m_Mesh: PPtr,       /*<Mesh>*/
+    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    pub m_GameObject: PPtr,
+    /// PPtr<Mesh>: (3.4.0 - 4.7.2)
+    pub m_Mesh: PPtr,
     pub m_Pressure: f32,
     pub m_RandomAcceleration: Vector3f,
     pub m_SelfCollision: bool,
@@ -5940,15 +6727,22 @@ A data structure that provides information about a progress indicator.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Item {
     pub markedForRemoval: bool,
-    /// i32: (3.4.0 - 5.6.0b2)
+    /// i32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "(int&)downloadResolution")]
     pub downloadResolution: Option<i32>,
-    /// i32: (3.4.0 - 5.6.0b2)
+    /// i32: (3.4.0 - 5.6.7f1)
     #[serde(alias = "(int&)nameConflictResolution")]
     pub nameConflictResolution: Option<i32>,
 }
 
-/// JointAngleLimits2D is a sub class of the Unity engine since version 5.6.0b2.
+/// JointAngleLimit2D is a sub class of the Unity engine since version 4.3.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct JointAngleLimit2D {
+    pub m_LowerAngle: f32,
+    pub m_UpperAngle: f32,
+}
+
+/// JointAngleLimits2D is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/JointAngleLimits2D.html):
 /**
 Angular limits on the rotation of a Rigidbody2D object around a HingeJoint2D.
@@ -5973,10 +6767,10 @@ pub struct JointDrive {
     pub positionDamper: f32,
     /**Strength of a rubber-band pull toward the defined direction. Only used if mode includes Position.*/
     pub positionSpring: f32,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 5.2.5f1)
     pub mode: Option<i32>,
     /**Defines whether the drive is an acceleration drive or a force drive.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub useAcceleration: Option<i32>,
 }
 
@@ -5993,17 +6787,17 @@ pub struct JointLimits {
     /**The lower angular limit (in degrees) of the joint.*/
     pub min: f32,
     /**The minimum impact velocity which will cause the joint to bounce.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.1.0f1 - 2022.3.2f1)
     pub bounceMinVelocity: Option<f32>,
     /**Determines the size of the bounce when the joint hits it's limit. Also known as restitution.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.1.0f1 - 2022.3.2f1)
     pub bounciness: Option<f32>,
     /**Distance inside the limit value at which the limit will be considered to be active by the solver.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub contactDistance: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.0.4f1)
     pub maxBounce: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.0.4f1)
     pub minBounce: Option<f32>,
 }
 
@@ -6025,7 +6819,7 @@ pub struct JointMotor {
     pub targetVelocity: f32,
 }
 
-/// JointMotor2D is a sub class of the Unity engine since version 5.6.0b2.
+/// JointMotor2D is a sub class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/JointMotor2D.html):
 /**
 Parameters for the optional motor force applied to a Joint2D.
@@ -6053,7 +6847,7 @@ pub struct JointSpring {
     pub targetPosition: f32,
 }
 
-/// JointSuspension2D is a sub class of the Unity engine since version 5.6.0b2.
+/// JointSuspension2D is a sub class of the Unity engine since version 4.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/JointSuspension2D.html):
 /**
 Joint suspension is used to define how suspension works on a WheelJoint2D.
@@ -6069,7 +6863,7 @@ pub struct JointSuspension2D {
     pub m_Frequency: f32,
 }
 
-/// JointTranslationLimits2D is a sub class of the Unity engine since version 5.6.0b2.
+/// JointTranslationLimits2D is a sub class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/JointTranslationLimits2D.html):
 /**
 Motion limits of a Rigidbody2D object along a SliderJoint2D.
@@ -6079,6 +6873,15 @@ See Also: Rigidbody2D class, SliderJoint2D class.
 pub struct JointTranslationLimits2D {
     pub m_LowerTranslation: f32,
     pub m_UpperTranslation: f32,
+}
+
+/// KTXImporter is a  class of the Unity engine since version 5.0.0f4.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct KTXImporter {
+    pub m_AssetBundleName: String,
+    pub m_AssetBundleVariant: String,
+    pub m_Name: String,
+    pub m_UserData: String,
 }
 
 /// Keyframe is a sub class of the Unity engine since version 3.4.0.
@@ -6095,31 +6898,34 @@ pub struct Keyframe {
     /**The value of the curve at keyframe.*/
     pub value: Quaternionf,
     /**Sets the incoming weight for this key. The incoming weight affects the slope of the curve from the previous key to this key.*/
-    /// Quaternionf: (2018.4.15f1 - 2022.2.0b16)
+    /// Quaternionf: (2018.1.0b2 - 2022.3.2f1)
     pub inWeight: Option<Quaternionf>,
     /**Sets the outgoing weight for this key. The outgoing weight affects the slope of the curve from this key to the next key.*/
-    /// Quaternionf: (2018.4.15f1 - 2022.2.0b16)
+    /// Quaternionf: (2018.1.0b2 - 2022.3.2f1)
     pub outWeight: Option<Quaternionf>,
     /**Weighted mode for the keyframe.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.1.0b2 - 2022.3.2f1)
     pub weightedMode: Option<i32>,
 }
 
-/// LOD is a sub class of the Unity engine since version 5.6.0b2.
+/// LOD is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LOD.html):
 /**
 Structure for building a LOD for passing to the SetLODs function.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LOD {
-    /**Width of the cross-fade transition zone (proportion to the current LOD's whole length) [0-1]. Only used if it's not animated.*/
-    pub fadeTransitionWidth: f32,
     /**List of renderers for this LOD level.*/
     pub renderers: Vec<LODRenderer>,
     pub screenRelativeHeight: f32,
+    /// i32: (5.0.0f4 - 5.0.4f1)
+    pub fadeMode: Option<i32>,
+    /**Width of the cross-fade transition zone (proportion to the current LOD's whole length) [0-1]. Only used if it's not animated.*/
+    /// f32: (5.0.0f4 - 2022.3.2f1)
+    pub fadeTransitionWidth: Option<f32>,
 }
 
-/// LODGroup is a  class of the Unity engine since version 5.6.0b2.
+/// LODGroup is a  class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LODGroup.html):
 /**
 LODGroup lets you group multiple Renderers into LOD levels.
@@ -6127,42 +6933,48 @@ This can be used to switch between different LOD levels at runtime based on size
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LODGroup {
-    /**Specify if the cross-fading should be animated by time. The animation duration is specified globally as crossFadeAnimationDuration.*/
-    pub m_AnimateCrossFading: bool,
     /**Allows you to enable or disable the LODGroup.*/
     pub m_Enabled: bool,
-    /**The LOD fade mode used.*/
-    pub m_FadeMode: i32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_LODs: Vec<LOD>,
     /**The local reference point against which the LOD distance is calculated.*/
     pub m_LocalReferencePoint: Vector3f,
     /**The size of the LOD object in local space.*/
     pub m_Size: f32,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /**Specify if the cross-fading should be animated by time. The animation duration is specified globally as crossFadeAnimationDuration.*/
+    /// bool: (5.1.0f1 - 2022.3.2f1)
+    pub m_AnimateCrossFading: Option<bool>,
+    /**The LOD fade mode used.*/
+    /// i32: (5.1.0f1 - 2022.3.2f1)
+    pub m_FadeMode: Option<i32>,
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_LastLODIsBillboard: Option<bool>,
+    /// f32: (3.5.0 - 4.7.2)
+    pub m_ScreenRelativeTransitionHeight: Option<f32>,
 }
 
-/// LODRenderer is a sub class of the Unity engine since version 5.6.0b2.
+/// LODRenderer is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LODRenderer {
-    pub renderer: PPtr, /*<Renderer>*/
+    /// PPtr<Renderer>: (3.5.0 - 2022.3.2f1)
+    pub renderer: PPtr,
 }
 
-/// LayoutDataOne is a sub class of the Unity engine since version 2019.3.0f4.
+/// LayoutDataOne is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LayoutDataOne {
     pub m_FloatArray: Vec<f32>,
 }
 
-/// LayoutDataThree is a sub class of the Unity engine since version 2019.3.0f4.
+/// LayoutDataThree is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LayoutDataThree {
     pub m_AnotherFloatArray: Vec<f32>,
 }
 
-/// LayoutDataTwo is a sub class of the Unity engine since version 2019.3.0f4.
+/// LayoutDataTwo is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LayoutDataTwo {
     pub m_FloatValue: f32,
@@ -6185,25 +6997,33 @@ pub struct LensFlare {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The flare asset to use.*/
-    pub m_Flare: PPtr, /*<Flare>*/
+    /// PPtr<Flare>: (3.4.0 - 2022.3.2f1)
+    pub m_Flare: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_IgnoreLayers: BitField,
     /**The fade speed of the flare.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.3.0 - 2022.3.2f1)
     pub m_FadeSpeed: Option<f32>,
 }
 
-/// LibraryAssetImporter is a  class of the Unity engine since version 5.6.0b2.
+/// LevelGameManager is a  class of the Unity engine since version 4.1.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct LevelGameManager {}
+
+/// LibraryAssetImporter is a  class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LibraryAssetImporter {
-    pub m_AssetBundleName: String,
-    pub m_AssetBundleVariant: String,
     pub m_Name: String,
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleName: Option<String>,
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleVariant: Option<String>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
@@ -6214,19 +7034,19 @@ pub struct LibraryRepresentation {
     pub scriptClassName: String,
     pub thumbnail: Image,
     pub thumbnailClassID: i32,
-    /// u16: (5.6.0b2 - 2020.1.0a20)
+    /// u16: (4.0.0 - 2020.1.17f1)
     pub flags: Option<u16>,
-    /// GUID: (5.6.0b2 - 2020.1.0a20)
+    /// GUID: (5.1.0f1 - 2020.1.17f1)
     pub guid: Option<GUID>,
-    /// i64: (5.6.0b2 - 2020.1.0a20)
+    /// i64: (5.1.0f1 - 2020.1.17f1)
     pub localIdentifier: Option<i64>,
-    /// PPtr/*<EditorExtension>*/: (3.4.0 - 3.4.0)
-    pub object: Option<PPtr /*<EditorExtension>*/>,
-    /// String: (5.6.0b2 - 2020.1.0a20)
+    /// PPtr<EditorExtension>: (3.4.0 - 3.4.2); PPtr<Object>: (3.5.0 - 5.0.4f1)
+    pub object: Option<PPtr>,
+    /// String: (5.1.0f1 - 2020.1.17f1)
     pub path: Option<String>,
 }
 
-/// LifetimeByEmitterSpeedModule is a sub class of the Unity engine since version 2020.1.0a20.
+/// LifetimeByEmitterSpeedModule is a sub class of the Unity engine since version 2020.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.LifetimeByEmitterSpeedModule.html):
 /**
 The Lifetime By Emitter Speed Module controls the initial lifetime of each particle based on the speed of the emitter when the particle was spawned.
@@ -6255,7 +7075,8 @@ pub struct Light {
     /**The color of the light.*/
     pub m_Color: ColorRGBA,
     /**The cookie texture projected by the light.*/
-    pub m_Cookie: PPtr, /*<Texture>*/
+    /// PPtr<Texture>: (3.4.0 - 2022.3.2f1)
+    pub m_Cookie: PPtr,
     /**The size of a directional light's cookie.*/
     pub m_CookieSize: f32,
     /**This is used to light certain objects in the Scene selectively.*/
@@ -6264,9 +7085,11 @@ pub struct Light {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The flare asset to use for this light.*/
-    pub m_Flare: PPtr, /*<Flare>*/
+    /// PPtr<Flare>: (3.4.0 - 2022.3.2f1)
+    pub m_Flare: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The Intensity of a light is multiplied with the Light color.*/
     pub m_Intensity: f32,
     pub m_Lightmapping: i32,
@@ -6280,49 +7103,53 @@ pub struct Light {
     pub m_SpotAngle: f32,
     /**The type of the light.*/
     pub m_Type: i32,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 5.3.8f2)
     pub m_ActuallyLightmapped: Option<bool>,
     /**The size of the area light (Editor only).*/
-    /// Vector2f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector2f: (5.4.0f3 - 2022.3.2f1)
     pub m_AreaSize: Option<Vector2f>,
+    /// i32: (5.4.0f3 - 5.6.0b1)
+    pub m_BakedIndex: Option<i32>,
     /**This property describes the output of the last Global Illumination bake.*/
-    /// LightBakingOutput: (5.6.0b2 - 2022.2.0b16)
+    /// LightBakingOutput: (5.6.0f1 - 2022.3.2f1)
     pub m_BakingOutput: Option<LightBakingOutput>,
     /**The multiplier that defines the strength of the bounce lighting.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_BounceIntensity: Option<f32>,
     /**Bounding sphere used to override the regular light bounding sphere during culling.*/
-    /// Vector4f: (2019.3.0f4 - 2022.2.0b16)
+    /// Vector4f: (2019.1.0f2 - 2022.3.2f1)
     pub m_BoundingSphereOverride: Option<Vector4f>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// f32: (5.6.0b1 - 5.6.0b9)
     pub m_CCT: Option<f32>,
     /**The color temperature of the light.          Correlated Color Temperature (abbreviated as CCT) is multiplied with the color filter when calculating the final color of a light source. The color temperature of the electromagnetic radiation emitted from an ideal black body is defined as its surface temperature in Kelvin. White is 6500K according to the D65 standard. A candle light is 1800K and a soft warm light bulb is 2700K.          If you want to use colorTemperature, GraphicsSettings.lightsUseLinearIntensity and Light.useColorTemperature has to be enabled.          See Also: GraphicsSettings.lightsUseLinearIntensity, GraphicsSettings.useColorTemperature.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (5.6.0f1 - 2022.3.2f1)
     pub m_ColorTemperature: Option<f32>,
+    /// FalloffTable: (2017.1.0b1 - 2017.1.0b10)
+    pub m_FalloffTable: Option<FalloffTable>,
     /**The angle of the light's spotlight inner cone in degrees.*/
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.0b1 - 2022.3.2f1)
     pub m_InnerSpotAngle: Option<f32>,
     /**Allows you to override the global Shadowmask Mode per light. Only use this with render pipelines that can handle per light Shadowmask modes. Incompatible with the legacy renderers.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_LightShadowCasterMode: Option<i32>,
     /**Determines which rendering LayerMask this Light affects.*/
-    /// u32: (2019.3.0f4 - 2022.2.0b16)
+    /// u32: (2019.1.0f2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
     /**This property describes the shape of the spot light. Only Scriptable Render Pipelines use this property; the built-in renderer does not support it.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     pub m_Shape: Option<i32>,
     /**Set to true to override light bounding sphere for culling.*/
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.1.0f2 - 2022.3.2f1)
     pub m_UseBoundingSphereOverride: Option<bool>,
     /**Set to true to use the color temperature.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.0f1 - 2022.3.2f1)
     pub m_UseColorTemperature: Option<bool>,
     /**Whether to cull shadows for this Light when the Light is outside of the view frustum.*/
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_UseViewFrustumForShadowCasterCull: Option<bool>,
 }
 
-/// LightBakingOutput is a sub class of the Unity engine since version 5.6.0b2.
+/// LightBakingOutput is a sub class of the Unity engine since version 5.6.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LightBakingOutput.html):
 /**
 Struct describing the result of a Global Illumination bake for a given light.
@@ -6333,20 +7160,20 @@ pub struct LightBakingOutput {
     /**In case of a LightmapBakeType.Mixed light, contains the index of the light as seen from the occlusion probes point of view if any, otherwise -1.*/
     pub probeOcclusionLightIndex: i32,
     /**Is the light contribution already stored in lightmaps and/or lightprobes?*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub isBaked: Option<bool>,
-    /// LightmapBakeMode: (2017.4.33f1 - 2022.2.0b16)
+    /// LightmapBakeMode: (2017.3.0b1 - 2022.3.2f1)
     pub lightmapBakeMode: Option<LightmapBakeMode>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0f1 - 2017.2.5f1)
     pub lightmappingMask: Option<i32>,
     /**In case of a LightmapBakeType.Mixed light, contains the index of the occlusion mask channel to use if any, otherwise -1.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f1 - 2022.3.2f1)
     pub occlusionMaskChannel: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b2 - 5.6.0b4)
     pub shadowMaskChannel: Option<i32>,
 }
 
-/// LightProbeData is a sub class of the Unity engine since version 5.6.0b2.
+/// LightProbeData is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightProbeData {
     pub m_NonTetrahedralizedProbeSetIndexMap: Vec<(Hash128, i32)>,
@@ -6355,31 +7182,36 @@ pub struct LightProbeData {
     pub m_Tetrahedralization: ProbeSetTetrahedralization,
 }
 
-/// LightProbeGroup is a  class of the Unity engine since version 5.6.0b2.
+/// LightProbeGroup is a  class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LightProbeGroup.html):
 /**
 Light Probe Group.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightProbeGroup {
-    /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
-    pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
+    /// u8: (4.0.0 - 2022.3.2f1)
+    pub m_Enabled: Option<u8>,
 }
 
-/// LightProbeOcclusion is a sub class of the Unity engine since version 5.6.0b2.
+/// LightProbeOcclusion is a sub class of the Unity engine since version 5.4.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightProbeOcclusion {
     pub m_Occlusion: Vec<f32>,
-    pub m_ProbeOcclusionLightIndex: Vec<i32>,
-    /// Vec<i8>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<i32>: (5.4.0f3 - 5.6.0b1)
+    pub m_BakedLightIndex: Option<Vec<i32>>,
+    /// Vec<i8>: (5.6.0f1 - 2022.3.2f1)
     pub m_OcclusionMaskChannel: Option<Vec<i8>>,
-    /// Vec<i8>: (5.6.0b2 - 5.6.0b2)
+    /// Vec<i32>: (5.6.0f1 - 2022.3.2f1)
+    pub m_ProbeOcclusionLightIndex: Option<Vec<i32>>,
+    /// Vec<i8>: (5.6.0b2 - 5.6.0b4)
     pub m_ShadowMaskChannel: Option<Vec<i8>>,
 }
 
-/// LightProbeProxyVolume is a  class of the Unity engine since version 5.6.0b2.
+/// LightProbeProxyVolume is a  class of the Unity engine since version 5.4.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LightProbeProxyVolume.html):
 /**
 The Light Probe Proxy Volume component offers the possibility to use higher resolution lighting for large non-static GameObjects.
@@ -6394,7 +7226,8 @@ pub struct LightProbeProxyVolume {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The mode in which the interpolated Light Probe positions are generated.*/
     pub m_ProbePositionMode: i32,
     /**Sets the way the Light Probe Proxy Volume refreshes.*/
@@ -6406,14 +7239,14 @@ pub struct LightProbeProxyVolume {
     pub m_ResolutionY: u32,
     pub m_ResolutionZ: u32,
     /**The texture data format used by the Light Probe Proxy Volume 3D texture.*/
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub m_DataFormat: Option<i32>,
     /**Determines how many Spherical Harmonics bands will be evaluated to compute the ambient color.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b2 - 2022.3.2f1)
     pub m_QualityMode: Option<i32>,
 }
 
-/// LightProbes is a  class of the Unity engine since version 5.6.0b2.
+/// LightProbes is a  class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LightProbes.html):
 /**
 Stores light probe data for all currently loaded Scenes.
@@ -6421,14 +7254,25 @@ The data includes: probe positions, Spherical Harmonics (SH) coefficients and th
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightProbes {
-    pub m_BakedCoefficients: Vec<SphericalHarmonicsL2>,
-    pub m_BakedLightOcclusion: Vec<LightProbeOcclusion>,
-    pub m_Data: LightProbeData,
     /**The name of the object.*/
     pub m_Name: String,
+    /// Vec<LightmapData>: (3.5.0 - 4.7.2)
+    pub bakedCoefficients: Option<Vec<LightmapData>>,
+    /// Vec<Vector3f>: (3.5.0 - 4.7.2)
+    pub bakedPositions: Option<Vec<Vector3f>>,
+    /// Vec<Vector3f>: (3.5.0 - 4.7.2)
+    pub hullRays: Option<Vec<Vector3f>>,
+    /// Vec<SphericalHarmonicsL2>: (5.0.0f4 - 2022.3.2f1)
+    pub m_BakedCoefficients: Option<Vec<SphericalHarmonicsL2>>,
+    /// Vec<LightProbeOcclusion>: (5.4.0f3 - 2022.3.2f1)
+    pub m_BakedLightOcclusion: Option<Vec<LightProbeOcclusion>>,
+    /// LightProbeData: (5.0.0f4 - 2022.3.2f1)
+    pub m_Data: Option<LightProbeData>,
+    /// Vec<Tetrahedron>: (3.5.0 - 4.7.2)
+    pub tetrahedra: Option<Vec<Tetrahedron>>,
 }
 
-/// LightingDataAsset is a  class of the Unity engine since version 5.6.0b2.
+/// LightingDataAsset is a  class of the Unity engine since version 5.3.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LightingDataAsset.html):
 /**
 The lighting data asset used by the active Scene.
@@ -6437,32 +7281,41 @@ Please note that modifying this value currently does not affect the Scene immedi
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightingDataAsset {
     pub m_BakedAmbientProbeInLinear: SphericalHarmonicsL2,
-    pub m_BakedReflectionProbeCubemaps: Vec<PPtr /*<Texture>*/>,
+    /// Vec<PPtr<Texture>>: (5.3.0f1 - 2022.3.2f1)
+    pub m_BakedReflectionProbeCubemaps: Vec<PPtr>,
     pub m_BakedReflectionProbes: Vec<SceneObjectIdentifier>,
     pub m_EnlightenData: Vec<u8>,
-    pub m_EnlightenDataVersion: i32,
     pub m_EnlightenSceneMapping: EnlightenSceneMapping,
     pub m_EnlightenSceneMappingRendererIDs: Vec<SceneObjectIdentifier>,
-    pub m_LightBakingOutputs: Vec<LightBakingOutput>,
-    pub m_LightProbes: PPtr, /*<LightProbes>*/
+    /// PPtr<LightProbes>: (5.3.0f1 - 2022.3.2f1)
+    pub m_LightProbes: PPtr,
     pub m_LightmappedRendererData: Vec<RendererData>,
     pub m_LightmappedRendererDataIDs: Vec<SceneObjectIdentifier>,
     pub m_Lightmaps: Vec<LightmapData>,
-    pub m_LightmapsMode: i32,
     pub m_Lights: Vec<SceneObjectIdentifier>,
     /**The name of the object.*/
     pub m_Name: String,
-    /// Vec<PPtr/*<Texture2D>*/>: (2019.3.0f4 - 2022.2.0b16)
-    pub m_AOTextures: Option<Vec<PPtr /*<Texture2D>*/>>,
-    /// Vec<String>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<PPtr<Texture2D>>: (2019.1.0b1 - 2022.3.2f1)
+    pub m_AOTextures: Option<Vec<PPtr>>,
+    /// Vec<i32>: (5.4.0f3 - 5.6.0b1)
+    pub m_BakedLightIndices: Option<Vec<i32>>,
+    /// Vec<String>: (2018.2.0b1 - 2022.3.2f1)
     pub m_BakedReflectionProbeCubemapCacheFiles: Option<Vec<String>>,
-    /// Vec<String>: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (5.3.6f1 - 2022.3.2f1)
+    pub m_EnlightenDataVersion: Option<i32>,
+    /// Vec<LightBakingOutput>: (5.6.0f1 - 2022.3.2f1)
+    pub m_LightBakingOutputs: Option<Vec<LightBakingOutput>>,
+    /// Vec<String>: (2018.2.0b1 - 2022.3.2f1)
     pub m_LightmapsCacheFiles: Option<Vec<String>>,
-    /// PPtr/*<SceneAsset>*/: (2017.4.33f1 - 2022.2.0b16)
-    pub m_Scene: Option<PPtr /*<SceneAsset>*/>,
+    /// i32: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightmapsMode: Option<i32>,
+    /// PPtr<SceneAsset>: (2017.1.0f2 - 2022.3.2f1)
+    pub m_Scene: Option<PPtr>,
+    /// GUID: (5.3.0f1 - 5.3.0f2)
+    pub m_SceneGUID: Option<GUID>,
 }
 
-/// LightingSettings is a  class of the Unity engine since version 2020.1.0a20.
+/// LightingSettings is a  class of the Unity engine since version 2020.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LightingSettings.html):
 /**
 An object containing settings for precomputing lighting data, that Unity can serialize as a Lighting Settings Asset.
@@ -6483,11 +7336,104 @@ pub struct LightingSettings {
     /**Determines the lightmap that Unity stores environment lighting in.*/
     pub m_RealtimeEnvironmentLighting: bool,
     pub m_UsingShadowmask: bool,
-    /// f32: (2020.3.42f1 - 2022.2.0b16)
+    /**Whether to apply ambient occlusion to lightmaps. (Editor only).*/
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_AO: Option<bool>,
+    /**The distance that a ray travels before Unity considers it to be unoccluded when calculating ambient occlusion in lightmaps. (Editor only).*/
+    /// f32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_AOMaxDistance: Option<f32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_BakeBackend: Option<i32>,
+    /// f32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_BakeResolution: Option<f32>,
+    /// f32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_CompAOExponent: Option<f32>,
+    /// f32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_CompAOExponentDirect: Option<f32>,
+    /**Whether the Progressive Lightmapper exports machine learning training data to the Project folder when it performs the bake. ( Editor only).*/
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_ExportTrainingData: Option<bool>,
+    /**Whether the Progressive Lightmapper extracts Ambient Occlusion to a separate lightmap. (Editor only).*/
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_ExtractAO: Option<bool>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_FilterMode: Option<i32>,
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_FinalGather: Option<bool>,
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_FinalGatherFiltering: Option<bool>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_FinalGatherRayCount: Option<i32>,
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_ForceUpdates: Option<bool>,
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_ForceWhiteAlbedo: Option<bool>,
+    /// f32: (2020.1.0b1 - 2022.3.2f1)
     pub m_IndirectOutputScale: Option<f32>,
+    /**The maximum size in pixels of an individual lightmap texture. (Editor only).*/
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_LightmapMaxSize: Option<i32>,
+    /// PPtr<LightmapParameters>: (2020.1.0a3 - 2020.1.0a12)
+    pub m_LightmapParameters: Option<PPtr>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_LightmapsBakeMode: Option<i32>,
+    /**Sets the MixedLightingMode that Unity uses for all Mixed Lights in the Scene. (Editor only).*/
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_MixedBakeMode: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRBounces: Option<i32>,
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRCulling: Option<bool>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRDenoiserTypeAO: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRDenoiserTypeDirect: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRDenoiserTypeIndirect: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRDirectSampleCount: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVREnvironmentMIS: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVREnvironmentReferencePointCount: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVREnvironmentSampleCount: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilterTypeAO: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilterTypeDirect: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilterTypeIndirect: Option<i32>,
+    /// f32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilteringAtrousPositionSigmaAO: Option<f32>,
+    /// f32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilteringAtrousPositionSigmaDirect: Option<f32>,
+    /// f32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilteringAtrousPositionSigmaIndirect: Option<f32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilteringGaussRadiusAO: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilteringGaussRadiusDirect: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilteringGaussRadiusIndirect: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRFilteringMode: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRSampleCount: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_PVRSampling: Option<i32>,
+    /// i32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_Padding: Option<i32>,
+    /// f32: (2020.1.0a3 - 2020.1.0a12)
+    pub m_RealtimeResolution: Option<f32>,
+    /// bool: (2020.1.0a3 - 2020.1.0a12)
+    pub m_TextureCompression: Option<bool>,
+    /**Determines the name of the destination folder for the exported textures. (Editor only).*/
+    /// String: (2020.1.0a3 - 2020.1.0a12)
+    pub m_TrainingDataDestination: Option<String>,
 }
 
-/// LightmapBakeMode is a sub class of the Unity engine since version 2017.4.33f1.
+/// LightmapBakeMode is a sub class of the Unity engine since version 2017.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightmapBakeMode {
     pub lightmapBakeType: i32,
@@ -6504,17 +7450,18 @@ each object can refer to a different lightmap or different portion of the same l
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightmapData {
-    pub m_Lightmap: PPtr, /*<Texture2D>*/
-    /// PPtr/*<Texture2D>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_DirLightmap: Option<PPtr /*<Texture2D>*/>,
-    /// PPtr/*<Texture2D>*/: (3.4.0 - 3.4.0)
-    pub m_IndirectLightmap: Option<PPtr /*<Texture2D>*/>,
+    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    pub m_Lightmap: PPtr,
+    /// PPtr<Texture2D>: (5.6.0f1 - 2022.3.2f1)
+    pub m_DirLightmap: Option<PPtr>,
+    /// PPtr<Texture2D>: (3.4.0 - 5.6.0b1)
+    pub m_IndirectLightmap: Option<PPtr>,
     /**Texture storing occlusion mask per light (ShadowMask, up to four lights).*/
-    /// PPtr/*<Texture2D>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_ShadowMask: Option<PPtr /*<Texture2D>*/>,
+    /// PPtr<Texture2D>: (5.6.0f1 - 2022.3.2f1)
+    pub m_ShadowMask: Option<PPtr>,
 }
 
-/// LightmapParameters is a  class of the Unity engine since version 5.6.0b2.
+/// LightmapParameters is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LightmapParameters.html):
 /**
 Configures how Unity bakes lighting and can be assigned to a LightingSettings instance or asset.
@@ -6552,18 +7499,19 @@ pub struct LightmapParameters {
     pub m_Name: String,
     /**Maximum size of gaps that can be ignored for GI (multiplier on pixel size).*/
     pub modellingTolerance: f32,
-    /**The distance to offset the ray origin from the geometry when performing ray tracing, in modelling units. Unity applies the offset to all baked lighting: direct lighting, indirect lighting, environment lighting and ambient occlusion.*/
-    pub pushoff: f32,
     /**The texel resolution per meter used for real-time lightmaps. This value is multiplied by LightingSettings.indirectResolution.*/
     pub resolution: f32,
     /**System tag is an integer identifier. It lets you force an object into a different Enlighten Realtime Global Illumination system even though all the other parameters are the same.*/
     pub systemTag: i32,
     /**If enabled, objects sharing the same lightmap parameters will be packed into LightmapParameters.maxLightmapCount lightmaps.*/
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.1.0b1 - 2022.3.2f1)
     pub limitLightmapCount: Option<bool>,
     /**The maximum number of lightmaps created for objects sharing the same lightmap parameters. This property is ignored if LightmapParameters.limitLightmapCount is false.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub maxLightmapCount: Option<i32>,
+    /**The distance to offset the ray origin from the geometry when performing ray tracing, in modelling units. Unity applies the offset to all baked lighting: direct lighting, indirect lighting, environment lighting and ambient occlusion.*/
+    /// f32: (5.0.1f1 - 2022.3.2f1)
+    pub pushoff: Option<f32>,
 }
 
 /// LightmapSettings is a  class of the Unity engine since version 3.4.0.
@@ -6578,25 +7526,57 @@ each object can refer to a different lightmap or different portion of the same l
 pub struct LightmapSettings {
     pub m_Lightmaps: Vec<LightmapData>,
     pub m_LightmapsMode: i32,
-    /// EnlightenSceneMapping: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 4.7.2)
+    pub m_BakedColorSpace: Option<i32>,
+    /// EnlightenSceneMapping: (5.0.0f4 - 2022.3.2f1)
     pub m_EnlightenSceneMapping: Option<EnlightenSceneMapping>,
-    /// GISettings: (5.6.0b2 - 2022.2.0b16)
+    /// GISettings: (5.0.0f4 - 2022.3.2f1)
     pub m_GISettings: Option<GISettings>,
-    /// PPtr/*<LightProbes>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_LightProbes: Option<PPtr /*<LightProbes>*/>,
-    /// PPtr/*<LightingSettings>*/: (2020.1.0a20 - 2022.2.0b16)
-    pub m_LightingSettings: Option<PPtr /*<LightingSettings>*/>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// PPtr<LightProbes>: (3.5.0 - 2022.3.2f1)
+    pub m_LightProbes: Option<PPtr>,
+    /// PPtr<LightingSettings>: (2020.1.0b1 - 2022.3.2f1)
+    pub m_LightingSettings: Option<PPtr>,
+    /// i32: (5.0.0f4 - 5.6.0b6)
     pub m_RuntimeCPUUsage: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0f1 - 5.6.7f1)
     pub m_ShadowMaskMode: Option<i32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.7.2)
     pub m_UseDualLightmapsInForward: Option<bool>,
-    /// bool: (2017.4.33f1 - 2019.3.0f4)
+    /// bool: (2017.1.0b1 - 2020.1.0a12)
     pub m_UseShadowmask: Option<bool>,
 }
 
-/// LightsModule is a sub class of the Unity engine since version 5.6.0b2.
+/// LightmapSnapshot is a  class of the Unity engine since version 5.0.0f4.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct LightmapSnapshot {
+    /// Vec<PPtr<Texture>>: (5.0.0f4 - 5.2.5f1)
+    pub m_BakedReflectionProbeCubemaps: Vec<PPtr>,
+    pub m_BakedReflectionProbes: Vec<SceneObjectIdentifier>,
+    pub m_EnlightenData: Vec<u8>,
+    pub m_EnlightenSceneMapping: EnlightenSceneMapping,
+    pub m_EnlightenSceneMappingRendererIDs: Vec<SceneObjectIdentifier>,
+    /// PPtr<LightProbes>: (5.0.0f4 - 5.2.5f1)
+    pub m_LightProbes: PPtr,
+    pub m_LightmappedRendererData: Vec<RendererData>,
+    pub m_LightmappedRendererDataIDs: Vec<SceneObjectIdentifier>,
+    pub m_Lightmaps: Vec<LightmapData>,
+    pub m_Lights: Vec<SceneObjectIdentifier>,
+    pub m_Name: String,
+    /// SphericalHarmonicsL2: (5.2.0f2 - 5.2.5f1)
+    pub m_BakedAmbientProbeInGamma: Option<SphericalHarmonicsL2>,
+    /// SphericalHarmonicsL2: (5.2.0f2 - 5.2.5f1)
+    pub m_BakedAmbientProbeInLinear: Option<SphericalHarmonicsL2>,
+    /// Vec<SphericalHarmonicsL2>: (5.0.0f4 - 5.1.5f1)
+    pub m_BakedAmbientProbesInGamma: Option<Vec<SphericalHarmonicsL2>>,
+    /// Vec<SphericalHarmonicsL2>: (5.0.0f4 - 5.1.5f1)
+    pub m_BakedAmbientProbesInLinear: Option<Vec<SphericalHarmonicsL2>>,
+    /// Vec<PPtr<Texture>>: (5.0.0f4 - 5.1.5f1)
+    pub m_BakedSkyboxProbeCubemaps: Option<Vec<PPtr>>,
+    /// GUID: (5.2.0f2 - 5.2.5f1)
+    pub m_SceneGUID: Option<GUID>,
+}
+
+/// LightsModule is a sub class of the Unity engine since version 5.5.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.LightsModule.html):
 /**
 Access the ParticleSystem Lights Module.
@@ -6611,7 +7591,8 @@ pub struct LightsModule {
     pub intensity: bool,
     pub intensityCurve: MinMaxCurve,
     /**Select what Light Prefab you want to base your particle lights on.*/
-    pub light: PPtr, /*<Light>*/
+    /// PPtr<Light>: (5.5.0f3 - 2022.3.2f1)
+    pub light: PPtr,
     /**Set a limit on how many Lights this Module can create.*/
     pub maxLights: i32,
     pub randomDistribution: bool,
@@ -6625,33 +7606,33 @@ pub struct LightsModule {
 /// LineParameters is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LineParameters {
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub alignment: Option<i32>,
-    /// Gradient: (5.6.0b2 - 2022.2.0b16)
+    /// Gradient: (5.5.0f3 - 2022.3.2f1)
     pub colorGradient: Option<Gradient>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.4.6f3)
     pub endWidth: Option<f32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b2 - 2022.3.2f1)
     pub generateLightingData: Option<bool>,
-    /// ColorRGBA: (3.4.0 - 3.4.0)
+    /// ColorRGBA: (3.4.0 - 5.4.6f3)
     pub m_EndColor: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 3.4.0)
+    /// ColorRGBA: (3.4.0 - 5.4.6f3)
     pub m_StartColor: Option<ColorRGBA>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub numCapVertices: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub numCornerVertices: Option<i32>,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub shadowBias: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.4.6f3)
     pub startWidth: Option<f32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub textureMode: Option<i32>,
-    /// Vector2f: (2022.2.0b16 - 2022.2.0b16)
+    /// Vector2f: (2022.1.0b1 - 2022.3.2f1)
     pub textureScale: Option<Vector2f>,
-    /// AnimationCurve: (5.6.0b2 - 2022.2.0b16)
+    /// AnimationCurve: (5.5.0f3 - 2022.3.2f1)
     pub widthCurve: Option<AnimationCurve>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     pub widthMultiplier: Option<f32>,
 }
 
@@ -6667,82 +7648,82 @@ pub struct LineRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (3.4.0 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     pub m_Parameters: LineParameters,
     pub m_Positions: Vec<Vector3f>,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (3.4.0 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
     /**If enabled, the lines are defined in world space.*/
     pub m_UseWorldSpace: bool,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_ApplyActiveColorSpace: Option<bool>,
-    /// u8: (2017.4.33f1 - 2022.2.0b16)
+    /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
+    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    pub m_LightProbeAnchor: Option<PPtr>,
     /**The light probe interpolation type.*/
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr/*<GameObject>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_LightProbeVolumeOverride: Option<PPtr /*<GameObject>*/>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: Option<PPtr>,
+    /// u16: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapIndexDynamic: Option<u16>,
-    /// Vector4f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector4f: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapTilingOffsetDynamic: Option<Vector4f>,
     /**Connect the start and end positions of the line together to form a continuous loop.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.0f1 - 2022.3.2f1)
     pub m_Loop: Option<bool>,
     /**Specifies how the LineRenderer interacts with SpriteMask.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub m_MaskInteraction: Option<i32>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_MotionVectors: Option<u8>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_ProbeAnchor: Option<PPtr /*<Transform>*/>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_ProbeAnchor: Option<PPtr>,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
     /**Should reflection probes be used for this Renderer?*/
-    /// u8: (5.6.0b2 - 2022.2.0b16)
-    pub m_ReflectionProbeUsage: Option<u8>,
+    /// i32: (5.0.0f4 - 5.3.8f2); u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_ReflectionProbeUsage: Option<i32>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
-    /// i16: (5.6.0b2 - 2022.2.0b16)
+    /// i16: (4.3.0 - 2022.3.2f1)
     pub m_SortingLayer: Option<i16>,
     /**Unique ID of the Renderer's sorting layer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
-    pub m_SortingLayerID: Option<i32>,
+    /// u32: (4.5.0 - 4.7.2); i32: (5.0.0f4 - 2022.3.2f1)
+    pub m_SortingLayerID: Option<i64>,
     /**Renderer's order within a sorting layer.*/
-    /// i16: (5.6.0b2 - 2022.2.0b16)
+    /// i16: (4.3.0 - 2022.3.2f1)
     pub m_SortingOrder: Option<i16>,
-    /// StaticBatchInfo: (5.6.0b2 - 2022.2.0b16)
+    /// StaticBatchInfo: (5.5.0f3 - 2022.3.2f1)
     pub m_StaticBatchInfo: Option<StaticBatchInfo>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
-    /// Vec<u32>: (3.4.0 - 3.4.0)
+    /// Vec<u32>: (3.4.0 - 5.4.6f3)
     pub m_SubsetIndices: Option<Vec<u32>>,
+    /// bool: (3.5.0 - 5.3.8f2)
+    pub m_UseLightProbes: Option<bool>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum Enum_bool__u8 {
-    bool(bool),
-    u8(u8),
-}
-
-/// LocalizationAsset is a  class of the Unity engine since version 2018.4.15f1.
+/// LocalizationAsset is a  class of the Unity engine since version 2018.2.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/LocalizationAsset.html):
 /**
 An asset to represent a table of localized strings for one specific locale.
@@ -6751,31 +7732,32 @@ An asset to represent a table of localized strings for one specific locale.
 pub struct LocalizationAsset {
     /**The name of the object.*/
     pub m_Name: String,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     #[serde(alias = "Editor Asset")]
     pub Editor_Asset: Option<bool>,
     /**ISO Code used to identify the locale. ex: en-uk, zh-hans, ja*/
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.2.0b1 - 2022.3.2f1)
     #[serde(alias = "Locale ISO Code")]
     pub Locale_ISO_Code: Option<String>,
-    /// Vec<(String, String)>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<(String, String)>: (2018.2.0b1 - 2022.3.2f1)
     #[serde(alias = "String Table")]
     pub String_Table: Option<Vec<(String, String)>>,
 }
 
-/// LocalizationImporter is a  class of the Unity engine since version 2018.4.15f1.
+/// LocalizationImporter is a  class of the Unity engine since version 2018.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LocalizationImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2018.2.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UserData: String,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// LookAtConstraint is a  class of the Unity engine since version 2018.4.15f1.
+/// LookAtConstraint is a  class of the Unity engine since version 2018.2.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.LookAtConstraint.html):
 /**
 Constrains the orientation of an object relative to the position of one or more source objects, such that the object is facing the average position of the sources.
@@ -6786,7 +7768,8 @@ pub struct LookAtConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.2.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The rotation angle along the z axis of the object. The constraint uses this property to calculate the world up vector when Animations.LookAtConstraint.UseUpObject is false.*/
     pub m_Roll: f32,
     /**The rotation used when the sources have a total weight of 0.*/
@@ -6799,14 +7782,15 @@ pub struct LookAtConstraint {
     /**The weight of the constraint component.*/
     pub m_Weight: f32,
     /**The world up object, used to calculate the world up vector when Animations.LookAtConstraint.UseUpObject is true.*/
-    pub m_WorldUpObject: PPtr, /*<Transform>*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// PPtr<Transform>: (2018.2.0b1 - 2022.3.2f1)
+    pub m_WorldUpObject: PPtr,
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_Active: Option<bool>,
-    /// bool: (2018.4.15f1 - 2021.2.16f1)
+    /// bool: (2018.2.0b1 - 2022.1.0a9)
     pub m_IsContraintActive: Option<bool>,
 }
 
-/// Lumin is a sub class of the Unity engine since version 2019.3.0f4.
+/// Lumin is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Lumin {
     pub depthFormat: i32,
@@ -6832,32 +7816,40 @@ pub struct Material {
     pub m_Name: String,
     pub m_SavedProperties: UnityPropertySheet,
     /**The shader used by the material.*/
-    pub m_Shader: PPtr, /*<Shader>*/
-    /// Vec<String>: (2017.4.33f1 - 2022.2.0b16)
+    /// PPtr<Shader>: (3.4.0 - 2022.3.2f1)
+    pub m_Shader: PPtr,
+    /// Vec<String>: (5.6.0f1 - 2022.3.2f1)
     pub disabledShaderPasses: Option<Vec<String>>,
-    /// Vec<BuildTextureStackReference>: (2020.1.0a20 - 2022.2.0b16)
+    /// Vec<BuildTextureStackReference>: (2020.1.0b1 - 2022.3.2f1)
     pub m_BuildTextureStacks: Option<Vec<BuildTextureStackReference>>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.3.0 - 2022.3.2f1)
     pub m_CustomRenderQueue: Option<i32>,
     /**Gets and sets whether the Double Sided Global Illumination setting is enabled for this material.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.2f1 - 2022.3.2f1)
     pub m_DoubleSidedGI: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.0f1 - 2022.3.2f1)
     pub m_EnableInstancingVariants: Option<bool>,
-    /// Vec<String>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<String>: (2021.2.18f1 - 2022.3.2f1)
     pub m_InvalidKeywords: Option<Vec<String>>,
-    /// u32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapFlags: Option<u32>,
     /**An array containing names of the local shader keywords that are currently enabled for this material.*/
-    /// String: (5.6.0b2 - 2021.2.16f1)
-    pub m_ShaderKeywords: Option<String>,
-    /// Vec<String>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<String>: (4.1.0 - 4.7.2); String: (5.0.0f4 - 2022.1.0a16)
+    pub m_ShaderKeywords: Option<Enum_Vec_String___String>,
+    /// Vec<String>: (2021.2.18f1 - 2022.3.2f1)
     pub m_ValidKeywords: Option<Vec<String>>,
-    /// Vec<(String, String)>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<(String, String)>: (5.1.0f1 - 2022.3.2f1)
     pub stringTagMap: Option<Vec<(String, String)>>,
 }
 
-/// MaterialImportOutput is a sub class of the Unity engine since version 5.6.0b2.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_Vec_String___String {
+    Vec(Vec<String>),
+    String(String),
+}
+
+/// MaterialImportOutput is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MaterialImportOutput {
     pub baked: i32,
@@ -6873,21 +7865,22 @@ pub struct MaterialInstanceSettings {
     pub materialProperties: UnityPropertySheet,
     pub name: String,
     pub prototypeName: String,
-    pub shaderName: String,
     pub textureParameters: Vec<InputImportSettings>,
-    /// u32: (5.6.0b2 - 2017.4.33f1)
+    /// u32: (5.0.2f1 - 2017.4.40f1)
     pub lightmapFlags: Option<u32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.0.0f4 - 2017.4.40f1)
     pub renderQueue: Option<i32>,
-    /// PPtr/*<Shader>*/: (5.6.0b2 - 2017.4.33f1)
-    pub shader: Option<PPtr /*<Shader>*/>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// PPtr<Shader>: (4.5.0 - 2017.4.40f1)
+    pub shader: Option<PPtr>,
+    /// String: (5.0.0f4 - 2017.4.40f1)
     pub shaderKeywords: Option<String>,
-    /// Vec<ProceduralTextureAssignment>: (5.6.0b2 - 2017.4.33f1)
+    /// String: (3.4.0 - 2017.4.40f1)
+    pub shaderName: Option<String>,
+    /// Vec<ProceduralTextureAssignment>: (4.5.0 - 2017.4.40f1)
     pub textureAssignments: Option<Vec<ProceduralTextureAssignment>>,
 }
 
-/// Matrix3x4f is a sub class of the Unity engine since version 5.6.0b2.
+/// Matrix3x4f is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Matrix3x4f {
     pub e00: f32,
@@ -6925,7 +7918,7 @@ pub struct Matrix4x4f {
     pub e33: f32,
 }
 
-/// MatrixParameter is a sub class of the Unity engine since version 5.6.0b2.
+/// MatrixParameter is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MatrixParameter {
     pub m_ArraySize: i32,
@@ -6938,11 +7931,12 @@ pub struct MatrixParameter {
 /// MdFour is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MdFour {
+    /// Vec<u8>: (3.4.0 - 4.7.2)
     #[serde(alias = "md4 hash")]
-    pub md4_hash: Vec<u8>,
+    pub md4_hash: Option<Vec<u8>>,
 }
 
-/// MemorySettings is a  class of the Unity engine since version 2021.2.16f1.
+/// MemorySettings is a  class of the Unity engine since version 2021.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MemorySettings {}
 
@@ -7012,92 +8006,118 @@ pub struct Mesh {
     /**The name of the object.*/
     pub m_Name: String,
     pub m_SubMeshes: Vec<SubMesh>,
-    /// Vec<u8>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u8>: (5.0.0f4 - 2022.3.2f1)
     pub m_BakedConvexCollisionMesh: Option<Vec<u8>>,
-    /// Vec<u8>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u8>: (5.0.0f4 - 2022.3.2f1)
     pub m_BakedTriangleCollisionMesh: Option<Vec<u8>>,
-    /// Vec<u32>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u32>: (4.3.0 - 2022.3.2f1)
     pub m_BoneNameHashes: Option<Vec<u32>>,
-    /// Vec<MinMaxAABB>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<MinMaxAABB>: (2019.1.0b1 - 2022.3.2f1)
     pub m_BonesAABB: Option<Vec<MinMaxAABB>>,
-    /// Vec<u32>: (3.4.0 - 3.4.0)
+    /// Vec<u32>: (3.4.0 - 3.4.2)
     pub m_CollisionTriangles: Option<Vec<u32>>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_CollisionVertexCount: Option<i32>,
     /**Vertex colors of the Mesh.*/
-    /// Vec<ColorRGBA>: (3.4.0 - 3.4.0)
+    /// Vec<ColorRGBA>: (3.4.0 - 3.4.2)
     pub m_Colors: Option<Vec<ColorRGBA>>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub m_CookingOptions: Option<i32>,
     /**Format of the mesh index buffer data.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_IndexFormat: Option<i32>,
     /**Returns true if the Mesh is read/write enabled, or false if it is not.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub m_IsReadable: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub m_KeepIndices: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub m_KeepVertices: Option<bool>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "m_MeshMetrics[0]")]
     pub m_MeshMetrics_0_: Option<f32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "m_MeshMetrics[1]")]
     pub m_MeshMetrics_1_: Option<f32>,
     /**The normals of the Mesh.*/
-    /// Vec<Vector3f>: (3.4.0 - 3.4.0)
+    /// Vec<Vector3f>: (3.4.0 - 3.4.2)
     pub m_Normals: Option<Vec<Vector3f>>,
-    /// u32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (4.3.0 - 2022.3.2f1)
     pub m_RootBoneNameHash: Option<u32>,
-    /// BlendShapeData: (5.6.0b2 - 2022.2.0b16)
-    pub m_Shapes: Option<BlendShapeData>,
-    /// Vec<BoneInfluence>: (3.4.0 - 5.6.0b2); Vec<BoneWeights4>: (2017.4.33f1 - 2017.4.33f1)
-    pub m_Skin: Option<Vec<Enum_BoneInfluence__BoneWeights4>>,
-    /// StreamingInfo: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<MeshBlendShapeVertex>: (4.1.0 - 4.2.2)
+    pub m_ShapeVertices: Option<Vec<MeshBlendShapeVertex>>,
+    /// Vec<MeshBlendShape>: (4.1.0 - 4.2.2); BlendShapeData: (4.3.0 - 2022.3.2f1)
+    pub m_Shapes: Option<Enum_Vec_MeshBlendShape___BlendShapeData>,
+    /// Vec<BoneInfluence>: (3.4.0 - 5.6.7f1); Vec<BoneWeights4>: (2017.1.0b1 - 2018.1.9f2)
+    pub m_Skin: Option<Vec<Enum_BoneWeights4__BoneInfluence>>,
+    /// u8: (4.0.0 - 4.7.2)
+    pub m_StreamCompression: Option<u8>,
+    /// StreamingInfo: (2018.3.0f2 - 2022.3.2f1)
     pub m_StreamData: Option<StreamingInfo>,
     /**The tangents of the Mesh.*/
-    /// Vec<Vector4f>: (3.4.0 - 3.4.0)
+    /// Vec<Vector4f>: (3.4.0 - 3.4.2)
     pub m_Tangents: Option<Vec<Vector4f>>,
     /**The texture coordinates (UVs) in the first channel.*/
-    /// Vec<Vector2f>: (3.4.0 - 3.4.0)
+    /// Vec<Vector2f>: (3.4.0 - 3.4.2)
     pub m_UV: Option<Vec<Vector2f>>,
-    /// Vec<Vector2f>: (3.4.0 - 3.4.0)
+    /// Vec<Vector2f>: (3.4.0 - 3.4.2)
     pub m_UV1: Option<Vec<Vector2f>>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_Use16BitIndices: Option<i32>,
-    /// VariableBoneCountWeights: (2019.3.0f4 - 2022.2.0b16)
+    /// VariableBoneCountWeights: (2019.1.0b1 - 2022.3.2f1)
     pub m_VariableBoneCountWeights: Option<VariableBoneCountWeights>,
-    /// VertexData: (5.6.0b2 - 2022.2.0b16)
+    /// VertexData: (3.5.0 - 2022.3.2f1)
     pub m_VertexData: Option<VertexData>,
     /**Returns a copy of the vertex positions or assigns a new vertex positions array.*/
-    /// Vec<Vector3f>: (3.4.0 - 3.4.0)
+    /// Vec<Vector3f>: (3.4.0 - 3.4.2)
     pub m_Vertices: Option<Vec<Vector3f>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_BoneInfluence__BoneWeights4 {
-    BoneInfluence(BoneInfluence),
-    BoneWeights4(BoneWeights4),
+pub enum Enum_Vec_MeshBlendShape___BlendShapeData {
+    Vec(Vec<MeshBlendShape>),
+    BlendShapeData(BlendShapeData),
 }
 
-/// MeshBlendShape is a sub class of the Unity engine since version 5.6.0b2.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_BoneWeights4__BoneInfluence {
+    BoneWeights4(BoneWeights4),
+    BoneInfluence(BoneInfluence),
+}
+
+/// MeshBlendShape is a sub class of the Unity engine since version 4.1.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MeshBlendShape {
     pub firstVertex: u32,
     pub hasNormals: bool,
     pub hasTangents: bool,
     pub vertexCount: u32,
+    /// Vector3f: (4.1.0 - 4.2.2)
+    pub aabbMaxDelta: Option<Vector3f>,
+    /// Vector3f: (4.1.0 - 4.2.2)
+    pub aabbMinDelta: Option<Vector3f>,
+    /// String: (4.1.0 - 4.2.2)
+    pub name: Option<String>,
 }
 
-/// MeshBlendShapeChannel is a sub class of the Unity engine since version 5.6.0b2.
+/// MeshBlendShapeChannel is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MeshBlendShapeChannel {
     pub frameCount: i32,
     pub frameIndex: i32,
     pub name: String,
     pub nameHash: u32,
+}
+
+/// MeshBlendShapeVertex is a sub class of the Unity engine since version 4.1.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct MeshBlendShapeVertex {
+    pub index: i32,
+    pub normal: Vector3f,
+    pub tangent: Vector3f,
+    pub vertex: Vector3f,
 }
 
 /// MeshCollider is a  class of the Unity engine since version 3.4.0.
@@ -7113,32 +8133,35 @@ pub struct MeshCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Specify if this collider is configured as a trigger.*/
     pub m_IsTrigger: bool,
     /**The material used by the collider.*/
-    pub m_Material: PPtr, /*<PhysicMaterial>*/
-    pub m_Mesh: PPtr, /*<Mesh>*/
+    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
+    /// PPtr<Mesh>: (3.4.0 - 2022.3.2f1)
+    pub m_Mesh: PPtr,
     /**Options used to enable or disable certain features in mesh cooking.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_CookingOptions: Option<i32>,
     /**The additional layers that this Collider should exclude when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The additional layers that this Collider should include when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.5.0f3 - 2017.2.5f1)
     pub m_InflateMesh: Option<bool>,
     /**A decision priority assigned to this Collider used when there is a conflicting decision on whether a Collider can contact another Collider.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ProvidesContacts: Option<bool>,
-    /// f32: (5.6.0b2 - 2017.4.33f1)
+    /// f32: (5.5.0f3 - 2018.2.21f1)
     pub m_SkinWidth: Option<f32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.7.2)
     pub m_SmoothSphereCollisions: Option<bool>,
 }
 
@@ -7151,9 +8174,11 @@ Use this with a procedural mesh interface. See Also: Mesh class.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MeshFilter {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Returns either a new mesh or a duplicate of the existing mesh, and assigns it to the mesh filter.*/
-    pub m_Mesh: PPtr, /*<Mesh>*/
+    /// PPtr<Mesh>: (3.4.0 - 2022.3.2f1)
+    pub m_Mesh: PPtr,
 }
 
 /// MeshParticleEmitter is a  class of the Unity engine since version 3.4.0.
@@ -7164,10 +8189,12 @@ pub struct MeshParticleEmitter {
     pub localVelocity: Vector3f,
     pub m_Emit: bool,
     pub m_Enabled: bool,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    pub m_GameObject: PPtr,
     pub m_InterpolateTriangles: bool,
     pub m_MaxNormalVelocity: f32,
-    pub m_Mesh: PPtr, /*<Mesh>*/
+    /// PPtr<Mesh>: (3.4.0 - 2018.2.21f1)
+    pub m_Mesh: PPtr,
     pub m_MinNormalVelocity: f32,
     pub m_OneShot: bool,
     pub m_Systematic: bool,
@@ -7182,12 +8209,12 @@ pub struct MeshParticleEmitter {
     pub rndVelocity: Vector3f,
     pub tangentVelocity: Vector3f,
     pub worldVelocity: Vector3f,
-    /// bool: (3.4.0 - 2017.4.33f1)
+    /// bool: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "Simulate in Worldspace?")]
     pub Simulate_in_Worldspace_: Option<bool>,
 }
 
-/// MeshRenderer is a  class of the Unity engine since version 5.6.0b2.
+/// MeshRenderer is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/MeshRenderer.html):
 /**
 Renders meshes inserted by the MeshFilter or TextMesh.
@@ -7195,66 +8222,80 @@ Renders meshes inserted by the MeshFilter or TextMesh.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MeshRenderer {
     /**Vertex attributes in this mesh will override or add attributes of the primary mesh in the MeshRenderer.*/
-    pub m_AdditionalVertexStreams: PPtr, /*<Mesh>*/
+    /// PPtr<Mesh>: (5.0.0f4 - 2022.3.2f1)
+    pub m_AdditionalVertexStreams: PPtr,
     pub m_CastShadows: u8,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    /**The light probe interpolation type.*/
-    pub m_LightProbeUsage: u8,
-    pub m_LightProbeVolumeOverride: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapIndexDynamic: u16,
     pub m_LightmapTilingOffset: Vector4f,
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
-    pub m_MotionVectors: u8,
+    /// Vec<PPtr<Material>>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    pub m_ProbeAnchor: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
-    pub m_ReceiveShadows: u8,
+    pub m_ReceiveShadows: Enum_bool__u8,
     /**Should reflection probes be used for this Renderer?*/
-    pub m_ReflectionProbeUsage: u8,
-    pub m_SortingLayer: i16,
+    pub m_ReflectionProbeUsage: i32,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
-    pub m_StaticBatchInfo: StaticBatchInfo,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
-    /// u8: (2017.4.33f1 - 2022.2.0b16)
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
+    /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
     /**Vertex attributes that override the primary mesh when the MeshRenderer uses lightmaps in the Realtime Global Illumination system.*/
-    /// PPtr/*<Mesh>*/: (2020.1.0a20 - 2022.2.0b16)
-    pub m_EnlightenVertexStream: Option<PPtr /*<Mesh>*/>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// PPtr<Mesh>: (2020.1.0b1 - 2022.3.2f1)
+    pub m_EnlightenVertexStream: Option<PPtr>,
+    /**The light probe interpolation type.*/
+    /// u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeUsage: Option<u8>,
+    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: Option<PPtr>,
+    /// u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_MotionVectors: Option<u8>,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
+    /// i16: (5.6.0b1 - 2022.3.2f1)
+    pub m_SortingLayer: Option<i16>,
     /**Unique ID of the Renderer's sorting layer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_SortingLayerID: Option<i32>,
+    /// StaticBatchInfo: (5.5.0f3 - 2022.3.2f1)
+    pub m_StaticBatchInfo: Option<StaticBatchInfo>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
+    /// Vec<u32>: (5.0.0f4 - 5.4.6f3)
+    pub m_SubsetIndices: Option<Vec<u32>>,
+    /// bool: (5.0.0f4 - 5.3.8f2)
+    pub m_UseLightProbes: Option<bool>,
 }
 
-/// MinMaxAABB is a sub class of the Unity engine since version 2019.3.0f4.
+/// MinMaxAABB is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MinMaxAABB {
     pub m_Max: Vector3f,
     pub m_Min: Vector3f,
 }
 
-/// MinMaxCurve is a sub class of the Unity engine since version 5.6.0b2.
+/// MinMaxCurve is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.MinMaxCurve.html):
 /**
 Script interface for a Min-Max Curve.
@@ -7268,11 +8309,11 @@ pub struct MinMaxCurve {
     pub minCurve: AnimationCurve,
     pub minMaxState: i32,
     pub scalar: f32,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (5.6.1f1 - 2022.3.2f1)
     pub minScalar: Option<f32>,
 }
 
-/// MinMaxGradient is a sub class of the Unity engine since version 5.6.0b2.
+/// MinMaxGradient is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.MinMaxGradient.html):
 /**
 Script interface for a Min-Max Gradient.
@@ -7285,13 +8326,20 @@ See Also: ParticleSystem.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MinMaxGradient {
     pub maxColor: ColorRGBA,
-    pub maxGradient: Gradient,
+    pub maxGradient: Enum_GradientNEW__Gradient,
     pub minColor: ColorRGBA,
-    pub minGradient: Gradient,
+    pub minGradient: Enum_GradientNEW__Gradient,
     pub minMaxState: i32,
 }
 
-/// MipmapLimitSettings is a sub class of the Unity engine since version 2022.2.0b16.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_GradientNEW__Gradient {
+    GradientNEW(GradientNEW),
+    Gradient(Gradient),
+}
+
+/// MipmapLimitSettings is a sub class of the Unity engine since version 2022.2.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MipmapLimitSettings {
     pub limitBias: i32,
@@ -7323,7 +8371,8 @@ pub struct ModelImporter {
     /**Global scale factor for importing.*/
     pub m_GlobalScale: f32,
     pub m_HasExtraRoot: bool,
-    pub m_ImportedRoots: Vec<PPtr /*<GameObject>*/>,
+    /// Vec<PPtr<GameObject>>: (3.4.0 - 2022.3.2f1)
+    pub m_ImportedRoots: Vec<PPtr>,
     /**Mesh compression setting.*/
     pub m_MeshCompression: i32,
     /**The name of the object.*/
@@ -7332,292 +8381,307 @@ pub struct ModelImporter {
     pub m_UseFileUnits: bool,
     pub normalSmoothAngle: f32,
     /**Computes the axis conversion on geometry and animation for Models defined in an axis system that differs from Unity's (left handed, Z forward, Y-up).                     When enabled, Unity transforms the geometry and animation data in order to convert the axis.                     When disabled, Unity transforms the root GameObject of the hierarchy in order to convert the axis.*/
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub bakeAxisConversion: Option<bool>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub blendShapeNormalImportMode: Option<i32>,
     /**Generate secondary UV set for lightmapping.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub generateSecondaryUV: Option<bool>,
     /**Format of the imported mesh index buffer data.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub indexFormat: Option<i32>,
     /**If this is true, any quad faces that exist in the mesh data before it is imported are kept as quads instead of being split into two triangles, for the purposes of tessellation. Set this to false to disable this behavior.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub keepQuads: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0f1 - 2022.3.2f1)
     pub m_AddHumanoidExtraRootOnlyWhenUsingAvatar: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub m_AdditionalBone: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.1.0f1 - 2022.3.2f1)
     pub m_AnimationDoRetargetingWarnings: Option<bool>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.1.0f1 - 2022.3.2f1)
     pub m_AnimationImportErrors: Option<String>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.1.0f1 - 2022.3.2f1)
     pub m_AnimationImportWarnings: Option<String>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.1.0f1 - 2022.3.2f1)
     pub m_AnimationRetargetingWarnings: Option<String>,
     /**Animator generation mode.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_AnimationType: Option<i32>,
     /**Get or set the AssetBundle name.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleName: Option<String>,
     /**Get or set the AssetBundle variant.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
     /**Generate auto mapping if no avatarSetup is provided when importing humanoid animation.*/
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.3.0f1 - 2022.3.2f1)
     pub m_AutoGenerateAvatarMappingIfUnspecified: Option<bool>,
+    /// bool: (2017.2.0b2 - 2017.2.0b6)
+    pub m_AutoMapExternalMaterials: Option<bool>,
     /**The Avatar generation of the imported model.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     pub m_AvatarSetup: Option<i32>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (4.0.0 - 2019.3.0a2)
     pub m_CopyAvatar: Option<bool>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**Animation optimization setting.*/
-    /// Vec<String>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<String>: (4.3.0 - 2022.3.2f1)
     pub m_ExtraExposedTransformPaths: Option<Vec<String>>,
     /**A list of default FBX properties to treat as user properties during OnPostprocessGameObjectWithUserProperties.*/
-    /// Vec<String>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<String>: (2017.1.0f2 - 2022.3.2f1)
     pub m_ExtraUserProperties: Option<Vec<String>>,
-    /// Vec<(i32, String)>: (3.4.0 - 3.4.0); Vec<(i64, String)>: (5.6.0b2 - 2018.4.15f1)
+    /// Vec<(i32, String)>: (3.4.0 - 4.7.2); Vec<(i64, String)>: (5.0.0f4 - 2018.4.36f1)
     pub m_FileIDToRecycleName: Option<Vec<(i64, String)>>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.0f1 - 2022.3.2f1)
     pub m_FileIdsGeneration: Option<i32>,
     /**Scaling factor used when useFileScale is set to true (Read-only).*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_FileScale: Option<f32>,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub m_FileScaleFactor: Option<f32>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.3.0f2 - 2022.3.2f1)
     pub m_FileScaleUnit: Option<String>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_FirstImportVersion: Option<i32>,
     /**Animation generation options.*/
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.5.7)
     pub m_GenerateAnimations: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_GenerateMaterials: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub m_HasEmbeddedTextures: Option<bool>,
-    /// bool: (2018.4.15f1 - 2018.4.15f1)
+    /// bool: (2018.2.0b1 - 2019.1.0a13)
     pub m_HasPreviousCalculatedGlobalScale: Option<bool>,
     /**The human description that is used to generate an Avatar during the import process.*/
-    /// HumanDescription: (5.6.0b2 - 2022.2.0b16)
+    /// HumanDescription: (4.0.0 - 2022.3.2f1)
     pub m_HumanDescription: Option<HumanDescription>,
     /**Controls how much oversampling is used when importing humanoid animations for retargeting.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.2.0f2 - 2022.3.2f1)
     pub m_HumanoidOversampling: Option<i32>,
     /**Import animated custom properties from file.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub m_ImportAnimatedCustomProperties: Option<bool>,
     /**Import animation from file.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub m_ImportAnimation: Option<bool>,
     /**Import BlendShapes deform percent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_ImportBlendShapeDeformPercent: Option<bool>,
     /**Controls import of BlendShapes.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.1.0 - 2022.3.2f1)
     pub m_ImportBlendShapes: Option<bool>,
     /**Controls import of cameras. Basic properties like field of view, near plane distance and far plane distance can be animated.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub m_ImportCameras: Option<bool>,
     /**Import animation constraints.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_ImportConstraints: Option<bool>,
     /**Controls import of lights. Note that because light are defined differently in DCC tools, some light types or properties may not be exported. Basic properties like color and intensity can be animated.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub m_ImportLights: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (3.5.0 - 2019.3.0a6)
     pub m_ImportMaterials: Option<bool>,
+    /// bool: (2022.2.19f1 - 2022.3.2f1)
+    pub m_ImportPhysicalCameras: Option<bool>,
     /**Use visibility properties to enable or disable MeshRenderer components.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub m_ImportVisibility: Option<bool>,
     /**Generates the list of all imported take.*/
-    /// Vec<TakeInfo>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<TakeInfo>: (4.0.0 - 2022.3.2f1)
     pub m_ImportedTakeInfos: Option<Vec<TakeInfo>>,
-    /// Vec<((i32, i64), String)>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<((i32, i64), String)>: (2019.1.0b1 - 2022.3.2f1)
     pub m_InternalIDToNameTable: Option<Vec<((i32, i64), String)>>,
     /**Are mesh vertices and indices accessible from script?*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub m_IsReadable: Option<bool>,
-    /// Vec<f32>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<f32>: (3.5.0 - 2022.3.2f1)
     pub m_LODScreenPercentages: Option<Vec<f32>>,
-    /// PPtr/*<Avatar>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_LastHumanDescriptionAvatarSource: Option<PPtr /*<Avatar>*/>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<Avatar>: (4.0.0 - 2022.3.2f1)
+    pub m_LastHumanDescriptionAvatarSource: Option<PPtr>,
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_LegacyGenerateAnimations: Option<i32>,
     /**Material creation options.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     pub m_MaterialImportMode: Option<i32>,
     /**Material import location options.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub m_MaterialLocation: Option<i32>,
     /**Material naming setting.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_MaterialName: Option<i32>,
     /**Existing material search setting.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_MaterialSearch: Option<i32>,
-    /// Vec<SourceAssetIdentifier>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<SourceAssetIdentifier>: (2017.2.0b2 - 2022.3.2f1)
     pub m_Materials: Option<Vec<SourceAssetIdentifier>>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 3.4.2)
     #[serde(alias = "m_MeshSettings.generateSecondaryUV")]
     pub m_MeshSettings_generateSecondaryUV: Option<bool>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     #[serde(alias = "m_MeshSettings.normalImportMode")]
     pub m_MeshSettings_normalImportMode: Option<i32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 3.4.2)
     #[serde(alias = "m_MeshSettings.secondaryUVAngleDistortion")]
     pub m_MeshSettings_secondaryUVAngleDistortion: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 3.4.2)
     #[serde(alias = "m_MeshSettings.secondaryUVAreaDistortion")]
     pub m_MeshSettings_secondaryUVAreaDistortion: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 3.4.2)
     #[serde(alias = "m_MeshSettings.secondaryUVHardAngle")]
     pub m_MeshSettings_secondaryUVHardAngle: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 3.4.2)
     #[serde(alias = "m_MeshSettings.secondaryUVPackMargin")]
     pub m_MeshSettings_secondaryUVPackMargin: Option<f32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 3.4.2)
     #[serde(alias = "m_MeshSettings.swapUVChannels")]
     pub m_MeshSettings_swapUVChannels: Option<bool>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     #[serde(alias = "m_MeshSettings.tangentImportMode")]
     pub m_MeshSettings_tangentImportMode: Option<i32>,
     /**The path of the transform used to generation the motion of the animation.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (4.5.0 - 2022.3.2f1)
     pub m_MotionNodeName: Option<String>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_NewHashIdentity: Option<MdFour>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_NodeNameCollisionStrategy: Option<i32>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_OldHashIdentity: Option<MdFour>,
     /**Animation optimization setting.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_OptimizeGameObjects: Option<bool>,
     /**If true, always create an explicit Prefab root. Otherwise, if the model has a single root, it is reused as the Prefab root.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_PreserveHierarchy: Option<bool>,
-    /// f32: (2018.4.15f1 - 2018.4.15f1)
+    /// f32: (2018.2.0b1 - 2019.1.0a13)
     pub m_PreviousCalculatedGlobalScale: Option<f32>,
     /**Generates the list of all imported Animations.*/
-    /// Vec<GUID>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<GUID>: (4.0.0 - 2022.3.2f1)
     pub m_ReferencedClips: Option<Vec<GUID>>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.3.37f1 - 2022.3.2f1)
     pub m_RemapMaterialsIfMaterialImportModeIsNone: Option<bool>,
     /**Removes constant animation curves with values identical to the object initial scale value.*/
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_RemoveConstantScaleCurves: Option<bool>,
     /**If set to false, the importer will not resample curves when possible.Read more about animation curve resampling.Notes:- Some unsupported FBX features (such as PreRotation or PostRotation on transforms) will override this setting. In these situations, animation curves will still be resampled even if the setting is disabled. For best results, avoid using PreRotation, PostRotation and GetRotationPivot.- This option was introduced in Version 5.3. Prior to this version, Unity's import behaviour was as if this option was always enabled. Therefore enabling the option gives the same behaviour as pre-5.3 animation import.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.4.0f3 - 2022.3.2f1)
     pub m_ResampleCurves: Option<bool>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.3.0f1 - 5.3.8f2)
+    pub m_ResampleRotations: Option<bool>,
+    /// String: (5.6.0b1 - 2022.3.2f1)
     pub m_RigImportErrors: Option<String>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.6.0b1 - 2022.3.2f1)
     pub m_RigImportWarnings: Option<String>,
     /**Sorts the gameObject hierarchy by name.*/
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.2.0b1 - 2022.3.2f1)
     pub m_SortHierarchyByName: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 3.5.7)
     pub m_SplitAnimations: Option<bool>,
     /**Enables strict checks on imported vertex data.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_StrictVertexDataChecks: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0f2 - 2022.3.2f1)
     pub m_SupportsEmbeddedMaterials: Option<bool>,
     /**Use FileScale when importing.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_UseFileScale: Option<bool>,
     /**When disabled, imported material albedo colors are converted to gamma space. This property should be disabled when using linear color space in Player rendering settings.The default value is true.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_UseSRGBMaterialColor: Option<bool>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
     /**Get or set any user data.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (4.0.0 - 2022.3.2f1)
     pub m_UserData: Option<String>,
     /**The maximum number of bones per vertex stored in this mesh data.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub maxBonesPerVertex: Option<i32>,
     /**Options to control the optimization of mesh data during asset import.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub meshOptimizationFlags: Option<i32>,
     /**Minimum bone weight to keep.*/
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.0b1 - 2022.3.2f1)
     pub minBoneWeight: Option<f32>,
     /**Normal generation options for ModelImporter.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub normalCalculationMode: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub normalImportMode: Option<i32>,
     /**Source of smoothing information for calculation of normals.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub normalSmoothingSource: Option<i32>,
     /**Only import bones where they are connected to vertices.*/
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub optimizeBones: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (3.5.0 - 3.5.7)
+    pub optimizeMesh: Option<bool>,
+    /// bool: (4.0.0 - 2018.4.36f1)
     pub optimizeMeshForGPU: Option<bool>,
     /**Threshold for angle distortion (in degrees) when generating secondary UV.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (3.5.0 - 2022.3.2f1)
     pub secondaryUVAngleDistortion: Option<f32>,
     /**Threshold for area distortion when generating secondary UV.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (3.5.0 - 2022.3.2f1)
     pub secondaryUVAreaDistortion: Option<f32>,
     /**Hard angle (in degrees) for generating secondary UV.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (3.5.0 - 2022.3.2f1)
     pub secondaryUVHardAngle: Option<f32>,
     /**Method to use for handling margins when generating secondary UV.*/
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub secondaryUVMarginMethod: Option<i32>,
     /**The minimum lightmap resolution in texels per unit that the associated model is expected to have.*/
-    /// f32: (2020.1.0a20 - 2022.2.0b16)
+    /// f32: (2020.1.0b1 - 2022.3.2f1)
     pub secondaryUVMinLightmapResolution: Option<f32>,
     /**The minimum object scale that the associated model is expected to have.*/
-    /// f32: (2020.1.0a20 - 2022.2.0b16)
+    /// f32: (2020.1.0b1 - 2022.3.2f1)
     pub secondaryUVMinObjectScale: Option<f32>,
     /**Margin to be left between charts when packing secondary UV.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (3.5.0 - 2022.3.2f1)
     pub secondaryUVPackMargin: Option<f32>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub skinWeightsMode: Option<i32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 5.2.5f1)
     pub splitTangentsAcrossUV: Option<bool>,
     /**Swap primary and secondary UV channels when importing.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub swapUVChannels: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub tangentImportMode: Option<i32>,
     /**Combine vertices that share the same position in space.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.1.0 - 2022.3.2f1)
     pub weldVertices: Option<bool>,
 }
 
-/// Module is a sub class of the Unity engine since version 2018.4.15f1.
+/// Module is a sub class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Module {
-    pub controlledByBuiltinPackage: bool,
     pub dependencies: Vec<String>,
     pub name: String,
     pub strippable: bool,
+    /// bool: (2018.2.0f2 - 2022.3.2f1)
+    pub controlledByBuiltinPackage: Option<bool>,
 }
 
 /// MonoAssemblyImporter is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MonoAssemblyImporter {
     pub m_ExecutionOrder: Vec<(String, i32)>,
-    pub m_FileIDToRecycleName: Vec<(i32, String)>,
-    pub m_IconMap: Vec<(String, PPtr /*<Texture2D>*/)>,
+    /// Vec<(String, PPtr<Texture2D>)>: (3.4.0 - 4.7.2)
+    pub m_IconMap: Vec<(String, PPtr)>,
     pub m_Name: String,
-    pub m_NewHashIdentity: MdFour,
-    pub m_OldHashIdentity: MdFour,
+    /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
+    pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
+    /// MdFour: (3.4.0 - 3.4.2)
+    pub m_NewHashIdentity: Option<MdFour>,
+    /// MdFour: (3.4.0 - 3.4.2)
+    pub m_OldHashIdentity: Option<MdFour>,
+    /// String: (4.0.0 - 4.7.2)
+    pub m_UserData: Option<String>,
 }
 
 /// MonoBehaviour is a  class of the Unity engine since version 3.4.0.
@@ -7645,10 +8709,12 @@ pub struct MonoBehaviour {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_Script: PPtr, /*<MonoScript>*/
+    /// PPtr<MonoScript>: (3.4.0 - 2022.3.2f1)
+    pub m_Script: PPtr,
 }
 
 /// MonoImporter is a  class of the Unity engine since version 3.4.0.
@@ -7659,42 +8725,45 @@ Represents a C# script in the project.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MonoImporter {
     pub executionOrder: i16,
-    pub icon: PPtr, /*<Texture2D>*/
-    pub m_DefaultReferences: Vec<(String, PPtr /*<Object>*/)>,
+    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    pub icon: PPtr,
+    /// Vec<(String, PPtr<Object>)>: (3.4.0 - 2022.3.2f1)
+    pub m_DefaultReferences: Vec<(String, PPtr)>,
     /**The name of the object.*/
     pub m_Name: String,
     /**Get or set the AssetBundle name.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleName: Option<String>,
     /**Get or set the AssetBundle variant.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<(i32, String)>: (3.4.0 - 3.4.0)
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_NewHashIdentity: Option<MdFour>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_OldHashIdentity: Option<MdFour>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
     /**Get or set any user data.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (4.0.0 - 2022.3.2f1)
     pub m_UserData: Option<String>,
 }
 
 /// MonoManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MonoManager {
-    pub m_Scripts: Vec<PPtr /*<MonoScript>*/>,
-    /// Vec<String>: (3.4.0 - 2020.1.0a20)
+    /// Vec<PPtr<MonoScript>>: (3.4.0 - 2022.3.2f1)
+    pub m_Scripts: Vec<PPtr>,
+    /// Vec<String>: (3.4.0 - 2020.2.0a19)
     pub m_AssemblyNames: Option<Vec<String>>,
-    /// Vec<i32>: (2017.4.33f1 - 2020.1.0a20)
+    /// Vec<i32>: (2017.1.0b1 - 2020.2.0a19)
     pub m_AssemblyTypes: Option<Vec<i32>>,
-    /// Vec<(i32, Hash128)>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<(i32, Hash128)>: (2020.2.0b1 - 2022.3.2f1)
     pub m_RuntimeClassHashes: Option<Vec<(i32, Hash128)>>,
-    /// Vec<(Hash128, Hash128)>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<(Hash128, Hash128)>: (2020.2.0b1 - 2022.3.2f1)
     pub m_ScriptHashes: Option<Vec<(Hash128, Hash128)>>,
 }
 
@@ -7713,7 +8782,7 @@ pub struct MonoScript {
     pub m_Name: String,
     pub m_Namespace: String,
     pub m_PropertiesHash: Enum_u32__Hash128,
-    /// bool: (3.4.0 - 2017.4.33f1)
+    /// bool: (3.4.0 - 2018.1.9f2)
     pub m_IsEditorScript: Option<bool>,
 }
 
@@ -7729,21 +8798,23 @@ pub enum Enum_u32__Hash128 {
 pub struct MovieImporter {
     pub m_Name: String,
     pub m_Quality: f32,
-    /// String: (5.6.0b2 - 2018.4.15f1)
+    /// String: (5.0.0f4 - 2019.2.21f1)
     pub m_AssetBundleName: Option<String>,
-    /// String: (5.6.0b2 - 2018.4.15f1)
+    /// String: (5.0.0f4 - 2019.2.21f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2018.4.15f1)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<(i32, String)>: (3.4.0 - 3.4.0)
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2019.2.21f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (3.5.0 - 2019.2.21f1)
     pub m_LinearTexture: Option<bool>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_NewHashIdentity: Option<MdFour>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_OldHashIdentity: Option<MdFour>,
-    /// String: (5.6.0b2 - 2018.4.15f1)
+    /// Vec<i64>: (2019.1.0b1 - 2019.2.21f1)
+    pub m_UsedFileIDs: Option<Vec<i64>>,
+    /// String: (4.0.0 - 2019.2.21f1)
     pub m_UserData: Option<String>,
 }
 
@@ -7756,51 +8827,53 @@ MovieTexture has been removed. Use VideoPlayer instead.
 pub struct MovieTexture {
     /**The name of the object.*/
     pub m_Name: String,
-    /// PPtr/*<AudioClip>*/: (3.4.0 - 2018.4.15f1)
-    pub m_AudioClip: Option<PPtr /*<AudioClip>*/>,
-    /// i32: (5.6.0b2 - 2018.4.15f1)
+    /// PPtr<AudioClip>: (3.4.0 - 2019.2.21f1)
+    pub m_AudioClip: Option<PPtr>,
+    /// i32: (3.5.0 - 2019.2.21f1)
     pub m_ColorSpace: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// bool: (3.4.0 - 2018.4.15f1)
+    /// bool: (3.4.0 - 2019.2.21f1)
     pub m_Loop: Option<bool>,
-    /// Vec<u8>: (3.4.0 - 2018.4.15f1)
+    /// Vec<u8>: (3.4.0 - 2019.2.21f1)
     pub m_MovieData: Option<Vec<u8>>,
 }
 
-/// MultiArtifactTestImporter is a  class of the Unity engine since version 2019.3.0f4.
+/// MultiArtifactTestImporter is a  class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MultiArtifactTestImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.2.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
 }
 
-/// MultiModeParameter is a sub class of the Unity engine since version 2017.4.33f1.
+/// MultiModeParameter is a sub class of the Unity engine since version 5.6.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MultiModeParameter {
     pub mode: i32,
     pub speed: MinMaxCurve,
     pub spread: f32,
-    /// f32: (2017.4.33f1 - 2017.4.33f1)
+    /// f32: (5.6.0f1 - 2018.2.21f1)
     pub value: Option<f32>,
 }
 
-/// NScreenBridge is a  class of the Unity engine since version 5.6.0b2.
+/// NScreenBridge is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NScreenBridge {}
 
 /// NameToObjectMap is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NameToObjectMap {
-    pub m_ObjectToName: Vec<(PPtr /*<Shader>*/, String)>,
+    /// Vec<(PPtr<Shader>, String)>: (3.4.0 - 2022.3.2f1)
+    pub m_ObjectToName: Vec<(PPtr, String)>,
 }
 
 /// NamedObject is a  class of the Unity engine since version 3.4.0.
@@ -7809,28 +8882,30 @@ pub struct NamedObject {
     pub m_Name: String,
 }
 
-/// NativeFormatImporter is a  class of the Unity engine since version 5.6.0b2.
+/// NativeFormatImporter is a  class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NativeFormatImporter {
-    pub m_AssetBundleName: String,
-    pub m_AssetBundleVariant: String,
     pub m_Name: String,
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// i64: (2017.4.33f1 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleName: Option<String>,
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleVariant: Option<String>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// i64: (5.6.0f1 - 2022.3.2f1)
     pub m_MainObjectFileID: Option<i64>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// NativeObjectType is a  class of the Unity engine since version 2019.3.0f4.
+/// NativeObjectType is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NativeObjectType {
     pub m_Inner: NativeType,
 }
 
-/// NativeType is a sub class of the Unity engine since version 2019.3.0f4.
+/// NativeType is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NativeType {
     pub a: i32,
@@ -7838,7 +8913,25 @@ pub struct NativeType {
     pub embedded: EmbeddedNativeType,
 }
 
-/// NavMeshAgent is a  class of the Unity engine since version 5.6.0b2.
+/// NavMesh is a  class of the Unity engine since version 3.5.0.
+/// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AI.NavMesh.html):
+/**
+Singleton class to access the baked NavMesh.
+Use the NavMesh class to perform spatial queries such as pathfinding and walkability tests. This class also lets you set the pathfinding cost for specific area types, and tweak the global behavior of pathfinding and avoidance.Before you can use spatial queries, you must first bake the NavMesh to your scene.See also:
+• Building a NavMesh – for more information on how to setup and bake NavMesh
+• Areas and Costs – to learn how to use different Area types.
+• NavMeshAgent – to learn how to control and move NavMesh Agents.
+• NavMeshObstacle – to learn how to control NavMesh Obstacles using scripting.
+• OffMeshLink – to learn how to control Off-Mesh Links using scripting.
+*/
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NavMesh {
+    pub m_Heightmaps: Vec<HeightmapData>,
+    pub m_MeshData: Vec<u8>,
+    pub m_Name: String,
+}
+
+/// NavMeshAgent is a  class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AI.NavMeshAgent.html):
 /**
 Navigation mesh agent.
@@ -7846,16 +8939,10 @@ This component is attached to a mobile character in the game to allow it to navi
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NavMeshAgent {
-    /**The avoidance priority level.*/
-    pub avoidancePriority: i32,
     /**The maximum acceleration of an agent as it follows a path, given in units / sec^2.*/
     pub m_Acceleration: f32,
-    /**The type ID for the agent.*/
-    pub m_AgentTypeID: i32,
     /**Maximum turning speed in (deg/s) while following a path.*/
     pub m_AngularSpeed: f32,
-    /**Should the agent brake automatically to avoid overshooting the destination point?*/
-    pub m_AutoBraking: bool,
     /**Should the agent attempt to acquire a new path if the existing path becomes invalid?*/
     pub m_AutoRepath: bool,
     /**Should the agent move across OffMeshLinks automatically?*/
@@ -7865,7 +8952,8 @@ pub struct NavMeshAgent {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The height of the agent for purposes of passing under obstacles, etc.*/
     pub m_Height: f32,
     /**The level of quality of avoidance.*/
@@ -7877,16 +8965,31 @@ pub struct NavMeshAgent {
     /**Stop within this distance from the target position.*/
     pub m_StoppingDistance: f32,
     pub m_WalkableMask: u32,
+    /**The avoidance priority level.*/
+    /// i32: (4.0.0 - 2022.3.2f1)
+    pub avoidancePriority: Option<i32>,
+    /**The type ID for the agent.*/
+    /// i32: (5.6.0b1 - 2022.3.2f1)
+    pub m_AgentTypeID: Option<i32>,
+    /**Should the agent brake automatically to avoid overshooting the destination point?*/
+    /// bool: (4.1.0 - 2022.3.2f1)
+    pub m_AutoBraking: Option<bool>,
 }
 
-/// NavMeshAreaData is a sub class of the Unity engine since version 5.6.0b2.
+/// NavMeshAreaData is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NavMeshAreaData {
     pub cost: f32,
     pub name: String,
 }
 
-/// NavMeshBuildDebugSettings is a sub class of the Unity engine since version 2017.4.33f1.
+/// NavMeshAreas is a  class of the Unity engine since version 5.0.0f4.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NavMeshAreas {
+    pub areas: Vec<NavMeshAreaData>,
+}
+
+/// NavMeshBuildDebugSettings is a sub class of the Unity engine since version 2017.2.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AI.NavMeshBuildDebugSettings.html):
 /**
 Specify which of the temporary data generated while building the NavMesh should be retained in memory after the process has completed.
@@ -7906,7 +9009,7 @@ pub struct NavMeshBuildDebugSettings {
     pub m_Flags: u8,
 }
 
-/// NavMeshBuildSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// NavMeshBuildSettings is a sub class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AI.NavMeshBuildSettings.html):
 /**
 The NavMeshBuildSettings struct allows you to specify a collection of settings which describe the dimensions and limitations of a particular agent type.
@@ -7936,18 +9039,20 @@ pub struct NavMeshBuildSettings {
     pub minRegionArea: f32,
     /**Sets the tile size in voxel units.*/
     pub tileSize: i32,
-    /// bool: (5.6.0b2 - 5.6.0b2); i32: (2017.4.33f1 - 2021.2.16f1)
+    /// bool: (5.6.0b1 - 5.6.0b11); i32: (5.6.0f2 - 2022.1.24f1)
     pub accuratePlacement: Option<Enum_bool__i32>,
     /**Enables the creation of additional data needed to determine the height at any position on the NavMesh more accurately.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub buildHeightMesh: Option<i32>,
     /**Options for collecting debug data during the build process.*/
-    /// NavMeshBuildDebugSettings: (2017.4.33f1 - 2022.2.0b16)
+    /// NavMeshBuildDebugSettings: (2017.2.0b2 - 2022.3.2f1)
     pub debug: Option<NavMeshBuildDebugSettings>,
+    /// i32: (2020.1.0a23 - 2020.1.0a23)
+    pub keepTiles: Option<i32>,
     /**The maximum number of worker threads that the build process can utilize when building a NavMesh with these settings.*/
-    /// u32: (2020.3.42f1 - 2022.2.0b16)
+    /// u32: (2020.1.0b1 - 2022.3.2f1)
     pub maxJobWorkers: Option<u32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub preserveTilesOutsideBounds: Option<i32>,
 }
 
@@ -7958,7 +9063,7 @@ pub enum Enum_bool__i32 {
     i32(i32),
 }
 
-/// NavMeshData is a  class of the Unity engine since version 5.6.0b2.
+/// NavMeshData is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AI.NavMeshData.html):
 /**
 Contains and represents NavMesh data.
@@ -7970,23 +9075,141 @@ pub struct NavMeshData {
     pub m_Heightmaps: Vec<HeightmapData>,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_NavMeshBuildSettings: NavMeshBuildSettings,
     pub m_NavMeshTiles: Vec<NavMeshTileData>,
     pub m_OffMeshLinks: Vec<AutoOffMeshLinkData>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.1f1 - 2022.3.2f1)
     pub m_AgentTypeID: Option<i32>,
+    /// NavMeshBuildSettings: (5.6.0b1 - 2022.3.2f1)
+    pub m_NavMeshBuildSettings: Option<NavMeshBuildSettings>,
+    /// NavMeshParams: (5.0.0f4 - 5.5.6f1)
+    pub m_NavMeshParams: Option<NavMeshParams>,
     /**Gets or sets the world space position of the NavMesh data.*/
-    /// Vector3f: (2017.4.33f1 - 2022.2.0b16)
+    /// Vector3f: (5.6.1f1 - 2022.3.2f1)
     pub m_Position: Option<Vector3f>,
     /**Gets or sets the orientation of the NavMesh data.*/
-    /// Quaternionf: (2017.4.33f1 - 2022.2.0b16)
+    /// Quaternionf: (5.6.1f1 - 2022.3.2f1)
     pub m_Rotation: Option<Quaternionf>,
     /**Returns the bounding volume of the input geometry used to build this NavMesh (Read Only).*/
-    /// AABB: (2017.4.33f1 - 2022.2.0b16)
+    /// AABB: (5.6.1f1 - 2022.3.2f1)
     pub m_SourceBounds: Option<AABB>,
 }
 
-/// NavMeshObstacle is a  class of the Unity engine since version 5.6.0b2.
+/// NavMeshLayerData is a sub class of the Unity engine since version 3.5.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NavMeshLayerData {
+    pub cost: f32,
+    pub editType: i32,
+    pub name: String,
+}
+
+/// NavMeshLayers is a  class of the Unity engine since version 3.5.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NavMeshLayers {
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "Built-in Layer 0")]
+    pub Built_in_Layer_0: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "Built-in Layer 1")]
+    pub Built_in_Layer_1: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "Built-in Layer 2")]
+    pub Built_in_Layer_2: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 0")]
+    pub User_Layer_0: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 1")]
+    pub User_Layer_1: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 10")]
+    pub User_Layer_10: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 11")]
+    pub User_Layer_11: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 12")]
+    pub User_Layer_12: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 13")]
+    pub User_Layer_13: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 14")]
+    pub User_Layer_14: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 15")]
+    pub User_Layer_15: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 16")]
+    pub User_Layer_16: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 17")]
+    pub User_Layer_17: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 18")]
+    pub User_Layer_18: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 19")]
+    pub User_Layer_19: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 2")]
+    pub User_Layer_2: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 20")]
+    pub User_Layer_20: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 21")]
+    pub User_Layer_21: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 22")]
+    pub User_Layer_22: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 23")]
+    pub User_Layer_23: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 24")]
+    pub User_Layer_24: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 25")]
+    pub User_Layer_25: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 26")]
+    pub User_Layer_26: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 27")]
+    pub User_Layer_27: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 28")]
+    pub User_Layer_28: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 3")]
+    pub User_Layer_3: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 4")]
+    pub User_Layer_4: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 5")]
+    pub User_Layer_5: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 6")]
+    pub User_Layer_6: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 7")]
+    pub User_Layer_7: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 8")]
+    pub User_Layer_8: Option<NavMeshLayerData>,
+    /// NavMeshLayerData: (3.5.0 - 4.7.2)
+    #[serde(alias = "User Layer 9")]
+    pub User_Layer_9: Option<NavMeshLayerData>,
+}
+
+/// NavMeshObsolete is a  class of the Unity engine since version 5.0.0f4.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NavMeshObsolete {
+    pub m_Name: String,
+}
+
+/// NavMeshObstacle is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AI.NavMeshObstacle.html):
 /**
 An obstacle for NavMeshAgents to avoid.
@@ -7994,48 +9217,80 @@ A NavMeshObstacle is cylindrical in shape and can move around the surface of the
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NavMeshObstacle {
-    pub m_Carve: bool,
-    /**Should this obstacle be carved when it is constantly moving?*/
-    pub m_CarveOnlyStationary: bool,
-    /**The center of the obstacle, measured in the object's local space.*/
-    pub m_Center: Vector3f,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
-    pub m_Extents: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    pub m_MoveThreshold: f32,
+    /// PPtr<GameObject>: (4.0.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /// bool: (4.3.0 - 2022.3.2f1)
+    pub m_Carve: Option<bool>,
+    /**Should this obstacle be carved when it is constantly moving?*/
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub m_CarveOnlyStationary: Option<bool>,
+    /**The center of the obstacle, measured in the object's local space.*/
+    /// Vector3f: (5.0.0f4 - 2022.3.2f1)
+    pub m_Center: Option<Vector3f>,
+    /// Vector3f: (5.0.0f4 - 2022.3.2f1)
+    pub m_Extents: Option<Vector3f>,
+    /**Height of the obstacle's cylinder shape.*/
+    /// f32: (4.0.0 - 4.7.2)
+    pub m_Height: Option<f32>,
+    /// f32: (4.3.0 - 2022.3.2f1)
+    pub m_MoveThreshold: Option<f32>,
+    /**Radius of the obstacle's capsule shape.*/
+    /// f32: (4.0.0 - 4.7.2)
+    pub m_Radius: Option<f32>,
     /**The shape of the obstacle.*/
-    pub m_Shape: i32,
-    pub m_TimeToStationary: f32,
+    /// i32: (5.0.0f4 - 2022.3.2f1)
+    pub m_Shape: Option<i32>,
+    /// f32: (5.0.0f4 - 2022.3.2f1)
+    pub m_TimeToStationary: Option<f32>,
 }
 
-/// NavMeshProjectSettings is a  class of the Unity engine since version 5.6.0b2.
+/// NavMeshParams is a sub class of the Unity engine since version 5.0.0f4.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NavMeshParams {
+    pub cellSize: f32,
+    pub tileSize: f32,
+    pub walkableClimb: f32,
+    pub walkableHeight: f32,
+    pub walkableRadius: f32,
+}
+
+/// NavMeshProjectSettings is a  class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NavMeshProjectSettings {
     pub areas: Vec<NavMeshAreaData>,
-    pub m_LastAgentTypeID: i32,
-    pub m_SettingNames: Vec<String>,
-    pub m_Settings: Vec<NavMeshBuildSettings>,
+    /// i32: (5.6.0b1 - 2022.3.2f1)
+    pub m_LastAgentTypeID: Option<i32>,
+    /// Vec<String>: (5.6.0b1 - 2022.3.2f1)
+    pub m_SettingNames: Option<Vec<String>>,
+    /// Vec<NavMeshBuildSettings>: (5.6.0b1 - 2022.3.2f1)
+    pub m_Settings: Option<Vec<NavMeshBuildSettings>>,
 }
 
-/// NavMeshSettings is a  class of the Unity engine since version 5.6.0b2.
+/// NavMeshSettings is a  class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NavMeshSettings {
-    pub m_NavMeshData: PPtr, /*<NavMeshData>*/
+    /// PPtr<NavMesh>: (3.5.0 - 4.7.2)
+    pub m_NavMesh: Option<PPtr>,
+    /// PPtr<NavMeshData>: (5.0.0f4 - 2022.3.2f1)
+    pub m_NavMeshData: Option<PPtr>,
 }
 
-/// NavMeshTileData is a sub class of the Unity engine since version 5.6.0b2.
+/// NavMeshTileData is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NavMeshTileData {
-    pub m_Hash: Hash128,
     pub m_MeshData: Vec<u8>,
+    /// Hash128: (5.6.0b1 - 2022.3.2f1)
+    pub m_Hash: Option<Hash128>,
 }
 
 /// NetworkManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NetworkManager {
-    pub m_AssetToPrefab: Vec<(GUID, PPtr /*<GameObject>*/)>,
+    /// Vec<(GUID, PPtr<GameObject>)>: (3.4.0 - 2018.1.9f2)
+    pub m_AssetToPrefab: Vec<(GUID, PPtr)>,
     pub m_DebugLevel: i32,
     pub m_Sendrate: f32,
 }
@@ -8054,8 +9309,10 @@ pub struct NetworkView {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    pub m_Observed: PPtr, /*<Component>*/
+    /// PPtr<GameObject>: (3.4.0 - 2018.1.9f2)
+    pub m_GameObject: PPtr,
+    /// PPtr<Component>: (3.4.0 - 2018.1.9f2)
+    pub m_Observed: PPtr,
     pub m_StateSynchronization: i32,
     pub m_ViewID: NetworkViewID,
 }
@@ -8081,7 +9338,7 @@ pub struct NewAnimationTrack {
     pub m_Name: String,
 }
 
-/// NoiseModule is a sub class of the Unity engine since version 5.6.0b2.
+/// NoiseModule is a sub class of the Unity engine since version 5.5.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.NoiseModule.html):
 /**
 Script interface for the NoiseModule.
@@ -8121,17 +9378,17 @@ pub struct NoiseModule {
     /**Define the strength of the effect on the z-axis, when using the ParticleSystem.NoiseModule.separateAxes option.*/
     pub strengthZ: MinMaxCurve,
     /**How much the noise affects the particle positions.*/
-    /// MinMaxCurve: (2017.4.33f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2017.1.0b2 - 2022.3.2f1)
     pub positionAmount: Option<MinMaxCurve>,
     /**How much the noise affects the particle rotation, in degrees per second.*/
-    /// MinMaxCurve: (2017.4.33f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2017.1.0b2 - 2022.3.2f1)
     pub rotationAmount: Option<MinMaxCurve>,
     /**How much the noise affects the particle sizes, applied as a multiplier on the size of each particle.*/
-    /// MinMaxCurve: (2017.4.33f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2017.1.0b2 - 2022.3.2f1)
     pub sizeAmount: Option<MinMaxCurve>,
 }
 
-/// NonAlignedStruct is a sub class of the Unity engine since version 2019.3.0f4.
+/// NonAlignedStruct is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NonAlignedStruct {
     pub m_Bool: bool,
@@ -8147,17 +9404,18 @@ pub struct OcclusionArea {
     /**Center of the occlusion area relative to the transform.*/
     pub m_Center: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_IsViewVolume: bool,
     /**Size that the occlusion area will have.*/
     pub m_Size: Vector3f,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.2.2)
     pub m_IsTargetVolume: Option<bool>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 4.2.2)
     pub m_TargetResolution: Option<i32>,
 }
 
-/// OcclusionCullingData is a  class of the Unity engine since version 5.6.0b2.
+/// OcclusionCullingData is a  class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OcclusionCullingData {
     pub m_Name: String,
@@ -8165,16 +9423,19 @@ pub struct OcclusionCullingData {
     pub m_Scenes: Vec<OcclusionScene>,
 }
 
-/// OcclusionCullingSettings is a  class of the Unity engine since version 5.6.0b2.
+/// OcclusionCullingSettings is a  class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OcclusionCullingSettings {
-    pub m_OcclusionCullingData: PPtr, /*<OcclusionCullingData>*/
-    pub m_Portals: Vec<PPtr /*<OcclusionPortal>*/>,
+    /// PPtr<OcclusionCullingData>: (5.5.0f3 - 2022.3.2f1)
+    pub m_OcclusionCullingData: PPtr,
+    /// Vec<PPtr<OcclusionPortal>>: (5.5.0f3 - 2022.3.2f1)
+    pub m_Portals: Vec<PPtr>,
     pub m_SceneGUID: GUID,
-    pub m_StaticRenderers: Vec<PPtr /*<Renderer>*/>,
+    /// Vec<PPtr<Renderer>>: (5.5.0f3 - 2022.3.2f1)
+    pub m_StaticRenderers: Vec<PPtr>,
 }
 
-/// OcclusionPortal is a  class of the Unity engine since version 5.6.0b2.
+/// OcclusionPortal is a  class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/OcclusionPortal.html):
 /**
 The portal for dynamically changing occlusion at runtime.
@@ -8183,13 +9444,14 @@ The portal for dynamically changing occlusion at runtime.
 pub struct OcclusionPortal {
     pub m_Center: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Gets / sets the portal's open state.*/
     pub m_Open: bool,
     pub m_Size: Vector3f,
 }
 
-/// OcclusionScene is a sub class of the Unity engine since version 5.6.0b2.
+/// OcclusionScene is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OcclusionScene {
     pub indexPortals: i32,
@@ -8199,20 +9461,20 @@ pub struct OcclusionScene {
     pub sizeRenderers: i32,
 }
 
-/// Oculus is a sub class of the Unity engine since version 2017.4.33f1.
+/// Oculus is a sub class of the Unity engine since version 2017.3.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Oculus {
     pub dashSupport: bool,
     pub sharedDepthBuffer: bool,
-    /// bool: (2018.4.15f1 - 2020.1.0a20)
+    /// bool: (2018.4.9f1 - 2020.2.0a15)
     pub lowOverheadMode: Option<bool>,
-    /// bool: (2018.4.15f1 - 2020.1.0a20)
+    /// bool: (2018.4.9f1 - 2020.2.0a15)
     pub protectedContext: Option<bool>,
-    /// bool: (2018.4.15f1 - 2020.1.0a20)
+    /// bool: (2018.4.9f1 - 2020.2.0a15)
     pub v2Signing: Option<bool>,
 }
 
-/// OffMeshLink is a  class of the Unity engine since version 5.6.0b2.
+/// OffMeshLink is a  class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AI.OffMeshLink.html):
 /**
 Link allowing movement outside the planar navigation mesh.
@@ -8221,72 +9483,103 @@ Link allowing movement outside the planar navigation mesh.
 pub struct OffMeshLink {
     /**Is link active.*/
     pub m_Activated: bool,
-    pub m_AgentTypeID: i32,
-    pub m_AreaIndex: u32,
-    /**Automatically update endpoints.*/
-    pub m_AutoUpdatePositions: bool,
     /**Can link be traversed in both directions.*/
     pub m_BiDirectional: bool,
     /**Modify pathfinding cost for the link.*/
     pub m_CostOverride: f32,
-    /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
-    pub m_Enabled: u8,
-    pub m_End: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    pub m_End: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    pub m_Start: PPtr, /*<Transform>*/
+    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    pub m_Start: PPtr,
+    /// i32: (5.6.0b1 - 2022.3.2f1)
+    pub m_AgentTypeID: Option<i32>,
+    /// u32: (5.0.0f4 - 2022.3.2f1)
+    pub m_AreaIndex: Option<u32>,
+    /**Automatically update endpoints.*/
+    /// bool: (4.3.0 - 2022.3.2f1)
+    pub m_AutoUpdatePositions: Option<bool>,
+    /// u32: (3.5.0 - 4.7.2)
+    pub m_DtPolyRef: Option<u32>,
+    /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
+    /// u8: (4.3.0 - 2022.3.2f1)
+    pub m_Enabled: Option<u8>,
+    /// u32: (4.0.0 - 4.7.2)
+    pub m_NavMeshLayer: Option<u32>,
 }
 
-/// OffsetPtr is a sub class of the Unity engine since version 5.6.0b2.
+/// OffsetPtr is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OffsetPtr {
     pub data: Clip,
 }
 
-/// Output is a sub class of the Unity engine since version 5.6.0b2.
+/// Output is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Output {
-    pub hasEmptyFontData: bool,
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub hasEmptyFontData: Option<bool>,
+    /// i32: (4.0.0 - 4.7.2)
+    pub importedType: Option<i32>,
+    /// Vec<f32>: (4.0.0 - 4.7.2)
+    pub previewData: Option<Vec<f32>>,
 }
 
-/// PPtrCurve is a sub class of the Unity engine since version 5.6.0b2.
+/// PPtrCurve is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PPtrCurve {
     pub attribute: String,
     pub classID: i32,
+    /// Vec<PPtrKeyframe>: (4.3.0 - 2022.3.2f1)
     pub curve: Vec<PPtrKeyframe>,
     pub path: String,
-    pub script: PPtr, /*<MonoScript>*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// PPtr<MonoScript>: (4.3.0 - 2022.3.2f1)
+    pub script: PPtr,
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub flags: Option<i32>,
 }
 
-/// PPtrKeyframe is a sub class of the Unity engine since version 5.6.0b2.
+/// PPtrKeyframe is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PPtrKeyframe {
     pub time: f32,
-    pub value: PPtr, /*<Object>*/
+    /// PPtr<Object>: (4.3.0 - 2022.3.2f1)
+    pub value: PPtr,
 }
 
-/// PackageManifest is a  class of the Unity engine since version 2019.3.0f4.
+/// PVRImporter is a  class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PVRImporter {
+    pub m_Name: String,
+    pub m_UserData: String,
+    /// String: (5.0.0f4 - 5.5.6f1)
+    pub m_AssetBundleName: Option<String>,
+    /// String: (5.0.0f4 - 5.5.6f1)
+    pub m_AssetBundleVariant: Option<String>,
+}
+
+/// PackageManifest is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PackageManifest {
     pub m_Name: String,
     pub m_Script: String,
 }
 
-/// PackageManifestImporter is a  class of the Unity engine since version 2019.3.0f4.
+/// PackageManifestImporter is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PackageManifestImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.1.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
 }
 
-/// PackedAssets is a  class of the Unity engine since version 5.6.0b2.
+/// PackedAssets is a  class of the Unity engine since version 5.4.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Build.Reporting.PackedAssets.html):
 /**
 An extension to the BuildReport class that tracks how Assets contribute to the size of the build.
@@ -8300,7 +9593,7 @@ pub struct PackedAssets {
     pub m_Overhead: u64,
     /**The file path to the Asset package, relative to the Data folder of the build.*/
     pub m_ShortPath: String,
-    /// u32: (5.6.0b2 - 2020.3.42f1)
+    /// u32: (5.4.0f3 - 2021.2.0a11)
     pub m_File: Option<u32>,
 }
 
@@ -8314,7 +9607,7 @@ pub struct PackedBitVector {
     pub m_Start: f32,
 }
 
-/// PackingSettings is a sub class of the Unity engine since version 2020.1.0a20.
+/// PackingSettings is a sub class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PackingSettings {
     pub allowAlphaSplitting: bool,
@@ -8322,18 +9615,18 @@ pub struct PackingSettings {
     pub enableRotation: bool,
     pub enableTightPacking: bool,
     pub padding: i32,
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.1.0b1 - 2022.3.2f1)
     pub enableAlphaDilation: Option<bool>,
 }
 
-/// Parameter is a sub class of the Unity engine since version 5.6.0b2.
+/// Parameter is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Parameter {
     pub m_GUID: GUID,
     pub m_ParameterName: String,
 }
 
-/// ParentConstraint is a  class of the Unity engine since version 2018.4.15f1.
+/// ParentConstraint is a  class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.ParentConstraint.html):
 /**
 Constrains the orientation and translation of an object to one or more source objects. The constrained object behaves as if it is in the hierarchy of the sources.
@@ -8349,7 +9642,8 @@ pub struct ParentConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The rotation used when the sources have a total weight of 0.*/
     pub m_RotationAtRest: Vector3f,
     /**The rotation offsets from the constrained orientation.*/
@@ -8361,17 +9655,17 @@ pub struct ParentConstraint {
     pub m_TranslationOffsets: Vec<Vector3f>,
     /**The weight of the constraint component.*/
     pub m_Weight: f32,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_Active: Option<bool>,
-    /// bool: (2018.4.15f1 - 2021.2.16f1)
+    /// bool: (2018.1.0b2 - 2022.1.0a9)
     pub m_IsContraintActive: Option<bool>,
 }
 
-/// ParserBindChannels is a sub class of the Unity engine since version 5.6.0b2.
+/// ParserBindChannels is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ParserBindChannels {
     pub m_Channels: Vec<ShaderBindChannel>,
-    pub m_SourceMap: i32,
+    pub m_SourceMap: i64,
 }
 
 /// ParticleAnimator is a  class of the Unity engine since version 3.4.0.
@@ -8381,27 +9675,28 @@ pub struct ParticleAnimator {
     pub damping: f32,
     pub force: Vector3f,
     pub localRotationAxis: Vector3f,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    pub m_GameObject: PPtr,
     pub rndForce: Vector3f,
     pub sizeGrow: f32,
     pub stopSimulation: bool,
     pub worldRotationAxis: Vector3f,
-    /// bool: (3.4.0 - 2017.4.33f1)
+    /// bool: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "Does Animate Color?")]
     pub Does_Animate_Color_: Option<bool>,
-    /// ColorRGBA: (3.4.0 - 2017.4.33f1)
+    /// ColorRGBA: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "colorAnimation[0]")]
     pub colorAnimation_0_: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 2017.4.33f1)
+    /// ColorRGBA: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "colorAnimation[1]")]
     pub colorAnimation_1_: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 2017.4.33f1)
+    /// ColorRGBA: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "colorAnimation[2]")]
     pub colorAnimation_2_: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 2017.4.33f1)
+    /// ColorRGBA: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "colorAnimation[3]")]
     pub colorAnimation_3_: Option<ColorRGBA>,
-    /// ColorRGBA: (3.4.0 - 2017.4.33f1)
+    /// ColorRGBA: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "colorAnimation[4]")]
     pub colorAnimation_4_: Option<ColorRGBA>,
 }
@@ -8412,48 +9707,57 @@ pub struct ParticleRenderer {
     pub m_CameraVelocityScale: f32,
     pub m_CastShadows: Enum_bool__u8,
     pub m_Enabled: bool,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    pub m_GameObject: PPtr,
     pub m_LengthScale: f32,
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (3.4.0 - 2018.2.21f1)
+    pub m_Materials: Vec<PPtr>,
     pub m_MaxParticleSize: f32,
     pub m_ReceiveShadows: Enum_bool__u8,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (3.4.0 - 2018.2.21f1)
+    pub m_StaticBatchRoot: PPtr,
     pub m_StretchParticles: i32,
     pub m_VelocityScale: f32,
-    /// UVAnimation: (3.4.0 - 2017.4.33f1)
+    /// UVAnimation: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "UV Animation")]
     pub UV_Animation: Option<UVAnimation>,
-    /// u8: (2017.4.33f1 - 2017.4.33f1)
+    /// u8: (2017.2.0b2 - 2018.2.21f1)
     pub m_DynamicOccludee: Option<u8>,
-    /// u8: (5.6.0b2 - 2017.4.33f1)
+    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    pub m_LightProbeAnchor: Option<PPtr>,
+    /// u8: (5.4.0f3 - 2018.2.21f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr/*<GameObject>*/: (5.6.0b2 - 2017.4.33f1)
-    pub m_LightProbeVolumeOverride: Option<PPtr /*<GameObject>*/>,
-    /// u16: (5.6.0b2 - 2017.4.33f1)
+    /// PPtr<GameObject>: (5.4.0f3 - 2018.2.21f1)
+    pub m_LightProbeVolumeOverride: Option<PPtr>,
+    /// u16: (5.0.0f4 - 2018.2.21f1)
     pub m_LightmapIndexDynamic: Option<u16>,
-    /// Vector4f: (5.6.0b2 - 2017.4.33f1)
+    /// Vector4f: (5.0.0f4 - 2018.2.21f1)
     pub m_LightmapTilingOffsetDynamic: Option<Vector4f>,
-    /// u8: (5.6.0b2 - 2017.4.33f1)
+    /// u8: (5.4.0f3 - 2018.2.21f1)
     pub m_MotionVectors: Option<u8>,
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2017.4.33f1)
-    pub m_ProbeAnchor: Option<PPtr /*<Transform>*/>,
-    /// u8: (5.6.0b2 - 2017.4.33f1)
-    pub m_ReflectionProbeUsage: Option<u8>,
-    /// i16: (5.6.0b2 - 2017.4.33f1)
+    /// PPtr<Transform>: (5.0.0f4 - 2018.2.21f1)
+    pub m_ProbeAnchor: Option<PPtr>,
+    /// i32: (5.0.0f4 - 5.3.8f2); u8: (5.4.0f3 - 2018.2.21f1)
+    pub m_ReflectionProbeUsage: Option<i32>,
+    /// u32: (2018.1.0b2 - 2018.2.21f1)
+    pub m_RenderingLayerMask: Option<u32>,
+    /// i16: (4.3.0 - 2018.2.21f1)
     pub m_SortingLayer: Option<i16>,
-    /// i32: (2017.4.33f1 - 2017.4.33f1)
-    pub m_SortingLayerID: Option<i32>,
-    /// i16: (5.6.0b2 - 2017.4.33f1)
+    /// u32: (4.5.0 - 4.7.2); i32: (5.0.0f4 - 2018.2.21f1)
+    pub m_SortingLayerID: Option<i64>,
+    /// i16: (4.3.0 - 2018.2.21f1)
     pub m_SortingOrder: Option<i16>,
-    /// StaticBatchInfo: (5.6.0b2 - 2017.4.33f1)
+    /// StaticBatchInfo: (5.5.0f3 - 2018.2.21f1)
     pub m_StaticBatchInfo: Option<StaticBatchInfo>,
-    /// Vec<u32>: (3.4.0 - 3.4.0)
+    /// Vec<u32>: (3.4.0 - 5.4.6f3)
     pub m_SubsetIndices: Option<Vec<u32>>,
+    /// bool: (3.5.0 - 5.3.8f2)
+    pub m_UseLightProbes: Option<bool>,
 }
 
-/// ParticleSystem is a  class of the Unity engine since version 5.6.0b2.
+/// ParticleSystem is a  class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.html):
 /**
 Script interface for the Built-in Particle System. Unity's powerful and versatile particle system implementation.
@@ -8478,68 +9782,87 @@ pub struct ParticleSystem {
     pub CollisionModule: CollisionModule,
     pub ColorBySpeedModule: ColorBySpeedModule,
     pub ColorModule: ColorModule,
-    pub CustomDataModule: CustomDataModule,
     pub EmissionModule: EmissionModule,
-    pub ExternalForcesModule: ExternalForcesModule,
     pub ForceModule: ForceModule,
-    pub InheritVelocityModule: InheritVelocityModule,
     pub InitialModule: InitialModule,
-    pub LightsModule: LightsModule,
-    pub NoiseModule: NoiseModule,
     pub RotationBySpeedModule: RotationBySpeedModule,
     pub RotationModule: RotationModule,
     pub ShapeModule: ShapeModule,
     pub SizeBySpeedModule: SizeBySpeedModule,
     pub SizeModule: SizeModule,
     pub SubModule: SubModule,
-    pub TrailModule: TrailModule,
-    pub TriggerModule: TriggerModule,
     pub UVModule: UVModule,
     pub VelocityModule: VelocityModule,
-    pub autoRandomSeed: bool,
     pub lengthInSec: f32,
     pub looping: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    pub moveWithCustomTransform: PPtr, /*<Transform>*/
-    pub moveWithTransform: i32,
+    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    pub moveWithTransform: Enum_bool__i32,
     pub playOnAwake: bool,
     pub prewarm: bool,
     /**Override the random seed used for the Particle System emission.*/
-    pub randomSeed: i32,
-    pub scalingMode: i32,
-    pub simulationSpeed: f32,
-    pub startDelay: MinMaxCurve,
-    /// LifetimeByEmitterSpeedModule: (2020.1.0a20 - 2022.2.0b16)
+    pub randomSeed: i64,
+    pub startDelay: Enum_f32__MinMaxCurve,
+    /// CustomDataModule: (5.6.0b1 - 2022.3.2f1)
+    pub CustomDataModule: Option<CustomDataModule>,
+    /// ExternalForcesModule: (4.0.0 - 2022.3.2f1)
+    pub ExternalForcesModule: Option<ExternalForcesModule>,
+    /// InheritVelocityModule: (5.3.0f1 - 2022.3.2f1)
+    pub InheritVelocityModule: Option<InheritVelocityModule>,
+    /// LifetimeByEmitterSpeedModule: (2020.1.0b1 - 2022.3.2f1)
     pub LifetimeByEmitterSpeedModule: Option<LifetimeByEmitterSpeedModule>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// LightsModule: (5.5.0f3 - 2022.3.2f1)
+    pub LightsModule: Option<LightsModule>,
+    /// NoiseModule: (5.5.0f3 - 2022.3.2f1)
+    pub NoiseModule: Option<NoiseModule>,
+    /// TrailModule: (5.5.0f3 - 2022.3.2f1)
+    pub TrailModule: Option<TrailModule>,
+    /// TriggerModule: (5.4.0f3 - 2022.3.2f1)
+    pub TriggerModule: Option<TriggerModule>,
+    /// bool: (5.4.1f1 - 2022.3.2f1)
+    pub autoRandomSeed: Option<bool>,
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub cullingMode: Option<i32>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.1.0b1 - 2022.3.2f1)
     pub emitterVelocityMode: Option<i32>,
-    /// Vector2f: (2018.4.15f1 - 2022.2.0b16)
+    /// PPtr<Transform>: (5.5.0f3 - 2022.3.2f1)
+    pub moveWithCustomTransform: Option<PPtr>,
+    /// Vector2f: (2018.3.0f2 - 2022.3.2f1)
     pub ringBufferLoopRange: Option<Vector2f>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub ringBufferMode: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.3.0f1 - 2022.3.2f1)
+    pub scalingMode: Option<i32>,
+    /// f32: (5.5.1f1 - 2022.3.2f1)
+    pub simulationSpeed: Option<f32>,
+    /// f32: (3.5.0 - 5.5.0f3)
+    pub speed: Option<f32>,
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub stopAction: Option<i32>,
-    /// bool: (2017.4.33f1 - 2020.3.42f1)
+    /// bool: (2017.1.0f2 - 2021.1.0a6)
     pub useRigidbodyForVelocity: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b2 - 2022.3.2f1)
     pub useUnscaledTime: Option<bool>,
 }
 
-/// ParticleSystemEmissionBurst is a sub class of the Unity engine since version 2017.4.33f1.
+/// ParticleSystemEmissionBurst is a sub class of the Unity engine since version 5.6.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ParticleSystemEmissionBurst {
-    pub countCurve: MinMaxCurve,
-    pub cycleCount: i32,
+    pub cycleCount: i64,
     pub repeatInterval: f32,
     pub time: f32,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2017.2.0b2 - 2022.3.2f1)
+    pub countCurve: Option<MinMaxCurve>,
+    /// u32: (5.6.0f1 - 2017.1.5f1)
+    pub maxCount: Option<u32>,
+    /// u32: (5.6.0f1 - 2017.1.5f1)
+    pub minCount: Option<u32>,
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub probability: Option<f32>,
 }
 
-/// ParticleSystemForceField is a  class of the Unity engine since version 2018.4.15f1.
+/// ParticleSystemForceField is a  class of the Unity engine since version 2018.3.0f2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystemForceField.html):
 /**
 Script interface for Particle System Force Fields.
@@ -8550,11 +9873,12 @@ pub struct ParticleSystemForceField {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_Parameters: ParticleSystemForceFieldParameters,
 }
 
-/// ParticleSystemForceFieldParameters is a sub class of the Unity engine since version 2018.4.15f1.
+/// ParticleSystemForceFieldParameters is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ParticleSystemForceFieldParameters {
     pub m_DirectionCurveX: MinMaxCurve,
@@ -8572,12 +9896,13 @@ pub struct ParticleSystemForceFieldParameters {
     pub m_RotationSpeedCurve: MinMaxCurve,
     pub m_Shape: i32,
     pub m_StartRange: f32,
-    pub m_VectorField: PPtr, /*<Texture3D>*/
+    /// PPtr<Texture3D>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_VectorField: PPtr,
     pub m_VectorFieldAttractionCurve: MinMaxCurve,
     pub m_VectorFieldSpeedCurve: MinMaxCurve,
 }
 
-/// ParticleSystemRenderer is a  class of the Unity engine since version 5.6.0b2.
+/// ParticleSystemRenderer is a  class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystemRenderer.html):
 /**
 Use this class to render particles on to the screen.
@@ -8586,115 +9911,146 @@ Use this class to render particles on to the screen.
 pub struct ParticleSystemRenderer {
     /**How much do the particles stretch depending on the Camera's speed.*/
     pub m_CameraVelocityScale: f32,
-    pub m_CastShadows: u8,
+    pub m_CastShadows: Enum_bool__u8,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**How much are the particles stretched in their direction of motion, defined as the length of the particle compared to its width.*/
     pub m_LengthScale: f32,
-    /**The light probe interpolation type.*/
-    pub m_LightProbeUsage: u8,
-    pub m_LightProbeVolumeOverride: PPtr, /*<GameObject>*/
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
-    pub m_LightmapIndexDynamic: u16,
     pub m_LightmapTilingOffset: Vector4f,
-    pub m_LightmapTilingOffsetDynamic: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (3.5.0 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     /**Clamp the maximum particle size.*/
     pub m_MaxParticleSize: f32,
     /**The Mesh that the particle uses instead of a billboarded Texture.*/
-    pub m_Mesh: PPtr, /*<Mesh>*/
-    pub m_Mesh1: PPtr, /*<Mesh>*/
-    pub m_Mesh2: PPtr, /*<Mesh>*/
-    pub m_Mesh3: PPtr, /*<Mesh>*/
-    /**Clamp the minimum particle size.*/
-    pub m_MinParticleSize: f32,
-    pub m_MotionVectors: u8,
-    /**Specifies how to calculate lighting for the billboard.*/
-    pub m_NormalDirection: f32,
-    /**Modify the pivot point used for rotating particles.*/
-    pub m_Pivot: Vector3f,
-    /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    pub m_ProbeAnchor: PPtr, /*<Transform>*/
+    /// PPtr<Mesh>: (3.5.0 - 2022.3.2f1)
+    pub m_Mesh: PPtr,
     /**Does this object receive shadows?*/
-    pub m_ReceiveShadows: u8,
-    /**Should reflection probes be used for this Renderer?*/
-    pub m_ReflectionProbeUsage: u8,
-    pub m_RenderAlignment: i32,
+    pub m_ReceiveShadows: Enum_bool__u8,
     /**Specifies how the system draws particles.*/
-    pub m_RenderMode: u16,
+    pub m_RenderMode: i32,
     /**Specifies how to sort particles within a system.*/
-    pub m_SortMode: u16,
+    pub m_SortMode: i32,
     /**Biases Particle System sorting amongst other transparencies.*/
     pub m_SortingFudge: f32,
-    pub m_SortingLayer: i16,
-    /**Renderer's order within a sorting layer.*/
-    pub m_SortingOrder: i16,
-    pub m_StaticBatchInfo: StaticBatchInfo,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
-    pub m_UseCustomVertexStreams: bool,
+    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
     /**Specifies how much particles stretch depending on their velocity.*/
     pub m_VelocityScale: f32,
-    pub m_VertexStreams: Vec<u8>,
     /**Allow billboard particles to roll around their z-axis.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_AllowRoll: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub m_ApplyActiveColorSpace: Option<bool>,
-    /// u8: (2017.4.33f1 - 2022.2.0b16)
+    /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
     /**Enables GPU Instancing on platforms that support it.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_EnableGPUInstancing: Option<bool>,
     /**Flip a percentage of the particles, along each axis.*/
-    /// Vector3f: (2018.4.15f1 - 2022.2.0b16)
+    /// Vector3f: (2018.3.0f2 - 2022.3.2f1)
     pub m_Flip: Option<Vector3f>,
     /**Enables freeform stretching behavior.*/
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_FreeformStretching: Option<bool>,
+    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    pub m_LightProbeAnchor: Option<PPtr>,
+    /**The light probe interpolation type.*/
+    /// u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeUsage: Option<u8>,
+    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: Option<PPtr>,
+    /// u16: (5.0.0f4 - 2022.3.2f1)
+    pub m_LightmapIndexDynamic: Option<u16>,
+    /// Vector4f: (5.0.0f4 - 2022.3.2f1)
+    pub m_LightmapTilingOffsetDynamic: Option<Vector4f>,
     /**Specifies how the Particle System Renderer interacts with SpriteMask.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_MaskInteraction: Option<i32>,
+    /// PPtr<Mesh>: (4.0.0 - 2022.3.2f1)
+    pub m_Mesh1: Option<PPtr>,
+    /// PPtr<Mesh>: (4.0.0 - 2022.3.2f1)
+    pub m_Mesh2: Option<PPtr>,
+    /// PPtr<Mesh>: (4.0.0 - 2022.3.2f1)
+    pub m_Mesh3: Option<PPtr>,
     /**Specifies how the system randomly assigns meshes to particles.*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.2.0b1 - 2022.3.2f1)
     pub m_MeshDistribution: Option<u8>,
-    /// f32: (2021.2.16f1 - 2022.2.0b16)
+    /// f32: (2021.2.0b1 - 2022.3.2f1)
     pub m_MeshWeighting: Option<f32>,
-    /// f32: (2021.2.16f1 - 2022.2.0b16)
+    /// f32: (2021.2.0b1 - 2022.3.2f1)
     pub m_MeshWeighting1: Option<f32>,
-    /// f32: (2021.2.16f1 - 2022.2.0b16)
+    /// f32: (2021.2.0b1 - 2022.3.2f1)
     pub m_MeshWeighting2: Option<f32>,
-    /// f32: (2021.2.16f1 - 2022.2.0b16)
+    /// f32: (2021.2.0b1 - 2022.3.2f1)
     pub m_MeshWeighting3: Option<f32>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /**Clamp the minimum particle size.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_MinParticleSize: Option<f32>,
+    /// u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_MotionVectors: Option<u8>,
+    /**Specifies how to calculate lighting for the billboard.*/
+    /// f32: (4.0.0 - 2022.3.2f1)
+    pub m_NormalDirection: Option<f32>,
+    /**Modify the pivot point used for rotating particles.*/
+    /// Vector3f: (5.3.0f1 - 2022.3.2f1)
+    pub m_Pivot: Option<Vector3f>,
+    /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_ProbeAnchor: Option<PPtr>,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
+    /**Should reflection probes be used for this Renderer?*/
+    /// i32: (5.0.0f4 - 5.3.8f2); u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_ReflectionProbeUsage: Option<i32>,
+    /// i32: (5.3.0f1 - 2022.3.2f1)
+    pub m_RenderAlignment: Option<i32>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
     /**Rotate the particles based on the direction they are stretched in. This is added on top of other particle rotation.*/
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_RotateWithStretchDirection: Option<bool>,
     /**Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the particle size.*/
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub m_ShadowBias: Option<f32>,
+    /// i16: (4.3.0 - 2022.3.2f1)
+    pub m_SortingLayer: Option<i16>,
     /**Unique ID of the Renderer's sorting layer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
-    pub m_SortingLayerID: Option<i32>,
+    /// u32: (4.5.0 - 4.7.2); i32: (5.0.0f4 - 2022.3.2f1)
+    pub m_SortingLayerID: Option<i64>,
+    /**Renderer's order within a sorting layer.*/
+    /// i16: (4.3.0 - 2022.3.2f1)
+    pub m_SortingOrder: Option<i16>,
+    /// StaticBatchInfo: (5.5.0f3 - 2022.3.2f1)
+    pub m_StaticBatchInfo: Option<StaticBatchInfo>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
+    /// Vec<u32>: (3.5.0 - 5.4.6f3)
+    pub m_SubsetIndices: Option<Vec<u32>>,
+    /// bool: (5.5.0f3 - 2022.3.2f1)
+    pub m_UseCustomVertexStreams: Option<bool>,
+    /// bool: (3.5.0 - 5.3.8f2)
+    pub m_UseLightProbes: Option<bool>,
+    /// i32: (5.5.0f3 - 5.5.6f1)
+    pub m_VertexStreamMask: Option<i32>,
+    /// Vec<u8>: (5.6.0b1 - 2022.3.2f1)
+    pub m_VertexStreams: Option<Vec<u8>>,
 }
 
-/// PerLODSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// PerLODSettings is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PerLODSettings {
     pub castShadows: bool,
@@ -8705,15 +10061,15 @@ pub struct PerLODSettings {
     pub reflectionProbeUsage: i32,
     pub useLightProbes: bool,
     pub windQuality: i32,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub enableSubsurface: Option<bool>,
 }
 
-/// PerformanceReportingManager is a  class of the Unity engine since version 5.6.0b2.
+/// PerformanceReportingManager is a  class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PerformanceReportingManager {}
 
-/// PerformanceReportingSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// PerformanceReportingSettings is a sub class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Analytics.PerformanceReportingSettings.html):
 /**
 Normally performance reporting is enabled from the Services window, but if writing your own editor extension, this API can be used.
@@ -8743,55 +10099,74 @@ pub struct PhysicMaterial {
     pub m_Name: String,
     /**The friction coefficient used when an object is lying on a surface.*/
     pub staticFriction: f32,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.1.5f1)
     pub dynamicFriction2: Option<f32>,
-    /// Vector3f: (3.4.0 - 3.4.0)
+    /// Vector3f: (3.4.0 - 5.1.5f1)
     pub frictionDirection2: Option<Vector3f>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.1.5f1)
     pub staticFriction2: Option<f32>,
 }
 
-/// Physics2DSettings is a  class of the Unity engine since version 5.6.0b2.
+/// Physics2DSettings is a  class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Physics2DSettings {
-    pub m_AngularSleepTolerance: f32,
-    pub m_BaumgarteScale: f32,
-    pub m_BaumgarteTimeOfImpactScale: f32,
-    pub m_DefaultMaterial: PPtr, /*<PhysicsMaterial2D>*/
+    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    pub m_DefaultMaterial: PPtr,
     pub m_Gravity: Vector2f,
     pub m_LayerCollisionMatrix: Vec<u32>,
-    pub m_LinearSleepTolerance: f32,
-    pub m_MaxAngularCorrection: f32,
-    pub m_MaxLinearCorrection: f32,
-    pub m_MaxRotationSpeed: f32,
-    pub m_MaxTranslationSpeed: f32,
     pub m_PositionIterations: i32,
-    pub m_QueriesHitTriggers: bool,
-    pub m_QueriesStartInColliders: bool,
-    pub m_TimeToSleep: f32,
     pub m_VelocityIterations: i32,
-    pub m_VelocityThreshold: f32,
-    /// bool: (2017.4.33f1 - 2019.3.0f4)
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_AngularSleepTolerance: Option<f32>,
+    /// bool: (2017.1.0b2 - 2019.4.40f1)
     pub m_AutoSimulation: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub m_AutoSyncTransforms: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_BaumgarteScale: Option<f32>,
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_BaumgarteTimeOfImpactScale: Option<f32>,
+    /// bool: (5.6.1f1 - 2022.3.2f1)
     pub m_CallbacksOnDisable: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (4.6.1 - 2017.4.40f1)
     pub m_ChangeStopsCallbacks: Option<bool>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (5.6.0f1 - 2022.3.2f1)
     pub m_DefaultContactOffset: Option<f32>,
-    /// PhysicsJobOptions2D: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (4.5.3 - 4.6.0)
+    pub m_DeleteStopsCallbacks: Option<bool>,
+    /// PhysicsJobOptions2D: (2018.1.0b2 - 2022.3.2f1)
     pub m_JobOptions: Option<PhysicsJobOptions2D>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_LinearSleepTolerance: Option<f32>,
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_MaxAngularCorrection: Option<f32>,
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_MaxLinearCorrection: Option<f32>,
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_MaxRotationSpeed: Option<f32>,
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_MaxTranslationSpeed: Option<f32>,
+    /// f32: (4.6.1 - 5.6.0b6)
     pub m_MinPenetrationForPenalty: Option<f32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (5.2.0f2 - 2022.3.2f1)
+    pub m_QueriesHitTriggers: Option<bool>,
+    /// bool: (5.2.0f2 - 2022.3.2f1)
+    pub m_QueriesStartInColliders: Option<bool>,
+    /// bool: (4.3.0 - 5.1.5f1)
+    pub m_RaycastsHitTriggers: Option<bool>,
+    /// bool: (4.6.1 - 5.1.5f1)
+    pub m_RaycastsStartInColliders: Option<bool>,
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_ReuseCollisionCallbacks: Option<bool>,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub m_SimulationMode: Option<i32>,
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_TimeToSleep: Option<f32>,
+    /// f32: (4.5.0 - 2022.3.2f1)
+    pub m_VelocityThreshold: Option<f32>,
 }
 
-/// PhysicsJobOptions2D is a sub class of the Unity engine since version 2018.4.15f1.
+/// PhysicsJobOptions2D is a sub class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PhysicsJobOptions2D.html):
 /**
 A set of options that control how physics operates when using the job system to multithread the physics simulation.
@@ -8835,91 +10210,104 @@ pub struct PhysicsJobOptions2D {
     /**Controls the minimum number of trigger contacts to update in each simulation job.*/
     pub m_UpdateTriggerContactsPerJob: i32,
     /**Should physics simulation sort multi-threaded results to maintain processing order consistency?*/
-    pub useConsistencySorting: bool,
+    /// bool: (2018.1.0b2 - 2018.1.0b10)
+    pub m_UseConsistencySorting: Option<bool>,
     /**Should physics simulation use multithreading?*/
-    pub useMultithreading: bool,
+    /// bool: (2018.1.0b2 - 2018.1.0b10)
+    pub m_UseMultithreading: Option<bool>,
+    /**Should physics simulation sort multi-threaded results to maintain processing order consistency?*/
+    /// bool: (2018.1.0f2 - 2022.3.2f1)
+    pub useConsistencySorting: Option<bool>,
+    /**Should physics simulation use multithreading?*/
+    /// bool: (2018.1.0f2 - 2022.3.2f1)
+    pub useMultithreading: Option<bool>,
 }
 
 /// PhysicsManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PhysicsManager {
     pub m_BounceThreshold: f32,
-    pub m_DefaultMaterial: PPtr, /*<PhysicMaterial>*/
+    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    pub m_DefaultMaterial: PPtr,
     pub m_Gravity: Vector3f,
     pub m_LayerCollisionMatrix: Vec<u32>,
-    /// bool: (2017.4.33f1 - 2021.2.16f1)
+    /// bool: (2017.1.0b2 - 2022.1.24f1)
     pub m_AutoSimulation: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub m_AutoSyncTransforms: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_BroadphaseType: Option<i32>,
-    /// Vector3f: (2019.3.0f4 - 2022.2.0b16)
+    /// Vector3f: (2019.1.0b1 - 2022.3.2f1)
     pub m_ClothGravity: Option<Vector3f>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ClothInterCollisionDistance: Option<f32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_ClothInterCollisionSettingsToggle: Option<bool>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ClothInterCollisionStiffness: Option<f32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ContactPairsMode: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ContactsGeneration: Option<i32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_DefaultContactOffset: Option<f32>,
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.0b1 - 2019.1.0a14)
+    pub m_DefaultMaxAngluarSpeed: Option<f32>,
+    /// f32: (2019.1.0f2 - 2022.3.2f1)
     pub m_DefaultMaxAngularSpeed: Option<f32>,
-    /// f32: (2020.3.42f1 - 2022.2.0b16)
+    /// f32: (2020.1.0b1 - 2022.3.2f1)
     pub m_DefaultMaxDepenetrationVelocity: Option<f32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_DefaultSolverIterations: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_DefaultSolverVelocityIterations: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_EnableAdaptiveForce: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_EnableEnhancedDeterminism: Option<bool>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.5.0f3 - 2017.2.5f1)
     pub m_EnablePCM: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_EnableUnifiedHeightmaps: Option<bool>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_FrictionType: Option<i32>,
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_ImprovedPatchFriction: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_InvokeCollisionCallbacks: Option<bool>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub m_MaxAngularVelocity: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub m_MinPenetrationForPenalty: Option<f32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.0f3 - 2022.3.2f1)
     pub m_QueriesHitBackfaces: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.2.0f2 - 2022.3.2f1)
     pub m_QueriesHitTriggers: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 5.1.5f1)
     pub m_RaycastsHitTriggers: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_ReuseCollisionCallbacks: Option<bool>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_SimulationMode: Option<i32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub m_SleepAngularVelocity: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_SleepThreshold: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub m_SleepVelocity: Option<f32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 5.4.6f3)
     pub m_SolverIterationCount: Option<i32>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     pub m_SolverType: Option<i32>,
-    /// AABB: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.4.0f3 - 5.4.6f3)
+    pub m_SolverVelocityIterations: Option<i32>,
+    /// AABB: (2017.3.0b1 - 2022.3.2f1)
     pub m_WorldBounds: Option<AABB>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_WorldSubdivisions: Option<i32>,
 }
 
-/// PhysicsMaterial2D is a  class of the Unity engine since version 5.6.0b2.
+/// PhysicsMaterial2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PhysicsMaterial2D.html):
 /**
 Asset type that defines the surface properties of a Collider2D.
@@ -8935,7 +10323,7 @@ pub struct PhysicsMaterial2D {
     pub m_Name: String,
 }
 
-/// PhysicsShape is a sub class of the Unity engine since version 2021.2.16f1.
+/// PhysicsShape is a sub class of the Unity engine since version 2021.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PhysicsShape {
     pub m_AdjacentEnd: Vector2f,
@@ -8948,7 +10336,7 @@ pub struct PhysicsShape {
     pub m_VertexStartIndex: i32,
 }
 
-/// PhysicsShapeGroup2D is a sub class of the Unity engine since version 2021.2.16f1.
+/// PhysicsShapeGroup2D is a sub class of the Unity engine since version 2021.2.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PhysicsShapeGroup2D.html):
 /**
 Represents a group of PhysicsShape2D and their geometry.
@@ -8963,10 +10351,11 @@ pub struct PhysicsShapeGroup2D {
 /// Pipeline is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pipeline {
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    pub m_GameObject: PPtr,
 }
 
-/// PlatformEffector2D is a  class of the Unity engine since version 5.6.0b2.
+/// PlatformEffector2D is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PlatformEffector2D.html):
 /**
 Applies "platform" behaviour such as one-way collisions etc.
@@ -8979,32 +10368,49 @@ pub struct PlatformEffector2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /// bool: (5.0.0f4 - 5.0.0f4)
+    pub m_OneWay: Option<bool>,
     /**The rotational offset angle from the local 'up'.*/
-    pub m_RotationalOffset: f32,
+    /// f32: (5.5.0f3 - 2022.3.2f1)
+    pub m_RotationalOffset: Option<f32>,
+    /// f32: (5.0.0f4 - 5.1.1f1)
+    pub m_SideAngleVariance: Option<f32>,
     /**The angle of an arc that defines the sides of the platform centered on the local 'left' and 'right' of the effector. Any collision normals within this arc are considered for the 'side' behaviours.*/
-    pub m_SideArc: f32,
+    /// f32: (5.2.2f1 - 2022.3.2f1)
+    pub m_SideArc: Option<f32>,
+    /// bool: (5.0.0f4 - 5.0.0f4)
+    pub m_SideBounce: Option<bool>,
+    /// bool: (5.0.0f4 - 5.0.0f4)
+    pub m_SideFriction: Option<bool>,
     /**The angle of an arc that defines the surface of the platform centered of the local 'up' of the effector.*/
-    pub m_SurfaceArc: f32,
+    /// f32: (5.1.2f1 - 2022.3.2f1)
+    pub m_SurfaceArc: Option<f32>,
     /**Should the collider-mask be used or the global collision matrix?*/
-    pub m_UseColliderMask: bool,
+    /// bool: (5.0.2f1 - 2022.3.2f1)
+    pub m_UseColliderMask: Option<bool>,
     /**Should the one-way collision behaviour be used?*/
-    pub m_UseOneWay: bool,
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_UseOneWay: Option<bool>,
     /**Ensures that all contacts controlled by the one-way behaviour act the same.*/
-    pub m_UseOneWayGrouping: bool,
+    /// bool: (5.2.4f1 - 2022.3.2f1)
+    pub m_UseOneWayGrouping: Option<bool>,
     /**Should bounce be used on the platform sides?*/
-    pub m_UseSideBounce: bool,
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_UseSideBounce: Option<bool>,
     /**Should friction be used on the platform sides?*/
-    pub m_UseSideFriction: bool,
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_UseSideFriction: Option<bool>,
 }
 
-/// PlatformModuleSetup is a  class of the Unity engine since version 2018.4.15f1.
+/// PlatformModuleSetup is a  class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PlatformModuleSetup {
     pub modules: Vec<Module>,
 }
 
-/// PlatformSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// PlatformSettings is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PlatformSettings {
     pub m_AllowsAlphaSplitting: bool,
@@ -9015,16 +10421,18 @@ pub struct PlatformSettings {
     pub m_Overridden: bool,
     pub m_TextureCompression: i32,
     pub m_TextureFormat: i32,
+    /// i32: (2017.2.0b2 - 2017.2.5f1)
+    pub m_ResizeAlgorithm: Option<i32>,
 }
 
-/// PlatformSettingsData is a sub class of the Unity engine since version 5.6.0b2.
+/// PlatformSettingsData is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PlatformSettingsData {
     pub enabled: bool,
     pub settings: Vec<(String, String)>,
 }
 
-/// PlatformShaderDefines is a sub class of the Unity engine since version 2017.4.33f1.
+/// PlatformShaderDefines is a sub class of the Unity engine since version 2017.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PlatformShaderDefines {
     pub defines_Tier1: Vec<u32>,
@@ -9033,7 +10441,21 @@ pub struct PlatformShaderDefines {
     pub shaderPlatform: i32,
 }
 
-/// PlayableDirector is a  class of the Unity engine since version 2017.4.33f1.
+/// PlatformShaderSettings is a sub class of the Unity engine since version 5.3.0f1.
+/// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Rendering.PlatformShaderSettings.html):
+/**
+Used to set up shader settings, per-platform and per-shader-hardware-tier.
+This struct is deprecated. Please use TierSettings.
+*/
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PlatformShaderSettings {
+    /// bool: (5.4.0f3 - 5.4.6f3)
+    pub useCascadedShadowMaps: Option<bool>,
+    /// bool: (5.3.0f1 - 5.3.8f2)
+    pub useScreenSpaceShadows: Option<bool>,
+}
+
+/// PlayableDirector is a  class of the Unity engine since version 2017.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Playables.PlayableDirector.html):
 /**
 Instantiates a PlayableAsset and controls playback of Playable objects.
@@ -9045,12 +10467,14 @@ pub struct PlayableDirector {
     pub m_Enabled: u8,
     pub m_ExposedReferences: ExposedReferenceTable,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_InitialState: i32,
     /**The time at which the Playable should start when first played.*/
     pub m_InitialTime: f64,
     /**The PlayableAsset that is used to instantiate a playable for playback.*/
-    pub m_PlayableAsset: PPtr, /*<Object>*/
+    /// PPtr<Object>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_PlayableAsset: PPtr,
     pub m_SceneBindings: Vec<DirectorGenericBinding>,
     pub m_WrapMode: i32,
 }
@@ -9081,385 +10505,456 @@ pub struct PlayerSettings {
     pub useMacAppStoreValidation: bool,
     pub useOSAutorotation: bool,
     pub usePlayerLog: bool,
-    /// Hash128: (2020.3.42f1 - 2022.2.0b16)
+    /// Hash128: (2020.2.0b1 - 2022.3.2f1)
     pub AID: Option<Hash128>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub AndroidEnableSustainedPerformanceMode: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub AndroidFilterTouchesWhenObscured: Option<bool>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 3.5.7)
     pub AndroidLicensePublicKey: Option<String>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.2.14f1)
     pub D3DHDRBitDepth: Option<i32>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "Force IOS Speakers When Recording")]
     pub Force_IOS_Speakers_When_Recording: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 5.4.6f3)
     #[serde(alias = "Override IPod Music")]
     pub Override_IPod_Music: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "Prepare IOS For Recording")]
     pub Prepare_IOS_For_Recording: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub accelerometerFrequency: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0f1 - 2022.3.2f1)
     pub activeInputHandler: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.3.0f1 - 2022.3.2f1)
     pub allowFullscreenSwitch: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub androidBlitType: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.31f1 - 2022.3.2f1)
     pub androidDefaultWindowHeight: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.31f1 - 2022.3.2f1)
     pub androidDefaultWindowWidth: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.31f1 - 2022.3.2f1)
     pub androidFullscreenMode: Option<i32>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.2.0b2 - 2022.3.2f1)
     pub androidMaxAspectRatio: Option<f32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.31f1 - 2022.3.2f1)
     pub androidMinimumWindowHeight: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.31f1 - 2022.3.2f1)
     pub androidMinimumWindowWidth: Option<i32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub androidRenderOutsideSafeArea: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2019.4.31f1 - 2022.3.2f1)
     pub androidResizableWindow: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub androidShowActivityIndicatorOnLoading: Option<i32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub androidStartInFullscreen: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub androidSupportedAspectRatio: Option<i32>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.2.0b1 - 2022.3.2f1)
     pub androidUseSwappy: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub bakeCollisionMeshes: Option<bool>,
-    /// String: (5.6.0b2 - 5.6.0b2)
+    /// String: (5.0.0f4 - 5.6.0b5)
     pub bundleIdentifier: Option<String>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub bundleVersion: Option<String>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.1.0f1 - 2022.3.2f1)
     pub cloudEnabled: Option<bool>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub cloudProjectId: Option<String>,
-    /// Vector2f: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<i32>: (2022.2.0b3 - 2022.2.0b8)
+    pub cpuConfiguration: Option<Vec<i32>>,
+    /// Vector2f: (4.0.0 - 2022.3.2f1)
     pub cursorHotspot: Option<Vector2f>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (4.5.5 - 4.7.2)
+    pub d3d11ForceExclusiveMode: Option<bool>,
+    /// i32: (5.0.0f4 - 2017.4.40f1)
     pub d3d11FullscreenMode: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (4.5.3 - 2017.2.5f1)
     pub d3d9FullscreenMode: Option<i32>,
-    /// PPtr/*<Texture2D>*/: (5.6.0b2 - 2022.2.0b16)
-    pub defaultCursor: Option<PPtr /*<Texture2D>*/>,
-    /// bool: (3.4.0 - 2017.4.33f1)
+    /// i32: (3.5.5 - 3.5.7)
+    pub debugUnloadMode: Option<i32>,
+    /// PPtr<Texture2D>: (4.0.0 - 2022.3.2f1)
+    pub defaultCursor: Option<PPtr>,
+    /// bool: (3.4.0 - 2017.4.40f1)
     pub defaultIsFullScreen: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.2.0 - 2022.3.2f1)
     pub defaultIsNativeResolution: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.5f1 - 2022.3.2f1)
     pub deferSystemGesturesMode: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub disableDepthAndStencilBuffers: Option<bool>,
-    /// bool: (2017.4.33f1 - 2020.1.0a20)
+    /// bool: (2017.1.0b2 - 2020.2.0a21)
     pub disableOldInputManagerSupport: Option<bool>,
-    /// i32: (3.4.0 - 2018.4.15f1)
+    /// i32: (3.4.0 - 2019.3.0a10)
     pub displayResolutionDialog: Option<i32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub enableFrameTimingStats: Option<bool>,
-    /// bool: (2017.4.33f1 - 2020.1.0a20)
+    /// bool: (2022.2.0b3 - 2022.2.0b8)
+    pub enableGamepadInput: Option<bool>,
+    /// bool: (4.1.0 - 4.7.2)
+    pub enableHWStatistics: Option<bool>,
+    /// bool: (2017.1.0b2 - 2020.2.0a21)
     pub enableNativePlatformBackendsForNewInputSystem: Option<bool>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.6.0b1 - 2017.1.0b1)
     pub enableNewInputSystem: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2021.3.2f1 - 2022.3.2f1)
     pub enableOpenGLProfilerGPURecorders: Option<bool>,
-    /// bool: (2021.2.16f1 - 2021.2.16f1)
+    /// bool: (2021.2.0b1 - 2022.2.0a18)
     pub forceSRGBBlit: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.2.0 - 2022.3.2f1)
     pub forceSingleInstance: Option<bool>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub framebufferDepthMemorylessMode: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.1.0b2 - 2022.3.2f1)
     pub fullscreenMode: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.2.0 - 2022.3.2f1)
     pub gpuSkinning: Option<bool>,
-    /// i32: (2017.4.33f1 - 2018.4.15f1)
+    /// i32: (5.5.2f1 - 2019.3.0a12)
     pub graphicsJobMode: Option<i32>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.4.0f3 - 2019.3.0a11)
     pub graphicsJobs: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2022.2.15f1 - 2022.3.2f1)
+    pub hdrBitDepth: Option<i32>,
+    /// bool: (5.6.5f1 - 2022.3.2f1)
     pub hideHomeButton: Option<bool>,
-    /// PPtr/*<Texture2D>*/: (2022.2.0b16 - 2022.2.0b16)
-    pub hmiLoadingImage: Option<PPtr /*<Texture2D>*/>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// PPtr<Texture2D>: (2022.2.0f1 - 2022.3.2f1)
+    pub hmiLoadingImage: Option<PPtr>,
+    /// String: (4.1.2 - 4.7.2)
+    pub iPhoneBundleIdentifier: Option<String>,
+    /// bool: (5.3.1f1 - 2017.2.5f1)
     pub ignoreAlphaClear: Option<bool>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub insecureHttpOption: Option<i32>,
-    /// bool: (5.6.0b2 - 2021.2.16f1)
+    /// PPtr<Texture2D>: (2022.2.3f1 - 2022.3.2f1)
+    pub invalidatedPatternTexture: Option<PPtr>,
+    /// bool: (5.2.1f1 - 2021.3.27f1)
     pub iosAllowHTTPDownload: Option<bool>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.0.0f4 - 2019.3.0a11)
     pub iosAppInBackgroundBehavior: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub iosShowActivityIndicatorOnLoading: Option<i32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2017.4.40f1 - 2022.3.2f1)
     pub iosUseCustomAppBackgroundBehavior: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.9f1 - 2022.3.2f1)
     pub isWsaHolographicRemotingEnabled: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub legacyClampBlendShapeWeights: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub loadStoreDebugModeEnabled: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_ActiveColorSpace: Option<i32>,
-    /// Vec<i32>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<i32>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ColorGamuts: Option<Vec<i32>>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.0f3 - 2022.3.2f1)
     pub m_HolographicPauseOnTrackingLoss: Option<bool>,
-    /// PPtr/*<Texture2D>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_HolographicTrackingLossScreen: Option<PPtr /*<Texture2D>*/>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<Texture2D>: (5.5.0f3 - 2022.3.2f1)
+    pub m_HolographicTrackingLossScreen: Option<PPtr>,
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub m_MTRendering: Option<bool>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (4.3.0 - 2017.1.5f1)
     pub m_MobileMTRendering: Option<bool>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (4.3.0 - 5.4.6f3)
+    pub m_MobileRenderingPath: Option<i32>,
+    /// i32: (3.4.0 - 5.4.6f3)
     pub m_RenderingPath: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.0f3 - 2022.3.2f1)
     pub m_ShowUnitySplashLogo: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.1f1 - 2022.3.2f1)
     pub m_ShowUnitySplashScreen: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenAnimation: Option<i32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundAnimationZoom: Option<f32>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundColor: Option<ColorRGBA>,
-    /// PPtr/*<Texture2D>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_SplashScreenBackgroundLandscape: Option<PPtr /*<Texture2D>*/>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<Texture2D>: (5.5.0f3 - 2022.3.2f1)
+    pub m_SplashScreenBackgroundLandscape: Option<PPtr>,
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundLandscapeAspect: Option<f32>,
-    /// Rectf: (5.6.0b2 - 2022.2.0b16)
+    /// Rectf: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundLandscapeUvs: Option<Rectf>,
-    /// PPtr/*<Texture2D>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_SplashScreenBackgroundPortrait: Option<PPtr /*<Texture2D>*/>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<Texture2D>: (5.5.0f3 - 2022.3.2f1)
+    pub m_SplashScreenBackgroundPortrait: Option<PPtr>,
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundPortraitAspect: Option<f32>,
-    /// Rectf: (5.6.0b2 - 2022.2.0b16)
+    /// Rectf: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundPortraitUvs: Option<Rectf>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenDrawMode: Option<i32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenLogoAnimationZoom: Option<f32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenLogoStyle: Option<i32>,
-    /// Vec<SplashScreenLogo>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<SplashScreenLogo>: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenLogos: Option<Vec<SplashScreenLogo>>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenOverlayOpacity: Option<f32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (5.4.0f3 - 5.4.6f3)
+    pub m_SplashScreenStyle: Option<i32>,
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub m_SpriteBatchVertexThreshold: Option<i32>,
-    /// Vec<i32>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<i32>: (5.4.0f3 - 2022.3.2f1)
     pub m_StackTraceTypes: Option<Vec<i32>>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_StereoRenderingPath: Option<i32>,
-    /// AspectRatios: (3.4.0 - 2021.2.16f1)
+    /// bool: (4.5.0 - 5.3.8f2)
+    pub m_Stereoscopic3D: Option<bool>,
+    /// AspectRatios: (3.4.0 - 2022.1.24f1)
     pub m_SupportedAspectRatios: Option<AspectRatios>,
-    /// PPtr/*<Sprite>*/: (2022.2.0b16 - 2022.2.0b16)
-    pub m_UnitySplashLogo: Option<PPtr /*<Sprite>*/>,
-    /// PPtr/*<Texture2D>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_VirtualRealitySplashScreen: Option<PPtr /*<Texture2D>*/>,
-    /// String: (2017.4.33f1 - 2022.2.0b16)
+    /// PPtr<Sprite>: (2022.2.0b1 - 2022.3.2f1)
+    pub m_UnitySplashLogo: Option<PPtr>,
+    /// bool: (4.0.0 - 5.0.4f1)
+    pub m_UseDX11: Option<bool>,
+    /// PPtr<Texture2D>: (5.3.0f1 - 2022.3.2f1)
+    pub m_VirtualRealitySplashScreen: Option<PPtr>,
+    /// String: (5.6.1f1 - 2022.3.2f1)
     pub macAppStoreCategory: Option<String>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (4.0.0 - 2017.4.40f1)
     pub macFullscreenMode: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub macRetinaSupport: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub metalFramebufferOnly: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.3 - 5.4.6f3)
+    pub metroEnableIndependentInputSource: Option<bool>,
+    /// bool: (4.3.3 - 5.3.8f2)
+    pub metroEnableLowLatencyPresentationAPI: Option<bool>,
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub metroInputSource: Option<i32>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub mipStripping: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub mobileMTRenderingBaked: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.3.8f1 - 2022.3.2f1)
     pub muteOtherAudioSources: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2018.2.21f1)
     pub n3dsDisableStereoscopicView: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2018.2.21f1)
     pub n3dsEnableSharedListOpt: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2018.2.21f1)
     pub n3dsEnableVSync: Option<bool>,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub numberOfMipsStripped: Option<i32>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<(String, i32)>: (2022.2.3f1 - 2022.3.2f1)
+    pub numberOfMipsStrippedPerMipmapLimitGroup: Option<Vec<(String, i32)>>,
+    /// String: (5.1.0f1 - 2022.3.2f1)
     pub organizationId: Option<String>,
-    /// String: (2021.2.16f1 - 2021.2.16f1)
+    /// bool: (2022.2.19f1 - 2022.3.2f1)
+    pub platformRequiresReadableAssets: Option<bool>,
+    /// String: (2021.2.0b1 - 2022.2.0a18)
     pub playerDataPath: Option<String>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0f1 - 2022.3.2f1)
     pub playerMinOpenGLESVersion: Option<i32>,
-    /// Vec<PPtr/*<Object>*/>: (5.6.0b2 - 2022.2.0b16)
-    pub preloadedAssets: Option<Vec<PPtr /*<Object>*/>>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<PPtr<Object>>: (5.0.0f4 - 2022.3.2f1)
+    pub preloadedAssets: Option<Vec<PPtr>>,
+    /// bool: (2017.3.0b2 - 2022.3.2f1)
     pub preserveFramebufferAlpha: Option<bool>,
-    /// GUID: (5.6.0b2 - 2022.2.0b16)
+    /// GUID: (5.4.0f3 - 2022.3.2f1)
     pub productGUID: Option<GUID>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.1.0f1 - 5.1.5f1)
+    pub projectId: Option<String>,
+    /// String: (5.1.0f1 - 2022.3.2f1)
     pub projectName: Option<String>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.4.0f3 - 2019.3.0a12)
     pub protectGraphicsMemory: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// PPtr<Texture2D>: (5.0.0f4 - 5.4.6f3)
+    pub ps3SplashScreen: Option<PPtr>,
+    /// bool: (5.0.0f4 - 2018.2.21f1)
     pub psp2AcquireBGM: Option<bool>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.0.0f4 - 2018.2.21f1)
     pub psp2PowerMode: Option<i32>,
-    /// Vec<String>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<String>: (2020.2.0b1 - 2022.3.2f1)
     pub qualitySettingsNames: Option<Vec<String>>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.3.35f1 - 2022.3.2f1)
     pub resetResolutionOnWindowResize: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub resizableWindow: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub resolutionScalingMode: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (5.4.0f3 - 5.4.6f3)
+    pub singlePassStereoRendering: Option<bool>,
+    /// i32: (2019.3.15f1 - 2022.3.2f1)
     pub stadiaPresentMode: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.3.15f1 - 2022.3.2f1)
     pub stadiaTargetFramerate: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 4.7.2)
+    pub stripPhysics: Option<bool>,
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub submitAnalytics: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub switchAllowGpuScratchShrinking: Option<bool>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub switchGpuScratchPoolGranularity: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.5f1 - 2022.3.2f1)
     pub switchNVNDefaultPoolsGranularity: Option<i32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub switchNVNGraphicsFirmwareMemory: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2018.4.26f1 - 2022.3.2f1)
     pub switchNVNMaxPublicSamplerIDCount: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2018.4.26f1 - 2022.3.2f1)
     pub switchNVNMaxPublicTextureIDCount: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.5f1 - 2022.3.2f1)
     pub switchNVNOtherPoolsGranularity: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.5f1 - 2022.3.2f1)
     pub switchNVNShaderPoolsGranularity: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.1.0f2 - 2022.3.2f1)
     pub switchQueueCommandMemory: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.5f1 - 2022.3.2f1)
     pub switchQueueComputeMemory: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.5f1 - 2022.3.2f1)
     pub switchQueueControlMemory: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (4.0.0 - 5.0.4f1)
+    pub targetGlesGraphics: Option<i32>,
+    /// i32: (4.6.3 - 5.0.4f1)
+    pub targetIOSGraphics: Option<i32>,
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub targetPixelDensity: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.5.7)
     pub targetPlatform: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 5.2.5f1)
     pub targetResolution: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.4.3f1 - 2018.1.9f2)
     pub tizenShowActivityIndicatorOnLoading: Option<i32>,
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.3.0f1 - 5.6.0b2)
     pub uiUse16BitDepthBuffer: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (2021.2.0b1 - 2022.1.0a15)
+    pub uploadClearedTextureDataAfterCreationFromScript: Option<bool>,
+    /// bool: (3.5.0 - 4.7.2)
+    pub use24BitDepthBuffer: Option<bool>,
+    /// bool: (3.4.0 - 3.4.2)
     pub useAlphaInDashboard: Option<bool>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.1.7f1 - 2022.3.2f1)
     pub useFlipModelSwapchain: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.5.4f1 - 2022.3.2f1)
     pub useHDRDisplay: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.2.1f1 - 2022.3.2f1)
     pub useOnDemandResources: Option<bool>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (4.5.0 - 2018.2.21f1)
     pub videoMemoryForVertexBuffers: Option<i32>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (5.1.1f1 - 5.3.8f2)
+    pub virtualRealitySupported: Option<bool>,
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub virtualTexturingSupportEnabled: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.5.4 - 2022.3.2f1)
     pub visibleInBackground: Option<bool>,
-    /// VRSettings: (5.6.0b2 - 2022.2.0b16)
+    /// VRSettings: (5.6.0b1 - 2022.3.2f1)
     pub vrSettings: Option<VRSettings>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.3.18f1 - 2022.3.2f1)
     pub vulkanEnableCommandBufferRecycling: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2019.4.6f1 - 2022.3.2f1)
     pub vulkanEnableLateAcquireNextImage: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub vulkanEnablePreTransform: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub vulkanEnableSetSRGBWrite: Option<bool>,
-    /// u32: (2019.3.0f4 - 2022.2.0b16)
+    /// u32: (2019.3.0f1 - 2022.3.2f1)
     pub vulkanNumSwapchainBuffers: Option<u32>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (2018.2.0b1 - 2018.2.21f1)
+    pub vulkanUseSWCommandBuffers: Option<bool>,
+    /// i32: (3.5.0 - 4.3.4)
+    pub wiiHio2Usage: Option<i32>,
+    /// ColorRGBA: (3.5.0 - 4.3.4)
+    pub wiiLoadingScreenBackground: Option<ColorRGBA>,
+    /// String: (3.5.0 - 4.3.4)
+    pub wiiLoadingScreenFileName: Option<String>,
+    /// i32: (3.5.0 - 4.3.4)
+    pub wiiLoadingScreenPeriod: Option<i32>,
+    /// Rectf: (3.5.0 - 4.3.4)
+    pub wiiLoadingScreenRect: Option<Rectf>,
+    /// i32: (3.5.0 - 4.3.4)
+    pub wiiLoadingScreenRectPlacement: Option<i32>,
+    /// bool: (5.2.0f2 - 2017.4.40f1)
     pub wiiUAllowScreenCapture: Option<bool>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.2.0f2 - 2017.4.40f1)
     pub wiiUControllerCount: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.2.0f2 - 2017.4.40f1)
     pub wiiUGamePadMSAA: Option<i32>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2017.4.40f1)
     pub wiiUSupportsBalanceBoard: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2017.4.40f1)
     pub wiiUSupportsClassicController: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2017.4.40f1)
     pub wiiUSupportsMotionPlus: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2017.4.40f1)
     pub wiiUSupportsNunchuk: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.2.0f2 - 2017.4.40f1)
     pub wiiUSupportsProController: Option<bool>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.2.0f2 - 2017.4.40f1)
     pub wiiUTVResolution: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.3.42f1 - 2022.3.2f1)
     pub windowsGamepadBackendHint: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub wsaTransparentSwapchain: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub xboxEnableAvatar: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.3.6f1 - 5.3.8f2)
+    pub xboxEnableEnableRenderThreadRunsJobs: Option<bool>,
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub xboxEnableFitness: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub xboxEnableGuest: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.1.0 - 2022.3.2f1)
     pub xboxEnableHeadOrientation: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub xboxEnableKinect: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub xboxEnableKinectAutoTracking: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.3.0f2 - 2022.3.2f1)
     pub xboxEnablePIXSampling: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (3.5.0 - 3.5.7)
+    pub xboxEnableSpeech: Option<bool>,
+    /// bool: (2017.1.0f2 - 2022.3.2f1)
     pub xboxOneDisableEsram: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub xboxOneDisableKinectGpuReservation: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.6.0b1 - 2022.3.2f1)
     pub xboxOneEnable7thCore: Option<bool>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2018.4.17f1 - 2022.3.2f1)
     pub xboxOneEnableTypeOptimization: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.3.7f1 - 2022.3.2f1)
     pub xboxOneLoggingLevel: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.3.6f1 - 2022.3.2f1)
     pub xboxOneMonoLoggingLevel: Option<i32>,
-    /// u32: (2017.4.33f1 - 2022.2.0b16)
+    /// u32: (2017.2.0b2 - 2022.3.2f1)
     pub xboxOnePresentImmediateThreshold: Option<u32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub xboxOneResolution: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.5.6f1 - 2022.3.2f1)
     pub xboxOneSResolution: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.5.6f1 - 2022.3.2f1)
     pub xboxOneXResolution: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub xboxPIXTextureCapture: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.1.5)
     pub xboxSkinOnGPU: Option<bool>,
-    /// u32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (4.0.0 - 2022.3.2f1)
     pub xboxSpeechDB: Option<u32>,
 }
 
-/// PluginBuildInfo is a  class of the Unity engine since version 2018.4.15f1.
+/// PluginBuildInfo is a  class of the Unity engine since version 2018.4.13f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PluginBuildInfo {
     pub m_EditorPlugins: Vec<String>,
     pub m_RuntimePlugins: Vec<String>,
 }
 
-/// PluginImportOutput is a sub class of the Unity engine since version 5.6.0b2.
+/// PluginImportOutput is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PluginImportOutput {
-    pub dllType: i32,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (5.4.0f3 - 2022.3.2f1)
+    pub dllType: Option<i32>,
+    /// i32: (5.0.0f4 - 5.3.8f2)
+    pub pluginType: Option<i32>,
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub scriptingRuntimeVersion: Option<i32>,
 }
 
-/// PluginImporter is a  class of the Unity engine since version 5.6.0b2.
+/// PluginImporter is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PluginImporter.html):
 /**
 Represents a plugin importer.
@@ -9471,30 +10966,39 @@ pub struct PluginImporter {
     /**Get or set the AssetBundle variant.*/
     pub m_AssetBundleVariant: String,
     pub m_ExecutionOrder: Vec<(String, i32)>,
-    pub m_IconMap: Vec<(String, PPtr /*<Texture2D>*/)>,
-    pub m_IsOverridable: bool,
+    /// Vec<(String, PPtr<Texture2D>)>: (5.0.0f4 - 2022.3.2f1)
+    pub m_IconMap: Vec<(String, PPtr)>,
     /**Is a native plugin loaded during startup or on demand?*/
     pub m_IsPreloaded: bool,
     /**The name of the object.*/
     pub m_Name: String,
     pub m_Output: PluginImportOutput,
-    pub m_PlatformData: Vec<((String, String), PlatformSettingsData)>,
+    pub m_PlatformData: Vec<(Enum_String__String___String, PlatformSettingsData)>,
     /**Get or set any user data.*/
     pub m_UserData: String,
     /**Allows you to specify a list of #define directives which controls whether your plug-in should be included.*/
-    /// Vec<String>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<String>: (2018.3.0f2 - 2022.3.2f1)
     pub m_DefineConstraints: Option<Vec<String>>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_IsExplicitlyReferenced: Option<bool>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (5.5.0f3 - 2022.3.2f1)
+    pub m_IsOverridable: Option<bool>,
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.10f1 - 2022.3.2f1)
     pub m_ValidateReferences: Option<bool>,
 }
 
-/// PointEffector2D is a  class of the Unity engine since version 5.6.0b2.
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_String__String___String {
+    String__String((String, String)),
+    String(String),
+}
+
+/// PointEffector2D is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PointEffector2D.html):
 /**
 Applies forces to attract/repulse against a point.
@@ -9523,18 +11027,20 @@ pub struct PointEffector2D {
     /**The variation of the magnitude of the force to be applied.*/
     pub m_ForceVariation: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Should the collider-mask be used or the global collision matrix?*/
-    pub m_UseColliderMask: bool,
+    /// bool: (5.0.2f1 - 2022.3.2f1)
+    pub m_UseColliderMask: Option<bool>,
 }
 
-/// Polygon2D is a sub class of the Unity engine since version 5.6.0b2.
+/// Polygon2D is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Polygon2D {
     pub m_Paths: Vec<Vec<Vector2f>>,
 }
 
-/// PolygonCollider2D is a  class of the Unity engine since version 5.6.0b2.
+/// PolygonCollider2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PolygonCollider2D.html):
 /**
 Collider for 2D physics representing an arbitrary polygon defined by its vertices.
@@ -9542,55 +11048,64 @@ See Also: BoxCollider2D, CircleCollider2D, EdgeCollider2D.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PolygonCollider2D {
-    /**The density of the collider used to calculate its mass (when auto mass is enabled).*/
-    pub m_Density: f32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
-    /**The local offset of the collider geometry.*/
-    pub m_Offset: Vector2f,
-    /**Corner points that define the collider's shape in local space.*/
-    pub m_Points: Polygon2D,
-    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
-    pub m_UsedByComposite: bool,
-    /**Whether the collider is used by an attached effector or not.*/
-    pub m_UsedByEffector: bool,
+    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**Determines whether the PolygonCollider2D's shape is automatically updated based on a SpriteRenderer's tiling properties.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.0f1 - 2022.3.2f1)
     pub m_AutoTiling: Option<bool>,
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ContactCaptureLayers: Option<BitField>,
+    /**The density of the collider used to calculate its mass (when auto mass is enabled).*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_Density: Option<f32>,
     /**The additional Layers that this Collider2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The Layers that this Collider2D can receive forces from during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceReceiveLayers: Option<BitField>,
     /**The Layers that this Collider2D is allowed to send forces to during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceSendLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider2D used when there is a conflicting decision on whether a contact between itself and another Collision2D should happen or not.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
-    /// SpriteTilingProperty: (2017.4.33f1 - 2022.2.0b16)
+    /**The local offset of the collider geometry.*/
+    /// Vector2f: (5.0.0f4 - 2022.3.2f1)
+    pub m_Offset: Option<Vector2f>,
+    /**Corner points that define the collider's shape in local space.*/
+    /// Polygon2D: (5.0.0f4 - 2022.3.2f1)
+    pub m_Points: Option<Polygon2D>,
+    /// Polygon2D: (4.3.0 - 4.7.2)
+    pub m_Poly: Option<Polygon2D>,
+    /// SpriteTilingProperty: (5.6.0f1 - 2022.3.2f1)
     pub m_SpriteTilingProperty: Option<SpriteTilingProperty>,
     /**When the value is true, the Collider uses an additional Delaunay triangulation step to produce the Collider mesh. When the value is false, this additional step does not occur.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_UseDelaunayMesh: Option<bool>,
+    /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
+    /// bool: (5.6.0b1 - 2022.3.2f1)
+    pub m_UsedByComposite: Option<bool>,
+    /**Whether the collider is used by an attached effector or not.*/
+    /// bool: (5.0.0f4 - 2022.3.2f1)
+    pub m_UsedByEffector: Option<bool>,
 }
 
-/// PositionConstraint is a  class of the Unity engine since version 2018.4.15f1.
+/// PositionConstraint is a  class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.PositionConstraint.html):
 /**
 Constrains the position of an object relative to the position of one or more source objects.
@@ -9603,7 +11118,8 @@ pub struct PositionConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_Sources: Vec<ConstraintSource>,
     /**The translation used when the sources have a total weight of 0.*/
     pub m_TranslationAtRest: Vector3f,
@@ -9611,87 +11127,93 @@ pub struct PositionConstraint {
     pub m_TranslationOffset: Vector3f,
     /**The weight of the constraint component.*/
     pub m_Weight: f32,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_Active: Option<bool>,
-    /// bool: (2018.4.15f1 - 2021.2.16f1)
+    /// bool: (2018.1.0b2 - 2022.1.0a9)
     pub m_IsContraintActive: Option<bool>,
 }
 
-/// Prefab is a  class of the Unity engine since version 5.6.0b2.
+/// Prefab is a  class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Prefab {
-    pub m_RootGameObject: PPtr, /*<GameObject>*/
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    pub m_RootGameObject: PPtr,
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_ContainsMissingSerializeReferenceTypes: Option<bool>,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub m_HideFlagsBehaviour: Option<i32>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (3.5.0 - 4.7.2)
+    pub m_IsExploded: Option<bool>,
+    /// bool: (2018.2.0b1 - 2018.2.21f1)
+    pub m_IsPrefabAsset: Option<bool>,
+    /// bool: (3.5.0 - 2018.1.9f2)
     pub m_IsPrefabParent: Option<bool>,
-    /// PrefabModification: (5.6.0b2 - 2017.4.33f1)
+    /// PrefabModification: (3.5.0 - 2018.2.21f1)
     pub m_Modification: Option<PrefabModification>,
-    /// PPtr/*<Prefab>*/: (5.6.0b2 - 2017.4.33f1)
-    pub m_ParentPrefab: Option<PPtr /*<Prefab>*/>,
+    /// PPtr<Prefab>: (3.5.0 - 2018.1.9f2)
+    pub m_ParentPrefab: Option<PPtr>,
+    /// PPtr<Prefab>: (2018.2.0b1 - 2018.2.21f1)
+    pub m_SourcePrefab: Option<PPtr>,
 }
 
-/// PrefabImporter is a  class of the Unity engine since version 2018.4.15f1.
+/// PrefabImporter is a  class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PrefabImporter {
     pub m_AddedObjectFileIDs: Vec<i64>,
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_IsPrefabVariant: bool,
     pub m_Name: String,
     pub m_UserData: String,
-    /// bool: (2018.4.15f1 - 2020.1.0a20)
+    /// bool: (2018.3.0f2 - 2020.1.0a25)
     pub m_UnableToImportOnPreviousDomainReload: Option<bool>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
-    /// GUID: (2022.2.0b16 - 2022.2.0b16)
+    /// GUID: (2022.2.0b1 - 2022.3.2f1)
     pub m_VariantParentGUID: Option<GUID>,
 }
 
-/// PrefabInstance is a  class of the Unity engine since version 2018.4.15f1.
+/// PrefabInstance is a  class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PrefabInstance {
     pub m_Modification: PrefabModification,
-    pub m_RootGameObject: PPtr, /*<GameObject>*/
-    pub m_SourcePrefab: PPtr,   /*<Prefab>*/
+    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_RootGameObject: PPtr,
+    /// PPtr<Prefab>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_SourcePrefab: PPtr,
 }
 
-/// PrefabModification is a sub class of the Unity engine since version 5.6.0b2.
+/// PrefabModification is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PrefabModification {
     pub m_Modifications: Vec<PropertyModification>,
-    pub m_RemovedComponents: Vec<Enum_PPtr___Component_____PPtr___Object___>,
-    pub m_TransformParent: PPtr, /*<Transform>*/
-    /// Vec<AddedComponent>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<PPtr<Object>>: (3.5.0 - 2018.2.21f1); Vec<PPtr<Component>>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_RemovedComponents: Vec<PPtr>,
+    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    pub m_TransformParent: PPtr,
+    /// Vec<AddedComponent>: (2022.2.0b1 - 2022.3.2f1)
     pub m_AddedComponents: Option<Vec<AddedComponent>>,
-    /// Vec<AddedGameObject>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<AddedGameObject>: (2022.1.0b1 - 2022.3.2f1)
     pub m_AddedGameObjects: Option<Vec<AddedGameObject>>,
-    /// Vec<PPtr/*<GameObject>*/>: (2022.2.0b16 - 2022.2.0b16)
-    pub m_RemovedGameObjects: Option<Vec<PPtr /*<GameObject>*/>>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum Enum_PPtr___Component_____PPtr___Object___ {
-    PPtr___Component___(PPtr /*<Component>*/),
-    PPtr___Object___(PPtr /*<Object>*/),
+    /// Vec<PPtr<GameObject>>: (2022.2.0b1 - 2022.3.2f1)
+    pub m_RemovedGameObjects: Option<Vec<PPtr>>,
 }
 
 /// PreloadData is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PreloadData {
-    pub m_Assets: Vec<PPtr /*<Object>*/>,
+    /// Vec<PPtr<Object>>: (3.4.0 - 2022.3.2f1)
+    pub m_Assets: Vec<PPtr>,
     pub m_Name: String,
-    /// Vec<String>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<String>: (5.0.0f4 - 2022.3.2f1)
     pub m_Dependencies: Option<Vec<String>>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub m_ExplicitDataLayout: Option<bool>,
 }
 
-/// Preset is a  class of the Unity engine since version 2018.4.15f1.
+/// Preset is a  class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Presets.Preset.html):
 /**
 A Preset contains default values for an Object.
@@ -9706,20 +11228,20 @@ pub struct Preset {
     pub m_Properties: Vec<PropertyModification>,
     pub m_TargetType: PresetType,
     /**List of properties to ignore when applying the Preset to an object.*/
-    /// Vec<String>: (2020.1.0a20 - 2022.2.0b16)
+    /// Vec<String>: (2020.1.0b1 - 2022.3.2f1)
     pub m_ExcludedProperties: Option<Vec<String>>,
 }
 
-/// PresetManager is a  class of the Unity engine since version 2018.4.15f1.
+/// PresetManager is a  class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PresetManager {
-    /// Vec<DefaultPresetList>: (2018.4.15f1 - 2018.4.15f1)
+    /// Vec<DefaultPresetList>: (2018.1.0b2 - 2019.3.0a8)
     pub m_DefaultList: Option<Vec<DefaultPresetList>>,
-    /// Vec<(PresetType, Vec<DefaultPreset>)>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<(PresetType, Vec<DefaultPreset>)>: (2019.3.0b1 - 2022.3.2f1)
     pub m_DefaultPresets: Option<Vec<(PresetType, Vec<DefaultPreset>)>>,
 }
 
-/// PresetType is a sub class of the Unity engine since version 2018.4.15f1.
+/// PresetType is a sub class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Presets.PresetType.html):
 /**
 Stores a type to which a Preset can be applied.
@@ -9728,11 +11250,12 @@ Only classes that inherit from UnityEngine.Object are represented by a PresetTyp
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PresetType {
     pub m_ManagedTypeFallback: String,
-    pub m_ManagedTypePPtr: PPtr, /*<MonoScript>*/
+    /// PPtr<MonoScript>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_ManagedTypePPtr: PPtr,
     pub m_NativeTypeID: i32,
 }
 
-/// PreviewAnimationClip is a  class of the Unity engine since version 5.6.0b2.
+/// PreviewAnimationClip is a  class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PreviewAnimationClip {
     pub m_Bounds: AABB,
@@ -9746,6 +11269,7 @@ pub struct PreviewAnimationClip {
     pub m_MuscleClip: ClipMuscleConstant,
     pub m_MuscleClipSize: u32,
     pub m_Name: String,
+    /// Vec<PPtrCurve>: (5.6.0b1 - 2022.3.2f1)
     pub m_PPtrCurves: Vec<PPtrCurve>,
     pub m_PositionCurves: Vec<Vector3Curve>,
     pub m_RotationCurves: Vec<QuaternionCurve>,
@@ -9753,13 +11277,13 @@ pub struct PreviewAnimationClip {
     pub m_ScaleCurves: Vec<Vector3Curve>,
     pub m_UseHighQualityCurve: bool,
     pub m_WrapMode: i32,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_HasGenericRootTransform: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_HasMotionFloatCurves: Option<bool>,
 }
 
-/// PreviewData is a sub class of the Unity engine since version 5.6.0b2.
+/// PreviewData is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PreviewData {
     pub m_CompSize: i32,
@@ -9767,18 +11291,19 @@ pub struct PreviewData {
     pub m_PreviewData: Vec<f32>,
 }
 
-/// PreviewImporter is a  class of the Unity engine since version 2020.3.42f1.
+/// PreviewImporter is a  class of the Unity engine since version 2020.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PreviewImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2020.2.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
 }
 
-/// ProbeSetIndex is a sub class of the Unity engine since version 5.6.0b2.
+/// ProbeSetIndex is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ProbeSetIndex {
     pub m_Hash: Hash128,
@@ -9786,7 +11311,7 @@ pub struct ProbeSetIndex {
     pub m_Size: i32,
 }
 
-/// ProbeSetTetrahedralization is a sub class of the Unity engine since version 5.6.0b2.
+/// ProbeSetTetrahedralization is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ProbeSetTetrahedralization {
     pub m_HullRays: Vec<Vector3f>,
@@ -9804,54 +11329,55 @@ pub struct ProceduralMaterial {
     pub m_Name: String,
     pub m_SavedProperties: UnityPropertySheet,
     /**The shader used by the material.*/
-    pub m_Shader: PPtr, /*<Shader>*/
-    /// Vec<String>: (2017.4.33f1 - 2022.2.0b16)
+    /// PPtr<Shader>: (3.4.0 - 2022.3.2f1)
+    pub m_Shader: PPtr,
+    /// Vec<String>: (5.6.0f1 - 2022.3.2f1)
     pub disabledShaderPasses: Option<Vec<String>>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (3.5.0 - 2017.4.40f1)
     pub m_AnimationUpdateRate: Option<i32>,
-    /// Vec<BuildTextureStackReference>: (2020.1.0a20 - 2022.2.0b16)
+    /// Vec<BuildTextureStackReference>: (2020.1.0b1 - 2022.3.2f1)
     pub m_BuildTextureStacks: Option<Vec<BuildTextureStackReference>>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_CacheSize: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.3.0 - 2022.3.2f1)
     pub m_CustomRenderQueue: Option<i32>,
     /**Gets and sets whether the Double Sided Global Illumination setting is enabled for this material.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.2f1 - 2022.3.2f1)
     pub m_DoubleSidedGI: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.0f1 - 2022.3.2f1)
     pub m_EnableInstancingVariants: Option<bool>,
-    /// u32: (3.4.0 - 2017.4.33f1)
+    /// u32: (3.4.0 - 2017.4.40f1)
     pub m_Flags: Option<u32>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (4.5.0 - 2017.4.40f1)
     pub m_GenerateMipmaps: Option<bool>,
-    /// Hash128: (5.6.0b2 - 2017.4.33f1)
+    /// Hash128: (4.1.0 - 2017.4.40f1)
     pub m_Hash: Option<Hash128>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (3.5.0 - 2017.4.40f1)
     pub m_Height: Option<i32>,
-    /// Vec<SubstanceInput>: (3.4.0 - 2017.4.33f1)
+    /// Vec<SubstanceInput>: (3.4.0 - 2017.4.40f1)
     pub m_Inputs: Option<Vec<SubstanceInput>>,
-    /// Vec<String>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<String>: (2021.2.18f1 - 2022.3.2f1)
     pub m_InvalidKeywords: Option<Vec<String>>,
-    /// u32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapFlags: Option<u32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (4.0.0 - 2017.4.40f1)
     pub m_LoadingBehavior: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_MaximumSize: Option<i32>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (4.2.0 - 2017.4.40f1)
     pub m_PrototypeName: Option<String>,
     /**An array containing names of the local shader keywords that are currently enabled for this material.*/
-    /// String: (5.6.0b2 - 2021.2.16f1)
-    pub m_ShaderKeywords: Option<String>,
-    /// PPtr/*<SubstanceArchive>*/: (3.4.0 - 2017.4.33f1)
-    pub m_SubstancePackage: Option<PPtr /*<SubstanceArchive>*/>,
-    /// Vec<PPtr/*<ProceduralTexture>*/>: (3.4.0 - 2017.4.33f1)
-    pub m_Textures: Option<Vec<PPtr /*<ProceduralTexture>*/>>,
-    /// Vec<String>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<String>: (4.1.0 - 4.7.2); String: (5.0.0f4 - 2022.1.0a16)
+    pub m_ShaderKeywords: Option<Enum_Vec_String___String>,
+    /// PPtr<SubstanceArchive>: (3.4.0 - 2017.4.40f1)
+    pub m_SubstancePackage: Option<PPtr>,
+    /// Vec<PPtr<ProceduralTexture>>: (3.4.0 - 2017.4.40f1)
+    pub m_Textures: Option<Vec<PPtr>>,
+    /// Vec<String>: (2021.2.18f1 - 2022.3.2f1)
     pub m_ValidKeywords: Option<Vec<String>>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (3.5.0 - 2017.4.40f1)
     pub m_Width: Option<i32>,
-    /// Vec<(String, String)>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<(String, String)>: (5.1.0f1 - 2022.3.2f1)
     pub stringTagMap: Option<Vec<(String, String)>>,
 }
 
@@ -9860,13 +11386,13 @@ pub struct ProceduralMaterial {
 pub struct ProceduralMaterialInformation {
     pub m_Offset: Vector2f,
     pub m_Scale: Vector2f,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (3.5.0 - 2017.4.40f1)
     pub m_AnimationUpdateRate: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (3.5.0 - 2017.4.40f1)
     pub m_GenerateAllOutputs: Option<i32>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (4.5.0 - 2017.4.40f1)
     pub m_GenerateMipmaps: Option<bool>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.5.7)
     pub m_GeneratedAtLoading: Option<i32>,
 }
 
@@ -9879,50 +11405,51 @@ Deprecated feature, no longer available
 pub struct ProceduralTexture {
     /**The name of the object.*/
     pub m_Name: String,
-    /// i32: (3.4.0 - 2017.4.33f1)
+    /// i32: (3.4.0 - 2017.4.40f1)
     pub AlphaSource: Option<i32>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (4.5.0 - 2017.4.40f1)
     pub AlphaSourceIsGrayscale: Option<bool>,
-    /// i32: (3.4.0 - 2017.4.33f1)
+    /// i32: (3.4.0 - 2017.4.40f1)
     pub Format: Option<i32>,
-    /// i32: (3.4.0 - 2017.4.33f1)
+    /// i32: (3.4.0 - 2017.4.40f1)
     pub Type: Option<i32>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.0.0f4 - 2017.4.40f1)
     pub m_AlphaSourceIsInverted: Option<bool>,
-    /// u64: (5.6.0b2 - 2017.4.33f1)
+    /// u64: (4.5.0 - 2017.4.40f1)
     pub m_AlphaSourceUID: Option<u64>,
-    /// Vec<u8>: (3.4.0 - 2017.4.33f1)
+    /// Vec<u8>: (3.4.0 - 2017.4.40f1)
     pub m_BakedData: Option<Vec<u8>>,
-    /// TextureParameters: (3.4.0 - 2017.4.33f1)
+    /// TextureParameters: (3.4.0 - 2017.4.40f1)
     pub m_BakedParameters: Option<TextureParameters>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (4.0.0 - 2017.4.40f1)
     pub m_ColorSpace: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// i32: (3.4.0 - 2017.4.33f1)
+    /// i32: (3.4.0 - 2017.4.40f1)
     pub m_LightmapFormat: Option<i32>,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (4.5.0 - 2017.4.40f1)
     pub m_Mipmaps: Option<i32>,
-    /// PPtr/*<ProceduralMaterial>*/: (3.4.0 - 2017.4.33f1)
-    pub m_SubstanceMaterial: Option<PPtr /*<ProceduralMaterial>*/>,
-    /// u64: (3.4.0 - 2017.4.33f1)
+    /// PPtr<ProceduralMaterial>: (3.4.0 - 2017.4.40f1)
+    pub m_SubstanceMaterial: Option<PPtr>,
+    /// u64: (3.4.0 - 2017.4.40f1)
     pub m_SubstanceTextureUID: Option<u64>,
-    /// TextureParameters: (3.4.0 - 2017.4.33f1)
+    /// TextureParameters: (3.4.0 - 2017.4.40f1)
     pub m_TextureParameters: Option<TextureParameters>,
-    /// GLTextureSettings: (3.4.0 - 2017.4.33f1)
+    /// GLTextureSettings: (3.4.0 - 2017.4.40f1)
     pub m_TextureSettings: Option<GLTextureSettings>,
 }
 
-/// ProceduralTextureAssignment is a sub class of the Unity engine since version 5.6.0b2.
+/// ProceduralTextureAssignment is a sub class of the Unity engine since version 4.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ProceduralTextureAssignment {
     pub baseUID: u32,
-    pub material: PPtr, /*<ProceduralMaterial>*/
-    pub shaderProp: String,
+    /// PPtr<ProceduralMaterial>: (4.5.0 - 2017.4.40f1)
+    pub material: PPtr,
+    pub shaderProp: Enum_FastPropertyName__String,
 }
 
 /// Projector is a  class of the Unity engine since version 3.4.0.
@@ -9951,11 +11478,13 @@ pub struct Projector {
     /**The field of view of the projection in degrees.*/
     pub m_FieldOfView: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Which object layers are ignored by the projector.*/
     pub m_IgnoreLayers: BitField,
     /**The material that will be projected onto every object.*/
-    pub m_Material: PPtr, /*<Material>*/
+    /// PPtr<Material>: (3.4.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The near clipping plane distance.*/
     pub m_NearClipPlane: f32,
     /**Is the projection orthographic (true) or perspective (false)?*/
@@ -9964,7 +11493,7 @@ pub struct Projector {
     pub m_OrthographicSize: f32,
 }
 
-/// PropertyModification is a sub class of the Unity engine since version 5.6.0b2.
+/// PropertyModification is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PropertyModification.html):
 /**
 Defines a single modified property.
@@ -9973,34 +11502,39 @@ Used by the Prefab system to track any changes applied to an instance.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PropertyModification {
     /**The value being applied when it is an object reference (which can not be represented as a string).*/
-    pub objectReference: PPtr, /*<Object>*/
+    /// PPtr<Object>: (3.5.0 - 2022.3.2f1)
+    pub objectReference: PPtr,
     /**Property path of the property being modified (Matches as SerializedProperty.propertyPath).*/
     pub propertyPath: String,
     /**Object that will be modified.*/
-    pub target: PPtr, /*<Object>*/
+    /// PPtr<Object>: (3.5.0 - 2022.3.2f1)
+    pub target: PPtr,
     /**The value being applied.*/
     pub value: String,
 }
 
-/// PropertyModificationsTargetTestNativeObject is a sub class of the Unity engine since version 2019.3.0f4.
+/// PropertyModificationsTargetTestNativeObject is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PropertyModificationsTargetTestNativeObject {
     pub m_FloatValue: f32,
     pub m_IntegerValue: i32,
 }
 
-/// PropertyModificationsTargetTestObject is a  class of the Unity engine since version 2019.3.0f4.
+/// PropertyModificationsTargetTestObject is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PropertyModificationsTargetTestObject {
     pub m_Array: Vec<PropertyModificationsTargetTestNativeObject>,
-    pub m_Bytes: Vec<u8>,
-    pub m_BytesSize: u32,
     pub m_Data: PropertyModificationsTargetTestNativeObject,
     pub m_FloatTestValue: f32,
-    pub m_Floats: Vec<f32>,
-    /// Vec<u8>: (2019.3.0f4 - 2020.1.0a20)
+    /// Vec<u8>: (2020.3.24f1 - 2020.3.24f1)
     #[serde(alias = "byte data")]
     pub byte_data: Option<Vec<u8>>,
+    /// Vec<u8>: (2019.3.0b1 - 2020.3.24f1)
+    pub m_Bytes: Option<Vec<u8>>,
+    /// u32: (2019.3.0b1 - 2020.3.24f1)
+    pub m_BytesSize: Option<u32>,
+    /// Vec<f32>: (2019.3.0b1 - 2020.3.24f1)
+    pub m_Floats: Option<Vec<f32>>,
 }
 
 /// QualitySetting is a sub class of the Unity engine since version 3.4.0.
@@ -10017,79 +11551,79 @@ pub struct QualitySetting {
     pub softParticles: bool,
     pub softVegetation: bool,
     pub vSyncCount: i32,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.3.0f1 - 2022.3.2f1)
     pub asyncUploadBufferSize: Option<i32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub asyncUploadPersistentBuffer: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.3.0f1 - 2022.3.2f1)
     pub asyncUploadTimeSlice: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub billboardsFaceCameraPosition: Option<bool>,
-    /// i32: (3.4.0 - 2018.4.15f1)
+    /// i32: (3.4.0 - 2018.4.36f1)
     pub blendWeights: Option<i32>,
-    /// PPtr/*<MonoBehaviour>*/: (2019.3.0f4 - 2022.2.0b16)
-    pub customRenderPipeline: Option<PPtr /*<MonoBehaviour>*/>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// PPtr<MonoBehaviour>: (2019.3.0b1 - 2022.3.2f1)
+    pub customRenderPipeline: Option<PPtr>,
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub enableLODCrossFade: Option<bool>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0f1 - 2022.3.2f1)
     pub globalTextureMipmapLimit: Option<i32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (3.5.0 - 2022.3.2f1)
     pub lodBias: Option<f32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub maximumLODLevel: Option<i32>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (3.5.0 - 2022.3.2f1)
     pub name: Option<String>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub particleRaycastBudget: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub realtimeReflectionProbes: Option<bool>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b1 - 2022.3.2f1)
     pub resolutionScalingFixedDPIFactor: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub shadowCascade2Split: Option<f32>,
-    /// Vector3f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector3f: (5.0.0f4 - 2022.3.2f1)
     pub shadowCascade4Split: Option<Vector3f>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.2.0f2 - 2022.3.2f1)
     pub shadowNearPlaneOffset: Option<f32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub shadowmaskMode: Option<i32>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub skinWeights: Option<i32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub streamingMipmapsActive: Option<bool>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub streamingMipmapsAddAllCameras: Option<bool>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub streamingMipmapsMaxFileIORequests: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub streamingMipmapsMaxLevelReduction: Option<i32>,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.2.0b1 - 2022.3.2f1)
     pub streamingMipmapsMemoryBudget: Option<f32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub streamingMipmapsRenderersPerFrame: Option<i32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainBasemapDistance: Option<f32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainBillboardStart: Option<f32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainDetailDensityScale: Option<f32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainDetailDistance: Option<f32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainFadeLength: Option<f32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainMaxTrees: Option<i32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainPixelError: Option<f32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainQualityOverrides: Option<i32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.2.0b1 - 2022.3.2f1)
     pub terrainTreeDistance: Option<f32>,
-    /// Vec<MipmapLimitSettings>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<MipmapLimitSettings>: (2022.2.0f1 - 2022.3.2f1)
     pub textureMipmapLimitSettings: Option<Vec<MipmapLimitSettings>>,
-    /// i32: (3.4.0 - 2021.2.16f1)
+    /// i32: (3.4.0 - 2022.2.0a18)
     pub textureQuality: Option<i32>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub useLegacyDetailDistribution: Option<bool>,
 }
 
@@ -10105,33 +11639,33 @@ current quality level can be changed using this class.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct QualitySettings {
-    /// QualitySetting: (3.4.0 - 3.4.0)
+    /// QualitySetting: (3.4.0 - 3.4.2)
     pub Beautiful: Option<QualitySetting>,
-    /// QualitySetting: (3.4.0 - 3.4.0)
+    /// QualitySetting: (3.4.0 - 3.4.2)
     pub Fantastic: Option<QualitySetting>,
-    /// QualitySetting: (3.4.0 - 3.4.0)
+    /// QualitySetting: (3.4.0 - 3.4.2)
     pub Fast: Option<QualitySetting>,
-    /// QualitySetting: (3.4.0 - 3.4.0)
+    /// QualitySetting: (3.4.0 - 3.4.2)
     pub Fastest: Option<QualitySetting>,
-    /// QualitySetting: (3.4.0 - 3.4.0)
+    /// QualitySetting: (3.4.0 - 3.4.2)
     pub Good: Option<QualitySetting>,
-    /// QualitySetting: (3.4.0 - 3.4.0)
+    /// QualitySetting: (3.4.0 - 3.4.2)
     pub Simple: Option<QualitySetting>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_CurrentQuality: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_DefaultMobileQuality: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_DefaultStandaloneQuality: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_DefaultWebPlayerQuality: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_EditorQuality: Option<i32>,
-    /// Vec<QualitySetting>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<QualitySetting>: (3.5.0 - 2022.3.2f1)
     pub m_QualitySettings: Option<Vec<QualitySetting>>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_StrippedMaximumLODLevel: Option<i32>,
-    /// Vec<String>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<String>: (2022.2.0f1 - 2022.3.2f1)
     pub m_TextureMipmapLimitGroupNames: Option<Vec<String>>,
 }
 
@@ -10151,7 +11685,7 @@ pub struct Quaternionf {
     pub z: f32,
 }
 
-/// RayTracingShader is a  class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShader is a  class of the Unity engine since version 2019.3.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Experimental.Rendering.RayTracingShader.html):
 /**
 A shader for GPU ray tracing.
@@ -10166,24 +11700,24 @@ pub struct RayTracingShader {
     pub variants: Vec<RayTracingShaderVariant>,
 }
 
-/// RayTracingShaderBuiltinSampler is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderBuiltinSampler is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderBuiltinSampler {
     pub bindPoint: i32,
     pub sampler: u32,
 }
 
-/// RayTracingShaderConstantBuffer is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderConstantBuffer is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderConstantBuffer {
     pub byteSize: i32,
     pub name: String,
     pub params: Vec<RayTracingShaderParam>,
-    /// u32: (2020.3.42f1 - 2022.2.0b16)
+    /// u32: (2020.1.0f1 - 2022.3.2f1)
     pub hash: Option<u32>,
 }
 
-/// RayTracingShaderFunctionDesc is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderFunctionDesc is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderFunctionDesc {
     pub attributeSizeInBytes: u32,
@@ -10191,29 +11725,30 @@ pub struct RayTracingShaderFunctionDesc {
     pub payloadSizeInBytes: u32,
 }
 
-/// RayTracingShaderID is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderID is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderID {
     pub name: String,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
 
-/// RayTracingShaderImporter is a  class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderImporter is a  class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.3.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
-    /// u32: (2019.3.0f4 - 2020.3.42f1)
+    /// u32: (2019.3.0b1 - 2020.3.48f1)
     pub m_CurrentAPIMask: Option<u32>,
 }
 
-/// RayTracingShaderParam is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderParam is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderParam {
     pub arraySize: i64,
@@ -10221,18 +11756,18 @@ pub struct RayTracingShaderParam {
     pub name: String,
     pub offset: i64,
     pub rowCount: i32,
-    /// i32: (2019.3.0f4 - 2019.3.0f4)
+    /// i32: (2019.3.0b1 - 2020.1.0a12)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
-    /// u32: (2020.1.0a20 - 2022.2.0b16)
+    /// u32: (2020.1.0b1 - 2022.3.2f1)
     pub dataSize: Option<u32>,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub dataType: Option<i32>,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub propertySheetType: Option<i32>,
 }
 
-/// RayTracingShaderReflectionData is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderReflectionData is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderReflectionData {
     pub code: Vec<u8>,
@@ -10240,11 +11775,11 @@ pub struct RayTracingShaderReflectionData {
     pub globalResources: RayTracingShaderResources,
     pub hasErrors: bool,
     pub localResources: RayTracingShaderResources,
-    /// Vec<u8>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<u8>: (2022.2.0b1 - 2022.3.2f1)
     pub precompiled: Option<Vec<u8>>,
 }
 
-/// RayTracingShaderResource is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderResource is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderResource {
     pub bindPoint: i32,
@@ -10252,13 +11787,13 @@ pub struct RayTracingShaderResource {
     pub rayGenMask: u64,
     pub samplerBindPoint: i32,
     pub texDimension: i32,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub arraySize: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.1.0f1 - 2022.3.2f1)
     pub multisampled: Option<bool>,
 }
 
-/// RayTracingShaderResources is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderResources is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderResources {
     pub builtinSamplers: Vec<RayTracingShaderBuiltinSampler>,
@@ -10269,7 +11804,7 @@ pub struct RayTracingShaderResources {
     pub textures: Vec<RayTracingShaderResource>,
 }
 
-/// RayTracingShaderVariant is a sub class of the Unity engine since version 2019.3.0f4.
+/// RayTracingShaderVariant is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RayTracingShaderVariant {
     pub resourceReflectionData: RayTracingShaderReflectionData,
@@ -10281,13 +11816,15 @@ pub struct RayTracingShaderVariant {
 pub struct RaycastCollider {
     pub m_Center: Vector3f,
     pub m_Enabled: bool,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    pub m_GameObject: PPtr,
     pub m_IsTrigger: bool,
     pub m_Length: f32,
-    pub m_Material: PPtr, /*<PhysicMaterial>*/
+    /// PPtr<PhysicMaterial>: (3.4.0 - 4.7.2)
+    pub m_Material: PPtr,
 }
 
-/// RectTransform is a  class of the Unity engine since version 5.6.0b2.
+/// RectTransform is a  class of the Unity engine since version 4.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/RectTransform.html):
 /**
 Position, size, anchor and pivot information for a rectangle.
@@ -10301,22 +11838,32 @@ pub struct RectTransform {
     pub m_AnchorMax: Vector2f,
     /**The normalized position in the parent RectTransform that the lower left corner is anchored to.*/
     pub m_AnchorMin: Vector2f,
-    /**The position of the pivot of this RectTransform relative to the anchor reference point.*/
-    pub m_AnchoredPosition: Vector2f,
-    pub m_Children: Vec<PPtr /*<Transform>*/>,
-    pub m_Father: PPtr, /*<Transform>*/
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    /**Position of the transform relative to the parent transform.*/
-    pub m_LocalPosition: Vector3f,
-    /**The rotation of the transform relative to the transform rotation of the parent.*/
-    pub m_LocalRotation: Quaternionf,
-    /**The scale of the transform relative to the GameObjects parent.*/
-    pub m_LocalScale: Vector3f,
+    /// PPtr<GameObject>: (4.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The normalized position in this RectTransform that it rotates around.*/
     pub m_Pivot: Vector2f,
     /**The size of this RectTransform relative to the distances between the anchors.*/
     pub m_SizeDelta: Vector2f,
+    /**The position of the pivot of this RectTransform relative to the anchor reference point.*/
+    /// Vector2f: (4.6.0 - 2022.3.2f1)
+    pub m_AnchoredPosition: Option<Vector2f>,
+    /// Vec<PPtr<Transform>>: (4.6.0 - 2022.3.2f1)
+    pub m_Children: Option<Vec<PPtr>>,
+    /// PPtr<Transform>: (4.6.0 - 2022.3.2f1)
+    pub m_Father: Option<PPtr>,
+    /**Position of the transform relative to the parent transform.*/
+    /// Vector3f: (4.6.0 - 2022.3.2f1)
+    pub m_LocalPosition: Option<Vector3f>,
+    /**The rotation of the transform relative to the transform rotation of the parent.*/
+    /// Quaternionf: (4.6.0 - 2022.3.2f1)
+    pub m_LocalRotation: Option<Quaternionf>,
+    /**The scale of the transform relative to the GameObjects parent.*/
+    /// Vector3f: (4.6.0 - 2022.3.2f1)
+    pub m_LocalScale: Option<Vector3f>,
+    /**The world space position of the Transform.*/
+    /// Vector2f: (4.5.0 - 4.5.5)
+    pub m_Position: Option<Vector2f>,
 }
 
 /// Rectf is a sub class of the Unity engine since version 3.4.0.
@@ -10328,18 +11875,19 @@ pub struct Rectf {
     pub y: f32,
 }
 
-/// ReferencesArtifactGenerator is a  class of the Unity engine since version 2019.3.0f4.
+/// ReferencesArtifactGenerator is a  class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ReferencesArtifactGenerator {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.2.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
 }
 
-/// ReflectionProbe is a  class of the Unity engine since version 5.6.0b2.
+/// ReflectionProbe is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ReflectionProbe.html):
 /**
 The reflection probe is used to capture the surroundings into a texture which is passed to the shaders and used for reflections.
@@ -10352,9 +11900,8 @@ pub struct ReflectionProbe {
     /**The color with which the texture of reflection probe will be cleared.*/
     pub m_BackGroundColor: ColorRGBA,
     /**Reference to the baked texture of the reflection probe's surrounding.*/
-    pub m_BakedTexture: PPtr, /*<Texture>*/
-    /**Distance around probe used for blending (used in deferred probes).*/
-    pub m_BlendDistance: f32,
+    /// PPtr<Texture>: (5.0.0f4 - 2022.3.2f1)
+    pub m_BakedTexture: PPtr,
     pub m_BoxOffset: Vector3f,
     /**Should this reflection probe use box projection?*/
     pub m_BoxProjection: bool,
@@ -10364,16 +11911,18 @@ pub struct ReflectionProbe {
     /**This is used to render parts of the reflecion probe's surrounding selectively.*/
     pub m_CullingMask: BitField,
     /**Reference to the baked texture of the reflection probe's surrounding. Use this to assign custom reflection texture.*/
-    pub m_CustomBakedTexture: PPtr, /*<Texture>*/
+    /// PPtr<Texture>: (5.0.0f4 - 2022.3.2f1)
+    pub m_CustomBakedTexture: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     pub m_FarClip: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Should this reflection probe use HDR rendering?*/
     pub m_HDR: bool,
     /**Reflection probe importance.*/
-    pub m_Importance: i16,
+    pub m_Importance: i32,
     pub m_IntensityMultiplier: f32,
     /**Should reflection probe texture be generated in the Editor (ReflectionProbeMode.Baked) or should probe use custom specified texure (ReflectionProbeMode.Custom)?*/
     pub m_Mode: i32,
@@ -10391,9 +11940,12 @@ pub struct ReflectionProbe {
     pub m_Type: i32,
     pub m_UpdateFrequency: i32,
     pub m_UseOcclusionCulling: bool,
+    /**Distance around probe used for blending (used in deferred probes).*/
+    /// f32: (5.2.0f2 - 2022.3.2f1)
+    pub m_BlendDistance: Option<f32>,
 }
 
-/// RelativeJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// RelativeJoint2D is a  class of the Unity engine since version 5.3.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/RelativeJoint2D.html):
 /**
 Keeps two Rigidbody2D at their relative orientations.
@@ -10409,7 +11961,8 @@ pub struct RelativeJoint2D {
     pub m_BreakForce: f32,
     /**The torque that needs to be applied for this joint to break.*/
     pub m_BreakTorque: f32,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
+    /// PPtr<Rigidbody2D>: (5.3.0f1 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**Scales both the linear and angular forces used to correct the required relative orientation.*/
     pub m_CorrectionScale: f32,
     /**Should the two rigid bodies connected with this joint collide with each other?*/
@@ -10417,7 +11970,8 @@ pub struct RelativeJoint2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The current linear offset between the Rigidbody2D that the joint connects.*/
     pub m_LinearOffset: Vector2f,
     /**The maximum force that can be generated when trying to maintain the relative joint constraint.*/
@@ -10425,11 +11979,11 @@ pub struct RelativeJoint2D {
     /**The maximum torque that can be generated when trying to maintain the relative joint constraint.*/
     pub m_MaxTorque: f32,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
 }
 
-/// RenderPassAttachment is a  class of the Unity engine since version 2017.4.33f1.
+/// RenderPassAttachment is a  class of the Unity engine since version 2017.2.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RenderPassAttachment {}
 
@@ -10447,54 +12001,52 @@ pub struct RenderSettings {
     pub m_FogDensity: f32,
     pub m_FogMode: i32,
     pub m_HaloStrength: f32,
-    pub m_HaloTexture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    pub m_HaloTexture: PPtr,
     pub m_LinearFogEnd: f32,
     pub m_LinearFogStart: f32,
-    pub m_SkyboxMaterial: PPtr, /*<Material>*/
-    pub m_SpotCookie: PPtr,     /*<Texture2D>*/
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<Material>: (3.4.0 - 2022.3.2f1)
+    pub m_SkyboxMaterial: PPtr,
+    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    pub m_SpotCookie: PPtr,
+    /// ColorRGBA: (5.0.0f4 - 2022.3.2f1)
     pub m_AmbientEquatorColor: Option<ColorRGBA>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.0.0f4 - 2022.3.2f1)
     pub m_AmbientGroundColor: Option<ColorRGBA>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_AmbientIntensity: Option<f32>,
-    /// ColorRGBA: (3.4.0 - 3.4.0)
+    /// ColorRGBA: (3.4.0 - 4.7.2)
     pub m_AmbientLight: Option<ColorRGBA>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_AmbientMode: Option<i32>,
-    /// SphericalHarmonicsL2: (5.6.0b2 - 2022.2.0b16)
+    /// SphericalHarmonicsL2: (5.0.0f4 - 2022.3.2f1)
     pub m_AmbientProbe: Option<SphericalHarmonicsL2>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// SphericalHarmonicsL2: (5.0.0f4 - 5.2.5f1)
+    pub m_AmbientProbeInGamma: Option<SphericalHarmonicsL2>,
+    /// ColorRGBA: (5.0.0f4 - 2022.3.2f1)
     pub m_AmbientSkyColor: Option<ColorRGBA>,
-    /// PPtr/*<Cubemap>*/: (5.6.0b2 - 2020.3.42f1); PPtr/*<Texture>*/: (2021.2.16f1 - 2022.2.0b16)
-    pub m_CustomReflection: Option<Enum_PPtr___Cubemap_____PPtr___Texture___>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<Cubemap>: (5.0.0f4 - 2021.1.28f1); PPtr<Texture>: (2021.2.0b1 - 2022.3.2f1)
+    pub m_CustomReflection: Option<PPtr>,
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_DefaultReflectionMode: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_DefaultReflectionResolution: Option<i32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.3.0 - 2022.3.2f1)
     pub m_FlareFadeSpeed: Option<f32>,
-    /// PPtr/*<Cubemap>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_GeneratedSkyboxReflection: Option<PPtr /*<Cubemap>*/>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<Cubemap>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GeneratedSkyboxReflection: Option<PPtr>,
+    /// ColorRGBA: (5.4.0f3 - 2022.3.2f1)
     pub m_IndirectSpecularColor: Option<ColorRGBA>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_ReflectionBounces: Option<i32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_ReflectionIntensity: Option<f32>,
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (5.6.0f1 - 2022.3.2f1)
     pub m_SubtractiveShadowColor: Option<ColorRGBA>,
-    /// PPtr/*<Light>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_Sun: Option<PPtr /*<Light>*/>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// PPtr<Light>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Sun: Option<PPtr>,
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_UseRadianceAmbientProbe: Option<bool>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum Enum_PPtr___Cubemap_____PPtr___Texture___ {
-    PPtr___Cubemap___(PPtr /*<Cubemap>*/),
-    PPtr___Texture___(PPtr /*<Texture>*/),
 }
 
 /// RenderTexture is a  class of the Unity engine since version 3.4.0.
@@ -10529,44 +12081,44 @@ pub struct RenderTexture {
     /**Width of the Texture in pixels (Read Only).*/
     pub m_Width: i32,
     /**The antialiasing level for the RenderTexture.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.2.0 - 2022.3.2f1)
     pub m_AntiAliasing: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_BindMS: Option<bool>,
-    /// i32: (3.4.0 - 2020.3.42f1)
+    /// i32: (3.4.0 - 2021.2.0a17)
     pub m_DepthFormat: Option<i32>,
     /**The format of the depth/stencil buffer.*/
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_DepthStencilFormat: Option<i32>,
     /**Dimensionality (type) of the Texture (Read Only).*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.6.0b1 - 2022.3.2f1)
     pub m_Dimension: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.1.0b1 - 2022.3.2f1)
     pub m_EnableCompatibleFormat: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_GenerateMips: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 3.5.7)
     pub m_IsCubemap: Option<bool>,
     /// bool: (3.4.0 - 3.4.0)
     pub m_IsPowerOfTwo: Option<bool>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.2.0b1 - 2022.3.2f1)
     pub m_MipCount: Option<i32>,
     /**Does this render texture use sRGB read/write conversions? (Read Only).*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub m_SRGB: Option<bool>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0f1 - 2022.3.2f1)
     pub m_ShadowSamplingMode: Option<i32>,
     /**Is the render texture marked to be scaled by the Dynamic Resolution system.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_UseDynamicScale: Option<bool>,
     /**Volume extent of a 3D render texture or number of slices of array texture.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.6.0b1 - 2022.3.2f1)
     pub m_VolumeDepth: Option<i32>,
 }
 
@@ -10585,19 +12137,34 @@ pub struct Renderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u8,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (3.4.0 - 4.7.2)
+    pub m_Materials: Vec<PPtr>,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: bool,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (3.4.0 - 4.7.2)
+    pub m_StaticBatchRoot: PPtr,
     pub m_SubsetIndices: Vec<u32>,
+    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    pub m_LightProbeAnchor: Option<PPtr>,
+    /// i16: (4.3.0 - 4.3.4)
+    pub m_SortingLayer: Option<i16>,
+    /**Unique ID of the Renderer's sorting layer.*/
+    /// u32: (4.5.0 - 4.7.2)
+    pub m_SortingLayerID: Option<u32>,
+    /**Renderer's order within a sorting layer.*/
+    /// i16: (4.3.0 - 4.7.2)
+    pub m_SortingOrder: Option<i16>,
+    /// bool: (3.5.0 - 4.7.2)
+    pub m_UseLightProbes: Option<bool>,
 }
 
-/// RendererData is a sub class of the Unity engine since version 5.6.0b2.
+/// RendererData is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RendererData {
     pub lightmapIndex: u16,
@@ -10606,24 +12173,28 @@ pub struct RendererData {
     pub lightmapSTDynamic: Vector4f,
     pub terrainChunkDynamicUVST: Vector4f,
     pub terrainDynamicUVST: Vector4f,
-    pub uvMesh: PPtr, /*<Mesh>*/
-    /// Hash128: (2018.4.15f1 - 2022.2.0b16)
+    /// PPtr<Mesh>: (5.0.0f4 - 2022.3.2f1)
+    pub uvMesh: PPtr,
+    /// Hash128: (2018.2.0b1 - 2022.3.2f1)
     pub explicitProbeSetHash: Option<Hash128>,
 }
 
 /// ResourceManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ResourceManager {
-    pub m_Container: Vec<(String, PPtr /*<Object>*/)>,
-    /// Vec<ResourceManager_Dependency>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<(String, PPtr<Object>)>: (3.4.0 - 2022.3.2f1)
+    pub m_Container: Vec<(String, PPtr)>,
+    /// Vec<ResourceManager_Dependency>: (3.5.0 - 2022.3.2f1)
     pub m_DependentAssets: Option<Vec<ResourceManager_Dependency>>,
 }
 
-/// ResourceManager_Dependency is a sub class of the Unity engine since version 5.6.0b2.
+/// ResourceManager_Dependency is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ResourceManager_Dependency {
-    pub m_Dependencies: Vec<PPtr /*<Object>*/>,
-    pub m_Object: PPtr, /*<Object>*/
+    /// Vec<PPtr<Object>>: (3.5.0 - 2022.3.2f1)
+    pub m_Dependencies: Vec<PPtr>,
+    /// PPtr<Object>: (3.5.0 - 2022.3.2f1)
+    pub m_Object: PPtr,
 }
 
 /// Rigidbody is a  class of the Unity engine since version 3.4.0.
@@ -10642,7 +12213,8 @@ pub struct Rigidbody {
     /**The drag of the object.*/
     pub m_Drag: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_Interpolate: u8,
     /**Controls whether physics affects the rigidbody.*/
     pub m_IsKinematic: bool,
@@ -10651,26 +12223,26 @@ pub struct Rigidbody {
     /**Controls whether gravity affects this rigidbody.*/
     pub m_UseGravity: bool,
     /**The center of mass relative to the transform's origin.*/
-    /// Vector3f: (2022.2.0b16 - 2022.2.0b16)
+    /// Vector3f: (2022.2.0b1 - 2022.3.2f1)
     pub m_CenterOfMass: Option<Vector3f>,
     /**The additional layers that all Colliders attached to this Rigidbody should exclude when deciding if the Collider can come into contact with another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ImplicitCom: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ImplicitTensor: Option<bool>,
     /**The additional layers that all Colliders attached to this Rigidbody should include when deciding if the Collider can come into contact with another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
-    /// Quaternionf: (2022.2.0b16 - 2022.2.0b16)
+    /// Quaternionf: (2022.2.0b1 - 2022.3.2f1)
     pub m_InertiaRotation: Option<Quaternionf>,
     /**The inertia tensor of this body, defined as a diagonal matrix in a reference frame positioned at this body's center of mass and rotated by Rigidbody.inertiaTensorRotation.*/
-    /// Vector3f: (2022.2.0b16 - 2022.2.0b16)
+    /// Vector3f: (2022.2.0b1 - 2022.3.2f1)
     pub m_InertiaTensor: Option<Vector3f>,
 }
 
-/// Rigidbody2D is a  class of the Unity engine since version 5.6.0b2.
+/// Rigidbody2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Rigidbody2D.html):
 /**
 Rigidbody physics component for 2D sprites.
@@ -10680,70 +12252,84 @@ The Rigidbody2D class essentially provides the same functionality in 2D that the
 pub struct Rigidbody2D {
     /**Coefficient of angular drag.*/
     pub m_AngularDrag: f32,
-    /**The physical behaviour type of the Rigidbody2D.*/
-    pub m_BodyType: i32,
     pub m_CollisionDetection: i32,
-    /**Controls which degrees of freedom are allowed for the simulation of this Rigidbody2D.*/
-    pub m_Constraints: i32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The degree to which this object is affected by gravity.*/
     pub m_GravityScale: f32,
     pub m_Interpolate: i32,
     pub m_LinearDrag: f32,
     /**Mass of the Rigidbody.*/
     pub m_Mass: f32,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
-    /**Indicates whether the rigid body should be simulated or not by the physics system.*/
-    pub m_Simulated: bool,
     pub m_SleepingMode: i32,
-    /**Should the total rigid-body mass be automatically calculated from the [[Collider2D.density]] of attached colliders?*/
-    pub m_UseAutoMass: bool,
-    /**Should kinematic/kinematic and kinematic/static collisions be allowed?*/
-    pub m_UseFullKinematicContacts: bool,
+    /**The physical behaviour type of the Rigidbody2D.*/
+    /// i32: (5.5.0f3 - 2022.3.2f1)
+    pub m_BodyType: Option<i32>,
+    /**Controls which degrees of freedom are allowed for the simulation of this Rigidbody2D.*/
+    /// i32: (5.1.0f1 - 2022.3.2f1)
+    pub m_Constraints: Option<i32>,
     /**The additional Layers that all Collider2D attached to this Rigidbody2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
+    /// bool: (4.3.0 - 5.0.4f1)
+    pub m_FixedAngle: Option<bool>,
     /**The additional Layers that all Collider2D attached to this Rigidbody2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
+    /**Should this rigidbody be taken out of physics control?*/
+    /// bool: (4.3.0 - 5.4.6f3)
+    pub m_IsKinematic: Option<bool>,
+    /// PPtr<PhysicsMaterial2D>: (5.5.0f3 - 2022.3.2f1)
+    pub m_Material: Option<PPtr>,
+    /**Indicates whether the rigid body should be simulated or not by the physics system.*/
+    /// bool: (5.5.0f3 - 2022.3.2f1)
+    pub m_Simulated: Option<bool>,
+    /**Should the total rigid-body mass be automatically calculated from the [[Collider2D.density]] of attached colliders?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_UseAutoMass: Option<bool>,
+    /**Should kinematic/kinematic and kinematic/static collisions be allowed?*/
+    /// bool: (5.5.0f3 - 2022.3.2f1)
+    pub m_UseFullKinematicContacts: Option<bool>,
 }
 
-/// RoslynAdditionalFileAsset is a  class of the Unity engine since version 2022.2.0b16.
+/// RoslynAdditionalFileAsset is a  class of the Unity engine since version 2021.3.3f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoslynAdditionalFileAsset {
     pub m_Name: String,
 }
 
-/// RoslynAdditionalFileImporter is a  class of the Unity engine since version 2022.2.0b16.
+/// RoslynAdditionalFileImporter is a  class of the Unity engine since version 2021.3.3f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoslynAdditionalFileImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2021.3.3f1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
 }
 
-/// RoslynAnalyzerConfigAsset is a  class of the Unity engine since version 2022.2.0b16.
+/// RoslynAnalyzerConfigAsset is a  class of the Unity engine since version 2021.3.3f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoslynAnalyzerConfigAsset {
     pub m_Name: String,
 }
 
-/// RoslynAnalyzerConfigImporter is a  class of the Unity engine since version 2022.2.0b16.
+/// RoslynAnalyzerConfigImporter is a  class of the Unity engine since version 2021.3.3f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RoslynAnalyzerConfigImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2021.3.3f1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
 }
 
-/// RotationBySpeedModule is a sub class of the Unity engine since version 5.6.0b2.
+/// RotationBySpeedModule is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.RotationBySpeedModule.html):
 /**
 Script interface for the RotationBySpeedModule.
@@ -10757,14 +12343,17 @@ pub struct RotationBySpeedModule {
     /**Set the minimum and maximum speeds that this module applies the rotation curve between.*/
     pub range: Vector2f,
     /**Set the rotation by speed on each axis separately.*/
-    pub separateAxes: bool,
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub separateAxes: Option<bool>,
     /**Rotation by speed curve for the x-axis.*/
-    pub x: MinMaxCurve,
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub x: Option<MinMaxCurve>,
     /**Rotation by speed curve for the y-axis.*/
-    pub y: MinMaxCurve,
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub y: Option<MinMaxCurve>,
 }
 
-/// RotationConstraint is a  class of the Unity engine since version 2018.4.15f1.
+/// RotationConstraint is a  class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.RotationConstraint.html):
 /**
 Constrains the rotation of an object relative to the rotation of one or more source objects.
@@ -10777,7 +12366,8 @@ pub struct RotationConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The rotation used when the sources have a total weight of 0.*/
     pub m_RotationAtRest: Vector3f,
     /**The offset from the constrained rotation.*/
@@ -10785,74 +12375,99 @@ pub struct RotationConstraint {
     pub m_Sources: Vec<ConstraintSource>,
     /**The weight of the constraint component.*/
     pub m_Weight: f32,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_Active: Option<bool>,
-    /// bool: (2018.4.15f1 - 2021.2.16f1)
+    /// bool: (2018.1.0b2 - 2022.1.0a9)
     pub m_IsContraintActive: Option<bool>,
 }
 
-/// RotationModule is a sub class of the Unity engine since version 5.6.0b2.
+/// RotationModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RotationModule {
     pub curve: MinMaxCurve,
     pub enabled: bool,
-    pub separateAxes: bool,
-    pub x: MinMaxCurve,
-    pub y: MinMaxCurve,
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub separateAxes: Option<bool>,
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub x: Option<MinMaxCurve>,
+    /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
+    pub y: Option<MinMaxCurve>,
 }
 
-/// RuleSetFileAsset is a  class of the Unity engine since version 2020.3.42f1.
+/// RuleSetFileAsset is a  class of the Unity engine since version 2020.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RuleSetFileAsset {
     pub m_Name: String,
     pub m_Script: String,
 }
 
-/// RuleSetFileImporter is a  class of the Unity engine since version 2020.3.42f1.
+/// RuleSetFileImporter is a  class of the Unity engine since version 2020.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RuleSetFileImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2020.2.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
 }
 
-/// RuntimeInitializeOnLoadManager is a  class of the Unity engine since version 5.6.0b2.
+/// RuntimeAnimatorController is a  class of the Unity engine since version 4.1.0.
+/// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/RuntimeAnimatorController.html):
+/**
+The runtime representation of the AnimatorController. Use this representation to change the Animator Controller during runtime.
+*/
 #[derive(Debug, Serialize, Deserialize)]
-pub struct RuntimeInitializeOnLoadManager {
-    /// Vec<i32>: (2019.3.0f4 - 2020.1.0a20)
-    pub m_AfterAssembliesLoadedMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<i32>: (2019.3.0f4 - 2020.1.0a20)
-    pub m_AfterAssembliesLoadedUnityMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<i32>: (5.6.0b2 - 2020.1.0a20)
-    pub m_AfterMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<i32>: (5.6.0b2 - 2020.1.0a20)
-    pub m_AfterUnityMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<String>: (5.6.0b2 - 2020.1.0a20)
-    pub m_AssemblyNames: Option<Vec<String>>,
-    /// Vec<i32>: (5.6.0b2 - 2020.1.0a20)
-    pub m_BeforeMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<i32>: (2019.3.0f4 - 2020.1.0a20)
-    pub m_BeforeSplashScreenMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<i32>: (2019.3.0f4 - 2020.1.0a20)
-    pub m_BeforeSplashScreenUnityMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<i32>: (5.6.0b2 - 2020.1.0a20)
-    pub m_BeforeUnityMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<ClassInfo>: (5.6.0b2 - 2020.1.0a20)
-    pub m_ClassInfos: Option<Vec<ClassInfo>>,
-    /// Vec<ClassMethodInfo>: (5.6.0b2 - 2020.1.0a20)
-    pub m_ClassMethodInfos: Option<Vec<ClassMethodInfo>>,
-    /// Vec<String>: (5.6.0b2 - 2020.1.0a20)
-    pub m_NamespaceNames: Option<Vec<String>>,
-    /// Vec<i32>: (2019.3.0f4 - 2020.1.0a20)
-    pub m_SubsystemRegistrationMethodExecutionOrders: Option<Vec<i32>>,
-    /// Vec<i32>: (2019.3.0f4 - 2020.1.0a20)
-    pub m_SubsystemRegistrationUnityMethodExecutionOrders: Option<Vec<i32>>,
+pub struct RuntimeAnimatorController {
+    /**Retrieves all AnimationClip used by the controller.*/
+    /// Vec<PPtr<AnimationClip>>: (4.1.0 - 4.2.2)
+    pub m_AnimationClips: Vec<PPtr>,
+    pub m_Controller: ControllerConstant,
+    pub m_ControllerSize: u32,
+    /**The name of the object.*/
+    pub m_Name: String,
+    pub m_TOS: Vec<(u32, String)>,
 }
 
-/// SBranchWindLevel is a sub class of the Unity engine since version 5.6.0b2.
+/// RuntimeInitializeOnLoadManager is a  class of the Unity engine since version 5.0.0f4.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RuntimeInitializeOnLoadManager {
+    /// Vec<i32>: (2019.1.0b1 - 2020.2.0a19)
+    pub m_AfterAssembliesLoadedMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<i32>: (2019.1.0b1 - 2020.2.0a19)
+    pub m_AfterAssembliesLoadedUnityMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<i32>: (5.2.0f2 - 2020.2.0a19)
+    pub m_AfterMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<i32>: (5.2.0f2 - 2020.2.0a19)
+    pub m_AfterUnityMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<String>: (5.0.0f4 - 2020.2.0a19)
+    pub m_AssemblyNames: Option<Vec<String>>,
+    /// Vec<i32>: (5.2.0f2 - 2020.2.0a19)
+    pub m_BeforeMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<i32>: (2019.1.0b1 - 2020.2.0a19)
+    pub m_BeforeSplashScreenMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<i32>: (2019.1.0b1 - 2020.2.0a19)
+    pub m_BeforeSplashScreenUnityMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<i32>: (5.2.0f2 - 2020.2.0a19)
+    pub m_BeforeUnityMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<ClassInfo>: (5.0.0f4 - 2020.2.0a19)
+    pub m_ClassInfos: Option<Vec<ClassInfo>>,
+    /// Vec<ClassMethodInfo>: (5.0.0f4 - 2020.2.0a19)
+    pub m_ClassMethodInfos: Option<Vec<ClassMethodInfo>>,
+    /// Vec<i32>: (5.0.0f4 - 5.1.5f1)
+    pub m_MethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<String>: (5.0.0f4 - 2020.2.0a19)
+    pub m_NamespaceNames: Option<Vec<String>>,
+    /// Vec<i32>: (2019.2.0f1 - 2020.2.0a19)
+    pub m_SubsystemRegistrationMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<i32>: (2019.2.0f1 - 2020.2.0a19)
+    pub m_SubsystemRegistrationUnityMethodExecutionOrders: Option<Vec<i32>>,
+    /// Vec<i32>: (5.0.0f4 - 5.1.5f1)
+    pub m_UnityMethodExecutionOrders: Option<Vec<i32>>,
+}
+
+/// SBranchWindLevel is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SBranchWindLevel {
     pub m_afDirectionAdherence_0: f32,
@@ -10890,7 +12505,7 @@ pub struct SBranchWindLevel {
     pub m_fTwitchFreqScale: f32,
 }
 
-/// SParams is a sub class of the Unity engine since version 5.6.0b2.
+/// SParams is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SParams {
     pub BranchLevel1: SBranchWindLevel,
@@ -11054,7 +12669,7 @@ pub struct SParams {
     pub m_fStrengthResponse: f32,
 }
 
-/// SWindGroup is a sub class of the Unity engine since version 5.6.0b2.
+/// SWindGroup is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SWindGroup {
     pub m_afRippleDistance_0: f32,
@@ -11115,13 +12730,13 @@ pub struct SWindGroup {
     pub m_fTwitchSharpness: f32,
 }
 
-/// SampleClip is a  class of the Unity engine since version 5.6.0b2.
+/// SampleClip is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SampleClip {
     pub m_Name: String,
 }
 
-/// SampleSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// SampleSettings is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SampleSettings {
     pub compressionFormat: i32,
@@ -11130,18 +12745,18 @@ pub struct SampleSettings {
     pub quality: f32,
     pub sampleRateOverride: u32,
     pub sampleRateSetting: i32,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub preloadAudioData: Option<bool>,
 }
 
-/// SamplerParameter is a sub class of the Unity engine since version 2017.4.33f1.
+/// SamplerParameter is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SamplerParameter {
     pub bindPoint: i32,
     pub sampler: u32,
 }
 
-/// ScaleConstraint is a  class of the Unity engine since version 2018.4.15f1.
+/// ScaleConstraint is a  class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Animations.ScaleConstraint.html):
 /**
 Constrains the scale of an object relative to the scale of one or more source objects.
@@ -11154,7 +12769,8 @@ pub struct ScaleConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The scale used when the sources have a total weight of 0.*/
     pub m_ScaleAtRest: Vector3f,
     /**The offset from the constrained scale.*/
@@ -11162,9 +12778,9 @@ pub struct ScaleConstraint {
     pub m_Sources: Vec<ConstraintSource>,
     /**The weight of the constraint component.*/
     pub m_Weight: f32,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_Active: Option<bool>,
-    /// bool: (2018.4.15f1 - 2021.2.16f1)
+    /// bool: (2018.1.0b2 - 2022.1.0a9)
     pub m_IsContraintActive: Option<bool>,
 }
 
@@ -11175,49 +12791,81 @@ Run-time data structure for *.unity file.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Scene {
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub enabled: Option<bool>,
-    /// GUID: (2017.4.33f1 - 2022.2.0b16)
+    /// GUID: (5.6.0f1 - 2022.3.2f1)
     pub guid: Option<GUID>,
-    /// Vec<u8>: (3.4.0 - 3.4.0)
+    /// Vec<u8>: (3.4.0 - 3.5.7)
     pub m_PVSData: Option<Vec<u8>>,
-    /// Vec<PPtr/*<Renderer>*/>: (3.4.0 - 3.4.0)
-    pub m_PVSObjectsArray: Option<Vec<PPtr /*<Renderer>*/>>,
+    /// Vec<PPtr<Renderer>>: (3.4.0 - 3.5.7)
+    pub m_PVSObjectsArray: Option<Vec<PPtr>>,
+    /// Vec<PPtr<OcclusionPortal>>: (3.5.0 - 3.5.7)
+    pub m_PVSPortalsArray: Option<Vec<PPtr>>,
+    /// u32: (3.5.0 - 3.5.7)
+    pub m_QueryMode: Option<u32>,
     /**Returns the relative path of the Scene. For example: "Assets/MyScenes/MyScene.unity".*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (4.0.0 - 2022.3.2f1)
     pub path: Option<String>,
 }
 
-/// SceneDataContainer is a sub class of the Unity engine since version 2019.3.0f4.
+/// SceneDataContainer is a sub class of the Unity engine since version 2019.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SceneDataContainer {
     pub m_SceneData: Vec<(SceneIdentifier, HierarchicalSceneData)>,
 }
 
-/// SceneIdentifier is a sub class of the Unity engine since version 2019.3.0f4.
+/// SceneIdentifier is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SceneIdentifier {
     pub guid: GUID,
     pub handle: i32,
 }
 
-/// SceneObjectIdentifier is a sub class of the Unity engine since version 5.6.0b2.
+/// SceneObjectIdentifier is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SceneObjectIdentifier {
     pub targetObject: i64,
     pub targetPrefab: i64,
 }
 
-/// SceneVisibilityState is a  class of the Unity engine since version 2019.3.0f4.
+/// SceneSettings is a  class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
-pub struct SceneVisibilityState {
-    pub m_IsolationMode: bool,
-    pub m_ScenePickingData: SceneDataContainer,
-    pub m_SceneVisibilityData: SceneDataContainer,
-    pub m_SceneVisibilityDataIsolated: SceneDataContainer,
+pub struct SceneSettings {
+    pub m_PVSData: Vec<u8>,
+    /// Vec<PPtr<Renderer>>: (4.0.0 - 5.4.6f3)
+    pub m_PVSObjectsArray: Vec<PPtr>,
+    /// Vec<PPtr<OcclusionPortal>>: (4.0.0 - 5.4.6f3)
+    pub m_PVSPortalsArray: Vec<PPtr>,
+    /// u32: (4.0.0 - 4.2.2)
+    pub m_QueryMode: Option<u32>,
 }
 
-/// ScenesUsingAssets is a  class of the Unity engine since version 2020.1.0a20.
+/// SceneVisibilityData is a sub class of the Unity engine since version 2019.1.0b1.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SceneVisibilityData {
+    pub m_SceneGUID: GUID,
+}
+
+/// SceneVisibilityState is a  class of the Unity engine since version 2019.1.0b1.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SceneVisibilityState {
+    /// bool: (2019.3.0b1 - 2022.3.2f1)
+    pub m_IsolationMode: Option<bool>,
+    /// bool: (2019.1.0b1 - 2019.3.0a8)
+    pub m_MainStageIsolated: Option<bool>,
+    /// bool: (2019.1.0b1 - 2019.3.0a8)
+    pub m_PrefabStageIsolated: Option<bool>,
+    /// Vec<(SceneIdentifier, SceneVisibilityData)>: (2019.1.0b1 - 2019.3.0a8)
+    pub m_SceneData: Option<Vec<(SceneIdentifier, SceneVisibilityData)>>,
+    /// SceneDataContainer: (2019.3.0b1 - 2022.3.2f1)
+    pub m_ScenePickingData: Option<SceneDataContainer>,
+    /// SceneDataContainer: (2019.3.0b1 - 2022.3.2f1)
+    pub m_SceneVisibilityData: Option<SceneDataContainer>,
+    /// SceneDataContainer: (2019.3.0b1 - 2022.3.2f1)
+    pub m_SceneVisibilityDataIsolated: Option<SceneDataContainer>,
+}
+
+/// ScenesUsingAssets is a  class of the Unity engine since version 2020.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Build.Reporting.ScenesUsingAssets.html):
 /**
 An extension to the BuildReport class that tracks which scenes in the build have references to a specific asset in the build.
@@ -11233,11 +12881,11 @@ pub struct ScenesUsingAssets {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ScriptMapper {
     pub m_Shaders: NameToObjectMap,
-    /// bool: (5.6.0b2 - 2020.3.42f1)
+    /// bool: (5.0.0f4 - 2020.3.48f1)
     pub m_PreloadShaders: Option<bool>,
 }
 
-/// ScriptedImporter is a  class of the Unity engine since version 2017.4.33f1.
+/// ScriptedImporter is a  class of the Unity engine since version 2017.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AssetImporters.ScriptedImporter.html):
 /**
 Abstract base class for custom Asset importers.
@@ -11252,21 +12900,23 @@ pub struct ScriptedImporter {
     pub m_AssetBundleName: String,
     /**Get or set the AssetBundle variant.*/
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_Script: PPtr, /*<MonoScript>*/
+    /// PPtr<MonoScript>: (2017.1.0b2 - 2022.3.2f1)
+    pub m_Script: PPtr,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// Vec<(i64, String)>: (2017.4.33f1 - 2018.4.15f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.3.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<(i64, String)>: (2017.3.0b1 - 2018.4.36f1)
     pub m_FileIDToRecycleName: Option<Vec<(i64, String)>>,
-    /// Vec<((i32, i64), String)>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<((i32, i64), String)>: (2019.1.0b1 - 2022.3.2f1)
     pub m_InternalIDToNameTable: Option<Vec<((i32, i64), String)>>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// SecondarySpriteTexture is a sub class of the Unity engine since version 2019.3.0f4.
+/// SecondarySpriteTexture is a sub class of the Unity engine since version 2019.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SecondarySpriteTexture.html):
 /**
 Encapsulates a Texture2D and its shader property name to give Sprite-based renderers access to a secondary texture, in addition to the main Sprite texture.
@@ -11276,36 +12926,40 @@ pub struct SecondarySpriteTexture {
     /**The shader property name of the secondary Sprite texture. Use this name to identify and sample the texture in the shader.*/
     pub name: String,
     /**The texture to be used as a secondary Sprite texture.*/
-    pub texture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (2019.1.0b1 - 2022.3.2f1)
+    pub texture: PPtr,
 }
 
-/// SecondaryTextureSettings is a sub class of the Unity engine since version 2020.3.42f1.
+/// SecondaryTextureSettings is a sub class of the Unity engine since version 2020.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SecondaryTextureSettings {
     pub platformSettings: Vec<TextureImporterPlatformSettings>,
-    pub sRGB: bool,
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
+    pub sRGB: Option<bool>,
 }
 
-/// SerializableManagedHost is a  class of the Unity engine since version 2019.3.0f4.
+/// SerializableManagedHost is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializableManagedHost {
-    pub m_Script: PPtr, /*<MonoScript>*/
+    /// PPtr<MonoScript>: (2019.1.0b1 - 2020.3.24f1)
+    pub m_Script: PPtr,
 }
 
-/// SerializableManagedRefTestClass is a  class of the Unity engine since version 2019.3.0f4.
+/// SerializableManagedRefTestClass is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializableManagedRefTestClass {
-    pub m_Script: PPtr, /*<MonoScript>*/
+    /// PPtr<MonoScript>: (2019.1.0b1 - 2020.3.24f1)
+    pub m_Script: PPtr,
 }
 
-/// SerializedCustomEditorForRenderPipeline is a sub class of the Unity engine since version 2021.2.16f1.
+/// SerializedCustomEditorForRenderPipeline is a sub class of the Unity engine since version 2021.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedCustomEditorForRenderPipeline {
     pub customEditorName: String,
     pub renderPipelineType: String,
 }
 
-/// SerializedPass is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedPass is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedPass {
     pub m_HasInstancingVariant: bool,
@@ -11322,23 +12976,23 @@ pub struct SerializedPass {
     pub progGeometry: SerializedProgram,
     pub progHull: SerializedProgram,
     pub progVertex: SerializedProgram,
-    /// Vec<Hash128>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<Hash128>: (2020.2.0b1 - 2022.3.2f1)
     pub m_EditorDataHash: Option<Vec<Hash128>>,
-    /// Vec<u16>: (2020.3.42f1 - 2020.3.42f1)
+    /// Vec<u16>: (2020.2.0b1 - 2021.2.0a15)
     pub m_GlobalKeywordMask: Option<Vec<u16>>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_HasProceduralInstancingVariant: Option<bool>,
-    /// Vec<u16>: (2020.3.42f1 - 2020.3.42f1)
+    /// Vec<u16>: (2020.2.0b1 - 2021.2.0a15)
     pub m_LocalKeywordMask: Option<Vec<u16>>,
-    /// Vec<u8>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<u8>: (2020.2.0b1 - 2022.3.2f1)
     pub m_Platforms: Option<Vec<u8>>,
-    /// Vec<u16>: (2021.2.16f1 - 2021.2.16f1)
+    /// Vec<u16>: (2021.2.0b1 - 2022.1.0a16)
     pub m_SerializedKeywordStateMask: Option<Vec<u16>>,
-    /// SerializedProgram: (2019.3.0f4 - 2022.2.0b16)
+    /// SerializedProgram: (2019.3.0b1 - 2022.3.2f1)
     pub progRayTracing: Option<SerializedProgram>,
 }
 
-/// SerializedPlayerSubProgram is a sub class of the Unity engine since version 2022.2.0b16.
+/// SerializedPlayerSubProgram is a sub class of the Unity engine since version 2021.3.10f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedPlayerSubProgram {
     pub m_BlobIndex: u32,
@@ -11347,21 +13001,21 @@ pub struct SerializedPlayerSubProgram {
     pub m_ShaderRequirements: i64,
 }
 
-/// SerializedProgram is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedProgram is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedProgram {
     pub m_SubPrograms: Vec<SerializedSubProgram>,
-    /// SerializedProgramParameters: (2020.3.42f1 - 2022.2.0b16)
+    /// SerializedProgramParameters: (2020.3.2f1 - 2022.3.2f1)
     pub m_CommonParameters: Option<SerializedProgramParameters>,
-    /// Vec<Vec<u32>>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<Vec<u32>>: (2021.3.10f1 - 2022.3.2f1)
     pub m_ParameterBlobIndices: Option<Vec<Vec<u32>>>,
-    /// Vec<Vec<SerializedPlayerSubProgram>>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<Vec<SerializedPlayerSubProgram>>: (2021.3.10f1 - 2022.3.2f1)
     pub m_PlayerSubPrograms: Option<Vec<Vec<SerializedPlayerSubProgram>>>,
-    /// Vec<u16>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<u16>: (2022.1.0f1 - 2022.3.2f1)
     pub m_SerializedKeywordStateMask: Option<Vec<u16>>,
 }
 
-/// SerializedProgramParameters is a sub class of the Unity engine since version 2020.3.42f1.
+/// SerializedProgramParameters is a sub class of the Unity engine since version 2020.3.2f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedProgramParameters {
     pub m_BufferParams: Vec<BufferBinding>,
@@ -11374,13 +13028,13 @@ pub struct SerializedProgramParameters {
     pub m_VectorParams: Vec<VectorParameter>,
 }
 
-/// SerializedProperties is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedProperties is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedProperties {
     pub m_Props: Vec<SerializedProperty>,
 }
 
-/// SerializedProperty is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedProperty is a sub class of the Unity engine since version 5.5.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SerializedProperty.html):
 /**
 SerializedProperty and SerializedObject are classes for editing properties on objects in a completely generic way that automatically handles undo, multi-object editing and Prefab overrides.
@@ -11397,21 +13051,21 @@ pub struct SerializedProperty {
     pub m_Name: String,
     /**Type name of the property. (Read Only)*/
     pub m_Type: i32,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     #[serde(alias = "m_DefValue[0]")]
     pub m_DefValue_0_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     #[serde(alias = "m_DefValue[1]")]
     pub m_DefValue_1_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     #[serde(alias = "m_DefValue[2]")]
     pub m_DefValue_2_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
     #[serde(alias = "m_DefValue[3]")]
     pub m_DefValue_3_: Option<f32>,
 }
 
-/// SerializedShader is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedShader is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedShader {
     pub m_CustomEditorName: String,
@@ -11421,29 +13075,29 @@ pub struct SerializedShader {
     pub m_Name: String,
     pub m_PropInfo: SerializedProperties,
     pub m_SubShaders: Vec<SerializedSubShader>,
-    /// Vec<SerializedCustomEditorForRenderPipeline>: (2021.2.16f1 - 2022.2.0b16)
+    /// Vec<SerializedCustomEditorForRenderPipeline>: (2021.1.0b1 - 2022.3.2f1)
     pub m_CustomEditorForRenderPipelines: Option<Vec<SerializedCustomEditorForRenderPipeline>>,
-    /// Vec<u8>: (2021.2.16f1 - 2022.2.0b16)
+    /// Vec<u8>: (2021.2.0b1 - 2022.3.2f1)
     pub m_KeywordFlags: Option<Vec<u8>>,
-    /// Vec<String>: (2021.2.16f1 - 2022.2.0b16)
+    /// Vec<String>: (2021.2.0b1 - 2022.3.2f1)
     pub m_KeywordNames: Option<Vec<String>>,
 }
 
-/// SerializedShaderDependency is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedShaderDependency is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedShaderDependency {
     pub from: String,
     pub to: String,
 }
 
-/// SerializedShaderFloatValue is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedShaderFloatValue is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedShaderFloatValue {
-    pub name: String,
+    pub name: Enum_FastPropertyName__String,
     pub val: f32,
 }
 
-/// SerializedShaderRTBlendState is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedShaderRTBlendState is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedShaderRTBlendState {
     pub blendOp: SerializedShaderFloatValue,
@@ -11455,7 +13109,7 @@ pub struct SerializedShaderRTBlendState {
     pub srcBlendAlpha: SerializedShaderFloatValue,
 }
 
-/// SerializedShaderState is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedShaderState is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedShaderState {
     pub alphaToMask: SerializedShaderFloatValue,
@@ -11489,23 +13143,23 @@ pub struct SerializedShaderState {
     pub stencilWriteMask: SerializedShaderFloatValue,
     pub zTest: SerializedShaderFloatValue,
     pub zWrite: SerializedShaderFloatValue,
-    /// SerializedShaderFloatValue: (2020.1.0a20 - 2022.2.0b16)
+    /// SerializedShaderFloatValue: (2020.1.0b1 - 2022.3.2f1)
     pub conservative: Option<SerializedShaderFloatValue>,
-    /// SerializedShaderFloatValue: (2017.4.33f1 - 2022.2.0b16)
+    /// SerializedShaderFloatValue: (2017.2.0b2 - 2022.3.2f1)
     pub zClip: Option<SerializedShaderFloatValue>,
 }
 
-/// SerializedShaderVectorValue is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedShaderVectorValue is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedShaderVectorValue {
-    pub name: String,
+    pub name: Enum_FastPropertyName__String,
     pub w: SerializedShaderFloatValue,
     pub x: SerializedShaderFloatValue,
     pub y: SerializedShaderFloatValue,
     pub z: SerializedShaderFloatValue,
 }
 
-/// SerializedStencilOp is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedStencilOp is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedStencilOp {
     pub comp: SerializedShaderFloatValue,
@@ -11514,42 +13168,42 @@ pub struct SerializedStencilOp {
     pub zFail: SerializedShaderFloatValue,
 }
 
-/// SerializedSubProgram is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedSubProgram is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedSubProgram {
     pub m_BlobIndex: u32,
     pub m_Channels: ParserBindChannels,
     pub m_GpuProgramType: i8,
     pub m_ShaderHardwareTier: i8,
-    /// Vec<BufferBinding>: (5.6.0b2 - 2020.1.0a20)
+    /// Vec<BufferBinding>: (5.5.0f3 - 2021.1.0b12)
     pub m_BufferParams: Option<Vec<BufferBinding>>,
-    /// Vec<BufferBinding>: (5.6.0b2 - 2020.1.0a20)
+    /// Vec<BufferBinding>: (5.5.0f3 - 2021.1.0b12)
     pub m_ConstantBufferBindings: Option<Vec<BufferBinding>>,
-    /// Vec<ConstantBuffer>: (5.6.0b2 - 2020.1.0a20)
+    /// Vec<ConstantBuffer>: (5.5.0f3 - 2021.1.0b12)
     pub m_ConstantBuffers: Option<Vec<ConstantBuffer>>,
-    /// Vec<u16>: (2019.3.0f4 - 2020.3.42f1)
+    /// Vec<u16>: (2019.1.0b1 - 2021.2.0a15)
     pub m_GlobalKeywordIndices: Option<Vec<u16>>,
-    /// Vec<u16>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u16>: (5.5.0f3 - 2022.3.2f1)
     pub m_KeywordIndices: Option<Vec<u16>>,
-    /// Vec<u16>: (2019.3.0f4 - 2020.3.42f1)
+    /// Vec<u16>: (2019.1.0b1 - 2021.2.0a15)
     pub m_LocalKeywordIndices: Option<Vec<u16>>,
-    /// Vec<MatrixParameter>: (5.6.0b2 - 2020.1.0a20)
+    /// Vec<MatrixParameter>: (5.5.0f3 - 2021.1.0b12)
     pub m_MatrixParams: Option<Vec<MatrixParameter>>,
-    /// SerializedProgramParameters: (2020.3.42f1 - 2022.2.0b16)
+    /// SerializedProgramParameters: (2020.3.2f1 - 2022.3.2f1)
     pub m_Parameters: Option<SerializedProgramParameters>,
-    /// Vec<SamplerParameter>: (2017.4.33f1 - 2020.1.0a20)
+    /// Vec<SamplerParameter>: (2017.1.0b1 - 2021.1.0b12)
     pub m_Samplers: Option<Vec<SamplerParameter>>,
-    /// i32: (2017.4.33f1 - 2020.3.42f1); i64: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2020.3.48f1); i64: (2021.1.0b1 - 2022.3.2f1)
     pub m_ShaderRequirements: Option<i64>,
-    /// Vec<TextureParameter>: (5.6.0b2 - 2020.1.0a20)
+    /// Vec<TextureParameter>: (5.5.0f3 - 2021.1.0b12)
     pub m_TextureParams: Option<Vec<TextureParameter>>,
-    /// Vec<UAVParameter>: (5.6.0b2 - 2020.1.0a20)
+    /// Vec<UAVParameter>: (5.5.0f3 - 2021.1.0b12)
     pub m_UAVParams: Option<Vec<UAVParameter>>,
-    /// Vec<VectorParameter>: (5.6.0b2 - 2020.1.0a20)
+    /// Vec<VectorParameter>: (5.5.0f3 - 2021.1.0b12)
     pub m_VectorParams: Option<Vec<VectorParameter>>,
 }
 
-/// SerializedSubShader is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedSubShader is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedSubShader {
     pub m_LOD: i32,
@@ -11557,13 +13211,13 @@ pub struct SerializedSubShader {
     pub m_Tags: SerializedTagMap,
 }
 
-/// SerializedTagMap is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedTagMap is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedTagMap {
     pub tags: Vec<(String, String)>,
 }
 
-/// SerializedTextureProperty is a sub class of the Unity engine since version 5.6.0b2.
+/// SerializedTextureProperty is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializedTextureProperty {
     pub m_DefaultName: String,
@@ -11584,29 +13238,33 @@ global shader properties and keywords, and finding shaders by name (Find method)
 pub struct Shader {
     /**The name of the object.*/
     pub m_Name: String,
-    /// Vec<u8>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u8>: (5.5.0f3 - 2022.3.2f1)
     pub compressedBlob: Option<Vec<u8>>,
-    /// Vec<u32>: (5.6.0b2 - 2018.4.15f1); Vec<Vec<u32>>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<u32>: (5.5.0f3 - 2019.3.0a12); Vec<Vec<u32>>: (2019.3.0b1 - 2022.3.2f1)
     pub compressedLengths: Option<Vec<Enum_Vec_u32___u32>>,
-    /// Vec<u32>: (5.6.0b2 - 2018.4.15f1); Vec<Vec<u32>>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<u32>: (5.5.0f3 - 2019.3.0a12); Vec<Vec<u32>>: (2019.3.0b1 - 2022.3.2f1)
     pub decompressedLengths: Option<Vec<Enum_Vec_u32___u32>>,
-    /// Vec<PPtr/*<Shader>*/>: (5.6.0b2 - 2022.2.0b16)
-    pub m_Dependencies: Option<Vec<PPtr /*<Shader>*/>>,
-    /// Vec<(String, PPtr/*<Texture>*/)>: (2018.4.15f1 - 2022.2.0b16)
-    pub m_NonModifiableTextures: Option<Vec<(String, PPtr /*<Texture>*/)>>,
-    /// SerializedShader: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (5.3.0f1 - 5.4.6f3)
+    pub decompressedSize: Option<u32>,
+    /// Vec<PPtr<Shader>>: (4.0.0 - 2022.3.2f1)
+    pub m_Dependencies: Option<Vec<PPtr>>,
+    /// Vec<(String, PPtr<Texture>)>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_NonModifiableTextures: Option<Vec<(String, PPtr)>>,
+    /// SerializedShader: (5.5.0f3 - 2022.3.2f1)
     pub m_ParsedForm: Option<SerializedShader>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 5.4.6f3)
     pub m_PathName: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 5.4.6f3)
     pub m_Script: Option<String>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub m_ShaderIsBaked: Option<bool>,
-    /// Vec<u32>: (5.6.0b2 - 2018.4.15f1); Vec<Vec<u32>>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<u8>: (5.3.0f1 - 5.4.6f3)
+    pub m_SubProgramBlob: Option<Vec<u8>>,
+    /// Vec<u32>: (5.5.0f3 - 2019.3.0a12); Vec<Vec<u32>>: (2019.3.0b1 - 2022.3.2f1)
     pub offsets: Option<Vec<Enum_Vec_u32___u32>>,
-    /// Vec<u32>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u32>: (5.5.0f3 - 2022.3.2f1)
     pub platforms: Option<Vec<u32>>,
-    /// Vec<u32>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<u32>: (2021.3.12f1 - 2022.3.2f1)
     pub stageCounts: Option<Vec<u32>>,
 }
 
@@ -11617,56 +13275,60 @@ pub enum Enum_Vec_u32___u32 {
     u32(u32),
 }
 
-/// ShaderBindChannel is a sub class of the Unity engine since version 5.6.0b2.
+/// ShaderBindChannel is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ShaderBindChannel {
     pub source: i8,
     pub target: i8,
 }
 
-/// ShaderContainer is a  class of the Unity engine since version 2022.2.0b16.
+/// ShaderContainer is a  class of the Unity engine since version 2022.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ShaderContainer {}
 
-/// ShaderImporter is a  class of the Unity engine since version 5.6.0b2.
+/// ShaderImporter is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ShaderImporter.html):
 /**
 Shader importer lets you modify shader import settings from Editor scripts.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ShaderImporter {
-    /**Get or set the AssetBundle name.*/
-    pub m_AssetBundleName: String,
-    /**Get or set the AssetBundle variant.*/
-    pub m_AssetBundleVariant: String,
-    pub m_DefaultTextures: Vec<(String, PPtr /*<Texture>*/)>,
     /**The name of the object.*/
     pub m_Name: String,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<(String, PPtr/*<Texture>*/)>: (2018.4.15f1 - 2022.2.0b16)
-    pub m_NonModifiableTextures: Option<Vec<(String, PPtr /*<Texture>*/)>>,
+    /**Get or set the AssetBundle name.*/
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleName: Option<String>,
+    /**Get or set the AssetBundle variant.*/
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleVariant: Option<String>,
+    /// Vec<(String, PPtr<Texture>)>: (4.2.0 - 2022.3.2f1)
+    pub m_DefaultTextures: Option<Vec<(String, PPtr)>>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<(String, PPtr<Texture>)>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_NonModifiableTextures: Option<Vec<(String, PPtr)>>,
     /**This property has no effect.*/
-    /// i32: (2020.3.42f1 - 2021.2.16f1)
+    /// i32: (2020.2.0b1 - 2022.1.0a9)
     pub m_PreprocessorOverride: Option<i32>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// ShaderIncludeImporter is a  class of the Unity engine since version 2021.2.16f1.
+/// ShaderIncludeImporter is a  class of the Unity engine since version 2021.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ShaderIncludeImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2021.2.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     pub m_UserData: String,
 }
 
-/// ShaderInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// ShaderInfo is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ShaderInfo.html):
 /**
 Contains the following information about a shader:
@@ -11679,14 +13341,14 @@ pub struct ShaderInfo {
     pub variants: Vec<VariantInfo>,
 }
 
-/// ShaderNameRegistry is a  class of the Unity engine since version 2021.2.16f1.
+/// ShaderNameRegistry is a  class of the Unity engine since version 2021.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ShaderNameRegistry {
     pub m_PreloadShaders: bool,
     pub m_Shaders: NameToObjectMap,
 }
 
-/// ShaderVariantCollection is a  class of the Unity engine since version 5.6.0b2.
+/// ShaderVariantCollection is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ShaderVariantCollection.html):
 /**
 ShaderVariantCollection records which shader variants are actually used in each shader.
@@ -11697,7 +13359,8 @@ shader variants are loaded at startup (or level load time), to avoid shader comp
 pub struct ShaderVariantCollection {
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_Shaders: Vec<(PPtr /*<Shader>*/, ShaderInfo)>,
+    /// Vec<(PPtr<Shader>, ShaderInfo)>: (5.0.0f4 - 2022.3.2f1)
+    pub m_Shaders: Vec<(PPtr, ShaderInfo)>,
 }
 
 /// ShadowSettings is a sub class of the Unity engine since version 3.4.0.
@@ -11707,23 +13370,23 @@ pub struct ShadowSettings {
     pub m_Resolution: i32,
     pub m_Strength: f32,
     pub m_Type: i32,
-    /// Matrix4x4f: (2019.3.0f4 - 2022.2.0b16)
+    /// Matrix4x4f: (2019.1.0f2 - 2022.3.2f1)
     pub m_CullingMatrixOverride: Option<Matrix4x4f>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.4.0f3 - 2022.3.2f1)
     pub m_CustomResolution: Option<i32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.3.0f1 - 2022.3.2f1)
     pub m_NearPlane: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_NormalBias: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub m_Softness: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub m_SoftnessFade: Option<f32>,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.1.0f2 - 2022.3.2f1)
     pub m_UseCullingMatrixOverride: Option<bool>,
 }
 
-/// ShapeModule is a sub class of the Unity engine since version 5.6.0b2.
+/// ShapeModule is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.ShapeModule.html):
 /**
 Script interface for the ShapeModule.
@@ -11731,97 +13394,111 @@ Configures the initial positions and directions of particles.See Also: ParticleS
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ShapeModule {
-    /**Align particles based on their initial direction of travel.*/
-    pub alignToDirection: bool,
     /**Angle of the cone to emit particles from.*/
     pub angle: f32,
-    /**Angle of the circle arc to emit particles from.*/
-    pub arc: Enum_f32__MultiModeParameter,
     /**Specifies whether the ShapeModule is enabled or disabled.*/
     pub enabled: bool,
-    /**Length of the cone to emit particles from.*/
-    pub length: f32,
     /**Mesh to emit particles from.*/
-    pub m_Mesh: PPtr, /*<Mesh>*/
-    /**Emit particles from a single Material of a Mesh.*/
-    pub m_MeshMaterialIndex: i32,
-    pub m_MeshNormalOffset: f32,
-    /**MeshRenderer to emit particles from.*/
-    pub m_MeshRenderer: PPtr, /*<MeshRenderer>*/
-    /**SkinnedMeshRenderer to emit particles from.*/
-    pub m_SkinnedMeshRenderer: PPtr, /*<SkinnedMeshRenderer>*/
-    /**Modulate the particle colors with the vertex colors, or the Material color if no vertex colors exist.*/
-    pub m_UseMeshColors: bool,
-    /**Emit particles from a single Material, or the whole Mesh.*/
-    pub m_UseMeshMaterialIndex: bool,
+    /// PPtr<Mesh>: (3.5.0 - 2022.3.2f1)
+    pub m_Mesh: PPtr,
     pub placementMode: i32,
     /**Radius of the shape to emit particles from.*/
     pub radius: Enum_f32__MultiModeParameter,
-    /**Randomizes the starting direction of particles.*/
-    pub randomDirectionAmount: f32,
-    /**Makes particles move in a spherical direction from their starting point.*/
-    pub sphericalDirectionAmount: f32,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
+    /**Align particles based on their initial direction of travel.*/
+    /// bool: (5.5.0f3 - 2022.3.2f1)
+    pub alignToDirection: Option<bool>,
+    /**Angle of the circle arc to emit particles from.*/
+    /// f32: (5.0.0f4 - 5.6.0b4); MultiModeParameter: (5.6.0f1 - 2022.3.2f1)
+    pub arc: Option<Enum_f32__MultiModeParameter>,
     /**Thickness of the box to emit particles from.*/
-    /// Vector3f: (2017.4.33f1 - 2022.2.0b16)
+    /// Vector3f: (2017.1.0b2 - 2022.3.2f1)
     pub boxThickness: Option<Vector3f>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// f32: (3.5.0 - 2017.1.0b1)
     pub boxX: Option<f32>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// f32: (3.5.0 - 2017.1.0b1)
     pub boxY: Option<f32>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /// f32: (3.5.0 - 2017.1.0b1)
     pub boxZ: Option<f32>,
     /**The thickness of the Donut shape to emit particles from.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub donutRadius: Option<f32>,
-    /// f32: (5.6.0b2 - 5.6.0b2)
+    /**Length of the cone to emit particles from.*/
+    /// f32: (4.0.0 - 2022.3.2f1)
+    pub length: Option<f32>,
+    /**Emit particles from a single Material of a Mesh.*/
+    /// i32: (5.3.0f1 - 2022.3.2f1)
+    pub m_MeshMaterialIndex: Option<i32>,
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_MeshNormalOffset: Option<f32>,
+    /**MeshRenderer to emit particles from.*/
+    /// PPtr<MeshRenderer>: (5.3.0f1 - 2022.3.2f1)
+    pub m_MeshRenderer: Option<PPtr>,
+    /// f32: (5.5.0f3 - 2017.1.0b1)
     pub m_MeshScale: Option<f32>,
-    /// MultiModeParameter: (2018.4.15f1 - 2022.2.0b16)
+    /// MultiModeParameter: (2018.3.0f2 - 2022.3.2f1)
     pub m_MeshSpawn: Option<MultiModeParameter>,
     /**Apply an offset to the position from which the system emits particles.*/
-    /// Vector3f: (2017.4.33f1 - 2022.2.0b16)
+    /// Vector3f: (2017.1.0b2 - 2022.3.2f1)
     pub m_Position: Option<Vector3f>,
     /**Apply a rotation to the shape from which the system emits particles.*/
-    /// Vector3f: (2017.4.33f1 - 2022.2.0b16)
+    /// Vector3f: (2017.1.0b2 - 2022.3.2f1)
     pub m_Rotation: Option<Vector3f>,
     /**Apply scale to the shape from which the system emits particles.*/
-    /// Vector3f: (2017.4.33f1 - 2022.2.0b16)
+    /// Vector3f: (2017.1.0b2 - 2022.3.2f1)
     pub m_Scale: Option<Vector3f>,
+    /**SkinnedMeshRenderer to emit particles from.*/
+    /// PPtr<SkinnedMeshRenderer>: (5.3.0f1 - 2022.3.2f1)
+    pub m_SkinnedMeshRenderer: Option<PPtr>,
     /**Sprite to emit particles from.*/
-    /// PPtr/*<Sprite>*/: (2018.4.15f1 - 2022.2.0b16)
-    pub m_Sprite: Option<PPtr /*<Sprite>*/>,
+    /// PPtr<Sprite>: (2018.2.0b1 - 2022.3.2f1)
+    pub m_Sprite: Option<PPtr>,
     /**SpriteRenderer to emit particles from.*/
-    /// PPtr/*<SpriteRenderer>*/: (2018.4.15f1 - 2022.2.0b16)
-    pub m_SpriteRenderer: Option<PPtr /*<SpriteRenderer>*/>,
+    /// PPtr<SpriteRenderer>: (2018.2.0b1 - 2022.3.2f1)
+    pub m_SpriteRenderer: Option<PPtr>,
     /**Specifies a Texture to tint the particle's start colors.*/
-    /// PPtr/*<Texture2D>*/: (2018.4.15f1 - 2022.2.0b16)
-    pub m_Texture: Option<PPtr /*<Texture2D>*/>,
+    /// PPtr<Texture2D>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_Texture: Option<PPtr>,
     /**When enabled, the system applies the alpha channel of the Texture to the particle alpha when the particle spawns.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_TextureAlphaAffectsParticles: Option<bool>,
     /**When enabled, the system takes four neighboring samples from the Texture then combines them to give the final particle value.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_TextureBilinearFiltering: Option<bool>,
     /**Selects which channel of the Texture to use for discarding particles.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.1.0b2 - 2022.3.2f1)
     pub m_TextureClipChannel: Option<i32>,
     /**Discards particles when they spawn on an area of the Texture with a value lower than this threshold.*/
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.1.0b2 - 2022.3.2f1)
     pub m_TextureClipThreshold: Option<f32>,
     /**When enabled, the system applies the RGB channels of the Texture to the particle color when the particle spawns.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_TextureColorAffectsParticles: Option<bool>,
     /**When using a Mesh as a source shape type, this option controls which UV channel on the Mesh to use for reading the source Texture.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.1.0b2 - 2022.3.2f1)
     pub m_TextureUVChannel: Option<i32>,
+    /**Modulate the particle colors with the vertex colors, or the Material color if no vertex colors exist.*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_UseMeshColors: Option<bool>,
+    /**Emit particles from a single Material, or the whole Mesh.*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_UseMeshMaterialIndex: Option<bool>,
     /**Radius thickness of the shape's edge from which to emit particles.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub radiusThickness: Option<f32>,
+    /// bool: (3.5.0 - 5.4.6f3)
+    pub randomDirection: Option<bool>,
+    /**Randomizes the starting direction of particles.*/
+    /// f32: (5.5.0f3 - 2022.3.2f1)
+    pub randomDirectionAmount: Option<f32>,
     /**Randomizes the starting position of particles.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub randomPositionAmount: Option<f32>,
+    /**Makes particles move in a spherical direction from their starting point.*/
+    /// f32: (5.5.0f3 - 2022.3.2f1)
+    pub sphericalDirectionAmount: Option<f32>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -11831,11 +13508,11 @@ pub enum Enum_f32__MultiModeParameter {
     MultiModeParameter(MultiModeParameter),
 }
 
-/// SiblingDerived is a  class of the Unity engine since version 2019.3.0f4.
+/// SiblingDerived is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SiblingDerived {}
 
-/// SizeBySpeedModule is a sub class of the Unity engine since version 5.6.0b2.
+/// SizeBySpeedModule is a sub class of the Unity engine since version 3.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.SizeBySpeedModule.html):
 /**
 Script interface for the SizeBySpeedModule.
@@ -11849,24 +13526,30 @@ pub struct SizeBySpeedModule {
     /**Set the minimum and maximum speed that this modules applies the size curve between.*/
     pub range: Vector2f,
     /**Set the size by speed on each axis separately.*/
-    pub separateAxes: bool,
+    /// bool: (5.4.0f3 - 2022.3.2f1)
+    pub separateAxes: Option<bool>,
     /**Size by speed curve for the y-axis.*/
-    pub y: MinMaxCurve,
+    /// MinMaxCurve: (5.4.0f3 - 2022.3.2f1)
+    pub y: Option<MinMaxCurve>,
     /**Size by speed curve for the z-axis.*/
-    pub z: MinMaxCurve,
+    /// MinMaxCurve: (5.4.0f3 - 2022.3.2f1)
+    pub z: Option<MinMaxCurve>,
 }
 
-/// SizeModule is a sub class of the Unity engine since version 5.6.0b2.
+/// SizeModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SizeModule {
     pub curve: MinMaxCurve,
     pub enabled: bool,
-    pub separateAxes: bool,
-    pub y: MinMaxCurve,
-    pub z: MinMaxCurve,
+    /// bool: (5.4.0f3 - 2022.3.2f1)
+    pub separateAxes: Option<bool>,
+    /// MinMaxCurve: (5.4.0f3 - 2022.3.2f1)
+    pub y: Option<MinMaxCurve>,
+    /// MinMaxCurve: (5.4.0f3 - 2022.3.2f1)
+    pub z: Option<MinMaxCurve>,
 }
 
-/// SkeletonBone is a sub class of the Unity engine since version 5.6.0b2.
+/// SkeletonBone is a sub class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SkeletonBone.html):
 /**
 Details of the Transform name mapped to the skeleton bone of a model and its default position and rotation in the T-pose.
@@ -11876,16 +13559,19 @@ The skeleton models used in Unity have multiple bones.  The SkeletonBone struct 
 pub struct SkeletonBone {
     /**The name of the Transform mapped to the bone.*/
     pub m_Name: String,
-    pub m_ParentName: String,
     /**The T-pose position of the bone in local space.*/
     pub m_Position: Vector3f,
     /**The T-pose rotation of the bone in local space.*/
     pub m_Rotation: Quaternionf,
     /**The T-pose scaling of the bone in local space.*/
     pub m_Scale: Vector3f,
+    /// String: (5.5.0f3 - 2022.3.2f1)
+    pub m_ParentName: Option<String>,
+    /// bool: (4.0.0 - 5.4.6f3)
+    pub m_TransformModified: Option<bool>,
 }
 
-/// SkeletonBoneLimit is a sub class of the Unity engine since version 5.6.0b2.
+/// SkeletonBoneLimit is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SkeletonBoneLimit {
     pub m_Length: f32,
@@ -11893,9 +13579,13 @@ pub struct SkeletonBoneLimit {
     pub m_Min: Vector3f,
     pub m_Modified: bool,
     pub m_Value: Vector3f,
+    /// Quaternionf: (4.0.0 - 4.2.2)
+    pub m_PostQ: Option<Quaternionf>,
+    /// Quaternionf: (4.0.0 - 4.2.2)
+    pub m_PreQ: Option<Quaternionf>,
 }
 
-/// SketchUpImportCamera is a sub class of the Unity engine since version 5.6.0b2.
+/// SketchUpImportCamera is a sub class of the Unity engine since version 5.1.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SketchUpImportCamera.html):
 /**
 Structure to hold camera data extracted from a SketchUp file.
@@ -11917,21 +13607,21 @@ pub struct SketchUpImportCamera {
     /**Up vector of the camera.*/
     pub up: Vector3f,
     /**The near clipping plane distance.*/
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.0b1 - 2022.3.2f1)
     pub farPlane: Option<f32>,
     /**The far clipping plane distance.*/
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.0b1 - 2022.3.2f1)
     pub nearPlane: Option<f32>,
 }
 
-/// SketchUpImportData is a sub class of the Unity engine since version 5.6.0b2.
+/// SketchUpImportData is a sub class of the Unity engine since version 5.1.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SketchUpImportData {
     pub defaultCamera: SketchUpImportCamera,
     pub scenes: Vec<SketchUpImportScene>,
 }
 
-/// SketchUpImportScene is a sub class of the Unity engine since version 5.6.0b2.
+/// SketchUpImportScene is a sub class of the Unity engine since version 5.1.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SketchUpImportScene.html):
 /**
 Structure to hold scene data extracted from a SketchUp file.
@@ -11945,7 +13635,7 @@ pub struct SketchUpImportScene {
     pub name: String,
 }
 
-/// SketchUpImporter is a  class of the Unity engine since version 5.6.0b2.
+/// SketchUpImporter is a  class of the Unity engine since version 5.1.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SketchUpImporter.html):
 /**
 Derives from AssetImporter to handle importing of SketchUp files.
@@ -11994,19 +13684,19 @@ pub struct SketchUpImporter {
     pub m_HasExtraRoot: bool,
     /**The human description that is used to generate an Avatar during the import process.*/
     pub m_HumanDescription: HumanDescription,
-    /**Controls how much oversampling is used when importing humanoid animations for retargeting.*/
-    pub m_HumanoidOversampling: i32,
     /**Import animation from file.*/
     pub m_ImportAnimation: bool,
     /**Controls import of BlendShapes.*/
     pub m_ImportBlendShapes: bool,
-    pub m_ImportedRoots: Vec<PPtr /*<GameObject>*/>,
+    /// Vec<PPtr<GameObject>>: (5.1.0f1 - 2022.3.2f1)
+    pub m_ImportedRoots: Vec<PPtr>,
     /**Generates the list of all imported take.*/
     pub m_ImportedTakeInfos: Vec<TakeInfo>,
     /**Are mesh vertices and indices accessible from script?*/
     pub m_IsReadable: bool,
     pub m_LODScreenPercentages: Vec<f32>,
-    pub m_LastHumanDescriptionAvatarSource: PPtr, /*<Avatar>*/
+    /// PPtr<Avatar>: (5.1.0f1 - 2022.3.2f1)
+    pub m_LastHumanDescriptionAvatarSource: PPtr,
     /**Retrieves the latitude Geo Coordinate imported from the SketchUp file.*/
     pub m_Latitude: f64,
     pub m_LegacyGenerateAnimations: i32,
@@ -12029,10 +13719,6 @@ pub struct SketchUpImporter {
     pub m_OptimizeGameObjects: bool,
     /**Generates the list of all imported Animations.*/
     pub m_ReferencedClips: Vec<GUID>,
-    /**If set to false, the importer will not resample curves when possible.Read more about animation curve resampling.Notes:- Some unsupported FBX features (such as PreRotation or PostRotation on transforms) will override this setting. In these situations, animation curves will still be resampled even if the setting is disabled. For best results, avoid using PreRotation, PostRotation and GetRotationPivot.- This option was introduced in Version 5.3. Prior to this version, Unity's import behaviour was as if this option was always enabled. Therefore enabling the option gives the same behaviour as pre-5.3 animation import.*/
-    pub m_ResampleCurves: bool,
-    pub m_RigImportErrors: String,
-    pub m_RigImportWarnings: String,
     pub m_SelectedNodes: Vec<i32>,
     pub m_SketchUpImportData: SketchUpImportData,
     /**Use FileScale when importing.*/
@@ -12057,128 +13743,146 @@ pub struct SketchUpImporter {
     /**Combine vertices that share the same position in space.*/
     pub weldVertices: bool,
     /**Computes the axis conversion on geometry and animation for Models defined in an axis system that differs from Unity's (left handed, Z forward, Y-up).                     When enabled, Unity transforms the geometry and animation data in order to convert the axis.                     When disabled, Unity transforms the root GameObject of the hierarchy in order to convert the axis.*/
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub bakeAxisConversion: Option<bool>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub blendShapeNormalImportMode: Option<i32>,
     /**Format of the imported mesh index buffer data.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub indexFormat: Option<i32>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0f1 - 2022.3.2f1)
     pub m_AddHumanoidExtraRootOnlyWhenUsingAvatar: Option<bool>,
     /**Generate auto mapping if no avatarSetup is provided when importing humanoid animation.*/
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.3.0f1 - 2022.3.2f1)
     pub m_AutoGenerateAvatarMappingIfUnspecified: Option<bool>,
+    /// bool: (2017.2.0b2 - 2017.2.0b6)
+    pub m_AutoMapExternalMaterials: Option<bool>,
     /**The Avatar generation of the imported model.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     pub m_AvatarSetup: Option<i32>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.1.0f1 - 2019.3.0a2)
     pub m_CopyAvatar: Option<bool>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**A list of default FBX properties to treat as user properties during OnPostprocessGameObjectWithUserProperties.*/
-    /// Vec<String>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<String>: (2017.1.0f2 - 2022.3.2f1)
     pub m_ExtraUserProperties: Option<Vec<String>>,
-    /// Vec<(i64, String)>: (5.6.0b2 - 2018.4.15f1)
+    /// Vec<(i64, String)>: (5.1.0f1 - 2018.4.36f1)
     pub m_FileIDToRecycleName: Option<Vec<(i64, String)>>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.4.0f1 - 2022.3.2f1)
     pub m_FileIdsGeneration: Option<i32>,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub m_FileScaleFactor: Option<f32>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.3.0f2 - 2022.3.2f1)
     pub m_FileScaleUnit: Option<String>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub m_HasEmbeddedTextures: Option<bool>,
-    /// bool: (2018.4.15f1 - 2018.4.15f1)
+    /// bool: (2018.2.0b1 - 2019.1.0a13)
     pub m_HasPreviousCalculatedGlobalScale: Option<bool>,
+    /**Controls how much oversampling is used when importing humanoid animations for retargeting.*/
+    /// i32: (5.2.0f2 - 2022.3.2f1)
+    pub m_HumanoidOversampling: Option<i32>,
     /**Import animated custom properties from file.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0b2 - 2022.3.2f1)
     pub m_ImportAnimatedCustomProperties: Option<bool>,
     /**Import BlendShapes deform percent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_ImportBlendShapeDeformPercent: Option<bool>,
     /**Controls import of cameras. Basic properties like field of view, near plane distance and far plane distance can be animated.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub m_ImportCameras: Option<bool>,
     /**Import animation constraints.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_ImportConstraints: Option<bool>,
     /**Controls import of lights. Note that because light are defined differently in DCC tools, some light types or properties may not be exported. Basic properties like color and intensity can be animated.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub m_ImportLights: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.1.0f1 - 2019.3.0a6)
     pub m_ImportMaterials: Option<bool>,
+    /// bool: (2022.2.19f1 - 2022.3.2f1)
+    pub m_ImportPhysicalCameras: Option<bool>,
     /**Use visibility properties to enable or disable MeshRenderer components.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b1 - 2022.3.2f1)
     pub m_ImportVisibility: Option<bool>,
-    /// Vec<((i32, i64), String)>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<((i32, i64), String)>: (2019.1.0b1 - 2022.3.2f1)
     pub m_InternalIDToNameTable: Option<Vec<((i32, i64), String)>>,
     /**Material creation options.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.3.0b1 - 2022.3.2f1)
     pub m_MaterialImportMode: Option<i32>,
     /**Material import location options.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.2.0b2 - 2022.3.2f1)
     pub m_MaterialLocation: Option<i32>,
-    /// Vec<SourceAssetIdentifier>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<SourceAssetIdentifier>: (2017.2.0b2 - 2022.3.2f1)
     pub m_Materials: Option<Vec<SourceAssetIdentifier>>,
-    /// i32: (2021.2.16f1 - 2022.2.0b16)
+    /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_NodeNameCollisionStrategy: Option<i32>,
     /**If true, always create an explicit Prefab root. Otherwise, if the model has a single root, it is reused as the Prefab root.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_PreserveHierarchy: Option<bool>,
-    /// f32: (2018.4.15f1 - 2018.4.15f1)
+    /// f32: (2018.2.0b1 - 2019.1.0a13)
     pub m_PreviousCalculatedGlobalScale: Option<f32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.3.37f1 - 2022.3.2f1)
     pub m_RemapMaterialsIfMaterialImportModeIsNone: Option<bool>,
     /**Removes constant animation curves with values identical to the object initial scale value.*/
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_RemoveConstantScaleCurves: Option<bool>,
+    /**If set to false, the importer will not resample curves when possible.Read more about animation curve resampling.Notes:- Some unsupported FBX features (such as PreRotation or PostRotation on transforms) will override this setting. In these situations, animation curves will still be resampled even if the setting is disabled. For best results, avoid using PreRotation, PostRotation and GetRotationPivot.- This option was introduced in Version 5.3. Prior to this version, Unity's import behaviour was as if this option was always enabled. Therefore enabling the option gives the same behaviour as pre-5.3 animation import.*/
+    /// bool: (5.4.0f3 - 2022.3.2f1)
+    pub m_ResampleCurves: Option<bool>,
+    /// bool: (5.3.0f1 - 5.3.8f2)
+    pub m_ResampleRotations: Option<bool>,
+    /// String: (5.6.0b1 - 2022.3.2f1)
+    pub m_RigImportErrors: Option<String>,
+    /// String: (5.6.0b1 - 2022.3.2f1)
+    pub m_RigImportWarnings: Option<String>,
     /**Sorts the gameObject hierarchy by name.*/
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.2.0b1 - 2022.3.2f1)
     pub m_SortHierarchyByName: Option<bool>,
     /**Enables strict checks on imported vertex data.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_StrictVertexDataChecks: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.2.0f2 - 2022.3.2f1)
     pub m_SupportsEmbeddedMaterials: Option<bool>,
     /**When disabled, imported material albedo colors are converted to gamma space. This property should be disabled when using linear color space in Player rendering settings.The default value is true.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_UseSRGBMaterialColor: Option<bool>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
     /**The maximum number of bones per vertex stored in this mesh data.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub maxBonesPerVertex: Option<i32>,
     /**Options to control the optimization of mesh data during asset import.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub meshOptimizationFlags: Option<i32>,
     /**Minimum bone weight to keep.*/
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.0b1 - 2022.3.2f1)
     pub minBoneWeight: Option<f32>,
     /**Normal generation options for ModelImporter.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub normalCalculationMode: Option<i32>,
     /**Source of smoothing information for calculation of normals.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub normalSmoothingSource: Option<i32>,
     /**Only import bones where they are connected to vertices.*/
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub optimizeBones: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.1.0f1 - 2018.4.36f1)
     pub optimizeMeshForGPU: Option<bool>,
     /**Method to use for handling margins when generating secondary UV.*/
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub secondaryUVMarginMethod: Option<i32>,
     /**The minimum lightmap resolution in texels per unit that the associated model is expected to have.*/
-    /// f32: (2020.1.0a20 - 2022.2.0b16)
+    /// f32: (2020.1.0b1 - 2022.3.2f1)
     pub secondaryUVMinLightmapResolution: Option<f32>,
     /**The minimum object scale that the associated model is expected to have.*/
-    /// f32: (2020.1.0a20 - 2022.2.0b16)
+    /// f32: (2020.1.0b1 - 2022.3.2f1)
     pub secondaryUVMinObjectScale: Option<f32>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub skinWeightsMode: Option<i32>,
+    /// bool: (5.1.0f1 - 5.2.5f1)
+    pub splitTangentsAcrossUV: Option<bool>,
 }
 
 /// SkinnedCloth is a  class of the Unity engine since version 3.4.0.
@@ -12189,7 +13893,8 @@ pub struct SkinnedCloth {
     pub m_Damping: f32,
     pub m_Enabled: u8,
     pub m_ExternalAcceleration: Vector3f,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    pub m_GameObject: PPtr,
     pub m_RandomAcceleration: Vector3f,
     pub m_SelfCollision: bool,
     pub m_StretchingStiffness: f32,
@@ -12208,78 +13913,87 @@ The Skinned Mesh filter.
 pub struct SkinnedMeshRenderer {
     pub m_AABB: AABB,
     /**The bones used to skin the mesh.*/
-    pub m_Bones: Vec<PPtr /*<Transform>*/>,
+    /// Vec<PPtr<Transform>>: (3.4.0 - 2022.3.2f1)
+    pub m_Bones: Vec<PPtr>,
     pub m_CastShadows: Enum_bool__u8,
     pub m_DirtyAABB: bool,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
-    pub m_Mesh: PPtr, /*<Mesh>*/
+    /// Vec<PPtr<Material>>: (3.4.0 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
+    /// PPtr<Mesh>: (3.4.0 - 2022.3.2f1)
+    pub m_Mesh: PPtr,
     /**The maximum number of bones per vertex that are taken into account during skinning.*/
     pub m_Quality: i32,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (3.4.0 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
     /**If enabled, the Skinned Mesh will be updated when offscreen. If disabled, this also disables updating animations.*/
     pub m_UpdateWhenOffscreen: bool,
-    /// Vec<f32>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<f32>: (4.3.0 - 2022.3.2f1)
     pub m_BlendShapeWeights: Option<Vec<f32>>,
-    /// u8: (2017.4.33f1 - 2022.2.0b16)
+    /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
+    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    pub m_LightProbeAnchor: Option<PPtr>,
     /**The light probe interpolation type.*/
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr/*<GameObject>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_LightProbeVolumeOverride: Option<PPtr /*<GameObject>*/>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: Option<PPtr>,
+    /// u16: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapIndexDynamic: Option<u16>,
-    /// Vector4f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector4f: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapTilingOffsetDynamic: Option<Vector4f>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_MotionVectors: Option<u8>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_ProbeAnchor: Option<PPtr /*<Transform>*/>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_ProbeAnchor: Option<PPtr>,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
     /**Should reflection probes be used for this Renderer?*/
-    /// u8: (5.6.0b2 - 2022.2.0b16)
-    pub m_ReflectionProbeUsage: Option<u8>,
+    /// i32: (5.0.0f4 - 5.3.8f2); u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_ReflectionProbeUsage: Option<i32>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_RootBone: Option<PPtr /*<Transform>*/>,
+    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    pub m_RootBone: Option<PPtr>,
     /**Specifies whether skinned motion vectors should be used for this renderer.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.4.0f3 - 2022.3.2f1)
     pub m_SkinnedMotionVectors: Option<bool>,
-    /// i16: (5.6.0b2 - 2022.2.0b16)
+    /// i16: (4.3.0 - 2022.3.2f1)
     pub m_SortingLayer: Option<i16>,
     /**Unique ID of the Renderer's sorting layer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
-    pub m_SortingLayerID: Option<i32>,
+    /// u32: (4.5.0 - 4.7.2); i32: (5.0.0f4 - 2022.3.2f1)
+    pub m_SortingLayerID: Option<i64>,
     /**Renderer's order within a sorting layer.*/
-    /// i16: (5.6.0b2 - 2022.2.0b16)
+    /// i16: (4.3.0 - 2022.3.2f1)
     pub m_SortingOrder: Option<i16>,
-    /// StaticBatchInfo: (5.6.0b2 - 2022.2.0b16)
+    /// StaticBatchInfo: (5.5.0f3 - 2022.3.2f1)
     pub m_StaticBatchInfo: Option<StaticBatchInfo>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
-    /// Vec<u32>: (3.4.0 - 3.4.0)
+    /// Vec<u32>: (3.4.0 - 5.4.6f3)
     pub m_SubsetIndices: Option<Vec<u32>>,
+    /// bool: (3.5.0 - 5.3.8f2)
+    pub m_UseLightProbes: Option<bool>,
 }
 
 /// Skybox is a  class of the Unity engine since version 3.4.0.
@@ -12290,14 +14004,16 @@ The skybox class has only the material property.See Also: skybox component.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Skybox {
-    pub m_CustomSkybox: PPtr, /*<Material>*/
+    /// PPtr<Material>: (3.4.0 - 2022.3.2f1)
+    pub m_CustomSkybox: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
 }
 
-/// SliderJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// SliderJoint2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SliderJoint2D.html):
 /**
 Joint that restricts the motion of a Rigidbody2D object to a single line.
@@ -12309,23 +14025,15 @@ pub struct SliderJoint2D {
     pub m_Anchor: Vector2f,
     /**The angle of the line in space (in degrees).*/
     pub m_Angle: f32,
-    /**Should the angle be calculated automatically?*/
-    pub m_AutoConfigureAngle: bool,
-    /**Should the connectedAnchor be calculated automatically?*/
-    pub m_AutoConfigureConnectedAnchor: bool,
-    /**The force that needs to be applied for this joint to break.*/
-    pub m_BreakForce: f32,
-    /**The torque that needs to be applied for this joint to break.*/
-    pub m_BreakTorque: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
-    /**Should the two rigid bodies connected with this joint collide with each other?*/
-    pub m_EnableCollision: bool,
+    /// PPtr<Rigidbody2D>: (4.3.0 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Parameters for a motor force that is applied automatically to the Rigibody2D along the line.*/
     pub m_Motor: JointMotor2D,
     pub m_TranslationLimits: JointTranslationLimits2D,
@@ -12333,12 +14041,29 @@ pub struct SliderJoint2D {
     pub m_UseLimits: bool,
     /**Should a motor force be applied automatically to the Rigidbody2D?*/
     pub m_UseMotor: bool,
+    /**Should the angle be calculated automatically?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_AutoConfigureAngle: Option<bool>,
+    /**Should the connectedAnchor be calculated automatically?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_AutoConfigureConnectedAnchor: Option<bool>,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
+    /**The force that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakForce: Option<f32>,
+    /**The torque that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakTorque: Option<f32>,
+    /// bool: (4.3.0 - 5.0.0f4)
+    pub m_CollideConnected: Option<bool>,
+    /**Should the two rigid bodies connected with this joint collide with each other?*/
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_EnableCollision: Option<bool>,
 }
 
-/// SnapshotConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// SnapshotConstant is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SnapshotConstant {
     pub nameHash: u32,
@@ -12359,15 +14084,15 @@ pub struct SoftJointLimit {
     /**The limit position/angle of the joint (in degrees).*/
     pub limit: f32,
     /**Determines how far ahead in space the solver can "see" the joint limit.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub contactDistance: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub damper: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub spring: Option<f32>,
 }
 
-/// SoftJointLimitSpring is a sub class of the Unity engine since version 5.6.0b2.
+/// SoftJointLimitSpring is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SoftJointLimitSpring.html):
 /**
 The configuration of the spring attached to the joint's limits: linear and angular. Used by CharacterJoint and ConfigurableJoint.
@@ -12380,7 +14105,7 @@ pub struct SoftJointLimitSpring {
     pub spring: f32,
 }
 
-/// SortingGroup is a  class of the Unity engine since version 5.6.0b2.
+/// SortingGroup is a  class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Rendering.SortingGroup.html):
 /**
 Adding a SortingGroup component to a GameObject will ensure that all Renderers within the GameObject's descendants will be sorted and rendered together.
@@ -12392,26 +14117,29 @@ pub struct SortingGroup {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.6.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_SortingLayer: i16,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
     /**Ignores any parent SortingGroup and sorts this and its descendant Renderers against other Renderers at the root level.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_SortAtRoot: Option<bool>,
     /**Unique ID of the Renderer's sorting layer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f3 - 2022.3.2f1)
     pub m_SortingLayerID: Option<i32>,
 }
 
-/// SortingLayerEntry is a sub class of the Unity engine since version 5.6.0b2.
+/// SortingLayerEntry is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SortingLayerEntry {
     pub name: String,
     pub uniqueID: u32,
+    /// u32: (4.3.0 - 4.7.2)
+    pub userID: Option<u32>,
 }
 
-/// SourceAssetIdentifier is a sub class of the Unity engine since version 2017.4.33f1.
+/// SourceAssetIdentifier is a sub class of the Unity engine since version 2017.2.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/AssetImporter.SourceAssetIdentifier.html):
 /**
 Represents a unique identifier for a sub-asset embedded in an imported Asset (such as an FBX file).
@@ -12422,7 +14150,7 @@ pub struct SourceAssetIdentifier {
     /**The name of the Asset.*/
     pub name: String,
     /**The type of the Asset.*/
-    /// String: (2017.4.33f1 - 2022.2.0b16)
+    /// String: (2017.2.0b2 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<String>,
 }
@@ -12439,11 +14167,13 @@ pub struct SourceTextureInformation {
     pub height: i32,
     /**Width of the image data.*/
     pub width: i32,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 4.7.2)
+    pub doesTextureContainColor: Option<bool>,
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub sourceWasHDR: Option<bool>,
 }
 
-/// SparseTexture is a  class of the Unity engine since version 5.6.0b2.
+/// SparseTexture is a  class of the Unity engine since version 4.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SparseTexture.html):
 /**
 Class for handling Sparse Textures.
@@ -12452,7 +14182,7 @@ Sparse textures are textures where not the whole texture data can be present in 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SparseTexture {
     pub m_ColorSpace: i32,
-    pub m_Format: i32,
+    pub m_Format: i64,
     /**Height of the Texture in pixels (Read Only).*/
     pub m_Height: i32,
     pub m_MipCount: i32,
@@ -12461,15 +14191,15 @@ pub struct SparseTexture {
     pub m_TextureSettings: GLTextureSettings,
     /**Width of the Texture in pixels (Read Only).*/
     pub m_Width: i32,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
 }
 
-/// SpeedTreeImporter is a  class of the Unity engine since version 5.6.0b2.
+/// SpeedTreeImporter is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SpeedTreeImporter.html):
 /**
 AssetImportor for importing SpeedTree model assets.
@@ -12478,8 +14208,6 @@ AssetImportor for importing SpeedTree model assets.
 pub struct SpeedTreeImporter {
     /**Gets and sets a default alpha test reference values.*/
     pub m_AlphaTestRef: f32,
-    /**Indicates if the cross-fade LOD transition, applied to the last mesh LOD and the billboard, should be animated.*/
-    pub m_AnimateCrossFading: bool,
     /**Get or set the AssetBundle name.*/
     pub m_AssetBundleName: String,
     /**Get or set the AssetBundle variant.*/
@@ -12499,29 +14227,37 @@ pub struct SpeedTreeImporter {
     pub m_LODSettings: Vec<PerLODSettings>,
     /**Gets and sets a default main color.*/
     pub m_MainColor: ColorRGBA,
-    pub m_MaterialVersion: i32,
     /**The name of the object.*/
     pub m_Name: String,
     /**How much to scale the tree model compared to what is in the .spm file.*/
     pub m_ScaleFactor: f32,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /**Indicates if the cross-fade LOD transition, applied to the last mesh LOD and the billboard, should be animated.*/
+    /// bool: (5.1.0f1 - 2022.3.2f1)
+    pub m_AnimateCrossFading: Option<bool>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub m_FileIDType: Option<i32>,
     /**Material import location options.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_MaterialLocation: Option<i32>,
-    /// Vec<SourceAssetIdentifier>: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (5.2.0f2 - 2022.3.2f1)
+    pub m_MaterialVersion: Option<i32>,
+    /// Vec<SourceAssetIdentifier>: (2018.3.0f2 - 2022.3.2f1)
     pub m_Materials: Option<Vec<SourceAssetIdentifier>>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 5.4.0b25)
+    pub m_Shininess: Option<f32>,
+    /// ColorRGBA: (5.0.0f4 - 5.4.0b25)
+    pub m_SpecColor: Option<ColorRGBA>,
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_SupportsEmbeddedMaterials: Option<bool>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// SpeedTreeWind is a sub class of the Unity engine since version 5.6.0b2.
+/// SpeedTreeWind is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpeedTreeWind {
     pub BRANCH_DIRECTIONAL_1: bool,
@@ -12559,7 +14295,7 @@ pub struct SpeedTreeWind {
     pub m_sParams: SParams,
 }
 
-/// SpeedTreeWindAsset is a  class of the Unity engine since version 5.6.0b2.
+/// SpeedTreeWindAsset is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpeedTreeWindAsset {
     pub m_Name: String,
@@ -12579,28 +14315,30 @@ pub struct SphereCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Specify if this collider is configured as a trigger.*/
     pub m_IsTrigger: bool,
     /**The material used by the collider.*/
-    pub m_Material: PPtr, /*<PhysicMaterial>*/
+    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The radius of the sphere measured in the object's local space.*/
     pub m_Radius: f32,
     /**The additional layers that this Collider should exclude when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The additional layers that this Collider should include when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider used when there is a conflicting decision on whether a Collider can contact another Collider.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ProvidesContacts: Option<bool>,
 }
 
-/// SphericalHarmonicsL2 is a sub class of the Unity engine since version 5.6.0b2.
+/// SphericalHarmonicsL2 is a sub class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Rendering.SphericalHarmonicsL2.html):
 /**
 Spherical harmonics up to the second order (3 bands, 9 coefficients).
@@ -12608,90 +14346,90 @@ Spherical harmonics (SH) represent a function or signal over directions, and are
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SphericalHarmonicsL2 {
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[10]")]
     pub sh_10_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[11]")]
     pub sh_11_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[12]")]
     pub sh_12_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[13]")]
     pub sh_13_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[14]")]
     pub sh_14_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[15]")]
     pub sh_15_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[16]")]
     pub sh_16_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[17]")]
     pub sh_17_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[18]")]
     pub sh_18_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[19]")]
     pub sh_19_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[20]")]
     pub sh_20_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[21]")]
     pub sh_21_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[22]")]
     pub sh_22_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[23]")]
     pub sh_23_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[24]")]
     pub sh_24_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[25]")]
     pub sh_25_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[26]")]
     pub sh_26_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 0]")]
     pub sh__0_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 1]")]
     pub sh__1_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 2]")]
     pub sh__2_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 3]")]
     pub sh__3_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 4]")]
     pub sh__4_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 5]")]
     pub sh__5_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 6]")]
     pub sh__6_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 7]")]
     pub sh__7_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 8]")]
     pub sh__8_: Option<f32>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     #[serde(alias = "sh[ 9]")]
     pub sh__9_: Option<f32>,
 }
 
-/// SplashScreenLogo is a sub class of the Unity engine since version 5.6.0b2.
+/// SplashScreenLogo is a sub class of the Unity engine since version 5.5.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/PlayerSettings.SplashScreenLogo.html):
 /**
 A single logo that is shown during the Splash Screen. Controls the Sprite that is displayed and its duration.
@@ -12701,25 +14439,27 @@ pub struct SplashScreenLogo {
     /**The total time in seconds for which the logo is shown. The minimum duration is 2 seconds.*/
     pub duration: f32,
     /**The Sprite that is shown during this logo. If this is null, then no logo will be displayed for the duration.*/
-    pub logo: PPtr, /*<Sprite>*/
+    /// PPtr<Sprite>: (5.5.0f3 - 2022.3.2f1)
+    pub logo: PPtr,
 }
 
 /// SplatDatabase is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SplatDatabase {
-    pub m_AlphaTextures: Vec<PPtr /*<Texture2D>*/>,
+    /// Vec<PPtr<Texture2D>>: (3.4.0 - 2022.3.2f1)
+    pub m_AlphaTextures: Vec<PPtr>,
     pub m_AlphamapResolution: i32,
     pub m_BaseMapResolution: i32,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
+    /// i32: (5.0.1f1 - 2018.2.21f1)
     pub m_ColorSpace: Option<i32>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.0.1f1 - 2018.2.21f1)
     pub m_MaterialRequiresMetallic: Option<bool>,
-    /// bool: (5.6.0b2 - 2017.4.33f1)
+    /// bool: (5.0.1f1 - 2018.2.21f1)
     pub m_MaterialRequiresSmoothness: Option<bool>,
-    /// Vec<SplatPrototype>: (3.4.0 - 2017.4.33f1)
+    /// Vec<SplatPrototype>: (3.4.0 - 2018.2.21f1)
     pub m_Splats: Option<Vec<SplatPrototype>>,
-    /// Vec<PPtr/*<TerrainLayer>*/>: (2018.4.15f1 - 2022.2.0b16)
-    pub m_TerrainLayers: Option<Vec<PPtr /*<TerrainLayer>*/>>,
+    /// Vec<PPtr<TerrainLayer>>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_TerrainLayers: Option<Vec<PPtr>>,
 }
 
 /// SplatPrototype is a sub class of the Unity engine since version 3.4.0.
@@ -12731,18 +14471,19 @@ A class on a Terrain GameObject.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SplatPrototype {
     /**Texture of the splat applied to the Terrain.*/
-    pub texture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (3.4.0 - 2018.2.21f1)
+    pub texture: PPtr,
     /**Offset of the tile texture of the SplatPrototype.*/
     pub tileOffset: Vector2f,
     /**Size of the tile used in the texture of the SplatPrototype.*/
     pub tileSize: Vector2f,
     /**Normal map of the splat applied to the Terrain.*/
-    /// PPtr/*<Texture2D>*/: (5.6.0b2 - 2017.4.33f1)
-    pub normalMap: Option<PPtr /*<Texture2D>*/>,
+    /// PPtr<Texture2D>: (4.0.0 - 2018.2.21f1)
+    pub normalMap: Option<PPtr>,
     /**The smoothness value of the splat layer when the main texture has no alpha channel.*/
-    /// f32: (5.6.0b2 - 2017.4.33f1)
+    /// f32: (5.0.1f1 - 2018.2.21f1)
     pub smoothness: Option<f32>,
-    /// Vector4f: (5.6.0b2 - 2017.4.33f1)
+    /// Vector4f: (5.0.0f4 - 2018.2.21f1)
     pub specularMetallic: Option<Vector4f>,
 }
 
@@ -12765,11 +14506,13 @@ pub struct SpringJoint {
     /**The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.*/
     pub m_BreakTorque: f32,
     /**A reference to another rigidbody this joint connects to.*/
-    pub m_ConnectedBody: PPtr, /*<Rigidbody>*/
+    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    pub m_ConnectedBody: PPtr,
     /**The damper force used to dampen the spring force.*/
     pub m_Damper: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The maximum distance between the bodies relative to their initial distance.*/
     pub m_MaxDistance: f32,
     /**The minimum distance between the bodies relative to their initial distance.*/
@@ -12777,32 +14520,34 @@ pub struct SpringJoint {
     /**The spring force used to keep the two objects together.*/
     pub m_Spring: f32,
     /**Should the connectedAnchor be calculated automatically?*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.3.0 - 2022.3.2f1)
     pub m_AutoConfigureConnectedAnchor: Option<bool>,
     /**Position of the anchor relative to the connected Rigidbody.*/
-    /// Vector3f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector3f: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedAnchor: Option<Vector3f>,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr/*<ArticulationBody>*/: (2020.3.42f1 - 2022.2.0b16)
-    pub m_ConnectedArticulationBody: Option<PPtr /*<ArticulationBody>*/>,
+    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_ConnectedMassScale: Option<f32>,
     /**Enable collision between bodies connected with the joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.5.0 - 2022.3.2f1)
     pub m_EnableCollision: Option<bool>,
     /**Toggle preprocessing for this joint.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_EnablePreprocessing: Option<bool>,
+    /// bool: (2017.1.0b2 - 2017.1.0b5)
+    pub m_Enabled: Option<bool>,
     /**The scale to apply to the inverse mass and inertia tensor of the body prior to solving the constraints.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b2 - 2022.3.2f1)
     pub m_MassScale: Option<f32>,
     /**The maximum allowed error between the current spring length and the length defined by minDistance and maxDistance.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.2.3f1 - 2022.3.2f1)
     pub m_Tolerance: Option<f32>,
 }
 
-/// SpringJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// SpringJoint2D is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SpringJoint2D.html):
 /**
 Joint that attempts to keep two Rigidbody2D objects a set distance apart by applying a force between them.
@@ -12812,35 +14557,44 @@ Note that unlike DistanceJoint2D, the length of the joint can stretch and oscill
 pub struct SpringJoint2D {
     /**The joint's anchor point on the object that has the joint component.*/
     pub m_Anchor: Vector2f,
-    /**Should the connectedAnchor be calculated automatically?*/
-    pub m_AutoConfigureConnectedAnchor: bool,
-    /**Should the distance be calculated automatically?*/
-    pub m_AutoConfigureDistance: bool,
-    /**The force that needs to be applied for this joint to break.*/
-    pub m_BreakForce: f32,
-    /**The torque that needs to be applied for this joint to break.*/
-    pub m_BreakTorque: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
+    /// PPtr<Rigidbody2D>: (4.3.0 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**The amount by which the spring force is reduced in proportion to the movement speed.*/
     pub m_DampingRatio: f32,
     /**The distance the spring will try to keep between the two objects.*/
     pub m_Distance: f32,
-    /**Should the two rigid bodies connected with this joint collide with each other?*/
-    pub m_EnableCollision: bool,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The frequency at which the spring oscillates around the distance distance between the objects.*/
     pub m_Frequency: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /**Should the connectedAnchor be calculated automatically?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_AutoConfigureConnectedAnchor: Option<bool>,
+    /**Should the distance be calculated automatically?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_AutoConfigureDistance: Option<bool>,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
+    /**The force that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakForce: Option<f32>,
+    /**The torque that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakTorque: Option<f32>,
+    /// bool: (4.3.0 - 5.0.0f4)
+    pub m_CollideConnected: Option<bool>,
+    /**Should the two rigid bodies connected with this joint collide with each other?*/
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_EnableCollision: Option<bool>,
 }
 
-/// Sprite is a  class of the Unity engine since version 5.6.0b2.
+/// Sprite is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Sprite.html):
 /**
 Represents a Sprite object for use in 2D gameplay.
@@ -12848,32 +14602,35 @@ Sprites are 2D graphic objects used for characters, props, projectiles and other
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Sprite {
-    /**Returns the border sizes of the Sprite.*/
-    pub m_Border: Vector4f,
     pub m_Extrude: u32,
-    pub m_IsPolygon: bool,
     /**The name of the object.*/
     pub m_Name: String,
     pub m_Offset: Vector2f,
-    /**Location of the Sprite's center point in the Rect on the original Texture, specified in pixels.*/
-    pub m_Pivot: Vector2f,
     pub m_PixelsToUnits: f32,
     pub m_RD: SpriteRenderData,
     /**Location of the Sprite on the original Texture, specified in pixels.*/
     pub m_Rect: Rectf,
-    /// Vec<String>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<String>: (2017.1.0b1 - 2022.3.2f1)
     pub m_AtlasTags: Option<Vec<String>>,
-    /// Vec<SpriteBone>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<SpriteBone>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Bones: Option<Vec<SpriteBone>>,
-    /// Vec<Vec<Vector2f>>: (2017.4.33f1 - 2022.2.0b16)
+    /**Returns the border sizes of the Sprite.*/
+    /// Vector4f: (4.5.0 - 2022.3.2f1)
+    pub m_Border: Option<Vector4f>,
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_IsPolygon: Option<bool>,
+    /// Vec<Vec<Vector2f>>: (2017.1.0b1 - 2022.3.2f1)
     pub m_PhysicsShape: Option<Vec<Vec<Vector2f>>>,
-    /// (GUID, i64): (2017.4.33f1 - 2022.2.0b16)
+    /**Location of the Sprite's center point in the Rect on the original Texture, specified in pixels.*/
+    /// Vector2f: (5.4.2f2 - 2022.3.2f1)
+    pub m_Pivot: Option<Vector2f>,
+    /// (GUID, i64): (2017.1.0b1 - 2022.3.2f1)
     pub m_RenderDataKey: Option<(GUID, i64)>,
-    /// PPtr/*<SpriteAtlas>*/: (2017.4.33f1 - 2022.2.0b16)
-    pub m_SpriteAtlas: Option<PPtr /*<SpriteAtlas>*/>,
+    /// PPtr<SpriteAtlas>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_SpriteAtlas: Option<PPtr>,
 }
 
-/// SpriteAtlas is a  class of the Unity engine since version 2017.4.33f1.
+/// SpriteAtlas is a  class of the Unity engine since version 2017.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/U2D.SpriteAtlas.html):
 /**
 Sprite Atlas is an asset created within Unity. It is part of the built-in sprite packing solution.
@@ -12886,13 +14643,14 @@ pub struct SpriteAtlas {
     /**The name of the object.*/
     pub m_Name: String,
     pub m_PackedSpriteNamesToIndex: Vec<String>,
-    pub m_PackedSprites: Vec<PPtr /*<Sprite>*/>,
+    /// Vec<PPtr<Sprite>>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_PackedSprites: Vec<PPtr>,
     pub m_RenderDataMap: Vec<((GUID, i64), SpriteAtlasData)>,
     /**Get the tag of this SpriteAtlas.*/
     pub m_Tag: String,
 }
 
-/// SpriteAtlasAsset is a  class of the Unity engine since version 2020.1.0a20.
+/// SpriteAtlasAsset is a  class of the Unity engine since version 2020.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/U2D.SpriteAtlasAsset.html):
 /**
 SpriteAtlasAsset stores inputs for generating SpriteAtlas and generates atlas textures on Import.
@@ -12902,7 +14660,8 @@ pub struct SpriteAtlasAsset {
     pub m_ImporterData: Enum_SpriteAtlasEditorData__SpriteAtlasAssetData,
     /**Checks whether the Sprite Atlas Importer set the Sprite Atlas as a Variant.*/
     pub m_IsVariant: bool,
-    pub m_MasterAtlas: PPtr, /*<SpriteAtlas>*/
+    /// PPtr<SpriteAtlas>: (2020.1.0b1 - 2022.3.2f1)
+    pub m_MasterAtlas: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
 }
@@ -12914,49 +14673,57 @@ pub enum Enum_SpriteAtlasEditorData__SpriteAtlasAssetData {
     SpriteAtlasAssetData(SpriteAtlasAssetData),
 }
 
-/// SpriteAtlasAssetData is a sub class of the Unity engine since version 2022.2.0b16.
+/// SpriteAtlasAssetData is a sub class of the Unity engine since version 2022.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteAtlasAssetData {
-    pub packables: Vec<PPtr /*<Object>*/>,
+    /// Vec<PPtr<Object>>: (2022.1.0b1 - 2022.3.2f1)
+    pub packables: Vec<PPtr>,
 }
 
-/// SpriteAtlasData is a sub class of the Unity engine since version 2017.4.33f1.
+/// SpriteAtlasData is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteAtlasData {
-    pub alphaTexture: PPtr, /*<Texture2D>*/
-    pub atlasRectOffset: Vector2f,
+    /// PPtr<Texture2D>: (2017.1.0b1 - 2022.3.2f1)
+    pub alphaTexture: PPtr,
     pub downscaleMultiplier: f32,
     pub settingsRaw: u32,
-    pub texture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (2017.1.0b1 - 2022.3.2f1)
+    pub texture: PPtr,
     pub textureRect: Rectf,
     pub textureRectOffset: Vector2f,
     pub uvTransform: Vector4f,
-    /// Vec<SecondarySpriteTexture>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vector2f: (2017.1.2f1 - 2022.3.2f1)
+    pub atlasRectOffset: Option<Vector2f>,
+    /// Vec<SecondarySpriteTexture>: (2020.2.0b1 - 2022.3.2f1)
     pub secondaryTextures: Option<Vec<SecondarySpriteTexture>>,
 }
 
-/// SpriteAtlasDatabase is a  class of the Unity engine since version 2017.4.33f1.
+/// SpriteAtlasDatabase is a  class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteAtlasDatabase {}
 
-/// SpriteAtlasEditorData is a sub class of the Unity engine since version 2020.1.0a20.
+/// SpriteAtlasEditorData is a sub class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteAtlasEditorData {
     pub bindAsDefault: bool,
-    pub cachedData: PPtr, /*<CachedSpriteAtlasRuntimeData>*/
+    /// PPtr<CachedSpriteAtlasRuntimeData>: (2020.1.0b1 - 2022.1.0a13)
+    pub cachedData: PPtr,
     pub isAtlasV2: bool,
-    pub packables: Vec<PPtr /*<Object>*/>,
+    /// Vec<PPtr<Object>>: (2020.1.0b1 - 2022.1.0a13)
+    pub packables: Vec<PPtr>,
     pub packingSettings: PackingSettings,
     pub platformSettings: Vec<TextureImporterPlatformSettings>,
     pub textureSettings: TextureSettings,
     pub variantMultiplier: f32,
-    /// Vec<(String, SecondaryTextureSettings)>: (2020.3.42f1 - 2021.2.16f1)
+    /// Vec<(String, SecondaryTextureSettings)>: (2020.2.0b1 - 2022.1.0a13)
     pub secondaryTextureSettings: Option<Vec<(String, SecondaryTextureSettings)>>,
-    /// u32: (2020.1.0a20 - 2020.1.0a20)
+    /// Hash128: (2020.1.0a17 - 2020.1.0a18)
+    pub storedHash: Option<Hash128>,
+    /// u32: (2020.1.0b1 - 2020.3.18f1)
     pub totalSpriteSurfaceArea: Option<u32>,
 }
 
-/// SpriteAtlasImporter is a  class of the Unity engine since version 2020.1.0a20.
+/// SpriteAtlasImporter is a  class of the Unity engine since version 2020.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/U2D.SpriteAtlasImporter.html):
 /**
 SpriteAtlasImporter imports SpriteAtlasAsset and generates SpriteAtlas.
@@ -12967,29 +14734,30 @@ pub struct SpriteAtlasImporter {
     pub m_AssetBundleName: String,
     /**Get or set the AssetBundle variant.*/
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2020.1.0b1 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     /**The name of the object.*/
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_BindAsDefault: Option<bool>,
     /**SpriteAtlasPackingSettings to use when packing this SpriteAtlas.*/
-    /// PackingSettings: (2022.2.0b16 - 2022.2.0b16)
+    /// PackingSettings: (2022.1.0b1 - 2022.3.2f1)
     pub m_PackingSettings: Option<PackingSettings>,
-    /// Vec<TextureImporterPlatformSettings>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<TextureImporterPlatformSettings>: (2022.1.0b1 - 2022.3.2f1)
     pub m_PlatformSettings: Option<Vec<TextureImporterPlatformSettings>>,
-    /// Vec<(String, SecondaryTextureSettings)>: (2022.2.0b16 - 2022.2.0b16)
+    /// Vec<(String, SecondaryTextureSettings)>: (2022.1.0b1 - 2022.3.2f1)
     pub m_SecondaryTextureSettings: Option<Vec<(String, SecondaryTextureSettings)>>,
     /**SpriteAtlasTextureSettings of the packed Texture generated by this SpriteAtlas.*/
-    /// TextureSettings: (2022.2.0b16 - 2022.2.0b16)
+    /// TextureSettings: (2022.1.0b1 - 2022.3.2f1)
     pub m_TextureSettings: Option<TextureSettings>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.1.0b1 - 2022.3.2f1)
     pub m_VariantMultiplier: Option<f32>,
 }
 
-/// SpriteBone is a sub class of the Unity engine since version 2018.4.15f1.
+/// SpriteBone is a sub class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/U2D.SpriteBone.html):
 /**
 Stores a set of information that describes the bind pose of this Sprite.
@@ -13008,20 +14776,21 @@ pub struct SpriteBone {
     /**The rotation of this bone in local space.*/
     pub rotation: Quaternionf,
     /**Shows the color set for the bone in the Editor.*/
-    /// ColorRGBA: (2021.2.16f1 - 2022.2.0b16)
+    /// ColorRGBA: (2021.1.0b1 - 2022.3.2f1)
     pub color: Option<ColorRGBA>,
     /**The Unique GUID of this bone.*/
-    /// String: (2021.2.16f1 - 2022.2.0b16)
+    /// String: (2021.1.0b1 - 2022.3.2f1)
     pub guid: Option<String>,
 }
 
-/// SpriteData is a sub class of the Unity engine since version 2017.4.33f1.
+/// SpriteData is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteData {
-    pub sprite: PPtr, /*<Object>*/
+    /// PPtr<Object>: (2017.1.0b1 - 2022.3.2f1)
+    pub sprite: PPtr,
 }
 
-/// SpriteMask is a  class of the Unity engine since version 2017.4.33f1.
+/// SpriteMask is a  class of the Unity engine since version 2017.1.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SpriteMask.html):
 /**
 A component for masking Sprites and Particles.
@@ -13033,19 +14802,20 @@ pub struct SpriteMask {
     /**Order within the back sorting layer defining the end of the custom range.*/
     pub m_BackSortingOrder: i16,
     pub m_CastShadows: u8,
-    pub m_DynamicOccludee: u8,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     pub m_FrontSortingLayer: i16,
     /**Order within the front sorting layer defining the start of the custom range.*/
     pub m_FrontSortingOrder: i16,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Mask sprites from front to back sorting values only.*/
     pub m_IsCustomRangeActive: bool,
     /**The light probe interpolation type.*/
     pub m_LightProbeUsage: u8,
-    pub m_LightProbeVolumeOverride: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapIndexDynamic: u16,
@@ -13053,10 +14823,12 @@ pub struct SpriteMask {
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     pub m_MaskAlphaCutoff: f32,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     pub m_MotionVectors: u8,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    pub m_ProbeAnchor: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: u8,
     /**Should reflection probes be used for this Renderer?*/
@@ -13067,35 +14839,39 @@ pub struct SpriteMask {
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
     /**The Sprite used to define the mask.*/
-    pub m_Sprite: PPtr, /*<Sprite>*/
+    /// PPtr<Sprite>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_Sprite: PPtr,
     pub m_StaticBatchInfo: StaticBatchInfo,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2017.1.0b1 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
     /**Unique ID of the sorting layer defining the end of the custom range.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.4.5f1 - 2022.3.2f1)
     pub m_BackSortingLayerID: Option<i32>,
+    /// u8: (2017.2.0b2 - 2022.3.2f1)
+    pub m_DynamicOccludee: Option<u8>,
     /**Unique ID of the sorting layer defining the start of the custom range.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.4.5f1 - 2022.3.2f1)
     pub m_FrontSortingLayerID: Option<i32>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
     /**Determines the position of the Sprite used for sorting the SpriteMask.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_SpriteSortPoint: Option<i32>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
 }
 
-/// SpriteMetaData is a sub class of the Unity engine since version 5.6.0b2.
+/// SpriteMetaData is a sub class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SpriteMetaData.html):
 /**
 Editor data used in producing a Sprite.
@@ -13105,139 +14881,175 @@ See Also: TextureImporter.spritesheet.
 pub struct SpriteMetaData {
     /**Edge-relative alignment of the sprite graphic.*/
     pub m_Alignment: i32,
-    /**Edge border size for a sprite (in pixels).*/
-    pub m_Border: Vector4f,
     /**Name of the Sprite.*/
     pub m_Name: String,
-    pub m_Outline: Vec<Vec<Vector2f>>,
     /**The pivot point of the Sprite, relative to its bounding rectangle.*/
     pub m_Pivot: Vector2f,
     /**Bounding rectangle of the sprite's graphic within the atlas image.*/
     pub m_Rect: Rectf,
-    pub m_TessellationDetail: f32,
-    /// Vec<SpriteBone>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<SpriteBone>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Bones: Option<Vec<SpriteBone>>,
-    /// Vec<int2_storage>: (2018.4.15f1 - 2022.2.0b16)
+    /**Edge border size for a sprite (in pixels).*/
+    /// Vector4f: (4.5.0 - 2022.3.2f1)
+    pub m_Border: Option<Vector4f>,
+    /// Vec<int2_storage>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Edges: Option<Vec<int2_storage>>,
-    /// Vec<i32>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<i32>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Indices: Option<Vec<i32>>,
-    /// i64: (2019.3.0f4 - 2022.2.0b16)
+    /// i64: (2019.1.0b1 - 2022.3.2f1)
     pub m_InternalID: Option<i64>,
-    /// Vec<Vec<Vector2f>>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<Vec<Vector2f>>: (5.3.0f1 - 2022.3.2f1)
+    pub m_Outline: Option<Vec<Vec<Vector2f>>>,
+    /// Vec<Vec<Vector2f>>: (2017.1.0b1 - 2022.3.2f1)
     pub m_PhysicsShape: Option<Vec<Vec<Vector2f>>>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.1.0b2 - 2022.3.2f1)
     pub m_SpriteID: Option<String>,
-    /// Vec<Vector2f>: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (5.4.0f3 - 2022.3.2f1)
+    pub m_TessellationDetail: Option<f32>,
+    /// Vec<Vector2f>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Vertices: Option<Vec<Vector2f>>,
-    /// Vec<BoneWeights4>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<BoneWeights4>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Weights: Option<Vec<BoneWeights4>>,
 }
 
-/// SpriteRenderData is a sub class of the Unity engine since version 5.6.0b2.
+/// SpriteRenderData is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteRenderData {
-    pub alphaTexture: PPtr, /*<Texture2D>*/
-    pub m_IndexBuffer: Vec<u8>,
-    pub m_SubMeshes: Vec<SubMesh>,
-    pub m_VertexData: VertexData,
     pub settingsRaw: u32,
-    pub texture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (4.3.0 - 2022.3.2f1)
+    pub texture: PPtr,
     pub textureRect: Rectf,
     pub textureRectOffset: Vector2f,
-    pub uvTransform: Vector4f,
-    /// Vector2f: (2017.4.33f1 - 2022.2.0b16)
+    /// PPtr<Texture2D>: (5.2.0f2 - 2022.3.2f1)
+    pub alphaTexture: Option<PPtr>,
+    /// Vector2f: (5.4.6f1 - 2022.3.2f1)
     pub atlasRectOffset: Option<Vector2f>,
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b1 - 2022.3.2f1)
     pub downscaleMultiplier: Option<f32>,
-    /// Vec<Matrix4x4f>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<u16>: (4.3.0 - 5.5.6f1)
+    pub indices: Option<Vec<u16>>,
+    /// Vec<Matrix4x4f>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Bindpose: Option<Vec<Matrix4x4f>>,
-    /// Vec<SecondarySpriteTexture>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<u8>: (5.6.0b1 - 2022.3.2f1)
+    pub m_IndexBuffer: Option<Vec<u8>>,
+    /// Vec<BoneWeights4>: (2018.1.0b2 - 2018.1.9f2)
+    pub m_SourceSkin: Option<Vec<BoneWeights4>>,
+    /// Vec<SubMesh>: (5.6.0b1 - 2022.3.2f1)
+    pub m_SubMeshes: Option<Vec<SubMesh>>,
+    /// VertexData: (5.6.0b1 - 2022.3.2f1)
+    pub m_VertexData: Option<VertexData>,
+    /// Vec<SecondarySpriteTexture>: (2019.1.0b1 - 2022.3.2f1)
     pub secondaryTextures: Option<Vec<SecondarySpriteTexture>>,
+    /// Vector4f: (4.5.0 - 2022.3.2f1)
+    pub uvTransform: Option<Vector4f>,
+    /// Vec<SpriteVertex>: (4.3.0 - 5.5.6f1)
+    pub vertices: Option<Vec<SpriteVertex>>,
 }
 
-/// SpriteRenderer is a  class of the Unity engine since version 5.6.0b2.
+/// SpriteRenderer is a  class of the Unity engine since version 4.3.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SpriteRenderer.html):
 /**
 Renders a Sprite for 2D graphics.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteRenderer {
-    pub m_CastShadows: u8,
+    pub m_CastShadows: Enum_bool__u8,
     /**Rendering color for the Sprite graphic.*/
     pub m_Color: ColorRGBA,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
-    /**Flips the sprite on the X axis.*/
-    pub m_FlipX: bool,
-    /**Flips the sprite on the Y axis.*/
-    pub m_FlipY: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    /**The light probe interpolation type.*/
-    pub m_LightProbeUsage: u8,
-    pub m_LightProbeVolumeOverride: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
-    pub m_LightmapIndexDynamic: u16,
     pub m_LightmapTilingOffset: Vector4f,
-    pub m_LightmapTilingOffsetDynamic: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
-    pub m_MotionVectors: u8,
-    /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    pub m_ProbeAnchor: PPtr, /*<Transform>*/
+    /// Vec<PPtr<Material>>: (4.3.0 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     /**Does this object receive shadows?*/
-    pub m_ReceiveShadows: u8,
-    /**Should reflection probes be used for this Renderer?*/
-    pub m_ReflectionProbeUsage: u8,
-    pub m_SortingLayer: i16,
+    pub m_ReceiveShadows: Enum_bool__u8,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
     /**The Sprite to render.*/
-    pub m_Sprite: PPtr, /*<Sprite>*/
-    pub m_StaticBatchInfo: StaticBatchInfo,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Sprite>: (4.3.0 - 2022.3.2f1)
+    pub m_Sprite: PPtr,
+    /// PPtr<Transform>: (4.3.0 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
     /**The current threshold for Sprite Renderer tiling.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (5.6.0f1 - 2022.3.2f1)
     pub m_AdaptiveModeThreshold: Option<f32>,
     /**The current draw mode of the Sprite Renderer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f1 - 2022.3.2f1)
     pub m_DrawMode: Option<i32>,
-    /// u8: (2017.4.33f1 - 2022.2.0b16)
+    /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
+    /**Flips the sprite on the X axis.*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_FlipX: Option<bool>,
+    /**Flips the sprite on the Y axis.*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_FlipY: Option<bool>,
+    /// PPtr<Transform>: (4.3.0 - 4.7.2)
+    pub m_LightProbeAnchor: Option<PPtr>,
+    /**The light probe interpolation type.*/
+    /// u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeUsage: Option<u8>,
+    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: Option<PPtr>,
+    /// u16: (5.0.0f4 - 2022.3.2f1)
+    pub m_LightmapIndexDynamic: Option<u16>,
+    /// Vector4f: (5.0.0f4 - 2022.3.2f1)
+    pub m_LightmapTilingOffsetDynamic: Option<Vector4f>,
     /**Specifies how the sprite interacts with the masks.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_MaskInteraction: Option<i32>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_MotionVectors: Option<u8>,
+    /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_ProbeAnchor: Option<PPtr>,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
+    /**Should reflection probes be used for this Renderer?*/
+    /// i32: (5.0.0f4 - 5.3.8f2); u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_ReflectionProbeUsage: Option<i32>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
     /**Property to set or get the size to render when the SpriteRenderer.drawMode is set to SpriteDrawMode.Sliced or SpriteDrawMode.Tiled.*/
-    /// Vector2f: (2017.4.33f1 - 2022.2.0b16)
+    /// Vector2f: (5.6.0f1 - 2022.3.2f1)
     pub m_Size: Option<Vector2f>,
+    /// i16: (4.3.0 - 2022.3.2f1)
+    pub m_SortingLayer: Option<i16>,
     /**Unique ID of the Renderer's sorting layer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
-    pub m_SortingLayerID: Option<i32>,
+    /// u32: (4.5.0 - 4.7.2); i32: (5.0.0f4 - 2022.3.2f1)
+    pub m_SortingLayerID: Option<i64>,
     /**Determines the position of the Sprite used for sorting the SpriteRenderer.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_SpriteSortPoint: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f1 - 2022.3.2f1)
     pub m_SpriteTileMode: Option<i32>,
+    /// StaticBatchInfo: (5.5.0f3 - 2022.3.2f1)
+    pub m_StaticBatchInfo: Option<StaticBatchInfo>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<u32>: (4.3.0 - 5.4.6f3)
+    pub m_SubsetIndices: Option<Vec<u32>>,
+    /// bool: (4.3.0 - 5.3.8f2)
+    pub m_UseLightProbes: Option<bool>,
+    /// bool: (5.6.2f1 - 2022.3.2f1)
     pub m_WasSpriteAssigned: Option<bool>,
 }
 
-/// SpriteShapeRenderer is a  class of the Unity engine since version 2018.4.15f1.
+/// SpriteShapeRenderer is a  class of the Unity engine since version 2018.1.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/U2D.SpriteShapeRenderer.html):
 /**
 Renders SpriteShapes defined through the SpriteShapeUtility.GenerateSpriteShape API.
@@ -13251,10 +15063,12 @@ pub struct SpriteShapeRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The light probe interpolation type.*/
     pub m_LightProbeUsage: u8,
-    pub m_LightProbeVolumeOverride: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapIndexDynamic: u16,
@@ -13264,67 +15078,74 @@ pub struct SpriteShapeRenderer {
     /**Specifies how the SpriteShape interacts with the masks.*/
     pub m_MaskInteraction: i32,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     pub m_MotionVectors: u8,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    pub m_ProbeAnchor: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: u8,
     /**Should reflection probes be used for this Renderer?*/
     pub m_ReflectionProbeUsage: u8,
-    /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    pub m_RendererPriority: i32,
     /**Determines which rendering layer this renderer lives on.*/
     pub m_RenderingLayerMask: u32,
-    pub m_ShapeTexture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_ShapeTexture: PPtr,
     pub m_SortingLayer: i16,
     /**Unique ID of the Renderer's sorting layer.*/
     pub m_SortingLayerID: i32,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
-    pub m_Sprites: Vec<PPtr /*<Sprite>*/>,
+    /// Vec<PPtr<Sprite>>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_Sprites: Vec<PPtr>,
     pub m_StaticBatchInfo: StaticBatchInfo,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// PPtr<Transform>: (2018.1.0b2 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
+    pub m_RendererPriority: Option<i32>,
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub m_SpriteSortPoint: Option<i32>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
 }
 
-/// SpriteSheetMetaData is a sub class of the Unity engine since version 5.6.0b2.
+/// SpriteSheetMetaData is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteSheetMetaData {
-    pub m_Outline: Vec<Vec<Vector2f>>,
     pub m_Sprites: Vec<SpriteMetaData>,
-    /// Vec<SpriteBone>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<SpriteBone>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Bones: Option<Vec<SpriteBone>>,
-    /// Vec<int2_storage>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<int2_storage>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Edges: Option<Vec<int2_storage>>,
-    /// Vec<i32>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<i32>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Indices: Option<Vec<i32>>,
-    /// i64: (2019.3.0f4 - 2022.2.0b16)
+    /// i64: (2019.1.0b1 - 2022.3.2f1)
     pub m_InternalID: Option<i64>,
-    /// Vec<(String, i64)>: (2021.2.16f1 - 2022.2.0b16)
+    /// Vec<(String, i64)>: (2021.2.0b1 - 2022.3.2f1)
     pub m_NameFileIdTable: Option<Vec<(String, i64)>>,
-    /// Vec<Vec<Vector2f>>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<Vec<Vector2f>>: (5.3.0f1 - 2022.3.2f1)
+    pub m_Outline: Option<Vec<Vec<Vector2f>>>,
+    /// Vec<Vec<Vector2f>>: (2017.1.0b1 - 2022.3.2f1)
     pub m_PhysicsShape: Option<Vec<Vec<Vector2f>>>,
-    /// Vec<SecondarySpriteTexture>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<SecondarySpriteTexture>: (2019.1.0b1 - 2022.3.2f1)
     pub m_SecondaryTextures: Option<Vec<SecondarySpriteTexture>>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.1.0b2 - 2022.3.2f1)
     pub m_SpriteID: Option<String>,
-    /// Vec<Vector2f>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<Vector2f>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Vertices: Option<Vec<Vector2f>>,
-    /// Vec<BoneWeights4>: (2018.4.15f1 - 2022.2.0b16)
+    /// Vec<BoneWeights4>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Weights: Option<Vec<BoneWeights4>>,
 }
 
-/// SpriteTilingProperty is a sub class of the Unity engine since version 2017.4.33f1.
+/// SpriteTilingProperty is a sub class of the Unity engine since version 5.6.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteTilingProperty {
     pub adaptiveTiling: bool,
@@ -13336,42 +15157,106 @@ pub struct SpriteTilingProperty {
     pub pivot: Vector2f,
 }
 
-/// StateKey is a sub class of the Unity engine since version 5.6.0b2.
+/// SpriteVertex is a sub class of the Unity engine since version 4.3.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct SpriteVertex {
+    pub pos: Vector3f,
+    /// Vector2f: (4.3.0 - 4.3.4)
+    pub uv: Option<Vector2f>,
+}
+
+/// State is a  class of the Unity engine since version 4.0.0.
+/// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Random.State.html):
+/**
+Serializable structure used to hold the full internal state of the random number generator. See Also: Random.state.
+*/
+#[derive(Debug, Serialize, Deserialize)]
+pub struct State {
+    pub m_IKOnFeet: bool,
+    /// Vec<PPtr<Motion>>: (4.0.0 - 4.7.2)
+    pub m_Motions: Vec<PPtr>,
+    pub m_Name: String,
+    /// PPtr<StateMachine>: (4.0.0 - 4.7.2)
+    pub m_ParentStateMachine: PPtr,
+    pub m_Position: Vector3f,
+    pub m_Speed: f32,
+    pub m_Tag: String,
+    /// f32: (4.1.0 - 4.7.2)
+    pub m_CycleOffset: Option<f32>,
+    /// bool: (4.1.0 - 4.7.2)
+    pub m_Mirror: Option<bool>,
+}
+
+/// StateKey is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StateKey {
     pub m_LayerIndex: i32,
     pub m_StateID: u32,
 }
 
-/// StateMachineBehaviourVectorDescription is a sub class of the Unity engine since version 5.6.0b2.
+/// StateMachine is a  class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct StateMachine {
+    pub m_AnyStatePosition: Vector3f,
+    /// Vec<PPtr<StateMachine>>: (4.0.0 - 4.7.2)
+    pub m_ChildStateMachine: Vec<PPtr>,
+    pub m_ChildStateMachinePosition: Vec<Vector3f>,
+    /// PPtr<State>: (4.0.0 - 4.7.2)
+    pub m_DefaultState: PPtr,
+    pub m_MotionSetCount: i32,
+    pub m_Name: String,
+    /// Vec<(PPtr<State>, Vec<PPtr<Transition>>)>: (4.0.0 - 4.7.2)
+    pub m_OrderedTransitions: Vec<(PPtr, Vec<PPtr>)>,
+    pub m_ParentStateMachinePosition: Vector3f,
+    /// Vec<PPtr<State>>: (4.0.0 - 4.7.2)
+    pub m_States: Vec<PPtr>,
+    /// Vec<(PPtr<State>, Vec<PPtr<Transition>>)>: (4.0.0 - 4.1.5)
+    pub m_LocalTransitions: Option<Vec<(PPtr, Vec<PPtr>)>>,
+}
+
+/// StateMachineBehaviourVectorDescription is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StateMachineBehaviourVectorDescription {
     pub m_StateMachineBehaviourIndices: Vec<u32>,
     pub m_StateMachineBehaviourRanges: Vec<(StateKey, StateRange)>,
 }
 
-/// StateRange is a sub class of the Unity engine since version 5.6.0b2.
+/// StateRange is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StateRange {
     pub m_Count: u32,
     pub m_StartIndex: u32,
 }
 
-/// StaticBatchInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// StaticBatchInfo is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StaticBatchInfo {
     pub firstSubMesh: u16,
     pub subMeshCount: u16,
 }
 
-/// StreamedClip is a sub class of the Unity engine since version 5.6.0b2.
+/// StreamInfo is a sub class of the Unity engine since version 3.5.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct StreamInfo {
+    pub channelMask: u32,
+    pub offset: u32,
+    pub stride: u32,
+    /// u32: (3.5.0 - 3.5.7)
+    pub align: Option<u32>,
+    /// u8: (4.0.0 - 4.7.2)
+    pub dividerOp: Option<u8>,
+    /// u16: (4.0.0 - 4.7.2)
+    pub frequency: Option<u16>,
+}
+
+/// StreamedClip is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StreamedClip {
     pub curveCount: u32,
     pub data: Vec<u32>,
 }
 
-/// StreamedResource is a sub class of the Unity engine since version 5.6.0b2.
+/// StreamedResource is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StreamedResource {
     pub m_Offset: i128,
@@ -13379,7 +15264,7 @@ pub struct StreamedResource {
     pub m_Source: String,
 }
 
-/// StreamingController is a  class of the Unity engine since version 2018.4.15f1.
+/// StreamingController is a  class of the Unity engine since version 2018.2.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/StreamingController.html):
 /**
 A StreamingController controls the streaming settings for an individual camera location.
@@ -13394,12 +15279,13 @@ pub struct StreamingController {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.2.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Offset applied to the mipmap level chosen by the texture streaming system for any textures visible from this camera. This Offset can take either a positive or negative value.*/
     pub m_StreamingMipmapBias: f32,
 }
 
-/// StreamingInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// StreamingInfo is a sub class of the Unity engine since version 5.3.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StreamingInfo {
     pub offset: u64,
@@ -13407,11 +15293,11 @@ pub struct StreamingInfo {
     pub size: u32,
 }
 
-/// StreamingManager is a  class of the Unity engine since version 2018.4.15f1.
+/// StreamingManager is a  class of the Unity engine since version 2018.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StreamingManager {}
 
-/// StructParameter is a sub class of the Unity engine since version 2017.4.33f1.
+/// StructParameter is a sub class of the Unity engine since version 2017.3.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StructParameter {
     pub m_ArraySize: i32,
@@ -13422,26 +15308,37 @@ pub struct StructParameter {
     pub m_VectorMembers: Vec<VectorParameter>,
 }
 
-/// SubCollider is a sub class of the Unity engine since version 5.6.0b2.
+/// StyleSheetImporter is a  class of the Unity engine since version 2017.1.0b1.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct StyleSheetImporter {
+    pub m_AssetBundleName: String,
+    pub m_AssetBundleVariant: String,
+    pub m_Name: String,
+    pub m_UserData: String,
+}
+
+/// SubCollider is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubCollider {
-    pub m_Collider: PPtr, /*<Collider2D>*/
+    /// PPtr<Collider2D>: (5.6.0b1 - 2022.3.2f1)
+    pub m_Collider: PPtr,
     pub m_ColliderPaths: Vec<Vec<IntPoint>>,
 }
 
-/// SubDerived is a  class of the Unity engine since version 2019.3.0f4.
+/// SubDerived is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubDerived {}
 
-/// SubEmitterData is a sub class of the Unity engine since version 5.6.0b2.
+/// SubEmitterData is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubEmitterData {
-    pub emitter: PPtr, /*<ParticleSystem>*/
+    /// PPtr<ParticleSystem>: (5.5.0f3 - 2022.3.2f1)
+    pub emitter: PPtr,
     pub properties: i32,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub emitProbability: Option<f32>,
 }
 
@@ -13453,28 +15350,41 @@ pub struct SubMesh {
     pub indexCount: u32,
     pub localAABB: AABB,
     pub vertexCount: u32,
-    /// u32: (2017.4.33f1 - 2022.2.0b16)
+    /// u32: (2017.3.0b1 - 2022.3.2f1)
     pub baseVertex: Option<u32>,
-    /// u32: (3.4.0 - 3.4.0)
+    /// u32: (3.4.0 - 3.5.7)
     pub isTriStrip: Option<u32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub topology: Option<i32>,
-    /// u32: (3.4.0 - 3.4.0)
+    /// u32: (3.4.0 - 3.5.7)
     pub triangleCount: Option<u32>,
 }
 
-/// SubModule is a sub class of the Unity engine since version 5.6.0b2.
+/// SubModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubModule {
     pub enabled: bool,
-    pub subEmitters: Vec<SubEmitterData>,
+    /// PPtr<ParticleSystem>: (3.5.0 - 5.4.6f3)
+    pub subEmitterBirth: Option<PPtr>,
+    /// PPtr<ParticleSystem>: (4.0.0 - 5.4.6f3)
+    pub subEmitterBirth1: Option<PPtr>,
+    /// PPtr<ParticleSystem>: (3.5.0 - 5.4.6f3)
+    pub subEmitterCollision: Option<PPtr>,
+    /// PPtr<ParticleSystem>: (4.0.0 - 5.4.6f3)
+    pub subEmitterCollision1: Option<PPtr>,
+    /// PPtr<ParticleSystem>: (3.5.0 - 5.4.6f3)
+    pub subEmitterDeath: Option<PPtr>,
+    /// PPtr<ParticleSystem>: (4.0.0 - 5.4.6f3)
+    pub subEmitterDeath1: Option<PPtr>,
+    /// Vec<SubEmitterData>: (5.5.0f3 - 2022.3.2f1)
+    pub subEmitters: Option<Vec<SubEmitterData>>,
 }
 
 /// SubstanceArchive is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubstanceArchive {
     pub m_Name: String,
-    /// Vec<u8>: (3.4.0 - 2017.4.33f1)
+    /// Vec<u8>: (3.4.0 - 2017.4.40f1)
     pub m_PackageData: Option<Vec<u8>>,
 }
 
@@ -13489,29 +15399,29 @@ pub struct SubstanceEnumItem {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubstanceImporter {
     pub m_Name: String,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleName: Option<String>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<String>: (5.6.0b2 - 2017.4.33f1)
+    /// Vec<String>: (3.5.2 - 2017.4.40f1)
     pub m_DeletedPrototypes: Option<Vec<String>>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<(i32, String)>: (3.4.0 - 3.4.0)
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.5.1)
     pub m_IsFirstImport: Option<i32>,
-    /// Vec<MaterialImportOutput>: (5.6.0b2 - 2017.4.33f1)
+    /// Vec<MaterialImportOutput>: (4.0.0 - 2017.4.40f1)
     pub m_MaterialImportOutputs: Option<Vec<MaterialImportOutput>>,
-    /// Vec<MaterialInstanceSettings>: (3.4.0 - 2017.4.33f1)
+    /// Vec<MaterialInstanceSettings>: (3.4.0 - 2017.4.40f1)
     pub m_MaterialInstances: Option<Vec<MaterialInstanceSettings>>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_NewHashIdentity: Option<MdFour>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_OldHashIdentity: Option<MdFour>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (4.0.0 - 2022.3.2f1)
     pub m_UserData: Option<String>,
 }
 
@@ -13528,42 +15438,43 @@ pub struct SubstanceInput {
     pub name: String,
     pub step: f32,
     pub value: SubstanceValue,
-    /// i32: (3.4.0 - 2017.4.33f1)
+    /// i32: (3.4.0 - 2017.4.40f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
-    /// Vec<String>: (5.6.0b2 - 2017.4.33f1)
+    /// Vec<String>: (4.5.0 - 2017.4.40f1)
     pub componentLabels: Option<Vec<String>>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (3.5.0 - 2017.4.40f1)
     pub group: Option<String>,
-    /// u32: (5.6.0b2 - 2017.4.33f1)
+    /// u32: (3.5.0 - 2017.4.40f1)
     pub internalIdentifier: Option<u32>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (4.1.0 - 2017.4.40f1)
     pub label: Option<String>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (5.2.0f2 - 2017.4.40f1)
     pub visibleIf: Option<String>,
 }
 
 /// SubstanceValue is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubstanceValue {
-    pub texture: PPtr, /*<Texture2D>*/
-    /// f32: (3.4.0 - 2017.4.33f1)
+    /// PPtr<Texture2D>: (3.4.0 - 2017.4.40f1)
+    pub texture: PPtr,
+    /// f32: (3.4.0 - 2017.4.40f1)
     #[serde(alias = "scalar[0]")]
     pub scalar_0_: Option<f32>,
-    /// f32: (3.4.0 - 2017.4.33f1)
+    /// f32: (3.4.0 - 2017.4.40f1)
     #[serde(alias = "scalar[1]")]
     pub scalar_1_: Option<f32>,
-    /// f32: (3.4.0 - 2017.4.33f1)
+    /// f32: (3.4.0 - 2017.4.40f1)
     #[serde(alias = "scalar[2]")]
     pub scalar_2_: Option<f32>,
-    /// f32: (3.4.0 - 2017.4.33f1)
+    /// f32: (3.4.0 - 2017.4.40f1)
     #[serde(alias = "scalar[3]")]
     pub scalar_3_: Option<f32>,
-    /// String: (2017.4.33f1 - 2017.4.33f1)
+    /// String: (2017.2.0f2 - 2017.4.40f1)
     pub stringvalue: Option<String>,
 }
 
-/// SurfaceEffector2D is a  class of the Unity engine since version 5.6.0b2.
+/// SurfaceEffector2D is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/SurfaceEffector2D.html):
 /**
 Applies tangent forces along the surfaces of colliders.
@@ -13575,131 +15486,137 @@ pub struct SurfaceEffector2D {
     pub m_ColliderMask: BitField,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
-    /**The scale of the impulse force applied while attempting to reach the surface speed.*/
-    pub m_ForceScale: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The speed to be maintained along the surface.*/
     pub m_Speed: f32,
     /**The speed variation (from zero to the variation) added to base speed to be applied.*/
     pub m_SpeedVariation: f32,
+    /**The scale of the impulse force applied while attempting to reach the surface speed.*/
+    /// f32: (5.0.1f1 - 2022.3.2f1)
+    pub m_ForceScale: Option<f32>,
     /**Should bounce be used for any contact with the surface?*/
-    pub m_UseBounce: bool,
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_UseBounce: Option<bool>,
     /**Should the collider-mask be used or the global collision matrix?*/
-    pub m_UseColliderMask: bool,
+    /// bool: (5.0.2f1 - 2022.3.2f1)
+    pub m_UseColliderMask: Option<bool>,
     /**Should the impulse force but applied to the contact point?*/
-    pub m_UseContactForce: bool,
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_UseContactForce: Option<bool>,
     /**Should friction be used for any contact with the surface?*/
-    pub m_UseFriction: bool,
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_UseFriction: Option<bool>,
 }
 
 /// TagManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TagManager {
     pub tags: Vec<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "Builtin Layer 0")]
     pub Builtin_Layer_0: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "Builtin Layer 1")]
     pub Builtin_Layer_1: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "Builtin Layer 2")]
     pub Builtin_Layer_2: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "Builtin Layer 3")]
     pub Builtin_Layer_3: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "Builtin Layer 4")]
     pub Builtin_Layer_4: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "Builtin Layer 5")]
     pub Builtin_Layer_5: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "Builtin Layer 6")]
     pub Builtin_Layer_6: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "Builtin Layer 7")]
     pub Builtin_Layer_7: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 10")]
     pub User_Layer_10: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 11")]
     pub User_Layer_11: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 12")]
     pub User_Layer_12: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 13")]
     pub User_Layer_13: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 14")]
     pub User_Layer_14: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 15")]
     pub User_Layer_15: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 16")]
     pub User_Layer_16: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 17")]
     pub User_Layer_17: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 18")]
     pub User_Layer_18: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 19")]
     pub User_Layer_19: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 20")]
     pub User_Layer_20: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 21")]
     pub User_Layer_21: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 22")]
     pub User_Layer_22: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 23")]
     pub User_Layer_23: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 24")]
     pub User_Layer_24: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 25")]
     pub User_Layer_25: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 26")]
     pub User_Layer_26: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 27")]
     pub User_Layer_27: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 28")]
     pub User_Layer_28: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 29")]
     pub User_Layer_29: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 30")]
     pub User_Layer_30: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 31")]
     pub User_Layer_31: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 8")]
     pub User_Layer_8: Option<String>,
-    /// String: (3.4.0 - 3.4.0)
+    /// String: (3.4.0 - 4.7.2)
     #[serde(alias = "User Layer 9")]
     pub User_Layer_9: Option<String>,
-    /// Vec<String>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<String>: (5.0.0f4 - 2022.3.2f1)
     pub layers: Option<Vec<String>>,
-    /// Vec<SortingLayerEntry>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<SortingLayerEntry>: (4.3.0 - 2022.3.2f1)
     pub m_SortingLayers: Option<Vec<SortingLayerEntry>>,
 }
 
-/// TakeInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// TakeInfo is a sub class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/TakeInfo.html):
 /**
 A Takeinfo object contains all the information needed to describe a take.
@@ -13711,7 +15628,8 @@ pub struct TakeInfo {
     pub bakeStartTime: f32,
     /**Stop time in second.*/
     pub bakeStopTime: f32,
-    pub clip: PPtr, /*<AnimationClip>*/
+    /// PPtr<AnimationClip>: (4.0.0 - 2022.3.2f1)
+    pub clip: PPtr,
     /**This is the default clip name for the clip generated for this take.*/
     pub defaultClipName: String,
     /**Take name as define from imported file.*/
@@ -13722,11 +15640,11 @@ pub struct TakeInfo {
     pub startTime: f32,
     /**Stop time in second.*/
     pub stopTime: f32,
-    /// i64: (2019.3.0f4 - 2022.2.0b16)
+    /// i64: (2019.1.0b1 - 2022.3.2f1)
     pub internalID: Option<i64>,
 }
 
-/// TargetJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// TargetJoint2D is a  class of the Unity engine since version 5.3.0f1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/TargetJoint2D.html):
 /**
 The joint attempts to move a Rigidbody2D to a specific target position.
@@ -13742,7 +15660,8 @@ pub struct TargetJoint2D {
     pub m_BreakForce: f32,
     /**The torque that needs to be applied for this joint to break.*/
     pub m_BreakTorque: f32,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
+    /// PPtr<Rigidbody2D>: (5.3.0f1 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**The amount by which the target spring force is reduced in proportion to the movement speed.*/
     pub m_DampingRatio: f32,
     /**Should the two rigid bodies connected with this joint collide with each other?*/
@@ -13752,17 +15671,18 @@ pub struct TargetJoint2D {
     /**The frequency at which the target spring oscillates around the target position.*/
     pub m_Frequency: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The maximum force that can be generated when trying to maintain the target joint constraint.*/
     pub m_MaxForce: f32,
     /**The world-space position that the joint will attempt to move the body to.*/
     pub m_Target: Vector2f,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
 }
 
-/// Terrain is a  class of the Unity engine since version 5.6.0b2.
+/// Terrain is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Terrain.html):
 /**
 The Terrain component renders the terrain.
@@ -13784,7 +15704,8 @@ pub struct Terrain {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Lets you essentially lower the heightmap resolution used for rendering.*/
     pub m_HeightmapMaximumLOD: i32,
     /**An approximation of how many pixels the terrain will pop in the worst case when switching lod.*/
@@ -13795,12 +15716,14 @@ pub struct Terrain {
     pub m_LightmapTilingOffset: Vector4f,
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     /**The custom material Unity uses to render the Terrain.*/
-    pub m_MaterialTemplate: PPtr, /*<Material>*/
+    /// PPtr<Material>: (5.0.0f4 - 2022.3.2f1)
+    pub m_MaterialTemplate: PPtr,
     /**How reflection probes are used for terrain. See ReflectionProbeUsage.*/
     pub m_ReflectionProbeUsage: i32,
     pub m_SplatMapDistance: f32,
     /**The Terrain Data that stores heightmaps, terrain textures, detail meshes and trees.*/
-    pub m_TerrainData: PPtr, /*<TerrainData>*/
+    /// PPtr<TerrainData>: (5.0.0f4 - 2022.3.2f1)
+    pub m_TerrainData: PPtr,
     /**Distance from the camera where trees will be rendered as billboards only.*/
     pub m_TreeBillboardDistance: f32,
     /**Total distance delta that trees will use to transition from billboard orientation to mesh orientation.*/
@@ -13810,43 +15733,47 @@ pub struct Terrain {
     /**Maximum number of trees rendered at full LOD.*/
     pub m_TreeMaximumFullLODCount: i32,
     /**Specifies if the terrain tile will be automatically connected to adjacent tiles.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_AllowAutoConnect: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.0.0f4 - 2018.4.36f1)
     pub m_CastShadows: Option<bool>,
+    /// f32: (5.0.0f4 - 5.0.0f4)
+    pub m_DefaultSmoothness: Option<f32>,
     /**Set to true to enable the terrain instance renderer. The default value is false.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_DrawInstanced: Option<bool>,
     /**When this options is enabled, Terrain heightmap geometries will be added in acceleration structures used for Ray Tracing.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_EnableHeightmapRayTracing: Option<bool>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_EnableTreesAndDetailsRayTracing: Option<bool>,
-    /// Hash128: (2017.4.33f1 - 2022.2.0b16)
+    /// Hash128: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExplicitProbeSetHash: Option<Hash128>,
     /**Grouping ID for auto connect.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_GroupingID: Option<i32>,
     /**When enabled, the terrain ignores the terrain overrides set in the QualitySettings.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_IgnoreQualitySettings: Option<bool>,
-    /// f32: (5.6.0b2 - 2018.4.15f1)
+    /// f32: (5.0.0f4 - 2019.2.0a7)
     pub m_LegacyShininess: Option<f32>,
-    /// ColorRGBA: (5.6.0b2 - 2018.4.15f1)
+    /// ColorRGBA: (5.0.0f4 - 2019.2.0a7)
     pub m_LegacySpecular: Option<ColorRGBA>,
-    /// i32: (5.6.0b2 - 2018.4.15f1)
+    /// i32: (5.0.0f4 - 2019.2.0a7)
     pub m_MaterialType: Option<i32>,
     /**Allows you to specify how Unity chooses the layer for tree instances.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0f2 - 2022.3.2f1)
     pub m_PreserveTreePrototypeLayers: Option<bool>,
     /**Determines which rendering layers the Terrain renderer lives on.*/
-    /// u32: (2019.3.0f4 - 2022.2.0b16)
+    /// u32: (2019.3.0b1 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
     /**Allows you to set the shadow casting mode for the terrain.*/
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub m_ShadowCastingMode: Option<i32>,
-    /// bool: (2021.2.16f1 - 2022.2.0b16)
+    /// bool: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<bool>,
+    /// bool: (5.0.0f4 - 5.0.0f4)
+    pub m_UseDefaultSmoothness: Option<bool>,
 }
 
 /// TerrainCollider is a  class of the Unity engine since version 3.4.0.
@@ -13860,29 +15787,32 @@ pub struct TerrainCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    /**The material used by the collider.*/
-    pub m_Material: PPtr, /*<PhysicMaterial>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The terrain that stores the heightmap.*/
-    pub m_TerrainData: PPtr, /*<TerrainData>*/
-    /// bool: (3.4.0 - 3.4.0)
+    /// PPtr<TerrainData>: (3.4.0 - 2022.3.2f1)
+    pub m_TerrainData: PPtr,
+    /// bool: (3.4.0 - 4.7.2)
     pub m_CreateTreeColliders: Option<bool>,
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (5.0.0f4 - 2022.3.2f1)
     pub m_EnableTreeColliders: Option<bool>,
     /**The additional layers that this Collider should exclude when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The additional layers that this Collider should include when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**Specify if this collider is configured as a trigger.*/
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 4.7.2)
     pub m_IsTrigger: Option<bool>,
     /**A decision priority assigned to this Collider used when there is a conflicting decision on whether a Collider can contact another Collider.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
+    /**The material used by the collider.*/
+    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    pub m_Material: Option<PPtr>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ProvidesContacts: Option<bool>,
 }
 
@@ -13899,11 +15829,11 @@ pub struct TerrainData {
     /**The name of the object.*/
     pub m_Name: String,
     pub m_SplatDatabase: SplatDatabase,
-    /// Vec<PPtr/*<Shader>*/>: (2018.4.15f1 - 2022.2.0b16)
-    pub m_PreloadShaders: Option<Vec<PPtr /*<Shader>*/>>,
+    /// Vec<PPtr<Shader>>: (2018.4.14f1 - 2022.3.2f1)
+    pub m_PreloadShaders: Option<Vec<PPtr>>,
 }
 
-/// TerrainLayer is a  class of the Unity engine since version 2018.4.15f1.
+/// TerrainLayer is a  class of the Unity engine since version 2018.3.0f2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/TerrainLayer.html):
 /**
 Description of a terrain layer.
@@ -13915,19 +15845,22 @@ pub struct TerrainLayer {
     /**A Vector4 value specifying the minimum RGBA value that the diffuse texture maps to when the value of the channel is 0.*/
     pub m_DiffuseRemapMin: Vector4f,
     /**The diffuse texture used by the terrain layer.*/
-    pub m_DiffuseTexture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_DiffuseTexture: PPtr,
     /**A Vector4 value specifying the maximum RGBA value that the mask map texture maps to when the value of the channel is 1.*/
     pub m_MaskMapRemapMax: Vector4f,
     /**A Vector4 value specifying the minimum RGBA value that the mask map texture maps to when the value of the channel is 0.*/
     pub m_MaskMapRemapMin: Vector4f,
     /**The mask map texture used by the terrain layer.*/
-    pub m_MaskMapTexture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_MaskMapTexture: PPtr,
     /**Metallic factor used by the terrain layer.*/
     pub m_Metallic: f32,
     /**The name of the object.*/
     pub m_Name: String,
     /**Normal map texture used by the terrain layer.*/
-    pub m_NormalMapTexture: PPtr, /*<Texture2D>*/
+    /// PPtr<Texture2D>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_NormalMapTexture: PPtr,
     /**A float value that scales the normal vector. The minimum value is 0, the maximum value is 1.*/
     pub m_NormalScale: f32,
     /**Smoothness of the specular reflection.*/
@@ -13940,80 +15873,80 @@ pub struct TerrainLayer {
     pub m_TileSize: Vector2f,
 }
 
-/// TestObjectVectorPairStringBool is a  class of the Unity engine since version 2019.3.0f4.
+/// TestObjectVectorPairStringBool is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestObjectVectorPairStringBool {
     pub m_Map: Vec<(String, bool)>,
     pub m_String: String,
 }
 
-/// TestObjectWithSerializedAnimationCurve is a  class of the Unity engine since version 2019.3.0f4.
+/// TestObjectWithSerializedAnimationCurve is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestObjectWithSerializedAnimationCurve {
     pub m_Curve: AnimationCurve,
 }
 
-/// TestObjectWithSerializedArray is a  class of the Unity engine since version 2019.3.0f4.
+/// TestObjectWithSerializedArray is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestObjectWithSerializedArray {
     pub m_ClampTestValue: f32,
     pub m_IntegerArray: Vec<i32>,
 }
 
-/// TestObjectWithSerializedMapStringBool is a  class of the Unity engine since version 2019.3.0f4.
+/// TestObjectWithSerializedMapStringBool is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestObjectWithSerializedMapStringBool {
     pub m_Map: Vec<(String, bool)>,
     pub m_String: String,
 }
 
-/// TestObjectWithSerializedMapStringNonAlignedStruct is a  class of the Unity engine since version 2019.3.0f4.
+/// TestObjectWithSerializedMapStringNonAlignedStruct is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestObjectWithSerializedMapStringNonAlignedStruct {
     pub m_Map: Vec<(String, NonAlignedStruct)>,
     pub m_String: String,
 }
 
-/// TestObjectWithSpecialLayoutOne is a  class of the Unity engine since version 2019.3.0f4.
+/// TestObjectWithSpecialLayoutOne is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestObjectWithSpecialLayoutOne {
     pub differentLayout: LayoutDataOne,
     pub sameLayout: LayoutDataOne,
 }
 
-/// TestObjectWithSpecialLayoutTwo is a  class of the Unity engine since version 2019.3.0f4.
+/// TestObjectWithSpecialLayoutTwo is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TestObjectWithSpecialLayoutTwo {
     pub differentLayout: LayoutDataTwo,
     pub sameLayout: LayoutDataThree,
 }
 
-/// Tetrahedron is a sub class of the Unity engine since version 5.6.0b2.
+/// Tetrahedron is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Tetrahedron {
     pub matrix: Matrix3x4f,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "indices[0]")]
     pub indices_0_: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "indices[1]")]
     pub indices_1_: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "indices[2]")]
     pub indices_2_: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "indices[3]")]
     pub indices_3_: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "neighbors[0]")]
     pub neighbors_0_: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "neighbors[1]")]
     pub neighbors_1_: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "neighbors[2]")]
     pub neighbors_2_: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     #[serde(alias = "neighbors[3]")]
     pub neighbors_3_: Option<i32>,
 }
@@ -14035,7 +15968,7 @@ pub struct TextAsset {
     /**The name of the object.*/
     pub m_Name: String,
     pub m_Script: String,
-    /// String: (3.4.0 - 5.6.0b2)
+    /// String: (3.4.0 - 2017.1.0b1)
     pub m_PathName: Option<String>,
 }
 
@@ -14054,13 +15987,15 @@ pub struct TextMesh {
     /**The size of each character (This scales the whole text).*/
     pub m_CharacterSize: f32,
     /**The Font used.*/
-    pub m_Font: PPtr, /*<Font>*/
+    /// PPtr<Font>: (3.4.0 - 2022.3.2f1)
+    pub m_Font: PPtr,
     /**The font size to use (for dynamic fonts).*/
     pub m_FontSize: i32,
     /**The font style to use (for dynamic fonts).*/
     pub m_FontStyle: i32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**How much space will be in-between lines of text.*/
     pub m_LineSpacing: f32,
     /**How far should the text be offset from the transform.position.z when drawing.*/
@@ -14070,27 +16005,29 @@ pub struct TextMesh {
     /**The text that is displayed.*/
     pub m_Text: String,
     /**The color used to render the text.*/
-    /// ColorRGBA: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (4.2.0 - 2022.3.2f1)
     pub m_Color: Option<ColorRGBA>,
     /**Enable HTML-style tags for Text Formatting Markup.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (4.0.0 - 2022.3.2f1)
     pub m_RichText: Option<bool>,
 }
 
-/// TextScriptImporter is a  class of the Unity engine since version 5.6.0b2.
+/// TextScriptImporter is a  class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TextScriptImporter {
-    pub m_AssetBundleName: String,
-    pub m_AssetBundleVariant: String,
     pub m_Name: String,
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleName: Option<String>,
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub m_AssetBundleVariant: Option<String>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// Texture is a  class of the Unity engine since version 5.6.0b2.
+/// Texture is a  class of the Unity engine since version 5.0.0f4.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Texture.html):
 /**
 Base class for Texture handling.
@@ -14099,11 +16036,11 @@ Base class for Texture handling.
 pub struct Texture {
     /**The name of the object.*/
     pub m_Name: String,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
 }
 
@@ -14129,47 +16066,47 @@ pub struct Texture2D {
     pub m_TextureSettings: GLTextureSettings,
     /**Width of the Texture in pixels (Read Only).*/
     pub m_Width: i32,
-    /// Vec<u8>: (3.4.0 - 2022.2.0b16)
+    /// Vec<u8>: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "image data")]
     pub image_data: Option<Vec<u8>>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_ColorSpace: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.1.0a20 - 2021.2.16f1)
+    /// bool: (2019.3.0f6 - 2022.2.0a18)
     pub m_IgnoreMasterTextureLimit: Option<bool>,
     /**This property causes a texture to ignore all texture mipmap limit settings.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0f1 - 2022.3.2f1)
     pub m_IgnoreMipmapLimit: Option<bool>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// bool: (2020.1.0a20 - 2022.2.0b16)
+    /// bool: (2019.4.9f1 - 2022.3.2f1)
     pub m_IsPreProcessed: Option<bool>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.2.0f2 - 2022.3.2f1)
     pub m_MipCount: Option<i32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 5.1.5f1)
     pub m_MipMap: Option<bool>,
-    /// String: (2022.2.0b16 - 2022.2.0b16)
+    /// String: (2022.2.0f1 - 2022.3.2f1)
     pub m_MipmapLimitGroupName: Option<String>,
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub m_MipsStripped: Option<i32>,
-    /// Vec<u8>: (2020.3.42f1 - 2022.2.0b16)
+    /// Vec<u8>: (2020.2.0b1 - 2022.3.2f1)
     pub m_PlatformBlob: Option<Vec<u8>>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 5.4.6f3)
     pub m_ReadAllowed: Option<bool>,
-    /// StreamingInfo: (5.6.0b2 - 2022.2.0b16)
+    /// StreamingInfo: (5.3.0f1 - 2022.3.2f1)
     pub m_StreamData: Option<StreamingInfo>,
     /**Determines whether mipmap streaming is enabled for this Texture.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub m_StreamingMipmaps: Option<bool>,
     /**Sets the relative priority for this Texture when reducing memory size to fit within the memory budget.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_StreamingMipmapsPriority: Option<i32>,
 }
 
-/// Texture2DArray is a  class of the Unity engine since version 5.6.0b2.
+/// Texture2DArray is a  class of the Unity engine since version 5.4.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Texture2DArray.html):
 /**
 Class for handling 2D texture arrays.
@@ -14198,24 +16135,25 @@ pub struct Texture2DArray {
     pub m_MipCount: i32,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_StreamData: StreamingInfo,
     pub m_TextureSettings: GLTextureSettings,
     /**Width of the Texture in pixels (Read Only).*/
     pub m_Width: i32,
-    /// Vec<u8>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u8>: (5.4.0f3 - 2022.3.2f1)
     #[serde(alias = "image data")]
     pub image_data: Option<Vec<u8>>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// StreamingInfo: (5.6.0b1 - 2022.3.2f1)
+    pub m_StreamData: Option<StreamingInfo>,
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub m_UsageMode: Option<i32>,
 }
 
-/// Texture3D is a  class of the Unity engine since version 5.6.0b2.
+/// Texture3D is a  class of the Unity engine since version 4.0.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Texture3D.html):
 /**
 Class for handling 3D Textures, Use this to create 3D texture assets.
@@ -14229,66 +16167,75 @@ pub struct Texture3D {
     /**The depth of the texture (Read Only).*/
     pub m_Depth: i32,
     /**The format of the pixel data in the texture (Read Only).*/
-    pub m_Format: i32,
+    pub m_Format: i64,
     /**Height of the Texture in pixels (Read Only).*/
     pub m_Height: i32,
-    /**Whether Unity stores an additional copy of this texture's pixel data in CPU-addressable memory.*/
-    pub m_IsReadable: bool,
-    pub m_MipCount: i32,
     /**The name of the object.*/
     pub m_Name: String,
-    pub m_StreamData: StreamingInfo,
     pub m_TextureSettings: GLTextureSettings,
     /**Width of the Texture in pixels (Read Only).*/
     pub m_Width: i32,
-    /// Vec<u8>: (5.6.0b2 - 2022.2.0b16)
+    /// Vec<u8>: (4.0.0 - 2022.3.2f1)
     #[serde(alias = "image data")]
     pub image_data: Option<Vec<u8>>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub m_ColorSpace: Option<i32>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_DownscaleFallback: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_ForcedFallbackFormat: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_IsAlphaChannelOptional: Option<bool>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /**Whether Unity stores an additional copy of this texture's pixel data in CPU-addressable memory.*/
+    /// bool: (5.4.0f3 - 2022.3.2f1)
+    pub m_IsReadable: Option<bool>,
+    /// i32: (5.2.0f2 - 2022.3.2f1)
+    pub m_MipCount: Option<i32>,
+    /// bool: (4.0.0 - 5.1.5f1)
+    pub m_MipMap: Option<bool>,
+    /// StreamingInfo: (5.6.0b1 - 2022.3.2f1)
+    pub m_StreamData: Option<StreamingInfo>,
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub m_UsageMode: Option<i32>,
 }
 
-/// TextureImportInstructions is a sub class of the Unity engine since version 5.6.0b2.
+/// TextureImportInstructions is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TextureImportInstructions {
     pub colorSpace: i32,
     pub compressedFormat: i32,
     pub compressionQuality: i32,
-    pub desiredFormat: i32,
     pub height: i32,
     pub uncompressedFormat: i32,
     pub usageMode: i32,
     pub width: i32,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub androidETC2FallbackDownscale: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub androidETC2FallbackFormat: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub cubeIntermediateSize: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub cubeLayout: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub cubeMode: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub depth: Option<i32>,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (4.3.0 - 2022.3.2f1)
+    pub desiredFormat: Option<i32>,
+    /// i32: (4.0.0 - 5.4.6f3)
+    pub recommendedFormat: Option<i32>,
+    /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub vtOnly: Option<bool>,
 }
 
-/// TextureImportOutput is a sub class of the Unity engine since version 5.6.0b2.
+/// TextureImportOutput is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TextureImportOutput {
-    pub importInspectorWarnings: String,
     pub sourceTextureInformation: SourceTextureInformation,
     pub textureImportInstructions: TextureImportInstructions,
+    /// String: (5.0.0f4 - 2022.3.2f1)
+    pub importInspectorWarnings: Option<String>,
 }
 
 /// TextureImporter is a  class of the Unity engine since version 3.4.0.
@@ -14331,134 +16278,153 @@ pub struct TextureImporter {
     pub m_TextureSettings: GLTextureSettings,
     /**Which type of texture are we dealing with here.*/
     pub m_TextureType: i32,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 5.4.6f3)
+    pub correctGamma: Option<i32>,
+    /// i32: (4.3.0 - 2022.3.2f1)
     pub m_Alignment: Option<i32>,
+    /// i32: (5.2.0f2 - 5.4.3f1)
+    pub m_AllowsAlphaSplitting: Option<i32>,
     /**If the alpha channel of your texture represents transparency, enable this property to dilate the color channels of visible texels into fully transparent areas. This effectively adds padding around transparent areas that prevents filtering artifacts from forming on their edges. Unity does not support this property for HDR textures.This property makes the color data of invisible texels undefined. Disable this property to preserve invisible texels' original color data.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.2.0 - 2022.3.2f1)
     pub m_AlphaIsTransparency: Option<i32>,
     /**Returns or assigns the alpha test reference value.*/
-    /// f32: (2017.4.33f1 - 2022.2.0b16)
+    /// f32: (2017.1.0b1 - 2022.3.2f1)
     pub m_AlphaTestReferenceValue: Option<f32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_AlphaUsage: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2019.3.6f1 - 2022.3.2f1)
     pub m_ApplyGammaDecoding: Option<i32>,
     /**Get or set the AssetBundle name.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleName: Option<String>,
     /**Get or set the AssetBundle variant.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<BuildTargetSettings>: (3.4.0 - 3.4.0)
+    /// Vec<BuildTargetSettings>: (3.4.0 - 5.4.6f3)
     pub m_BuildTargetSettings: Option<Vec<BuildTargetSettings>>,
     /**The quality of Crunch texture compression. The range is 0 through 100. A higher quality means larger textures and longer compression times.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_CompressionQuality: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_CompressionQualitySet: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.3.38f1 - 2022.3.2f1)
     pub m_CookieLightType: Option<i32>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.4.2)
     pub m_CorrectGamma: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_CubemapConvolution: Option<i32>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<(i32, String)>: (3.4.0 - 3.4.0); Vec<(i64, String)>: (5.6.0b2 - 2018.4.15f1)
+    /// f32: (5.0.0f4 - 5.4.6f3)
+    pub m_CubemapConvolutionExponent: Option<f32>,
+    /// i32: (5.0.0f4 - 5.4.6f3)
+    pub m_CubemapConvolutionSteps: Option<i32>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<(i32, String)>: (3.4.0 - 4.7.2); Vec<(i64, String)>: (5.0.0f4 - 2018.4.36f1)
     pub m_FileIDToRecycleName: Option<Vec<(i64, String)>>,
     /**Indicates whether to invert the green channel values of a normal map.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub m_FlipGreenChannel: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub m_FlipbookColumns: Option<i32>,
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub m_FlipbookRows: Option<i32>,
-    /// i32: (2021.2.16f1 - 2021.2.16f1)
+    /// i32: (2021.2.0b1 - 2022.2.0a18)
     pub m_IgnoreMasterTextureLimit: Option<i32>,
     /**Enable this flag for textures that should ignore mipmap limit settings.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0f1 - 2022.3.2f1)
     pub m_IgnoreMipmapLimit: Option<i32>,
     /**Ignore the Gamma attribute in PNG files. This property does not effect other file formats.*/
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
-    pub m_IgnorePngGamma: Option<i32>,
-    /// Vec<((i32, i64), String)>: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1); bool: (2020.1.0a3 - 2020.1.0a9)
+    pub m_IgnorePngGamma: Option<Enum_i32__bool>,
+    /// Vec<((i32, i64), String)>: (2019.1.0b1 - 2022.3.2f1)
     pub m_InternalIDToNameTable: Option<Vec<((i32, i64), String)>>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (3.5.0 - 2022.3.2f1)
     pub m_LinearTexture: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_MaxTextureSizeSet: Option<i32>,
     /**Enables or disables coverage-preserving alpha mipmapping.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_MipMapsPreserveCoverage: Option<i32>,
     /**Name of the texture mipmap limit group to which this texture belongs.*/
-    /// String: (2022.2.0b16 - 2022.2.0b16)
+    /// String: (2022.2.0f1 - 2022.3.2f1)
     pub m_MipmapLimitGroupName: Option<String>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_NewHashIdentity: Option<MdFour>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_OldHashIdentity: Option<MdFour>,
-    /// TextureImportOutput: (5.6.0b2 - 2022.2.0b16)
+    /// TextureImportOutput: (4.0.0 - 2022.3.2f1)
     pub m_Output: Option<TextureImportOutput>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.1f1 - 2022.3.2f1)
     pub m_PSDRemoveMatte: Option<bool>,
-    /// bool: (2018.4.15f1 - 2021.2.16f1)
+    /// bool: (2018.2.1f1 - 2022.1.0a12)
     pub m_PSDShowRemoveMatteOption: Option<bool>,
-    /// Vec<PlatformSettings>: (5.6.0b2 - 5.6.0b2); Vec<TextureImporterPlatformSettings>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<PlatformSettings>: (5.5.0f3 - 2017.2.5f1); Vec<TextureImporterPlatformSettings>: (2017.3.0b1 - 2022.3.2f1)
     pub m_PlatformSettings: Option<Vec<Enum_TextureImporterPlatformSettings__PlatformSettings>>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (2018.2.0b2 - 2018.2.0b2)
+    pub m_PushPullDilation: Option<i32>,
+    /// i32: (5.0.0f4 - 5.4.6f3)
+    pub m_RGBM: Option<i32>,
+    /// i32: (3.4.0 - 3.5.7)
     pub m_RecommendedTextureFormat: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_SeamlessCubemap: Option<i32>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.1.0b2 - 2022.3.2f1)
     pub m_SingleChannelComponent: Option<i32>,
-    /// SourceTextureInformation: (3.4.0 - 3.4.0)
+    /// SourceTextureInformation: (3.4.0 - 3.5.7)
     pub m_SourceTextureInformation: Option<SourceTextureInformation>,
     /**Border sizes of the generated sprites.*/
-    /// Vector4f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector4f: (4.5.0 - 2022.3.2f1)
     pub m_SpriteBorder: Option<Vector4f>,
-    /// u32: (5.6.0b2 - 2022.2.0b16)
+    /// u32: (4.3.0 - 2022.3.2f1)
     pub m_SpriteExtrude: Option<u32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.4.1f1 - 2022.3.2f1)
     pub m_SpriteGenerateFallbackPhysicsShape: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.3.0 - 2022.3.2f1)
     pub m_SpriteMeshType: Option<i32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.3.0 - 2022.3.2f1)
     pub m_SpriteMode: Option<i32>,
-    /// String: (5.6.0b2 - 2021.2.16f1)
+    /// String: (4.3.0 - 2022.1.24f1)
     pub m_SpritePackingTag: Option<String>,
     /**The point in the Sprite object's coordinate space where the graphic is located.*/
-    /// Vector2f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector2f: (4.3.0 - 2022.3.2f1)
     pub m_SpritePivot: Option<Vector2f>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (4.3.0 - 2022.3.2f1)
     pub m_SpritePixelsToUnits: Option<f32>,
-    /// SpriteSheetMetaData: (5.6.0b2 - 2022.2.0b16)
+    /// SpriteSheetMetaData: (4.3.0 - 2022.3.2f1)
     pub m_SpriteSheet: Option<SpriteSheetMetaData>,
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.4.0f3 - 2022.3.2f1)
     pub m_SpriteTessellationDetail: Option<f32>,
     /**Enable mipmap streaming for this texture.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_StreamingMipmaps: Option<i32>,
     /**Relative priority for this texture when reducing memory size in order to hit the memory budget.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.2.0b1 - 2022.3.2f1)
     pub m_StreamingMipmapsPriority: Option<i32>,
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// u32: (2022.1.0b1 - 2022.3.2f1)
     pub m_Swizzle: Option<u32>,
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_TextureFormatSet: Option<i32>,
     /**The shape of the imported texture.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_TextureShape: Option<i32>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
     /**Get or set any user data.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (4.0.0 - 2022.3.2f1)
     pub m_UserData: Option<String>,
     /**When enabled, this texture can solely be used in combination with a Texture Stack for Virtual Texturing. When enabled the texture is not guaranteed to be available as a Texture2D in the Player (e.g., not accessible from a script). When disabled, the Player includes the texture both as a Texture2D (e.g., accessible from script) and as a streamable texture in a Texture Stack.*/
-    /// i32: (2020.1.0a20 - 2022.2.0b16)
+    /// i32: (2020.1.0b1 - 2022.3.2f1)
     pub m_VTOnly: Option<i32>,
     /**Whether this texture stores data in sRGB (also called gamma) color space.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.5.0f3 - 2022.3.2f1)
     pub m_sRGBTexture: Option<i32>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_i32__bool {
+    i32(i32),
+    bool(bool),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -14468,7 +16434,7 @@ pub enum Enum_TextureImporterPlatformSettings__PlatformSettings {
     PlatformSettings(PlatformSettings),
 }
 
-/// TextureImporterPlatformSettings is a sub class of the Unity engine since version 2017.4.33f1.
+/// TextureImporterPlatformSettings is a sub class of the Unity engine since version 2017.3.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/TextureImporterPlatformSettings.html):
 /**
 Stores platform specifics settings of a TextureImporter.
@@ -14494,18 +16460,21 @@ pub struct TextureImporterPlatformSettings {
     /**Compression of imported texture.*/
     pub m_TextureCompression: i32,
     pub m_TextureFormat: i32,
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.2.0b1 - 2022.3.2f1)
     pub m_ForceMaximumCompressionQuality_BC6H_BC7: Option<bool>,
+    /**Ignores platform support checks for the selected texture format.*/
+    /// bool: (2022.2.20f1 - 2022.3.2f1)
+    pub m_IgnorePlatformSupport: Option<bool>,
 }
 
-/// TextureParameter is a sub class of the Unity engine since version 5.6.0b2.
+/// TextureParameter is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TextureParameter {
     pub m_Dim: i8,
     pub m_Index: i32,
     pub m_NameIndex: i32,
     pub m_SamplerIndex: i32,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub m_MultiSampled: Option<bool>,
 }
 
@@ -14518,7 +16487,7 @@ pub struct TextureParameters {
     pub width: i32,
 }
 
-/// TextureSettings is a sub class of the Unity engine since version 2020.1.0a20.
+/// TextureSettings is a sub class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TextureSettings {
     pub anisoLevel: i32,
@@ -14532,22 +16501,24 @@ pub struct TextureSettings {
     pub textureCompression: i32,
 }
 
-/// TierGraphicsSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// TierGraphicsSettings is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TierGraphicsSettings {
-    pub hdrMode: i32,
     pub renderingPath: i32,
     pub useCascadedShadowMaps: bool,
-    pub useHDR: bool,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.3f1 - 2022.3.2f1)
     pub enableLPPV: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0b1 - 2022.3.2f1)
+    pub hdrMode: Option<i32>,
+    /// bool: (2017.1.1f1 - 2022.3.2f1)
     pub prefer32BitShadowMaps: Option<bool>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f1 - 2022.3.2f1)
     pub realtimeGICPUUsage: Option<i32>,
+    /// bool: (5.6.0b1 - 2022.3.2f1)
+    pub useHDR: Option<bool>,
 }
 
-/// Tile is a sub class of the Unity engine since version 2017.4.33f1.
+/// Tile is a sub class of the Unity engine since version 2017.2.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Tilemaps.Tile.html):
 /**
 Class for a default tile in the Tilemap.
@@ -14559,21 +16530,21 @@ pub struct Tile {
     pub m_TileIndex: u32,
     pub m_TileMatrixIndex: u32,
     pub m_TileSpriteIndex: u32,
-    /// u16: (2020.3.42f1 - 2022.2.0b16)
+    /// u16: (2019.4.24f1 - 2022.3.2f1)
     pub dummyAlignment: Option<u16>,
-    /// u32: (2019.3.0f4 - 2022.2.0b16)
+    /// u32: (2019.3.0b1 - 2022.3.2f1)
     pub m_AllTileFlags: Option<u32>,
-    /// i32: (2017.4.33f1 - 2018.4.15f1)
+    /// i32: (2017.2.0b2 - 2019.3.0a11)
     pub m_ColliderType: Option<i32>,
-    /// PPtr/*<GameObject>*/: (2017.4.33f1 - 2018.4.15f1)
-    pub m_ObjectToInstantiate: Option<PPtr /*<GameObject>*/>,
-    /// i32: (2017.4.33f1 - 2018.4.15f1)
-    pub m_TileFlags: Option<i32>,
-    /// u16: (2019.3.0f4 - 2022.2.0b16)
+    /// PPtr<GameObject>: (2017.2.0b2 - 2019.3.0a11)
+    pub m_ObjectToInstantiate: Option<PPtr>,
+    /// u32: (2017.2.0b2 - 2017.2.0b6); i32: (2017.2.0f2 - 2019.3.0a11)
+    pub m_TileFlags: Option<i64>,
+    /// u16: (2019.3.0b1 - 2022.3.2f1)
     pub m_TileObjectToInstantiateIndex: Option<u16>,
 }
 
-/// TileAnimationData is a sub class of the Unity engine since version 2017.4.33f1.
+/// TileAnimationData is a sub class of the Unity engine since version 2017.2.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Tilemaps.TileAnimationData.html):
 /**
 A Struct for the required data for animating a Tile.
@@ -14581,18 +16552,19 @@ A Struct for the required data for animating a Tile.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TileAnimationData {
     /**The array of sprites that are ordered by appearance in the animation.*/
-    pub m_AnimatedSprites: Vec<PPtr /*<Sprite>*/>,
+    /// Vec<PPtr<Sprite>>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_AnimatedSprites: Vec<PPtr>,
     /**The animation speed.*/
     pub m_AnimationSpeed: f32,
     pub m_AnimationTimeOffset: f32,
     /**TileAnimationFlags for controlling the Tile Animation.*/
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// u32: (2022.2.0b1 - 2022.3.2f1)
     pub m_Flags: Option<u32>,
-    /// bool: (2017.4.33f1 - 2021.2.16f1)
+    /// bool: (2017.2.0b2 - 2022.1.24f1)
     pub m_IsLooping: Option<bool>,
 }
 
-/// Tilemap is a  class of the Unity engine since version 2017.4.33f1.
+/// Tilemap is a  class of the Unity engine since version 2017.2.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Tilemaps.Tilemap.html):
 /**
 The Tilemap stores Sprites in a layout marked by a Grid component.
@@ -14607,7 +16579,8 @@ pub struct Tilemap {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The origin of the Tilemap in cell position.*/
     pub m_Origin: int3_storage,
     /**The size of the Tilemap in cells.*/
@@ -14621,11 +16594,11 @@ pub struct Tilemap {
     pub m_TileOrientationMatrix: Matrix4x4f,
     pub m_TileSpriteArray: Vec<TilemapRefCountedData>,
     pub m_Tiles: Vec<(int3_storage, Tile)>,
-    /// Vec<TilemapRefCountedData>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<TilemapRefCountedData>: (2019.3.0b1 - 2022.3.2f1)
     pub m_TileObjectToInstantiateArray: Option<Vec<TilemapRefCountedData>>,
 }
 
-/// TilemapCollider2D is a  class of the Unity engine since version 2017.4.33f1.
+/// TilemapCollider2D is a  class of the Unity engine since version 2017.2.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Tilemaps.TilemapCollider2D.html):
 /**
 Collider for 2D physics representing shapes defined by the corresponding Tilemap.
@@ -14638,10 +16611,12 @@ pub struct TilemapCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    pub m_Material: PPtr, /*<PhysicsMaterial2D>*/
+    /// PPtr<PhysicsMaterial2D>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_Material: PPtr,
     /**The local offset of the collider geometry.*/
     pub m_Offset: Vector2f,
     /**Sets whether the Collider will be used or not used by a CompositeCollider2D.*/
@@ -14649,52 +16624,54 @@ pub struct TilemapCollider2D {
     /**Whether the collider is used by an attached effector or not.*/
     pub m_UsedByEffector: bool,
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ContactCaptureLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should exclude when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**The amount of Collider shapes each Tile extrudes to facilitate compositing with neighboring Tiles. This eliminates fine gaps between Tiles when using a CompositeCollider2D. This is calculated in Unity units within world space.*/
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.3f1 - 2022.3.2f1)
     pub m_ExtrusionFactor: Option<f32>,
     /**The Layers that this Collider2D can receive forces from during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceReceiveLayers: Option<BitField>,
     /**The Layers that this Collider2D is allowed to send forces to during a Collision contact with another Collider2D.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ForceSendLayers: Option<BitField>,
     /**The additional Layers that this Collider2D should include when deciding if a contact with another Collider2D should happen or not.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider2D used when there is a conflicting decision on whether a contact between itself and another Collision2D should happen or not.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**Maximum number of Tile Changes accumulated before doing a full collider rebuild instead of an incremental rebuild.*/
-    /// u32: (2019.3.0f4 - 2022.2.0b16)
+    /// u32: (2019.1.0b1 - 2022.3.2f1)
     pub m_MaximumTileChangeCount: Option<u32>,
     /**When the value is true, the Collider uses an additional Delaunay triangulation step to produce the Collider mesh. When the value is false, this additional step does not occur.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_UseDelaunayMesh: Option<bool>,
 }
 
-/// TilemapEditorUserSettings is a  class of the Unity engine since version 2017.4.33f1.
+/// TilemapEditorUserSettings is a  class of the Unity engine since version 2017.2.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TilemapEditorUserSettings {
     pub m_FocusMode: i32,
-    pub m_LastUsedPalette: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.2.0b2 - 2019.2.0a6)
+    pub m_LastUsedPalette: PPtr,
 }
 
-/// TilemapRefCountedData is a sub class of the Unity engine since version 2017.4.33f1.
+/// TilemapRefCountedData is a sub class of the Unity engine since version 2017.2.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TilemapRefCountedData {
-    pub m_Data: PPtr, /*<Object>*/
+    /// PPtr<Object>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_Data: PPtr,
     pub m_RefCount: u32,
 }
 
-/// TilemapRenderer is a  class of the Unity engine since version 2017.4.33f1.
+/// TilemapRenderer is a  class of the Unity engine since version 2017.2.0b2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Tilemaps.TilemapRenderer.html):
 /**
 The tile map renderer is used to render the tile map marked out by a tile map component and a grid component.
@@ -14703,18 +16680,18 @@ This class is a script interface for a tile map renderer component.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TilemapRenderer {
     pub m_CastShadows: u8,
-    /**Bounds used for culling of Tilemap chunks.*/
-    pub m_ChunkCullingBounds: Vector3f,
     /**Size in number of tiles of each chunk created by the TilemapRenderer.*/
     pub m_ChunkSize: int3_storage,
     pub m_DynamicOccludee: u8,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The light probe interpolation type.*/
     pub m_LightProbeUsage: u8,
-    pub m_LightProbeVolumeOverride: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapIndexDynamic: u16,
@@ -14723,14 +16700,16 @@ pub struct TilemapRenderer {
     /**Specifies how the Tilemap interacts with the masks.*/
     pub m_MaskInteraction: i32,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     /**Maximum number of chunks the TilemapRenderer caches in memory.*/
     pub m_MaxChunkCount: u32,
     /**Maximum number of frames the TilemapRenderer keeps unused chunks in memory.*/
     pub m_MaxFrameAge: u32,
     pub m_MotionVectors: u8,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    pub m_ProbeAnchor: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: u8,
     /**Should reflection probes be used for this Renderer?*/
@@ -14743,26 +16722,30 @@ pub struct TilemapRenderer {
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
     pub m_StaticBatchInfo: StaticBatchInfo,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
+    /**Bounds used for culling of Tilemap chunks.*/
+    /// Vector3f: (2017.4.33f1 - 2022.3.2f1)
+    pub m_ChunkCullingBounds: Option<Vector3f>,
     /**Returns whether the TilemapRenderer automatically detects the bounds to extend chunk culling by.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.1.0f2 - 2022.3.2f1)
     pub m_DetectChunkCullingBounds: Option<i32>,
     /**The mode in which the TileMapRenderer batches the tiles for rendering.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_Mode: Option<i32>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
 }
 
@@ -14770,18 +16753,18 @@ pub struct TilemapRenderer {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TimeManager {
     pub m_TimeScale: f32,
-    /// f32: (3.4.0 - 2022.2.0b16)
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "Fixed Timestep")]
     pub Fixed_Timestep: Option<f32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "Maximum Particle Timestep")]
     pub Maximum_Particle_Timestep: Option<f32>,
-    /// f32: (3.4.0 - 2022.2.0b16)
+    /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "Maximum Allowed Timestep")]
     pub Maximum_Allowed_Timestep: Option<f32>,
 }
 
-/// TrailModule is a sub class of the Unity engine since version 5.6.0b2.
+/// TrailModule is a sub class of the Unity engine since version 5.5.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.TrailModule.html):
 /**
 Script interface for the TrailsModule.
@@ -14816,25 +16799,25 @@ pub struct TrailModule {
     /**Drop new trail points in world space, regardless of Particle System Simulation Space.*/
     pub worldSpace: bool,
     /**Adds an extra position to each ribbon, connecting it to the location of the Transform Component.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub attachRibbonsToTransform: Option<bool>,
     /**Configures the trails to generate Normals and Tangents. With this data, Scene lighting can affect the trails via Normal Maps and the Unity Standard Shader, or your own custom-built Shaders.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.0b2 - 2022.3.2f1)
     pub generateLightingData: Option<bool>,
     /**Choose how the system generates the particle trails.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub mode: Option<i32>,
     /**Select how many lines to create through the Particle System.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub ribbonCount: Option<i32>,
     /**Apply a shadow bias to prevent self-shadowing artifacts. The specified value is the proportion of the trail width at each segment.*/
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub shadowBias: Option<f32>,
     /**Specifies whether, if you use this system as a sub-emitter, ribbons connect particles from each parent particle independently.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub splitSubEmitterRibbons: Option<bool>,
     /**A multiplier for the UV coordinates of the trail texture.*/
-    /// Vector2f: (2022.2.0b16 - 2022.2.0b16)
+    /// Vector2f: (2022.1.0b1 - 2022.3.2f1)
     pub textureScale: Option<Vector2f>,
 }
 
@@ -14852,82 +16835,89 @@ pub struct TrailRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    pub m_Materials: Vec<PPtr /*<Material>*/>,
+    /// Vec<PPtr<Material>>: (3.4.0 - 2022.3.2f1)
+    pub m_Materials: Vec<PPtr>,
     /**Set the minimum distance the trail can travel before a new vertex is added to it.*/
     pub m_MinVertexDistance: f32,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (3.4.0 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
     /**How long does the trail take to fade out.*/
     pub m_Time: f32,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_ApplyActiveColorSpace: Option<bool>,
-    /// Gradient: (3.4.0 - 3.4.0)
+    /// Gradient: (3.4.0 - 5.4.6f3)
     pub m_Colors: Option<Gradient>,
-    /// u8: (2017.4.33f1 - 2022.2.0b16)
+    /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
     /**Creates trails when the GameObject moves.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.2.0b1 - 2022.3.2f1)
     pub m_Emitting: Option<bool>,
     /**The width of the trail at the end of the trail.*/
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.4.6f3)
     pub m_EndWidth: Option<f32>,
+    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    pub m_LightProbeAnchor: Option<PPtr>,
     /**The light probe interpolation type.*/
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr/*<GameObject>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_LightProbeVolumeOverride: Option<PPtr /*<GameObject>*/>,
-    /// u16: (5.6.0b2 - 2022.2.0b16)
+    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: Option<PPtr>,
+    /// u16: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapIndexDynamic: Option<u16>,
-    /// Vector4f: (5.6.0b2 - 2022.2.0b16)
+    /// Vector4f: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapTilingOffsetDynamic: Option<Vector4f>,
     /**Specifies how the TrailRenderer interacts with SpriteMask.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub m_MaskInteraction: Option<i32>,
-    /// u8: (5.6.0b2 - 2022.2.0b16)
+    /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_MotionVectors: Option<u8>,
-    /// LineParameters: (5.6.0b2 - 2022.2.0b16)
+    /// LineParameters: (5.5.0f3 - 2022.3.2f1)
     pub m_Parameters: Option<LineParameters>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr/*<Transform>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_ProbeAnchor: Option<PPtr /*<Transform>*/>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    pub m_ProbeAnchor: Option<PPtr>,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
     /**Describes how this renderer is updated for ray tracing.*/
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
     /**Should reflection probes be used for this Renderer?*/
-    /// u8: (5.6.0b2 - 2022.2.0b16)
-    pub m_ReflectionProbeUsage: Option<u8>,
+    /// i32: (5.0.0f4 - 5.3.8f2); u8: (5.4.0f3 - 2022.3.2f1)
+    pub m_ReflectionProbeUsage: Option<i32>,
     /**This value sorts renderers by priority. Lower values are rendered first and higher values are rendered last.*/
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub m_RendererPriority: Option<i32>,
     /**Determines which rendering layer this renderer lives on.*/
-    /// u32: (2018.4.15f1 - 2022.2.0b16)
+    /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
-    /// i16: (5.6.0b2 - 2022.2.0b16)
+    /// i16: (4.3.0 - 2022.3.2f1)
     pub m_SortingLayer: Option<i16>,
     /**Unique ID of the Renderer's sorting layer.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
-    pub m_SortingLayerID: Option<i32>,
+    /// u32: (4.5.0 - 4.7.2); i32: (5.0.0f4 - 2022.3.2f1)
+    pub m_SortingLayerID: Option<i64>,
     /**Renderer's order within a sorting layer.*/
-    /// i16: (5.6.0b2 - 2022.2.0b16)
+    /// i16: (4.3.0 - 2022.3.2f1)
     pub m_SortingOrder: Option<i16>,
     /**The width of the trail at the spawning point.*/
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 5.4.6f3)
     pub m_StartWidth: Option<f32>,
-    /// StaticBatchInfo: (5.6.0b2 - 2022.2.0b16)
+    /// StaticBatchInfo: (5.5.0f3 - 2022.3.2f1)
     pub m_StaticBatchInfo: Option<StaticBatchInfo>,
     /**Is this renderer a static shadow caster?*/
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
-    /// Vec<u32>: (3.4.0 - 3.4.0)
+    /// Vec<u32>: (3.4.0 - 5.4.6f3)
     pub m_SubsetIndices: Option<Vec<u32>>,
+    /// bool: (3.5.0 - 5.3.8f2)
+    pub m_UseLightProbes: Option<bool>,
 }
 
 /// Transform is a  class of the Unity engine since version 3.4.0.
@@ -14945,10 +16935,13 @@ See Also: The component reference, Physics class.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Transform {
-    pub m_Children: Vec<PPtr /*<Transform>*/>,
-    pub m_Father: PPtr, /*<Transform>*/
+    /// Vec<PPtr<Transform>>: (3.4.0 - 2022.3.2f1)
+    pub m_Children: Vec<PPtr>,
+    /// PPtr<Transform>: (3.4.0 - 2022.3.2f1)
+    pub m_Father: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Position of the transform relative to the parent transform.*/
     pub m_LocalPosition: Vector3f,
     /**The rotation of the transform relative to the transform rotation of the parent.*/
@@ -14957,11 +16950,29 @@ pub struct Transform {
     pub m_LocalScale: Vector3f,
 }
 
-/// TransformMaskElement is a sub class of the Unity engine since version 5.6.0b2.
+/// TransformMaskElement is a sub class of the Unity engine since version 4.1.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TransformMaskElement {
     pub m_Path: String,
     pub m_Weight: f32,
+}
+
+/// Transition is a  class of the Unity engine since version 4.0.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Transition {
+    pub m_Atomic: bool,
+    pub m_Conditions: Vec<Condition>,
+    /// PPtr<State>: (4.0.0 - 4.7.2)
+    pub m_DstState: PPtr,
+    pub m_Mute: bool,
+    pub m_Name: String,
+    pub m_Solo: bool,
+    /// PPtr<State>: (4.0.0 - 4.7.2)
+    pub m_SrcState: PPtr,
+    pub m_TransitionDuration: f32,
+    pub m_TransitionOffset: f32,
+    /// bool: (4.5.0 - 4.7.2)
+    pub m_CanTransitionToSelf: Option<bool>,
 }
 
 /// Tree is a  class of the Unity engine since version 3.4.0.
@@ -14972,9 +16983,10 @@ Tree Component for the tree creator.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Tree {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
-    /// PPtr/*<SpeedTreeWindAsset>*/: (5.6.0b2 - 2022.2.0b16)
-    pub m_SpeedTreeWindAsset: Option<PPtr /*<SpeedTreeWindAsset>*/>,
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
+    /// PPtr<SpeedTreeWindAsset>: (5.0.0f4 - 2022.3.2f1)
+    pub m_SpeedTreeWindAsset: Option<PPtr>,
 }
 
 /// TreeInstance is a sub class of the Unity engine since version 3.4.0.
@@ -14997,7 +17009,7 @@ pub struct TreeInstance {
     /**Width scale of this instance (compared to the prototype's size).*/
     pub widthScale: f32,
     /**Read-only.Rotation of the tree on X-Z plane (in radians).*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub rotation: Option<f32>,
 }
 
@@ -15012,13 +17024,14 @@ pub struct TreePrototype {
     /**Bend factor of the tree prototype.*/
     pub bendFactor: f32,
     /**Retrieves the actual GameObject used by the tree.*/
-    pub prefab: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub prefab: PPtr,
     /**The LOD index of a Tree LODGroup that Unity uses to generate a NavMesh. It uses this value only for Trees with a LODGroup, and ignores this value for regular Trees.*/
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub navMeshLod: Option<i32>,
 }
 
-/// TriggerModule is a sub class of the Unity engine since version 5.6.0b2.
+/// TriggerModule is a sub class of the Unity engine since version 5.4.0f3.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/ParticleSystem.TriggerModule.html):
 /**
 Script interface for the TriggerModule.
@@ -15039,22 +17052,22 @@ pub struct TriggerModule {
     /**A multiplier Unity applies to the size of each particle before it processes overlaps.*/
     pub radiusScale: f32,
     /**Determines whether collider information is available when calling [[ParticleSystem::GetTriggerParticles]].*/
-    /// i32: (2020.3.42f1 - 2022.2.0b16)
+    /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub colliderQueryMode: Option<i32>,
-    /// PPtr/*<Component>*/: (5.6.0b2 - 2020.1.0a20)
-    pub collisionShape0: Option<PPtr /*<Component>*/>,
-    /// PPtr/*<Component>*/: (5.6.0b2 - 2020.1.0a20)
-    pub collisionShape1: Option<PPtr /*<Component>*/>,
-    /// PPtr/*<Component>*/: (5.6.0b2 - 2020.1.0a20)
-    pub collisionShape2: Option<PPtr /*<Component>*/>,
-    /// PPtr/*<Component>*/: (5.6.0b2 - 2020.1.0a20)
-    pub collisionShape3: Option<PPtr /*<Component>*/>,
-    /// PPtr/*<Component>*/: (5.6.0b2 - 2020.1.0a20)
-    pub collisionShape4: Option<PPtr /*<Component>*/>,
-    /// PPtr/*<Component>*/: (5.6.0b2 - 2020.1.0a20)
-    pub collisionShape5: Option<PPtr /*<Component>*/>,
-    /// Vec<PPtr/*<Component>*/>: (2020.3.42f1 - 2022.2.0b16)
-    pub primitives: Option<Vec<PPtr /*<Component>*/>>,
+    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    pub collisionShape0: Option<PPtr>,
+    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    pub collisionShape1: Option<PPtr>,
+    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    pub collisionShape2: Option<PPtr>,
+    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    pub collisionShape3: Option<PPtr>,
+    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    pub collisionShape4: Option<PPtr>,
+    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    pub collisionShape5: Option<PPtr>,
+    /// Vec<PPtr<Component>>: (2020.2.0b1 - 2022.3.2f1)
+    pub primitives: Option<Vec<PPtr>>,
 }
 
 /// TrueTypeFontImporter is a  class of the Unity engine since version 3.4.0.
@@ -15074,59 +17087,61 @@ pub struct TrueTypeFontImporter {
     /**The name of the object.*/
     pub m_Name: String,
     /**Calculation mode for determining font's ascent.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (5.3.4f1 - 2022.3.2f1)
     pub m_AscentCalculationMode: Option<i32>,
     /**Get or set the AssetBundle name.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleName: Option<String>,
     /**Get or set the AssetBundle variant.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
     /**Border pixels added to character images for padding. This is useful if you want to render text using a shader which needs to render outside of the character area (like an outline shader).*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_CharacterPadding: Option<i32>,
     /**Spacing between character images in the generated texture in pixels. This is useful if you want to render text using a shader which samples pixels outside of the character area (like an outline shader).*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_CharacterSpacing: Option<i32>,
     /**A custom set of characters to be included in the Font Texture.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (3.5.0 - 2022.3.2f1)
     pub m_CustomCharacters: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
-    /// Vec<PPtr/*<Font>*/>: (5.6.0b2 - 2022.2.0b16)
-    pub m_FallbackFontReferences: Option<Vec<PPtr /*<Font>*/>>,
-    /// Vec<(i32, String)>: (3.4.0 - 3.4.0)
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
+    /// Vec<PPtr<Font>>: (5.2.0f2 - 2022.3.2f1)
+    pub m_FallbackFontReferences: Option<Vec<PPtr>>,
+    /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// ColorRGBA: (3.5.0 - 4.1.5)
+    pub m_FontColor: Option<ColorRGBA>,
+    /// String: (5.5.0f3 - 2022.3.2f1)
     pub m_FontName: Option<String>,
     /**Font rendering mode to use for this font.*/
-    /// i32: (5.6.0b2 - 2022.2.0b16)
+    /// i32: (4.0.0 - 2022.3.2f1)
     pub m_FontRenderingMode: Option<i32>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_NewHashIdentity: Option<MdFour>,
-    /// MdFour: (3.4.0 - 3.4.0)
+    /// MdFour: (3.4.0 - 3.4.2)
     pub m_OldHashIdentity: Option<MdFour>,
-    /// Output: (5.6.0b2 - 2022.2.0b16)
+    /// Output: (4.0.0 - 2022.3.2f1)
     pub m_Output: Option<Output>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.5.7)
     pub m_RenderMode: Option<i32>,
     /**Set this property to true if you want to round the internal advance width of the font to the nearest integer.*/
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_ShouldRoundAdvanceValue: Option<bool>,
-    /// i32: (3.4.0 - 3.4.0)
+    /// i32: (3.4.0 - 3.5.7)
     pub m_Style: Option<i32>,
-    /// bool: (3.4.0 - 3.4.0)
+    /// bool: (3.4.0 - 5.3.3f1)
     pub m_Use2xBehaviour: Option<bool>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.5f1 - 2022.3.2f1)
     pub m_UseLegacyBoundsCalculation: Option<bool>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
     /**Get or set any user data.*/
-    /// String: (5.6.0b2 - 2022.2.0b16)
+    /// String: (4.0.0 - 2022.3.2f1)
     pub m_UserData: Option<String>,
 }
 
-/// UAVParameter is a sub class of the Unity engine since version 5.6.0b2.
+/// UAVParameter is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UAVParameter {
     pub m_Index: i32,
@@ -15134,110 +17149,137 @@ pub struct UAVParameter {
     pub m_OriginalIndex: i32,
 }
 
+/// UIRenderer is a  class of the Unity engine since version 4.5.0.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct UIRenderer {
+    /// PPtr<GameObject>: (4.5.0 - 4.5.5)
+    pub m_GameObject: PPtr,
+}
+
 /// UVAnimation is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UVAnimation {
     pub cycles: f32,
-    /// i32: (3.4.0 - 2017.4.33f1)
+    /// i32: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "x Tile")]
     pub x_Tile: Option<i32>,
-    /// i32: (3.4.0 - 2017.4.33f1)
+    /// i32: (3.4.0 - 2018.2.21f1)
     #[serde(alias = "y Tile")]
     pub y_Tile: Option<i32>,
 }
 
-/// UVModule is a sub class of the Unity engine since version 5.6.0b2.
+/// UVModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UVModule {
     pub animationType: i32,
     pub cycles: f32,
     pub enabled: bool,
-    pub flipU: f32,
-    pub flipV: f32,
     pub frameOverTime: MinMaxCurve,
     pub rowIndex: i32,
-    pub startFrame: MinMaxCurve,
     pub tilesX: i32,
     pub tilesY: i32,
-    pub uvChannelMask: i32,
-    /// f32: (2018.4.15f1 - 2022.2.0b16)
+    /// f32: (5.5.0f3 - 2022.3.2f1)
+    pub flipU: Option<f32>,
+    /// f32: (5.5.0f3 - 2022.3.2f1)
+    pub flipV: Option<f32>,
+    /// f32: (2018.3.0f2 - 2022.3.2f1)
     pub fps: Option<f32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub mode: Option<i32>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (3.5.0 - 2018.4.36f1)
     pub randomRow: Option<bool>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub rowMode: Option<i32>,
-    /// Vector2f: (2018.4.15f1 - 2022.2.0b16)
+    /// Vector2f: (2018.3.0f2 - 2022.3.2f1)
     pub speedRange: Option<Vector2f>,
-    /// Vec<SpriteData>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<SpriteData>: (2017.1.0b1 - 2022.3.2f1)
     pub sprites: Option<Vec<SpriteData>>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (5.4.0f3 - 2022.3.2f1)
+    pub startFrame: Option<MinMaxCurve>,
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub timeMode: Option<i32>,
+    /// i32: (5.4.0f3 - 2022.3.2f1)
+    pub uvChannelMask: Option<i32>,
 }
 
-/// UnityAdsManager is a  class of the Unity engine since version 5.6.0b2.
+/// UnityAdsManager is a  class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UnityAdsManager {}
 
-/// UnityAdsSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// UnityAdsSettings is a  class of the Unity engine since version 5.2.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UnityAdsSettings {
     pub m_Enabled: bool,
     pub m_InitializeOnStartup: bool,
     pub m_TestMode: bool,
-    /// String: (5.6.0b2 - 5.6.0b2)
+    /// String: (5.2.0f2 - 5.6.7f1)
     pub m_AndroidGameId: Option<String>,
-    /// u32: (5.6.0b2 - 5.6.0b2)
+    /// u32: (5.2.0f2 - 2017.1.5f1)
     pub m_EnabledPlatforms: Option<u32>,
-    /// String: (2017.4.33f1 - 2022.2.0b16)
+    /// String: (2017.1.0b1 - 2022.3.2f1)
     pub m_GameId: Option<String>,
-    /// String: (5.6.0b2 - 5.6.0b2)
+    /// String: (5.2.0f2 - 5.6.7f1)
     pub m_IosGameId: Option<String>,
 }
 
-/// UnityAnalyticsManager is a  class of the Unity engine since version 5.6.0b2.
+/// UnityAnalyticsManager is a  class of the Unity engine since version 5.2.0f2.
 #[derive(Debug, Serialize, Deserialize)]
-pub struct UnityAnalyticsManager {}
+pub struct UnityAnalyticsManager {
+    /// bool: (5.2.0f2 - 5.2.5f1)
+    pub m_Enabled: Option<bool>,
+    /// bool: (5.2.0f2 - 5.2.5f1)
+    pub m_InitializeOnStartup: Option<bool>,
+    /// String: (5.2.0f2 - 5.2.5f1)
+    pub m_TestConfigUrl: Option<String>,
+    /// String: (5.2.0f2 - 5.2.5f1)
+    pub m_TestEventUrl: Option<String>,
+    /// bool: (5.2.0f2 - 5.2.5f1)
+    pub m_TestMode: Option<bool>,
+}
 
-/// UnityAnalyticsSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// UnityAnalyticsSettings is a sub class of the Unity engine since version 5.3.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UnityAnalyticsSettings {
     pub m_Enabled: bool,
     pub m_InitializeOnStartup: bool,
     pub m_TestMode: bool,
-    /// bool: (2020.3.42f1 - 2022.2.0b16)
+    /// bool: (2020.3.41f1 - 2022.3.2f1)
     pub m_PackageRequiringCoreStatsPresent: Option<bool>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (5.3.0f1 - 2018.2.21f1)
     pub m_TestConfigUrl: Option<String>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (5.3.0f1 - 2018.2.21f1)
     pub m_TestEventUrl: Option<String>,
 }
 
-/// UnityConnectSettings is a  class of the Unity engine since version 5.6.0b2.
+/// UnityConnectSettings is a  class of the Unity engine since version 5.3.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UnityConnectSettings {
-    pub CrashReportingSettings: CrashReportingSettings,
-    pub PerformanceReportingSettings: PerformanceReportingSettings,
-    pub UnityAdsSettings: UnityAdsSettings,
     pub UnityAnalyticsSettings: UnityAnalyticsSettings,
     pub UnityPurchasingSettings: UnityPurchasingSettings,
-    pub m_Enabled: bool,
-    pub m_TestMode: bool,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// CrashReportingSettings: (5.4.0f3 - 2022.3.2f1)
+    pub CrashReportingSettings: Option<CrashReportingSettings>,
+    /// PerformanceReportingSettings: (5.6.0b1 - 2022.3.2f1)
+    pub PerformanceReportingSettings: Option<PerformanceReportingSettings>,
+    /// UnityAdsSettings: (5.5.0f3 - 2022.3.2f1)
+    pub UnityAdsSettings: Option<UnityAdsSettings>,
+    /// String: (2018.3.0f2 - 2022.3.2f1)
     pub m_ConfigUrl: Option<String>,
-    /// String: (2020.3.42f1 - 2022.2.0b16)
+    /// String: (2020.3.5f1 - 2022.3.2f1)
     pub m_DashboardUrl: Option<String>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (5.4.0f3 - 2022.3.2f1)
+    pub m_Enabled: Option<bool>,
+    /// String: (2018.3.0f2 - 2022.3.2f1)
     pub m_EventOldUrl: Option<String>,
-    /// String: (2018.4.15f1 - 2022.2.0b16)
+    /// String: (2018.3.0f2 - 2022.3.2f1)
     pub m_EventUrl: Option<String>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (5.4.0f3 - 2018.2.21f1)
     pub m_TestConfigUrl: Option<String>,
-    /// String: (5.6.0b2 - 2017.4.33f1)
+    /// String: (5.4.0f3 - 2018.2.21f1)
     pub m_TestEventUrl: Option<String>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (5.6.0f1 - 2022.3.2f1)
     pub m_TestInitMode: Option<i32>,
+    /// bool: (5.4.0f3 - 2022.3.2f1)
+    pub m_TestMode: Option<bool>,
 }
 
 /// UnityPropertySheet is a sub class of the Unity engine since version 3.4.0.
@@ -15246,18 +17288,11 @@ pub struct UnityPropertySheet {
     pub m_Colors: Vec<(Enum_FastPropertyName__String, ColorRGBA)>,
     pub m_Floats: Vec<(Enum_FastPropertyName__String, f32)>,
     pub m_TexEnvs: Vec<(Enum_FastPropertyName__String, UnityTexEnv)>,
-    /// Vec<(String, i32)>: (2021.2.16f1 - 2022.2.0b16)
+    /// Vec<(String, i32)>: (2021.1.0b1 - 2022.3.2f1)
     pub m_Ints: Option<Vec<(String, i32)>>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum Enum_FastPropertyName__String {
-    FastPropertyName(FastPropertyName),
-    String(String),
-}
-
-/// UnityPurchasingSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// UnityPurchasingSettings is a sub class of the Unity engine since version 5.3.0f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UnityPurchasingSettings {
     pub m_Enabled: bool,
@@ -15269,10 +17304,11 @@ pub struct UnityPurchasingSettings {
 pub struct UnityTexEnv {
     pub m_Offset: Vector2f,
     pub m_Scale: Vector2f,
-    pub m_Texture: PPtr, /*<Texture>*/
+    /// PPtr<Texture>: (3.4.0 - 2022.3.2f1)
+    pub m_Texture: PPtr,
 }
 
-/// UpdateZoneInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// UpdateZoneInfo is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UpdateZoneInfo {
     pub needSwap: bool,
@@ -15282,13 +17318,13 @@ pub struct UpdateZoneInfo {
     pub updateZoneSize: Vector3f,
 }
 
-/// VFXCPUBufferData is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXCPUBufferData is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXCPUBufferData {
     pub data: Vec<u32>,
 }
 
-/// VFXCPUBufferDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXCPUBufferDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXCPUBufferDesc {
     pub capacity: u32,
@@ -15297,7 +17333,7 @@ pub struct VFXCPUBufferDesc {
     pub stride: u32,
 }
 
-/// VFXEditorSystemDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXEditorSystemDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXEditorSystemDesc {
     pub buffers: Vec<VFXMapping>,
@@ -15306,94 +17342,95 @@ pub struct VFXEditorSystemDesc {
     pub layer: u32,
     pub tasks: Vec<VFXEditorTaskDesc>,
     pub values: Vec<VFXMapping>,
-    /// i32: (2018.4.15f1 - 2019.3.0f4)
+    /// i32: (2018.3.0f2 - 2020.1.0a12)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
 
-/// VFXEditorTaskDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXEditorTaskDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXEditorTaskDesc {
     pub buffers: Vec<VFXMapping>,
     pub params: Vec<VFXMapping>,
-    pub processor: PPtr, /*<NamedObject>*/
+    /// PPtr<NamedObject>: (2018.3.0f2 - 2020.1.0a12)
+    pub processor: PPtr,
     pub shaderSourceIndex: i32,
     pub values: Vec<VFXMapping>,
-    /// i32: (2018.4.15f1 - 2019.3.0f4)
+    /// i32: (2018.3.0f2 - 2020.1.0a12)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
-    /// Vec<VFXMappingTemporary>: (2019.3.0f4 - 2019.3.0f4)
+    /// Vec<VFXMappingTemporary>: (2019.2.0b1 - 2020.1.0a12)
     pub temporaryBuffers: Option<Vec<VFXMappingTemporary>>,
 }
 
-/// VFXEntryExpressionValue is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXEntryExpressionValue is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXEntryExpressionValue {
     pub m_ExpressionIndex: u32,
     pub m_Value: f32,
 }
 
-/// VFXEventDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXEventDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXEventDesc {
     pub name: String,
     pub playSystems: Vec<u32>,
     pub stopSystems: Vec<u32>,
-    /// Vec<u32>: (2021.2.16f1 - 2022.2.0b16)
+    /// Vec<u32>: (2021.2.0b1 - 2022.3.2f1)
     pub initSystems: Option<Vec<u32>>,
 }
 
-/// VFXExpressionContainer is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXExpressionContainer is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXExpressionContainer {
     pub m_Expressions: Vec<Expression>,
     pub m_NeedsLocalToWorld: bool,
     pub m_NeedsWorldToLocal: bool,
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// u32: (2022.2.0f1 - 2022.3.2f1)
     pub m_ConstantBakeCurveCount: Option<u32>,
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// u32: (2022.2.0f1 - 2022.3.2f1)
     pub m_ConstantBakeGradientCount: Option<u32>,
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// u32: (2022.2.0f1 - 2022.3.2f1)
     pub m_DynamicBakeCurveCount: Option<u32>,
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// u32: (2022.2.0f1 - 2022.3.2f1)
     pub m_DynamicBakeGradientCount: Option<u32>,
-    /// u32: (2020.3.42f1 - 2022.2.0b16)
+    /// u32: (2020.1.0b1 - 2022.3.2f1)
     pub m_MaxCommonExpressionsIndex: Option<u32>,
-    /// i32: (2019.3.0f4 - 2022.2.0b16)
+    /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub m_NeededMainCameraBuffers: Option<i32>,
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_NeedsMainCamera: Option<bool>,
 }
 
-/// VFXField is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXField is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXField {
     pub m_Array: Vec<VFXEntryExpressionValue>,
 }
 
-/// VFXGPUBufferDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXGPUBufferDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXGPUBufferDesc {
     pub capacity: u32,
     pub layout: Vec<VFXLayoutElementDesc>,
     pub size: u32,
     pub stride: u32,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
 
-/// VFXLayoutElementDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXLayoutElementDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXLayoutElementDesc {
     pub name: String,
     pub offset: VFXLayoutOffset,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
 }
 
-/// VFXLayoutOffset is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXLayoutOffset is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXLayoutOffset {
     pub bucket: u32,
@@ -15401,41 +17438,44 @@ pub struct VFXLayoutOffset {
     pub structure: u32,
 }
 
-/// VFXManager is a  class of the Unity engine since version 2018.4.15f1.
+/// VFXManager is a  class of the Unity engine since version 2018.3.0f2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/VFX.VFXManager.html):
 /**
 Use this class to set a number of properties that control VisualEffect behavior within your Unity Project.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXManager {
-    pub m_CopyBufferShader: PPtr, /*<ComputeShader>*/
+    /// PPtr<ComputeShader>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_CopyBufferShader: PPtr,
     pub m_FixedTimeStep: f32,
-    pub m_IndirectShader: PPtr, /*<ComputeShader>*/
+    /// PPtr<ComputeShader>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_IndirectShader: PPtr,
     pub m_MaxDeltaTime: f32,
     pub m_RenderPipeSettingsPath: String,
-    pub m_SortShader: PPtr, /*<ComputeShader>*/
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// PPtr<ComputeShader>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_SortShader: PPtr,
+    /// u32: (2022.2.0f1 - 2022.3.2f1)
     pub m_BatchEmptyLifetime: Option<u32>,
-    /// u32: (2020.1.0a20 - 2022.2.0b16)
+    /// u32: (2020.1.0b1 - 2022.3.2f1)
     pub m_CompiledVersion: Option<u32>,
-    /// f32: (2022.2.0b16 - 2022.2.0b16)
+    /// f32: (2022.1.0b1 - 2022.3.2f1)
     pub m_MaxScrubTime: Option<f32>,
-    /// PPtr/*<MonoBehaviour>*/: (2021.2.16f1 - 2022.2.0b16)
-    pub m_RuntimeResources: Option<PPtr /*<MonoBehaviour>*/>,
-    /// u32: (2020.1.0a20 - 2022.2.0b16)
+    /// PPtr<MonoBehaviour>: (2021.2.0b1 - 2022.3.2f1)
+    pub m_RuntimeResources: Option<PPtr>,
+    /// u32: (2020.1.0b1 - 2022.3.2f1)
     pub m_RuntimeVersion: Option<u32>,
-    /// PPtr/*<ComputeShader>*/: (2019.3.0f4 - 2022.2.0b16)
-    pub m_StripUpdateShader: Option<PPtr /*<ComputeShader>*/>,
+    /// PPtr<ComputeShader>: (2019.3.0b1 - 2022.3.2f1)
+    pub m_StripUpdateShader: Option<PPtr>,
 }
 
-/// VFXMapping is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXMapping is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXMapping {
     pub index: i32,
     pub nameId: String,
 }
 
-/// VFXMappingTemporary is a sub class of the Unity engine since version 2019.3.0f4.
+/// VFXMappingTemporary is a sub class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXMappingTemporary {
     pub mapping: VFXMapping,
@@ -15443,7 +17483,7 @@ pub struct VFXMappingTemporary {
     pub perCameraBuffer: bool,
 }
 
-/// VFXPropertySheetSerializedBase is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXPropertySheetSerializedBase is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXPropertySheetSerializedBase {
     pub m_AnimationCurve: VFXField,
@@ -15459,21 +17499,24 @@ pub struct VFXPropertySheetSerializedBase {
     pub m_Vector4f: VFXField,
 }
 
-/// VFXRenderer is a  class of the Unity engine since version 2018.4.15f1.
+/// VFXRenderer is a  class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXRenderer {
     pub m_CastShadows: u8,
     pub m_DynamicOccludee: u8,
     pub m_Enabled: bool,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_LightProbeUsage: u8,
-    pub m_LightProbeVolumeOverride: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_LightProbeVolumeOverride: PPtr,
     pub m_LightmapIndex: u16,
     pub m_LightmapIndexDynamic: u16,
     pub m_LightmapTilingOffset: Vector4f,
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     pub m_MotionVectors: u8,
-    pub m_ProbeAnchor: PPtr, /*<Transform>*/
+    /// PPtr<Transform>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_ProbeAnchor: PPtr,
     pub m_ReceiveShadows: u8,
     pub m_ReflectionProbeUsage: u8,
     pub m_RendererPriority: i32,
@@ -15482,18 +17525,19 @@ pub struct VFXRenderer {
     pub m_SortingLayerID: i32,
     pub m_SortingOrder: i16,
     pub m_StaticBatchInfo: StaticBatchInfo,
-    pub m_StaticBatchRoot: PPtr, /*<Transform>*/
-    /// Vec<PPtr/*<Material>*/>: (2018.4.15f1 - 2020.1.0a20)
-    pub m_Materials: Option<Vec<PPtr /*<Material>*/>>,
-    /// u8: (2020.1.0a20 - 2022.2.0b16)
+    /// PPtr<Transform>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_StaticBatchRoot: PPtr,
+    /// Vec<PPtr<Material>>: (2018.3.0f2 - 2021.1.28f1)
+    pub m_Materials: Option<Vec<PPtr>>,
+    /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_RayTracingMode: Option<u8>,
-    /// u8: (2021.2.16f1 - 2022.2.0b16)
+    /// u8: (2021.1.0b1 - 2022.3.2f1)
     pub m_StaticShadowCaster: Option<u8>,
 }
 
-/// VFXRendererSettings is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXRendererSettings is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXRendererSettings {
     pub lightProbeUsage: i32,
@@ -15503,7 +17547,7 @@ pub struct VFXRendererSettings {
     pub shadowCastingMode: i32,
 }
 
-/// VFXShaderSourceDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXShaderSourceDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXShaderSourceDesc {
     pub compute: bool,
@@ -15511,7 +17555,7 @@ pub struct VFXShaderSourceDesc {
     pub source: String,
 }
 
-/// VFXSystemDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXSystemDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXSystemDesc {
     pub buffers: Vec<VFXMapping>,
@@ -15520,81 +17564,83 @@ pub struct VFXSystemDesc {
     pub layer: u32,
     pub tasks: Vec<VFXTaskDesc>,
     pub values: Vec<VFXMapping>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
-    /// String: (2020.1.0a20 - 2022.2.0b16)
+    /// String: (2020.1.0b1 - 2022.3.2f1)
     pub name: Option<String>,
 }
 
-/// VFXTaskDesc is a sub class of the Unity engine since version 2018.4.15f1.
+/// VFXTaskDesc is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXTaskDesc {
     pub buffers: Vec<VFXMapping>,
     pub params: Vec<VFXMapping>,
-    pub processor: PPtr, /*<NamedObject>*/
+    /// PPtr<NamedObject>: (2018.3.0f2 - 2022.3.2f1)
+    pub processor: PPtr,
     pub values: Vec<VFXMapping>,
-    /// i32: (2018.4.15f1 - 2022.2.0b16)
+    /// i32: (2018.3.0f2 - 2022.3.2f1)
     #[serde(alias = "type")]
     pub _type: Option<i32>,
-    /// Vec<VFXMappingTemporary>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<VFXMappingTemporary>: (2019.2.0b1 - 2022.3.2f1)
     pub temporaryBuffers: Option<Vec<VFXMappingTemporary>>,
 }
 
-/// VFXTemporaryGPUBufferDesc is a sub class of the Unity engine since version 2019.3.0f4.
+/// VFXTemporaryGPUBufferDesc is a sub class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXTemporaryGPUBufferDesc {
     pub desc: VFXGPUBufferDesc,
     pub frameCount: u32,
 }
 
-/// VRSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// VRSettings is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VRSettings {
-    /// Google: (5.6.0b2 - 2020.1.0a20)
+    /// Google: (5.6.0b1 - 2020.2.0a15)
     pub cardboard: Option<Google>,
-    /// Google: (5.6.0b2 - 2020.1.0a20)
+    /// Google: (5.6.0b1 - 2020.2.0a15)
     pub daydream: Option<Google>,
-    /// bool: (2018.4.15f1 - 2022.2.0b16)
+    /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub enable360StereoCapture: Option<bool>,
-    /// HoloLens: (2017.4.33f1 - 2020.1.0a20)
+    /// HoloLens: (5.6.0f1 - 2020.2.0a15)
     pub hololens: Option<HoloLens>,
-    /// Lumin: (2019.3.0f4 - 2020.1.0a20)
+    /// Lumin: (2019.1.0b1 - 2020.2.0a15)
     pub lumin: Option<Lumin>,
-    /// DeviceNone: (5.6.0b2 - 2020.1.0a20)
+    /// DeviceNone: (5.6.0b1 - 2020.2.0a17)
     pub none: Option<DeviceNone>,
-    /// Oculus: (2017.4.33f1 - 2020.1.0a20)
+    /// Oculus: (2017.3.0f3 - 2020.2.0a15)
     pub oculus: Option<Oculus>,
 }
 
-/// ValueArrayConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// ValueArrayConstant is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ValueArrayConstant {
     pub m_ValueArray: Vec<ValueConstant>,
 }
 
-/// ValueConstant is a sub class of the Unity engine since version 5.6.0b2.
+/// ValueConstant is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ValueConstant {
     pub m_ID: u32,
     pub m_Index: u32,
     pub m_Type: u32,
+    pub m_TypeID: u32,
 }
 
-/// ValueDelta is a sub class of the Unity engine since version 5.6.0b2.
+/// ValueDelta is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ValueDelta {
     pub m_Start: f32,
     pub m_Stop: f32,
 }
 
-/// VariableBoneCountWeights is a sub class of the Unity engine since version 2019.3.0f4.
+/// VariableBoneCountWeights is a sub class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VariableBoneCountWeights {
     pub m_Data: Vec<u32>,
 }
 
-/// VariantInfo is a sub class of the Unity engine since version 5.6.0b2.
+/// VariantInfo is a sub class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VariantInfo {
     pub keywords: String,
@@ -15632,7 +17678,7 @@ pub struct Vector4f {
     pub z: f32,
 }
 
-/// VectorParameter is a sub class of the Unity engine since version 5.6.0b2.
+/// VectorParameter is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VectorParameter {
     pub m_ArraySize: i32,
@@ -15642,7 +17688,7 @@ pub struct VectorParameter {
     pub m_Type: i8,
 }
 
-/// VelocityModule is a sub class of the Unity engine since version 5.6.0b2.
+/// VelocityModule is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VelocityModule {
     pub enabled: bool,
@@ -15650,49 +17696,64 @@ pub struct VelocityModule {
     pub x: MinMaxCurve,
     pub y: MinMaxCurve,
     pub z: MinMaxCurve,
-    /// MinMaxCurve: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2018.1.0b2 - 2022.3.2f1)
     pub orbitalOffsetX: Option<MinMaxCurve>,
-    /// MinMaxCurve: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2018.1.0b2 - 2022.3.2f1)
     pub orbitalOffsetY: Option<MinMaxCurve>,
-    /// MinMaxCurve: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2018.1.0b2 - 2022.3.2f1)
     pub orbitalOffsetZ: Option<MinMaxCurve>,
-    /// MinMaxCurve: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2018.1.0b2 - 2022.3.2f1)
     pub orbitalX: Option<MinMaxCurve>,
-    /// MinMaxCurve: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2018.1.0b2 - 2022.3.2f1)
     pub orbitalY: Option<MinMaxCurve>,
-    /// MinMaxCurve: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2018.1.0b2 - 2022.3.2f1)
     pub orbitalZ: Option<MinMaxCurve>,
-    /// MinMaxCurve: (2018.4.15f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2018.1.0b2 - 2022.3.2f1)
     pub radial: Option<MinMaxCurve>,
-    /// MinMaxCurve: (2017.4.33f1 - 2022.2.0b16)
+    /// MinMaxCurve: (2017.3.0b1 - 2022.3.2f1)
     pub speedModifier: Option<MinMaxCurve>,
 }
 
-/// VersionControlSettings is a  class of the Unity engine since version 2020.1.0a20.
+/// VersionControlSettings is a  class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VersionControlSettings {
     pub m_CollabEditorSettings: CollabEditorSettings,
     pub m_Mode: String,
 }
 
-/// VertexData is a sub class of the Unity engine since version 5.6.0b2.
+/// VertexData is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VertexData {
-    pub m_Channels: Vec<ChannelInfo>,
     pub m_DataSize: Vec<u8>,
     pub m_VertexCount: u32,
-    /// i32: (5.6.0b2 - 2017.4.33f1)
-    pub m_CurrentChannels: Option<i32>,
+    /// Vec<ChannelInfo>: (4.0.0 - 2022.3.2f1)
+    pub m_Channels: Option<Vec<ChannelInfo>>,
+    /// u32: (3.5.0 - 5.5.6f1); i32: (5.6.0b1 - 2017.4.40f1)
+    pub m_CurrentChannels: Option<i64>,
+    /// Vec<StreamInfo>: (4.0.0 - 4.7.2)
+    pub m_Streams: Option<Vec<StreamInfo>>,
+    /// StreamInfo: (3.5.0 - 3.5.7)
+    #[serde(alias = "m_Streams[0]")]
+    pub m_Streams_0_: Option<StreamInfo>,
+    /// StreamInfo: (3.5.0 - 3.5.7)
+    #[serde(alias = "m_Streams[1]")]
+    pub m_Streams_1_: Option<StreamInfo>,
+    /// StreamInfo: (3.5.0 - 3.5.7)
+    #[serde(alias = "m_Streams[2]")]
+    pub m_Streams_2_: Option<StreamInfo>,
+    /// StreamInfo: (3.5.0 - 3.5.7)
+    #[serde(alias = "m_Streams[3]")]
+    pub m_Streams_3_: Option<StreamInfo>,
 }
 
-/// VideoBuildInfo is a  class of the Unity engine since version 2020.3.42f1.
+/// VideoBuildInfo is a  class of the Unity engine since version 2019.4.38f1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VideoBuildInfo {
     pub m_IsVideoModuleDisabled: bool,
     pub m_VideoClipCount: i32,
 }
 
-/// VideoClip is a  class of the Unity engine since version 5.6.0b2.
+/// VideoClip is a  class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Video.VideoClip.html):
 /**
 A container for video data.
@@ -15720,18 +17781,18 @@ pub struct VideoClip {
     pub m_OriginalPath: String,
     pub m_ProxyHeight: u32,
     pub m_ProxyWidth: u32,
-    /// u32: (2017.4.33f1 - 2022.2.0b16)
+    /// u32: (2017.2.0b2 - 2022.3.2f1)
     pub m_PixelAspecRatioDen: Option<u32>,
-    /// u32: (2017.4.33f1 - 2022.2.0b16)
+    /// u32: (2017.2.0b2 - 2022.3.2f1)
     pub m_PixelAspecRatioNum: Option<u32>,
-    /// Vec<PPtr/*<Shader>*/>: (2020.1.0a20 - 2022.2.0b16)
-    pub m_VideoShaders: Option<Vec<PPtr /*<Shader>*/>>,
+    /// Vec<PPtr<Shader>>: (2020.1.0b1 - 2022.3.2f1)
+    pub m_VideoShaders: Option<Vec<PPtr>>,
     /**Whether the imported clip contains sRGB color data (Read Only).*/
-    /// bool: (2019.3.0f4 - 2022.2.0b16)
+    /// bool: (2019.2.0b1 - 2022.3.2f1)
     pub m_sRGB: Option<bool>,
 }
 
-/// VideoClipImporter is a  class of the Unity engine since version 5.6.0b2.
+/// VideoClipImporter is a  class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/VideoClipImporter.html):
 /**
 VideoClipImporter lets you modify VideoClip import settings from Editor scripts.
@@ -15759,87 +17820,93 @@ pub struct VideoClipImporter {
     pub m_TargetSettings: Vec<(i32, VideoClipImporterTargetSettings)>,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 5.6.0b2)
     pub m_AudioImportMode: Option<i32>,
-    /// Vec<(SourceAssetIdentifier, PPtr/*<Object>*/)>: (2017.4.33f1 - 2022.2.0b16)
-    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**Number of frames in the clip.*/
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 2017.2.1f1)
     pub m_FrameCount: Option<i32>,
     /**Frame rate of the clip.*/
-    /// f64: (5.6.0b2 - 5.6.0b2)
+    /// f64: (5.6.0b1 - 2017.2.1f1)
     pub m_FrameRate: Option<f64>,
     /**Import audio tracks from source file.*/
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (5.6.0f1 - 2022.3.2f1)
     pub m_ImportAudio: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.6.0b1 - 2019.2.21f1)
     pub m_IsColorLinear: Option<bool>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 2017.2.1f1)
     pub m_OriginalHeight: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 2017.2.1f1)
     pub m_OriginalWidth: Option<i32>,
-    /// f32: (5.6.0b2 - 2018.4.15f1)
+    /**Denominator of the pixel aspect ratio (num:den).*/
+    /// u32: (2017.2.0b2 - 2017.2.1f1)
+    pub m_PixelAspectRatioDenominator: Option<u32>,
+    /**Numerator of the pixel aspect ratio (num:den).*/
+    /// u32: (2017.2.0b2 - 2017.2.1f1)
+    pub m_PixelAspectRatioNumerator: Option<u32>,
+    /// f32: (5.6.0b1 - 2019.2.21f1)
     pub m_Quality: Option<f32>,
-    /// Vec<u16>: (5.6.0b2 - 5.6.0b2)
+    /// Vec<u16>: (5.6.0b1 - 2017.2.1f1)
     pub m_SourceAudioChannelCount: Option<Vec<u16>>,
-    /// Vec<u32>: (5.6.0b2 - 5.6.0b2)
+    /// Vec<u32>: (5.6.0b1 - 2017.2.1f1)
     pub m_SourceAudioSampleRate: Option<Vec<u32>>,
     /**Size in bytes of the file before importing.*/
-    /// u64: (5.6.0b2 - 5.6.0b2)
+    /// u64: (5.6.0b1 - 2017.2.1f1)
     pub m_SourceFileSize: Option<u64>,
     /**True if the source file has a channel for per-pixel transparency.*/
-    /// bool: (5.6.0b2 - 5.6.0b2)
+    /// bool: (5.6.0b1 - 2017.2.1f1)
     pub m_SourceHasAlpha: Option<bool>,
-    /// bool: (5.6.0b2 - 2018.4.15f1)
+    /// bool: (5.6.0b1 - 2019.2.21f1)
     pub m_UseLegacyImporter: Option<bool>,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// VideoClipImporterOutput is a sub class of the Unity engine since version 5.6.0b2.
+/// VideoClipImporterOutput is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VideoClipImporterOutput {
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 2017.2.1f1)
     pub encodedEndFrame: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 2017.2.1f1)
     pub encodedHeight: Option<i32>,
-    /// VideoClipImporterTargetSettings: (2017.4.33f1 - 2022.2.0b16)
+    /// VideoClipImporterTargetSettings: (2017.1.4f1 - 2022.3.2f1)
     pub encodedSettings: Option<VideoClipImporterTargetSettings>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 2017.2.1f1)
     pub encodedStartFrame: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 2017.2.1f1)
     pub encodedWidth: Option<i32>,
-    /// i32: (5.6.0b2 - 5.6.0b2)
+    /// i32: (5.6.0b1 - 2017.2.1f1)
     pub format: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.4f1 - 2022.3.2f1)
     pub originalFrameCount: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.4f1 - 2022.3.2f1)
     pub originalHeight: Option<i32>,
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.4f1 - 2022.3.2f1)
     pub originalWidth: Option<i32>,
-    /// VideoClipImporterTargetSettings: (5.6.0b2 - 5.6.0b2)
+    /// VideoClipImporterTargetSettings: (5.6.0b1 - 2017.2.1f1)
     pub settings: Option<VideoClipImporterTargetSettings>,
-    /// Vec<u16>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<u16>: (2017.1.4f1 - 2022.3.2f1)
     pub sourceAudioChannelCount: Option<Vec<u16>>,
-    /// Vec<u32>: (2017.4.33f1 - 2022.2.0b16)
+    /// Vec<u32>: (2017.1.4f1 - 2022.3.2f1)
     pub sourceAudioSampleRate: Option<Vec<u32>>,
-    /// u64: (2017.4.33f1 - 2022.2.0b16)
+    /// u64: (2017.1.4f1 - 2022.3.2f1)
     pub sourceFileSize: Option<u64>,
-    /// f64: (2017.4.33f1 - 2022.2.0b16)
+    /// f64: (2017.1.4f1 - 2022.3.2f1)
     pub sourceFrameRate: Option<f64>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.1.4f1 - 2022.3.2f1)
     pub sourceHasAlpha: Option<bool>,
-    /// u32: (2017.4.33f1 - 2022.2.0b16)
+    /// u32: (2017.2.2f1 - 2022.3.2f1)
     pub sourcePixelAspectRatioDenominator: Option<u32>,
-    /// u32: (2017.4.33f1 - 2022.2.0b16)
+    /// u32: (2017.2.2f1 - 2022.3.2f1)
     pub sourcePixelAspectRatioNumerator: Option<u32>,
-    /// StreamedResource: (5.6.0b2 - 5.6.0b2)
+    /// StreamedResource: (5.6.0b1 - 2017.2.1f1)
     pub streamedResource: Option<StreamedResource>,
-    /// bool: (2017.4.33f1 - 2022.2.0b16)
+    /// bool: (2017.3.0b1 - 2022.3.2f1)
     pub transcodeSkipped: Option<bool>,
 }
 
-/// VideoClipImporterTargetSettings is a sub class of the Unity engine since version 5.6.0b2.
+/// VideoClipImporterTargetSettings is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VideoClipImporterTargetSettings {
     pub aspectRatio: i32,
@@ -15852,7 +17919,7 @@ pub struct VideoClipImporterTargetSettings {
     pub spatialQuality: i32,
 }
 
-/// VideoPlayer is a  class of the Unity engine since version 5.6.0b2.
+/// VideoPlayer is a  class of the Unity engine since version 5.6.0b1.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/Video.VideoPlayer.html):
 /**
 Plays video content onto a target.
@@ -15875,7 +17942,8 @@ pub struct VideoPlayer {
     pub m_EnabledAudioTracks: Vec<bool>,
     pub m_FrameReadyEventEnabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.6.0b1 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_Looping: bool,
     /**Whether the content will start playing back as soon as the component awakes.*/
     pub m_PlayOnAwake: bool,
@@ -15885,64 +17953,71 @@ pub struct VideoPlayer {
     pub m_RenderMode: i32,
     /**Whether the VideoPlayer is allowed to skip frames to catch up with current time.*/
     pub m_SkipOnDrop: bool,
-    pub m_TargetAudioSources: Vec<PPtr /*<AudioSource>*/>,
+    /// Vec<PPtr<AudioSource>>: (5.6.0b1 - 2022.3.2f1)
+    pub m_TargetAudioSources: Vec<PPtr>,
     /**Camera component to draw to when VideoPlayer.renderMode is set to either VideoRenderMode.CameraFarPlane or VideoRenderMode.CameraNearPlane.*/
-    pub m_TargetCamera: PPtr, /*<Camera>*/
+    /// PPtr<Camera>: (5.6.0b1 - 2022.3.2f1)
+    pub m_TargetCamera: PPtr,
     /**Overall transparency level of the target camera plane video.*/
     pub m_TargetCameraAlpha: f32,
     /**Material texture property which is targeted when VideoPlayer.renderMode is set to Video.VideoTarget.MaterialOverride.*/
     pub m_TargetMaterialProperty: String,
     /**Renderer which is targeted when VideoPlayer.renderMode is set to Video.VideoTarget.MaterialOverride*/
-    pub m_TargetMaterialRenderer: PPtr, /*<Renderer>*/
+    /// PPtr<Renderer>: (5.6.0b1 - 2022.3.2f1)
+    pub m_TargetMaterialRenderer: PPtr,
     /**RenderTexture to draw to when VideoPlayer.renderMode is set to Video.VideoTarget.RenderTexture.*/
-    pub m_TargetTexture: PPtr, /*<RenderTexture>*/
+    /// PPtr<RenderTexture>: (5.6.0b1 - 2022.3.2f1)
+    pub m_TargetTexture: PPtr,
     /**The file or HTTP URL that the VideoPlayer reads content from.*/
     pub m_Url: String,
-    pub m_VideoClip: PPtr, /*<VideoClip>*/
+    /// PPtr<VideoClip>: (5.6.0b1 - 2022.3.2f1)
+    pub m_VideoClip: PPtr,
     /**Determines whether the VideoPlayer will wait for the first frame to be loaded into the texture before starting playback when VideoPlayer.playOnAwake is on.*/
     pub m_WaitForFirstFrame: bool,
     /**Type of 3D content contained in the source video media.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.3.0b1 - 2022.3.2f1)
     pub m_TargetCamera3DLayout: Option<i32>,
-    /// String: (5.6.0b2 - 5.6.0b2)
+    /// String: (5.6.0b1 - 5.6.0b10)
     pub m_TargetMaterialName: Option<String>,
     /**The clock that the VideoPlayer observes to detect and correct drift.*/
-    /// i32: (2017.4.33f1 - 2022.2.0b16)
+    /// i32: (2017.1.0b2 - 2022.3.2f1)
     pub m_TimeReference: Option<i32>,
     /**The clock source used by the VideoPlayer to derive its current time.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_TimeUpdateMode: Option<i32>,
-    /// Vec<PPtr/*<Shader>*/>: (2020.1.0a20 - 2022.2.0b16)
-    pub m_VideoShaders: Option<Vec<PPtr /*<Shader>*/>>,
+    /// Vec<PPtr<Shader>>: (2020.1.0b1 - 2022.3.2f1)
+    pub m_VideoShaders: Option<Vec<PPtr>>,
 }
 
-/// VisualEffect is a  class of the Unity engine since version 2018.4.15f1.
+/// VisualEffect is a  class of the Unity engine since version 2018.3.0f2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/VFX.VisualEffect.html):
 /**
 The visual effect class that references an VisualEffectAsset instance within the Scene.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffect {
-    pub m_Asset: PPtr, /*<VisualEffectAsset>*/
+    /// PPtr<VisualEffectAsset>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_Asset: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     pub m_PropertySheet: VFXPropertySheetSerializedBase,
     /**This property controls whether the visual effect generates a new seed for the random number generator with each call to VisualEffect.Play function.*/
     pub m_ResetSeedOnPlay: Enum_bool__u8,
     /**The initial seed used for internal random number generator.*/
     pub m_StartSeed: u32,
-    /// u8: (2022.2.0b16 - 2022.2.0b16)
+    /// u8: (2022.2.0b1 - 2022.3.2f1)
     pub m_AllowInstancing: Option<u8>,
     /**The default event name. Unity calls this event when the VisualEffect awakes, or when you call VisualEffect.Reinit.*/
-    /// String: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (2019.3.0b1 - 2022.3.2f1)
     pub m_InitialEventName: Option<String>,
-    /// u8: (2019.3.0f4 - 2022.2.0b16)
+    /// u8: (2019.3.0b1 - 2022.3.2f1)
     pub m_InitialEventNameOverriden: Option<u8>,
 }
 
-/// VisualEffectAsset is a  class of the Unity engine since version 2018.4.15f1.
+/// VisualEffectAsset is a  class of the Unity engine since version 2018.3.0f2.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/VFX.VisualEffectAsset.html):
 /**
 This class contains a graph of the elements needed to describe a visual effect. These include: the visual effects system, generated shaders, and compiled data.
@@ -15956,19 +18031,20 @@ pub struct VisualEffectAsset {
     pub m_Systems: Vec<VFXSystemDesc>,
 }
 
-/// VisualEffectImporter is a  class of the Unity engine since version 2018.4.15f1.
+/// VisualEffectImporter is a  class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffectImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr /*<Object>*/)>,
+    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UserData: String,
-    /// Vec<i64>: (2019.3.0f4 - 2022.2.0b16)
+    /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
 }
 
-/// VisualEffectInfo is a sub class of the Unity engine since version 2018.4.15f1.
+/// VisualEffectInfo is a sub class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffectInfo {
     pub m_Buffers: Vec<VFXGPUBufferDesc>,
@@ -15979,35 +18055,37 @@ pub struct VisualEffectInfo {
     pub m_Expressions: VFXExpressionContainer,
     pub m_PropertySheet: VFXPropertySheetSerializedBase,
     pub m_RendererSettings: VFXRendererSettings,
-    pub m_RuntimeVersion: u32,
     pub m_UpdateMode: i32,
-    /// u32: (2021.2.16f1 - 2022.2.0b16)
+    /// u32: (2021.2.0b1 - 2022.3.2f1)
     pub m_CompilationVersion: Option<u32>,
-    /// String: (2019.3.0f4 - 2022.2.0b16)
+    /// String: (2019.3.0b1 - 2022.3.2f1)
     pub m_InitialEventName: Option<String>,
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// u32: (2022.2.0b1 - 2022.3.2f1)
     pub m_InstancingCapacity: Option<u32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_InstancingDisabledReason: Option<i32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_InstancingMode: Option<i32>,
-    /// f32: (2019.3.0f4 - 2022.2.0b16)
+    /// f32: (2019.1.0b1 - 2022.3.2f1)
     pub m_PreWarmDeltaTime: Option<f32>,
-    /// u32: (2019.3.0f4 - 2022.2.0b16)
+    /// u32: (2019.1.0b1 - 2022.3.2f1)
     pub m_PreWarmStepCount: Option<u32>,
-    /// Vec<VFXTemporaryGPUBufferDesc>: (2019.3.0f4 - 2022.2.0b16)
+    /// u32: (2018.4.15f1 - 2022.3.2f1)
+    pub m_RuntimeVersion: Option<u32>,
+    /// Vec<VFXTemporaryGPUBufferDesc>: (2019.2.0b1 - 2022.3.2f1)
     pub m_TemporaryBuffers: Option<Vec<VFXTemporaryGPUBufferDesc>>,
 }
 
-/// VisualEffectResource is a  class of the Unity engine since version 2018.4.15f1.
+/// VisualEffectResource is a  class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffectResource {
-    pub m_Graph: PPtr, /*<MonoBehaviour>*/
+    /// PPtr<MonoBehaviour>: (2018.3.0f2 - 2022.3.2f1)
+    pub m_Graph: PPtr,
     pub m_Infos: Enum_VisualEffectInfo__VisualEffectSettings,
     pub m_Name: String,
-    /// Vec<VFXShaderSourceDesc>: (2018.4.15f1 - 2019.3.0f4)
+    /// Vec<VFXShaderSourceDesc>: (2018.3.0f2 - 2020.1.0a12)
     pub m_ShaderSources: Option<Vec<VFXShaderSourceDesc>>,
-    /// Vec<VFXEditorSystemDesc>: (2018.4.15f1 - 2019.3.0f4)
+    /// Vec<VFXEditorSystemDesc>: (2018.3.0f2 - 2020.1.0a12)
     pub m_Systems: Option<Vec<VFXEditorSystemDesc>>,
 }
 
@@ -16018,7 +18096,7 @@ pub enum Enum_VisualEffectInfo__VisualEffectSettings {
     VisualEffectSettings(VisualEffectSettings),
 }
 
-/// VisualEffectSettings is a sub class of the Unity engine since version 2020.1.0a20.
+/// VisualEffectSettings is a sub class of the Unity engine since version 2020.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffectSettings {
     pub m_CullingFlags: i32,
@@ -16027,19 +18105,21 @@ pub struct VisualEffectSettings {
     pub m_PreWarmStepCount: u32,
     pub m_RendererSettings: VFXRendererSettings,
     pub m_UpdateMode: i32,
-    /// u32: (2022.2.0b16 - 2022.2.0b16)
+    /// u32: (2022.2.0b1 - 2022.3.2f1)
     pub m_InstancingCapacity: Option<u32>,
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.2.0a18)
+    pub m_InstancingDisabledReason: Option<i32>,
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_InstancingMode: Option<i32>,
 }
 
-/// VisualEffectSubgraphBlock is a  class of the Unity engine since version 2019.3.0f4.
+/// VisualEffectSubgraphBlock is a  class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffectSubgraphBlock {
     pub m_Name: String,
 }
 
-/// VisualEffectSubgraphOperator is a  class of the Unity engine since version 2019.3.0f4.
+/// VisualEffectSubgraphOperator is a  class of the Unity engine since version 2019.2.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffectSubgraphOperator {
     pub m_Name: String,
@@ -16072,7 +18152,8 @@ pub struct WheelCollider {
     /**Properties of tire friction in the direction the wheel is pointing in.*/
     pub m_ForwardFriction: WheelFrictionCurve,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**The mass of the wheel, expressed in kilograms. Must be larger than zero. Typical values would be in range (20,80).*/
     pub m_Mass: f32,
     /**The radius of the wheel, measured in local space.*/
@@ -16084,25 +18165,25 @@ pub struct WheelCollider {
     /**The parameters of wheel's suspension. The suspension attempts to reach a target position by applying a linear force and a damping force.*/
     pub m_SuspensionSpring: JointSpring,
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
-    /// bool: (5.6.0b2 - 2022.2.0b16)
+    /// bool: (3.5.0 - 2022.3.2f1)
     pub m_Enabled: Option<bool>,
     /**The additional layers that this Collider should exclude when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_ExcludeLayers: Option<BitField>,
     /**Application point of the suspension and tire forces measured from the base of the resting wheel.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_ForceAppPointDistance: Option<f32>,
     /**The additional layers that this Collider should include when deciding if the Collider can contact another Collider.*/
-    /// BitField: (2022.2.0b16 - 2022.2.0b16)
+    /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_IncludeLayers: Option<BitField>,
     /**A decision priority assigned to this Collider used when there is a conflicting decision on whether a Collider can contact another Collider.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
-    /// bool: (2022.2.0b16 - 2022.2.0b16)
+    /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub m_ProvidesContacts: Option<bool>,
     /**The damping rate of the wheel. Must be larger than zero.*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_WheelDampingRate: Option<f32>,
 }
 
@@ -16129,37 +18210,37 @@ based on what material the wheel is hitting.See Also: WheelCollider, WheelCollid
 #[derive(Debug, Serialize, Deserialize)]
 pub struct WheelFrictionCurve {
     /**Asymptote point slip (default 2).*/
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub asymptoteSlip: Option<f32>,
     /**Force at the asymptote slip (default 10000).*/
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub asymptoteValue: Option<f32>,
     /**Extremum point slip (default 1).*/
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub extremumSlip: Option<f32>,
     /**Force at the extremum slip (default 20000).*/
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub extremumValue: Option<f32>,
     /**Asymptote point slip (default 2).*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_AsymptoteSlip: Option<f32>,
     /**Force at the asymptote slip (default 10000).*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_AsymptoteValue: Option<f32>,
     /**Extremum point slip (default 1).*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_ExtremumSlip: Option<f32>,
     /**Force at the extremum slip (default 20000).*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_ExtremumValue: Option<f32>,
     /**Multiplier for the extremumValue and asymptoteValue values (default 1).*/
-    /// f32: (5.6.0b2 - 2022.2.0b16)
+    /// f32: (5.0.0f4 - 2022.3.2f1)
     pub m_Stiffness: Option<f32>,
-    /// f32: (3.4.0 - 3.4.0)
+    /// f32: (3.4.0 - 4.7.2)
     pub stiffnessFactor: Option<f32>,
 }
 
-/// WheelJoint2D is a  class of the Unity engine since version 5.6.0b2.
+/// WheelJoint2D is a  class of the Unity engine since version 4.5.0.
 /// Exert from [Unity's scripting documentation](https://docs.unity3d.com/ScriptReference/WheelJoint2D.html):
 /**
 The wheel joint allows the simulation of wheels by providing a constraining suspension motion with an optional motor.
@@ -16169,30 +18250,38 @@ See Also: JointSuspension2D.
 pub struct WheelJoint2D {
     /**The joint's anchor point on the object that has the joint component.*/
     pub m_Anchor: Vector2f,
-    /**Should the connectedAnchor be calculated automatically?*/
-    pub m_AutoConfigureConnectedAnchor: bool,
-    /**The force that needs to be applied for this joint to break.*/
-    pub m_BreakForce: f32,
-    /**The torque that needs to be applied for this joint to break.*/
-    pub m_BreakTorque: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    pub m_ConnectedRigidBody: PPtr, /*<Rigidbody2D>*/
-    /**Should the two rigid bodies connected with this joint collide with each other?*/
-    pub m_EnableCollision: bool,
+    /// PPtr<Rigidbody2D>: (4.5.0 - 2022.3.2f1)
+    pub m_ConnectedRigidBody: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (4.5.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Parameters for a motor force that is applied automatically to the Rigibody2D along the line.*/
     pub m_Motor: JointMotor2D,
     /**Set the joint suspension configuration.*/
     pub m_Suspension: JointSuspension2D,
     /**Should a motor force be applied automatically to the Rigidbody2D?*/
     pub m_UseMotor: bool,
+    /**Should the connectedAnchor be calculated automatically?*/
+    /// bool: (5.3.0f1 - 2022.3.2f1)
+    pub m_AutoConfigureConnectedAnchor: Option<bool>,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
-    /// i32: (2022.2.0b16 - 2022.2.0b16)
+    /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_BreakAction: Option<i32>,
+    /**The force that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakForce: Option<f32>,
+    /**The torque that needs to be applied for this joint to break.*/
+    /// f32: (5.3.0f1 - 2022.3.2f1)
+    pub m_BreakTorque: Option<f32>,
+    /// bool: (4.5.0 - 5.0.0f4)
+    pub m_CollideConnected: Option<bool>,
+    /**Should the two rigid bodies connected with this joint collide with each other?*/
+    /// bool: (5.0.1f1 - 2022.3.2f1)
+    pub m_EnableCollision: Option<bool>,
 }
 
 /// WindZone is a  class of the Unity engine since version 3.4.0.
@@ -16205,7 +18294,8 @@ Note: This only works with trees created by the tree creator or imported from Sp
 pub struct WindZone {
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    pub m_GameObject: PPtr,
     /**Defines the type of wind zone to be used (Spherical or Directional).*/
     pub m_Mode: i32,
     /**Radius of the Spherical Wind Zone (only active if the WindZoneMode is set to Spherical).*/
@@ -16220,10 +18310,11 @@ pub struct WindZone {
     pub m_WindTurbulence: f32,
 }
 
-/// WorldAnchor is a  class of the Unity engine since version 5.6.0b2.
+/// WorldAnchor is a  class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct WorldAnchor {
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (5.5.0f3 - 2020.2.0a15)
+    pub m_GameObject: PPtr,
 }
 
 /// WorldParticleCollider is a  class of the Unity engine since version 3.4.0.
@@ -16232,7 +18323,8 @@ pub struct WorldParticleCollider {
     pub m_BounceFactor: f32,
     pub m_CollidesWith: BitField,
     pub m_CollisionEnergyLoss: f32,
-    pub m_GameObject: PPtr, /*<GameObject>*/
+    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    pub m_GameObject: PPtr,
     pub m_MinKillVelocity: f32,
     pub m_SendCollisionMessage: bool,
 }
@@ -16244,7 +18336,7 @@ pub struct bitset {
     pub bitblocks: Vec<u8>,
 }
 
-/// float3 is a sub class of the Unity engine since version 5.6.0b2.
+/// float3 is a sub class of the Unity engine since version 5.4.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct float3 {
     pub x: f32,
@@ -16252,7 +18344,7 @@ pub struct float3 {
     pub z: f32,
 }
 
-/// float4 is a sub class of the Unity engine since version 5.6.0b2.
+/// float4 is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct float4 {
     pub w: f32,
@@ -16261,14 +18353,14 @@ pub struct float4 {
     pub z: f32,
 }
 
-/// int2_storage is a sub class of the Unity engine since version 2018.4.15f1.
+/// int2_storage is a sub class of the Unity engine since version 2018.1.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct int2_storage {
     pub x: i32,
     pub y: i32,
 }
 
-/// int3_storage is a sub class of the Unity engine since version 2017.4.33f1.
+/// int3_storage is a sub class of the Unity engine since version 2017.2.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct int3_storage {
     pub x: i32,
@@ -16276,10 +18368,10 @@ pub struct int3_storage {
     pub z: i32,
 }
 
-/// xform is a sub class of the Unity engine since version 5.6.0b2.
+/// xform is a sub class of the Unity engine since version 4.0.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct xform {
     pub q: float4,
-    pub s: float3,
-    pub t: float3,
+    pub s: Enum_float4__float3,
+    pub t: Enum_float4__float3,
 }
