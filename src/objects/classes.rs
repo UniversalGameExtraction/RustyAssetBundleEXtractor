@@ -25,10 +25,10 @@ Class with information about a component that has been added to a Prefab instanc
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AddedComponent {
-    /// PPtr<Component>: (2022.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`Component`]>: (2022.2.0b1 - 2022.3.2f1)
     pub addedObject: PPtr,
     pub insertIndex: i32,
-    /// PPtr<GameObject>: (2022.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2022.2.0b1 - 2022.3.2f1)
     pub targetCorrespondingSourceObject: PPtr,
 }
 
@@ -39,10 +39,10 @@ Class with information about a GameObject that has been added as a child under a
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AddedGameObject {
-    /// PPtr<Transform>: (2022.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2022.1.0b1 - 2022.3.2f1)
     pub addedObject: PPtr,
     pub insertIndex: i32,
-    /// PPtr<Transform>: (2022.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2022.1.0b1 - 2022.3.2f1)
     pub targetCorrespondingSourceObject: PPtr,
 }
 
@@ -61,7 +61,7 @@ pub struct AimConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The rotation used when the sources have a total weight of 0.*/
     pub m_RotationAtRest: Vector3f,
@@ -74,7 +74,7 @@ pub struct AimConstraint {
     /**The weight of the constraint component.*/
     pub m_Weight: f32,
     /**The world up object, used to calculate the world up vector when the world up Type is AimConstraint.WorldUpType.ObjectUp or AimConstraint.WorldUpType.ObjectRotationUp.*/
-    /// PPtr<Transform>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_WorldUpObject: PPtr,
     /**The world up Vector used when the world up type is AimConstraint.WorldUpType.Vector or AimConstraint.WorldUpType.ObjectRotationUp.*/
     pub m_WorldUpVector: Vector3f,
@@ -95,7 +95,7 @@ pub struct AndroidAssetPackImporter {
     pub m_AssetBundleName: String,
     /**Get or set the AssetBundle variant.*/
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.4.29f1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2019.4.29f1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     /**The name of the object.*/
     pub m_Name: String,
@@ -117,16 +117,16 @@ See Also: An overview of animation scripting in Unity is here.
 pub struct Animation {
     /**When turned on, animations will be executed in the physics loop. This is only useful in conjunction with kinematic rigidbodies.*/
     pub m_AnimatePhysics: bool,
-    /// PPtr<AnimationClip>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`AnimationClip`]>: (3.4.0 - 2022.3.2f1)
     pub m_Animation: PPtr,
-    /// Vec<PPtr<AnimationClip>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`AnimationClip`]>>: (3.4.0 - 2022.3.2f1)
     pub m_Animations: Vec<PPtr>,
     /**Controls culling of this Animation component.*/
     pub m_CullingType: i32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Should the default animation clip (the Animation.clip property) automatically start playing on startup?*/
     pub m_PlayAutomatically: bool,
@@ -187,16 +187,16 @@ pub struct AnimationClip {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimationClipBindingConstant {
     pub genericBindings: Vec<GenericBinding>,
-    /// Vec<PPtr<Object>>: (4.3.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (4.3.0 - 2022.3.2f1)
     pub pptrCurveMapping: Vec<PPtr>,
 }
 
 /// AnimationClipOverride is a sub class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimationClipOverride {
-    /// PPtr<AnimationClip>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`AnimationClip`]>: (4.3.0 - 2022.3.2f1)
     pub m_OriginalClip: PPtr,
-    /// PPtr<AnimationClip>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`AnimationClip`]>: (4.3.0 - 2022.3.2f1)
     pub m_OverrideClip: PPtr,
 }
 
@@ -241,7 +241,7 @@ pub struct AnimationEvent {
     /**Function call options.*/
     pub messageOptions: i32,
     /**Object reference parameter that is stored in the event and will be sent to the function.*/
-    /// PPtr<Object>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (3.4.0 - 2022.3.2f1)
     pub objectReferenceParameter: PPtr,
     /**The time at which the event will be fired off.*/
     pub time: f32,
@@ -261,16 +261,16 @@ pub struct Animator {
     /**Should root motion be applied?*/
     pub m_ApplyRootMotion: bool,
     /**Gets/Sets the current Avatar.*/
-    /// PPtr<Avatar>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`Avatar`]>: (4.0.0 - 2022.3.2f1)
     pub m_Avatar: PPtr,
-    /// PPtr<AnimatorController>: (4.0.0 - 4.2.2); PPtr<RuntimeAnimatorController>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`AnimatorController`]>: (4.0.0 - 4.2.2); PPtr<[`RuntimeAnimatorController`]>: (4.3.0 - 2022.3.2f1)
     pub m_Controller: PPtr,
     /**Controls culling of this Animator component.*/
     pub m_CullingMode: i32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.0.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /// bool: (4.5.3 - 2022.3.2f1)
     pub m_AllowConstantClipSamplingOptimization: Option<bool>,
@@ -317,7 +317,7 @@ The Animator Controller controls animation through layers with state machines, c
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimatorController {
     /**Retrieves all AnimationClip used by the controller.*/
-    /// Vec<PPtr<AnimationClip>>: (4.0.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`AnimationClip`]>>: (4.0.0 - 2022.3.2f1)
     pub m_AnimationClips: Vec<PPtr>,
     pub m_Controller: ControllerConstant,
     pub m_ControllerSize: u32,
@@ -328,7 +328,7 @@ pub struct AnimatorController {
     pub m_MultiThreadedStateMachine: Option<bool>,
     /// StateMachineBehaviourVectorDescription: (5.0.0f4 - 2022.3.2f1)
     pub m_StateMachineBehaviourVectorDescription: Option<StateMachineBehaviourVectorDescription>,
-    /// Vec<PPtr<MonoBehaviour>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`MonoBehaviour`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_StateMachineBehaviours: Option<Vec<PPtr>>,
 }
 
@@ -348,7 +348,7 @@ The AnimatorOverrideController.ApplyOverrides method is well suited for this cas
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AnimatorOverrideController {
     pub m_Clips: Vec<AnimationClipOverride>,
-    /// PPtr<RuntimeAnimatorController>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`RuntimeAnimatorController`]>: (4.3.0 - 2022.3.2f1)
     pub m_Controller: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
@@ -368,19 +368,19 @@ pub struct AnimatorState {
     /**Should the state be mirrored.*/
     pub m_Mirror: bool,
     /**The motion assigned to this state.*/
-    /// PPtr<Motion>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Motion`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_Motion: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
     pub m_Position: Vector3f,
     /**The default speed of the motion.*/
     pub m_Speed: f32,
-    /// Vec<PPtr<MonoBehaviour>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`MonoBehaviour`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_StateMachineBehaviours: Vec<PPtr>,
     /**A tag can be used to identify a state.*/
     pub m_Tag: String,
     /**The transitions that are going out of the state.*/
-    /// Vec<PPtr<AnimatorStateTransition>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`AnimatorStateTransition`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_Transitions: Vec<PPtr>,
     /**Whether or not the AnimatorStates writes back the default values for properties that are not animated by its Motion.*/
     pub m_WriteDefaultValues: bool,
@@ -420,17 +420,17 @@ pub struct AnimatorStateMachine {
     /**The position of the AnyState node.*/
     pub m_AnyStatePosition: Vector3f,
     /**The list of AnyState transitions.*/
-    /// Vec<PPtr<AnimatorStateTransition>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`AnimatorStateTransition`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_AnyStateTransitions: Vec<PPtr>,
     pub m_ChildStateMachines: Vec<ChildAnimatorStateMachine>,
     pub m_ChildStates: Vec<ChildAnimatorState>,
     /**The state that the state machine will be in when it starts.*/
-    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorState`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_DefaultState: PPtr,
     /**The position of the entry node.*/
     pub m_EntryPosition: Vector3f,
     /**The list of entry transitions in the state machine.*/
-    /// Vec<PPtr<AnimatorTransition>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`AnimatorTransition`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_EntryTransitions: Vec<PPtr>,
     /**The position of the exit node.*/
     pub m_ExitPosition: Vector3f,
@@ -438,9 +438,9 @@ pub struct AnimatorStateMachine {
     pub m_Name: String,
     /**The position of the parent state machine node. Only valid when in a hierachic state machine.*/
     pub m_ParentStateMachinePosition: Vector3f,
-    /// Vec<PPtr<MonoBehaviour>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`MonoBehaviour`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_StateMachineBehaviours: Vec<PPtr>,
-    /// Vec<(PPtr<AnimatorStateMachine>, Vec<PPtr<AnimatorTransition>>)>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<(PPtr<[`AnimatorStateMachine`]>, Vec<PPtr<[`AnimatorTransition`]>>)>: (5.0.0f4 - 2022.3.2f1)
     pub m_StateMachineTransitions: Vec<(PPtr, Vec<PPtr>)>,
 }
 
@@ -456,9 +456,9 @@ pub struct AnimatorStateTransition {
     pub m_CanTransitionToSelf: bool,
     /**AnimatorCondition conditions that need to be met for a transition to happen.*/
     pub m_Conditions: Vec<AnimatorCondition>,
-    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorState`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_DstState: PPtr,
-    /// PPtr<AnimatorStateMachine>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorStateMachine`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_DstStateMachine: PPtr,
     /**If AnimatorStateTransition.hasExitTime is true, exitTime represents the exact time at which the transition can take effect.This is represented in normalized time, so for example an exit time of 0.75 means that on the first frame where 75% of the animation has played, the Exit Time condition will be true. On the next frame, the condition will be false.For looped animations, transitions with exit times smaller than 1 will be evaluated every loop, so you can use this to time your transition with the proper timing in the animation, every loop.Transitions with exit times greater than one will be evaluated only once, so they can be used to exit at a specific time, after a fixed number of loops. For example, a transition with an exit time of 3.5 will be evaluated once, after three and a half loops.*/
     pub m_ExitTime: f32,
@@ -493,9 +493,9 @@ A transition happens when all its conditions are met.
 pub struct AnimatorTransition {
     /**AnimatorCondition conditions that need to be met for a transition to happen.*/
     pub m_Conditions: Vec<AnimatorCondition>,
-    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorState`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_DstState: PPtr,
-    /// PPtr<AnimatorStateMachine>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorStateMachine`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_DstStateMachine: PPtr,
     /**Is the transition destination the exit of the current state machine.*/
     pub m_IsExit: bool,
@@ -517,9 +517,9 @@ A transition happens when all its conditions are met.
 pub struct AnimatorTransitionBase {
     /**AnimatorCondition conditions that need to be met for a transition to happen.*/
     pub m_Conditions: Vec<AnimatorCondition>,
-    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorState`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_DstState: PPtr,
-    /// PPtr<AnimatorStateMachine>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorStateMachine`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_DstStateMachine: PPtr,
     /**Is the transition destination the exit of the current state machine.*/
     pub m_IsExit: bool,
@@ -587,7 +587,7 @@ pub struct AreaEffector2D {
     /**The variation of the magnitude of the force to be applied.*/
     pub m_ForceVariation: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The angle of the force to be applied.*/
     /// f32: (5.0.2f1 - 2022.3.2f1)
@@ -622,7 +622,7 @@ pub struct ArticulationBody {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2020.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2020.1.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Allows you to specify that this body is not movable.*/
     pub m_Immovable: bool,
@@ -736,7 +736,7 @@ pub struct AssemblyDefinitionAsset {
 pub struct AssemblyDefinitionImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.3.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.3.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UserData: String,
@@ -756,7 +756,7 @@ pub struct AssemblyDefinitionReferenceAsset {
 pub struct AssemblyDefinitionReferenceImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.2.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2019.2.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -779,7 +779,7 @@ pub struct AssemblyJsonImporter {
     pub m_AssetBundleVariant: String,
     pub m_Name: String,
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2017.2.0b10)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2017.2.0b10)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
 }
 
@@ -857,7 +857,7 @@ pub struct AssetBundle {
     pub m_MainAsset: AssetInfo,
     /**The name of the object.*/
     pub m_Name: String,
-    /// Vec<PPtr<Object>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (3.4.0 - 2022.3.2f1)
     pub m_PreloadTable: Vec<PPtr>,
     /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleName: Option<String>,
@@ -1009,14 +1009,14 @@ pub struct AssetImporter_ImportError {
     pub file: String,
     pub line: i32,
     pub mode: i32,
-    /// PPtr<Object>: (2018.1.0b2 - 2022.2.0a13)
+    /// PPtr<[`Object`]>: (2018.1.0b2 - 2022.2.0a13)
     pub object: PPtr,
 }
 
 /// AssetInfo is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AssetInfo {
-    /// PPtr<Object>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (3.4.0 - 2022.3.2f1)
     pub asset: PPtr,
     pub preloadIndex: i32,
     pub preloadSize: i32,
@@ -1103,7 +1103,7 @@ pub struct AudioChorusFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Chorus modulation rate in hz. 0.0 to 20.0. Default = 0.8 hz.*/
     pub m_Rate: f32,
@@ -1189,7 +1189,7 @@ pub struct AudioDistortionFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
 }
 
@@ -1210,7 +1210,7 @@ pub struct AudioEchoFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Volume of echo signal to pass to output. 0.0 to 1.0. Default = 1.0.*/
     pub m_WetMix: f32,
@@ -1236,7 +1236,7 @@ pub struct AudioHighPassFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Determines how much the filter's self-resonance isdampened.*/
     pub m_HighpassResonanceQ: f32,
@@ -1269,7 +1269,7 @@ pub struct AudioImporter {
     pub m_AssetBundleVariant: Option<String>,
     /// SampleSettings: (5.0.0f4 - 2022.3.2f1)
     pub m_DefaultSettings: Option<SampleSettings>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
@@ -1340,7 +1340,7 @@ pub struct AudioListener {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /// Vec<ExtensionPropertyValue>: (2017.2.0b2 - 2017.2.0b11)
     pub m_ExtensionPropertyValues: Option<Vec<ExtensionPropertyValue>>,
@@ -1358,7 +1358,7 @@ pub struct AudioLowPassFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Determines how much the filter's self-resonance is dampened.*/
     pub m_LowpassResonanceQ: f32,
@@ -1410,16 +1410,16 @@ This is a singleton representing a specific audio mixer asset in the project.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixer {
     pub m_EnableSuspend: bool,
-    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixerGroup`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_MasterGroup: PPtr,
     pub m_MixerConstant: AudioMixerConstant,
     /**The name of the object.*/
     pub m_Name: String,
-    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixerGroup`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_OutputGroup: PPtr,
-    /// Vec<PPtr<AudioMixerSnapshot>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`AudioMixerSnapshot`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_Snapshots: Vec<PPtr>,
-    /// PPtr<AudioMixerSnapshot>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixerSnapshot`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_StartSnapshot: PPtr,
     pub m_SuspendThreshold: f32,
     /**How time should progress for this AudioMixer. Used during Snapshot transitions.*/
@@ -1450,15 +1450,15 @@ pub struct AudioMixerConstant {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerController {
     pub m_EnableSuspend: bool,
-    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixerGroup`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_MasterGroup: PPtr,
     pub m_MixerConstant: AudioMixerConstant,
     pub m_Name: String,
-    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixerGroup`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_OutputGroup: PPtr,
-    /// Vec<PPtr<AudioMixerSnapshot>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`AudioMixerSnapshot`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_Snapshots: Vec<PPtr>,
-    /// PPtr<AudioMixerSnapshot>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixerSnapshot`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_StartSnapshot: PPtr,
     pub m_SuspendThreshold: f32,
     /// i32: (5.3.6f1 - 2022.3.2f1)
@@ -1475,7 +1475,7 @@ pub struct AudioMixerEffectController {
     pub m_MixLevel: GUID,
     pub m_Name: String,
     pub m_Parameters: Vec<Parameter>,
-    /// PPtr<AudioMixerEffectController>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixerEffectController`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_SendTarget: PPtr,
 }
 
@@ -1486,9 +1486,9 @@ Object representing a group in the mixer.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerGroup {
-    /// PPtr<AudioMixer>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixer`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_AudioMixer: PPtr,
-    /// Vec<PPtr<AudioMixerGroup>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`AudioMixerGroup`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_Children: Vec<PPtr>,
     pub m_GroupID: GUID,
     /**The name of the object.*/
@@ -1498,9 +1498,9 @@ pub struct AudioMixerGroup {
 /// AudioMixerGroupController is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerGroupController {
-    /// PPtr<AudioMixer>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixer`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_AudioMixer: PPtr,
-    /// Vec<PPtr<AudioMixerGroup>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`AudioMixerGroup`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_Children: Vec<PPtr>,
     pub m_GroupID: GUID,
     pub m_Name: String,
@@ -1513,7 +1513,7 @@ Object representing a snapshot in the mixer.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerSnapshot {
-    /// PPtr<AudioMixer>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixer`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_AudioMixer: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
@@ -1523,7 +1523,7 @@ pub struct AudioMixerSnapshot {
 /// AudioMixerSnapshotController is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AudioMixerSnapshotController {
-    /// PPtr<AudioMixer>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixer`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_AudioMixer: PPtr,
     pub m_Name: String,
     pub m_SnapshotID: GUID,
@@ -1550,7 +1550,7 @@ pub struct AudioReverbFilter {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Reference high frequency in hertz (Hz). Ranges from 1000.0 to 20000.0. Default is 5000.0.*/
     pub m_HFReference: f32,
@@ -1605,7 +1605,7 @@ pub struct AudioReverbZone {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Reference high frequency (hz).*/
     pub m_HFReference: f32,
@@ -1673,7 +1673,7 @@ pub struct AudioSource {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The pitch of the audio source.*/
     pub m_Pitch: f32,
@@ -1681,7 +1681,7 @@ pub struct AudioSource {
     pub m_PlayOnAwake: bool,
     /**The volume of the audio source (0.0 to 1.0).*/
     pub m_Volume: f32,
-    /// PPtr<AudioClip>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`AudioClip`]>: (3.4.0 - 2022.3.2f1)
     pub m_audioClip: PPtr,
     pub panLevelCustomCurve: AnimationCurve,
     pub rolloffCustomCurve: AnimationCurve,
@@ -1695,7 +1695,7 @@ pub struct AudioSource {
     /// bool: (4.2.0 - 2022.3.2f1)
     pub BypassReverbZones: Option<bool>,
     /**The target group to which the AudioSource should route its signal.*/
-    /// PPtr<AudioMixerGroup>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AudioMixerGroup`]>: (5.0.0f4 - 2022.3.2f1)
     pub OutputAudioMixerGroup: Option<PPtr>,
     /**Enables or disables spatialization.*/
     /// bool: (5.2.0f2 - 2022.3.2f1)
@@ -1813,7 +1813,7 @@ pub struct Behaviour {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
 }
 
@@ -1840,7 +1840,7 @@ pub struct BillboardAsset {
     /**The name of the object.*/
     pub m_Name: String,
     /**The material used for rendering.*/
-    /// PPtr<Material>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (5.0.0f4 - 2022.3.2f1)
     pub material: PPtr,
     pub vertices: Vec<Vector2f>,
     /**Width of the billboard.*/
@@ -1858,13 +1858,13 @@ BillboardRenderers that share the same BillboardAsset can be rendered in a batch
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BillboardRenderer {
     /**The BillboardAsset to render.*/
-    /// PPtr<BillboardAsset>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`BillboardAsset`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_Billboard: PPtr,
     pub m_CastShadows: u8,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
@@ -1872,10 +1872,10 @@ pub struct BillboardRenderer {
     pub m_LightmapTilingOffset: Vector4f,
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
@@ -1883,14 +1883,14 @@ pub struct BillboardRenderer {
     pub m_ReflectionProbeUsage: i32,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
     /**The light probe interpolation type.*/
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: Option<PPtr>,
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_MotionVectors: Option<u8>,
@@ -1959,7 +1959,7 @@ Blend trees are used to blend continuously animation between their children. The
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BlendTree {
-    pub m_Childs: Vec<Enum_ChildMotion__Child>,
+    pub m_Childs: Vec<Enum_Child__ChildMotion>,
     /**Sets the maximum threshold that will be used by the ChildMotion. Only used when useAutomaticThresholds is true.*/
     pub m_MaxThreshold: f32,
     /**Sets the minimum threshold that will be used by the ChildMotion. Only used when useAutomaticThresholds is true.*/
@@ -1987,9 +1987,9 @@ pub struct BlendTree {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_ChildMotion__Child {
-    ChildMotion(ChildMotion),
+pub enum Enum_Child__ChildMotion {
     Child(Child),
+    ChildMotion(ChildMotion),
 }
 
 /// BoneInfluence is a sub class of the Unity engine since version 3.4.0.
@@ -2063,12 +2063,12 @@ pub struct BoxCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Specify if this collider is configured as a trigger.*/
     pub m_IsTrigger: bool,
     /**The material used by the collider.*/
-    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicMaterial`]>: (3.4.0 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The size of the box, measured in the object's local space.*/
     pub m_Size: Vector3f,
@@ -2097,11 +2097,11 @@ pub struct BoxCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The width and height of the rectangle.*/
     pub m_Size: Vector2f,
@@ -2158,7 +2158,7 @@ A Prefab Asset can be broken if the content of the file invalid or if it is a Va
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BrokenPrefabAsset {
-    /// PPtr<BrokenPrefabAsset>: (2022.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`BrokenPrefabAsset`]>: (2022.2.0b1 - 2022.3.2f1)
     pub m_BrokenParentPrefab: PPtr,
     /**Returns true if the content of the file is valid.*/
     pub m_IsPrefabFileValid: bool,
@@ -2187,7 +2187,7 @@ A BuildReport object is returned by BuildPipeline.BuildPlayer and can be used to
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuildReport {
-    /// Vec<PPtr<Object>>: (5.4.0f3 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (5.4.0f3 - 2022.3.2f1)
     pub m_Appendices: Vec<PPtr>,
     pub m_BuildSteps: Vec<BuildStepInfo>,
     pub m_Files: Vec<BuildReportFile>,
@@ -2280,7 +2280,7 @@ pub struct BuildSettings {
     /// Vec<String>: (5.0.0f4 - 2022.3.2f1)
     pub preloadedPlugins: Option<Vec<String>>,
     /// Vec<(i32, u32)>: (3.5.0 - 4.7.2); Vec<(i32, Hash128)>: (5.0.0f4 - 2020.2.0a19)
-    pub runtimeClassHashes: Option<Vec<(i32, Enum_Hash128__u32)>>,
+    pub runtimeClassHashes: Option<Vec<(i32, Enum_u32__Hash128)>>,
     /// Vec<String>: (5.1.0f1 - 2022.3.2f1)
     pub scenes: Option<Vec<String>>,
     /// Vec<(Hash128, Hash128)>: (5.0.0f4 - 2020.2.0a19)
@@ -2291,9 +2291,9 @@ pub struct BuildSettings {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_Hash128__u32 {
-    Hash128(Hash128),
+pub enum Enum_u32__Hash128 {
     u32(u32),
+    Hash128(Hash128),
 }
 
 /// BuildStepInfo is a sub class of the Unity engine since version 5.4.0f3.
@@ -2410,7 +2410,7 @@ pub struct BuiltAssetBundleInfoSet {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct BuiltinShaderSettings {
     pub m_Mode: i32,
-    /// PPtr<Shader>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Shader`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_Shader: PPtr,
 }
 
@@ -2437,7 +2437,7 @@ pub struct BuoyancyEffector2D {
     /**The random variation of the force used to similate fluid flow.*/
     pub m_FlowVariation: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**A force applied to slow linear movement of any Collider2D in contact with the effector.*/
     pub m_LinearDrag: f32,
@@ -2462,19 +2462,19 @@ pub struct CachedAssetMetaData {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CachedSpriteAtlas {
     pub frames: Vec<((GUID, i64), SpriteRenderData)>,
-    /// Vec<PPtr<Texture2D>>: (4.3.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture2D`]>>: (4.3.0 - 2022.3.2f1)
     pub textures: Vec<PPtr>,
-    /// Vec<PPtr<Texture2D>>: (5.2.0f2 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture2D`]>>: (5.2.0f2 - 2022.3.2f1)
     pub alphaTextures: Option<Vec<PPtr>>,
 }
 
 /// CachedSpriteAtlasRuntimeData is a  class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CachedSpriteAtlasRuntimeData {
-    /// Vec<PPtr<Texture2D>>: (2017.1.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture2D`]>>: (2017.1.0b1 - 2022.3.2f1)
     pub alphaTextures: Vec<PPtr>,
     pub frames: Vec<((GUID, i64), SpriteAtlasData)>,
-    /// Vec<PPtr<Texture2D>>: (2017.1.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture2D`]>>: (2017.1.0b1 - 2022.3.2f1)
     pub textures: Vec<PPtr>,
     /// Hash128: (2020.1.0b1 - 2022.3.2f1)
     pub currentPackingHash: Option<Hash128>,
@@ -2503,13 +2503,13 @@ pub struct Camera {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_NormalizedViewPortRect: Rectf,
     /**The rendering path that should be used, if possible.*/
     pub m_RenderingPath: i32,
     /**Destination render texture.*/
-    /// PPtr<RenderTexture>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`RenderTexture`]>: (3.4.0 - 2022.3.2f1)
     pub m_TargetTexture: PPtr,
     /**Is the camera orthographic (true) or perspective (false)?*/
     pub orthographic: bool,
@@ -2601,12 +2601,12 @@ Elements on a canvas are rendered AFTER Scene rendering, either from an attached
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Canvas {
-    /// PPtr<Camera>: (4.5.0 - 2022.3.2f1)
+    /// PPtr<[`Camera`]>: (4.5.0 - 2022.3.2f1)
     pub m_Camera: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Force elements in the canvas to be aligned with pixels. Only applies with renderMode is Screen Space.*/
     pub m_PixelPerfect: bool,
@@ -2671,7 +2671,7 @@ pub struct CanvasGroup {
     /**Does this group block raycasting (allow collision).*/
     pub m_BlocksRaycasts: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.6.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.6.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Should the group ignore parent groups?*/
     pub m_IgnoreParentGroups: bool,
@@ -2691,7 +2691,7 @@ See Also:Canvas.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CanvasRenderer {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.6.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.6.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Indicates whether geometry emitted by this renderer can be ignored when the vertex color alpha is close to zero for every vertex of the mesh.*/
     /// bool: (2018.2.0b1 - 2022.3.2f1)
@@ -2713,14 +2713,14 @@ pub struct CapsuleCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The height of the capsule measured in the object's local space.*/
     pub m_Height: f32,
     /**Specify if this collider is configured as a trigger.*/
     pub m_IsTrigger: bool,
     /**The material used by the collider.*/
-    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicMaterial`]>: (3.4.0 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The radius of the sphere, measured in the object's local space.*/
     pub m_Radius: f32,
@@ -2753,11 +2753,11 @@ pub struct CapsuleCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.5.0f3 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    /// PPtr<PhysicsMaterial2D>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (5.5.0f3 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The local offset of the collider geometry.*/
     pub m_Offset: Vector2f,
@@ -2825,7 +2825,7 @@ pub struct CharacterController {
     /**The center of the character's capsule relative to the transform's position.*/
     pub m_Center: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The height of the character's capsule.*/
     pub m_Height: f32,
@@ -2855,7 +2855,7 @@ pub struct CharacterController {
     /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**The material used by the collider.*/
-    /// PPtr<PhysicMaterial>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`PhysicMaterial`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_Material: Option<PPtr>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
     /// bool: (2022.2.0b1 - 2022.3.2f1)
@@ -2900,10 +2900,10 @@ pub struct CharacterJoint {
     /**The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.*/
     pub m_BreakTorque: f32,
     /**A reference to another rigidbody this joint connects to.*/
-    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody`]>: (3.4.0 - 2022.3.2f1)
     pub m_ConnectedBody: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The upper limit around the primary axis of the character joint.*/
     pub m_HighTwistLimit: SoftJointLimit,
@@ -2922,7 +2922,7 @@ pub struct CharacterJoint {
     /// Vector3f: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedAnchor: Option<Vector3f>,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`ArticulationBody`]>: (2020.2.0b1 - 2022.3.2f1)
     pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
     /// f32: (2017.1.0b2 - 2022.3.2f1)
@@ -2959,7 +2959,7 @@ pub struct CharacterJoint {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Child {
     pub m_IsAnim: bool,
-    /// PPtr<Motion>: (4.0.0 - 4.7.2)
+    /// PPtr<[`Motion`]>: (4.0.0 - 4.7.2)
     pub m_Motion: PPtr,
     pub m_Threshold: f32,
     pub m_TimeScale: f32,
@@ -2981,7 +2981,7 @@ pub struct ChildAnimatorState {
     /**The position the the state node in the context of its parent state machine.*/
     pub m_Position: Vector3f,
     /**The state.*/
-    /// PPtr<AnimatorState>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorState`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_State: PPtr,
 }
 
@@ -2995,7 +2995,7 @@ pub struct ChildAnimatorStateMachine {
     /**The position of the state machine node in the context of its parent state machine.*/
     pub m_Position: Vector3f,
     /**The state machine.*/
-    /// PPtr<AnimatorStateMachine>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`AnimatorStateMachine`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_StateMachine: PPtr,
 }
 
@@ -3013,7 +3013,7 @@ pub struct ChildMotion {
     /**Mirror of the child.*/
     pub m_Mirror: bool,
     /**The motion itself.*/
-    /// PPtr<Motion>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Motion`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_Motion: PPtr,
     /**The position of the child. Used in 2D blend trees.*/
     pub m_Position: Vector2f,
@@ -3034,11 +3034,11 @@ pub struct CircleCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**Radius of the circle.*/
     pub m_Radius: f32,
@@ -3177,7 +3177,7 @@ pub struct ClipAnimationInfo {
     pub loopBlendPositionY: Option<bool>,
     /// bool: (4.3.0 - 2022.3.2f1)
     pub loopTime: Option<bool>,
-    /// PPtr<AvatarMask>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`AvatarMask`]>: (4.3.0 - 2022.3.2f1)
     pub maskSource: Option<PPtr>,
     /// i32: (4.3.0 - 2022.3.2f1)
     pub maskType: Option<i32>,
@@ -3272,7 +3272,7 @@ pub struct Cloth {
     /**Bending stiffness of the cloth.*/
     pub m_BendingStiffness: f32,
     /**An array of CapsuleColliders which this Cloth instance should collide with.*/
-    /// Vec<PPtr<CapsuleCollider>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`CapsuleCollider`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_CapsuleColliders: Vec<PPtr>,
     /**The cloth skinning coefficients used to set up how the cloth interacts with the skinned mesh.*/
     pub m_Coefficients: Vec<ClothConstrainCoefficients>,
@@ -3287,7 +3287,7 @@ pub struct Cloth {
     /**The friction of the cloth when colliding with the character.*/
     pub m_Friction: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**A random, external acceleration applied to the cloth.*/
     pub m_RandomAcceleration: Vector3f,
@@ -3295,8 +3295,8 @@ pub struct Cloth {
     pub m_SleepThreshold: f32,
     pub m_SolverFrequency: Enum_u32__f32,
     /**An array of ClothSphereColliderPairs which this Cloth instance should collide with.*/
-    /// Vec<(PPtr<SphereCollider>, PPtr<SphereCollider>)>: (5.0.0f4 - 2019.1.0a10); Vec<ClothSphereColliderPair>: (2019.1.0b1 - 2022.3.2f1)
-    pub m_SphereColliders: Vec<Enum_PPtr__PPtr___ClothSphereColliderPair>,
+    /// Vec<(PPtr<[`SphereCollider`]>, PPtr<[`SphereCollider`]>)>: (5.0.0f4 - 2019.1.0a10); Vec<ClothSphereColliderPair>: (2019.1.0b1 - 2022.3.2f1)
+    pub m_SphereColliders: Vec<Enum_ClothSphereColliderPair___PPtr__PPtr>,
     /**Stretching stiffness of the cloth.*/
     pub m_StretchingStiffness: f32,
     pub m_UseContinuousCollision: bool,
@@ -3327,15 +3327,15 @@ pub struct Cloth {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_PPtr__PPtr___ClothSphereColliderPair {
-    PPtr__PPtr((PPtr, PPtr)),
+pub enum Enum_ClothSphereColliderPair___PPtr__PPtr {
     ClothSphereColliderPair(ClothSphereColliderPair),
+    PPtr__PPtr((PPtr, PPtr)),
 }
 
 /// ClothAttachment is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClothAttachment {
-    /// PPtr<Collider>: (3.4.0 - 4.7.2)
+    /// PPtr<[`Collider`]>: (3.4.0 - 4.7.2)
     pub m_Collider: PPtr,
     pub m_Tearable: bool,
     pub m_TwoWayInteraction: bool,
@@ -3357,18 +3357,18 @@ pub struct ClothConstrainCoefficients {
 pub struct ClothRenderer {
     pub m_CastShadows: bool,
     pub m_Enabled: bool,
-    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 4.7.2)
     pub m_GameObject: PPtr,
     pub m_LightmapIndex: u8,
     pub m_LightmapTilingOffset: Vector4f,
-    /// Vec<PPtr<Material>>: (3.4.0 - 4.7.2)
+    /// Vec<PPtr<[`Material`]>>: (3.4.0 - 4.7.2)
     pub m_Materials: Vec<PPtr>,
     pub m_PauseWhenNotVisible: bool,
     pub m_ReceiveShadows: bool,
-    /// PPtr<Transform>: (3.4.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.4.0 - 4.7.2)
     pub m_StaticBatchRoot: PPtr,
     pub m_SubsetIndices: Vec<u32>,
-    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.5.0 - 4.7.2)
     pub m_LightProbeAnchor: Option<PPtr>,
     /// i16: (4.3.0 - 4.3.4)
     pub m_SortingLayer: Option<i16>,
@@ -3389,10 +3389,10 @@ A ClothSphereColliderPair can contain either a single valid SphereCollider insta
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClothSphereColliderPair {
     /**The first SphereCollider of a ClothSphereColliderPair.*/
-    /// PPtr<SphereCollider>: (2019.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`SphereCollider`]>: (2019.1.0b1 - 2022.3.2f1)
     pub first: PPtr,
     /**The second SphereCollider of a ClothSphereColliderPair.*/
-    /// PPtr<SphereCollider>: (2019.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`SphereCollider`]>: (2019.1.0b1 - 2022.3.2f1)
     pub second: PPtr,
 }
 
@@ -3400,7 +3400,7 @@ pub struct ClothSphereColliderPair {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CloudServiceHandlerBehaviour {
     pub m_Enabled: u8,
-    /// PPtr<GameObject>: (5.1.0f1 - 5.1.5f1)
+    /// PPtr<[`GameObject`]>: (5.1.0f1 - 5.1.5f1)
     pub m_GameObject: PPtr,
 }
 
@@ -3481,7 +3481,7 @@ pub struct CollisionModule {
     pub m_Dampen: Option<MinMaxCurve>,
     /// MinMaxCurve: (5.3.0f1 - 2022.3.2f1)
     pub m_EnergyLossOnCollision: Option<MinMaxCurve>,
-    /// Vec<PPtr<Transform>>: (2020.2.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Transform`]>>: (2020.2.0b1 - 2022.3.2f1)
     pub m_Planes: Option<Vec<PPtr>>,
     /**The maximum number of collision shapes Unity considers for particle collisions. It ignores excess shapes. Terrains take priority.*/
     /// i32: (5.3.0f1 - 2022.3.2f1)
@@ -3500,17 +3500,17 @@ pub struct CollisionModule {
     pub multiplyColliderForceByParticleSpeed: Option<bool>,
     /// f32: (4.0.0 - 5.2.5f1)
     pub particleRadius: Option<f32>,
-    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2020.2.0a13)
     pub plane0: Option<PPtr>,
-    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2020.2.0a13)
     pub plane1: Option<PPtr>,
-    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2020.2.0a13)
     pub plane2: Option<PPtr>,
-    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2020.2.0a13)
     pub plane3: Option<PPtr>,
-    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2020.2.0a13)
     pub plane4: Option<PPtr>,
-    /// PPtr<Transform>: (3.5.0 - 2020.2.0a13)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2020.2.0a13)
     pub plane5: Option<PPtr>,
     /**Specifies the accuracy of particle collisions against colliders in the Scene.*/
     /// i32: (4.0.0 - 2022.3.2f1)
@@ -3570,14 +3570,14 @@ See Also: ScriptableObject as a way to create scripts that do not attach to any 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Component {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
 }
 
 /// ComponentPair is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ComponentPair {
-    /// PPtr<Component>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`Component`]>: (5.5.0f3 - 2022.3.2f1)
     pub component: PPtr,
 }
 
@@ -3596,7 +3596,7 @@ pub struct CompositeCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Specifies when to generate the Composite Collider geometry.*/
     pub m_GenerationType: i32,
@@ -3604,7 +3604,7 @@ pub struct CompositeCollider2D {
     pub m_GeometryType: i32,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    /// PPtr<PhysicsMaterial2D>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The local offset of the collider geometry.*/
     pub m_Offset: Vector2f,
@@ -3617,7 +3617,7 @@ pub struct CompositeCollider2D {
     /**The Layers that this Collider2D will report collision or trigger callbacks for during a contact with another Collider2D.*/
     /// BitField: (2022.2.0b1 - 2022.3.2f1)
     pub m_CallbackLayers: Option<BitField>,
-    /// PPtr<GameObject>: (2022.1.18f1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2022.1.18f1 - 2022.3.2f1)
     pub m_CompositeGameObject: Option<PPtr>,
     /**The layers of other Collider2D involved in contacts with this Collider2D that will be captured.*/
     /// BitField: (2022.2.0b1 - 2022.3.2f1)
@@ -3705,14 +3705,14 @@ pub struct ComputeShader {
     /// Vec<ComputeShaderKernel>: (4.0.0 - 4.7.2)
     pub kernels: Option<Vec<ComputeShaderKernel>>,
     /// Vec<ComputeShaderVariant>: (5.0.0f4 - 2020.1.0a8); Vec<ComputeShaderPlatformVariant>: (2020.1.0b1 - 2022.3.2f1)
-    pub variants: Option<Vec<Enum_ComputeShaderPlatformVariant__ComputeShaderVariant>>,
+    pub variants: Option<Vec<Enum_ComputeShaderVariant__ComputeShaderPlatformVariant>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_ComputeShaderPlatformVariant__ComputeShaderVariant {
-    ComputeShaderPlatformVariant(ComputeShaderPlatformVariant),
+pub enum Enum_ComputeShaderVariant__ComputeShaderPlatformVariant {
     ComputeShaderVariant(ComputeShaderVariant),
+    ComputeShaderPlatformVariant(ComputeShaderPlatformVariant),
 }
 
 /// ComputeShaderBuiltinSampler is a sub class of the Unity engine since version 4.0.0.
@@ -3758,7 +3758,7 @@ pub struct ComputeShaderImporter {
     pub m_CurrentAPIMask: Option<u32>,
     /// i32: (5.0.0f4 - 5.3.1f1)
     pub m_CurrentBuildTarget: Option<i32>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**This property has no effect.*/
     /// i32: (2020.2.0b1 - 2022.1.0a9)
@@ -3908,10 +3908,10 @@ pub struct ConfigurableJoint {
     /**If enabled, all Target values will be calculated in world space instead of the object's local space.*/
     pub m_ConfiguredInWorldSpace: bool,
     /**A reference to another rigidbody this joint connects to.*/
-    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody`]>: (3.4.0 - 2022.3.2f1)
     pub m_ConnectedBody: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Boundary defining upper rotation restriction, based on delta from original rotation.*/
     pub m_HighAngularXLimit: SoftJointLimit,
@@ -3964,7 +3964,7 @@ pub struct ConfigurableJoint {
     /// Vector3f: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedAnchor: Option<Vector3f>,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`ArticulationBody`]>: (2020.2.0b1 - 2022.3.2f1)
     pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
     /// f32: (2017.1.0b2 - 2022.3.2f1)
@@ -4022,7 +4022,7 @@ pub struct ConstantForce {
     /**The force applied to the rigidbody every frame.*/
     pub m_Force: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The force - relative to the rigid bodies coordinate system - applied every frame.*/
     pub m_RelativeForce: Vector3f,
@@ -4047,7 +4047,7 @@ pub struct ConstantForce2D {
     /**The linear force applied to the rigidbody each physics update.*/
     pub m_Force: Vector2f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The linear force, relative to the rigid-body coordinate system, applied each physics update.*/
     pub m_RelativeForce: Vector2f,
@@ -4063,7 +4063,7 @@ Represents a source for the constraint.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ConstraintSource {
     /**The transform component of the source object.*/
-    /// PPtr<Transform>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2018.1.0b2 - 2022.3.2f1)
     pub sourceTransform: PPtr,
     /**The weight of the source in the evaluation of the constraint.*/
     pub weight: f32,
@@ -4118,7 +4118,7 @@ pub struct Cubemap {
     pub m_LightmapFormat: i32,
     /**The name of the object.*/
     pub m_Name: String,
-    /// Vec<PPtr<Texture2D>>: (4.0.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture2D`]>>: (4.0.0 - 2022.3.2f1)
     pub m_SourceTextures: Vec<PPtr>,
     pub m_TextureDimension: i32,
     pub m_TextureFormat: i32,
@@ -4227,11 +4227,11 @@ pub struct CustomCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2021.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2021.2.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    /// PPtr<PhysicsMaterial2D>: (2021.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (2021.2.0b1 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The local offset of the collider geometry.*/
     pub m_Offset: Vector2f,
@@ -4310,14 +4310,14 @@ pub struct CustomRenderTexture {
     /**Height of the Texture in pixels (Read Only).*/
     pub m_Height: i32,
     pub m_InitColor: ColorRGBA,
-    /// PPtr<Material>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_InitMaterial: PPtr,
-    /// PPtr<Texture>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`Texture`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_InitTexture: PPtr,
     /**Determine how Unity initializes a texture.*/
     pub m_InitializationMode: i32,
     /**The Material that Unity uses to initialize the content of a Custom Render Texture.*/
-    /// PPtr<Material>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_Material: PPtr,
     pub m_MipMap: bool,
     /**The name of the object.*/
@@ -4390,12 +4390,12 @@ pub struct DDSImporter {
 /// DataTemplate is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DataTemplate {
-    /// PPtr<DataTemplate>: (3.4.0 - 3.4.2)
+    /// PPtr<[`DataTemplate`]>: (3.4.0 - 3.4.2)
     pub m_Father: PPtr,
     pub m_IsDataTemplate: bool,
     pub m_LastMergeIdentifier: GUID,
     pub m_Name: String,
-    /// Vec<PPtr<EditorExtension>>: (3.4.0 - 3.4.2)
+    /// Vec<PPtr<[`EditorExtension`]>>: (3.4.0 - 3.4.2)
     pub m_Objects: Vec<PPtr>,
 }
 
@@ -4428,7 +4428,7 @@ pub struct DefaultImporter {
     pub m_AssetBundleName: Option<String>,
     /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
@@ -4443,7 +4443,7 @@ See Preset.GetDefaultListForType and Preset.SetDefaultListForType for usage.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DefaultPreset {
     /**The Preset applied to an object instance when it matches the search filter defined by DefaultPreset.m_Filter.*/
-    /// PPtr<Preset>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`Preset`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Preset: PPtr,
     /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_Disabled: Option<bool>,
@@ -4496,27 +4496,27 @@ pub struct DetailDatabase {
     pub m_PatchCount: i32,
     pub m_PatchSamples: i32,
     pub m_Patches: Vec<DetailPatch>,
-    /// Vec<PPtr<Texture2D>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture2D`]>>: (3.4.0 - 2022.3.2f1)
     pub m_PreloadTextureAtlasData: Vec<PPtr>,
     pub m_TreeInstances: Vec<TreeInstance>,
     pub m_TreePrototypes: Vec<TreePrototype>,
     pub m_WavingGrassAmount: f32,
     pub m_WavingGrassSpeed: f32,
     pub m_WavingGrassStrength: f32,
-    /// PPtr<Shader>: (2022.3.2f1 - 2022.3.2f1)
+    /// PPtr<[`Shader`]>: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "m_DefaultShaders[0]")]
     pub m_DefaultShaders_0_: Option<PPtr>,
-    /// PPtr<Shader>: (2022.3.2f1 - 2022.3.2f1)
+    /// PPtr<[`Shader`]>: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "m_DefaultShaders[1]")]
     pub m_DefaultShaders_1_: Option<PPtr>,
-    /// PPtr<Shader>: (2022.3.2f1 - 2022.3.2f1)
+    /// PPtr<[`Shader`]>: (2022.3.2f1 - 2022.3.2f1)
     #[serde(alias = "m_DefaultShaders[2]")]
     pub m_DefaultShaders_2_: Option<PPtr>,
-    /// PPtr<Shader>: (2019.1.0f2 - 2021.1.28f1)
+    /// PPtr<[`Shader`]>: (2019.1.0f2 - 2021.1.28f1)
     pub m_DetailBillboardShader: Option<PPtr>,
-    /// PPtr<Shader>: (2019.1.0f2 - 2021.1.28f1)
+    /// PPtr<[`Shader`]>: (2019.1.0f2 - 2021.1.28f1)
     pub m_DetailMeshGrassShader: Option<PPtr>,
-    /// PPtr<Shader>: (2019.1.0f2 - 2021.1.28f1)
+    /// PPtr<[`Shader`]>: (2019.1.0f2 - 2021.1.28f1)
     pub m_DetailMeshLitShader: Option<PPtr>,
     /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_DetailScatterMode: Option<i32>,
@@ -4558,10 +4558,10 @@ pub struct DetailPrototype {
     /**Controls the spatial frequency of the noise pattern used to vary the scale and color of the detail objects.*/
     pub noiseSpread: f32,
     /**GameObject used by the DetailPrototype.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub prototype: PPtr,
     /**Texture used by the DetailPrototype.*/
-    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (3.4.0 - 2022.3.2f1)
     pub prototypeTexture: PPtr,
     /**Render mode for the DetailPrototype.*/
     pub renderMode: i32,
@@ -4605,9 +4605,9 @@ pub struct DeviceNone {}
 /// DirectorGenericBinding is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DirectorGenericBinding {
-    /// PPtr<Object>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (2017.1.0b1 - 2022.3.2f1)
     pub key: PPtr,
-    /// PPtr<Object>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (2017.1.0b1 - 2022.3.2f1)
     pub value: PPtr,
 }
 
@@ -4623,14 +4623,14 @@ pub struct DistanceJoint2D {
     pub m_Anchor: Vector2f,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    /// PPtr<Rigidbody2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**The distance separating the two ends of the joint.*/
     pub m_Distance: f32,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Should the connectedAnchor be calculated automatically?*/
     /// bool: (5.3.0f1 - 2022.3.2f1)
@@ -4668,11 +4668,11 @@ pub struct EdgeCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**Get or set the points defining multiple continuous edges.*/
     pub m_Points: Vec<Vector2f>,
@@ -4736,7 +4736,7 @@ See Also: EditorBuildSettingsScene, EditorUserBuildSettings, BuildPlayerOptions.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct EditorBuildSettings {
     pub m_Scenes: Vec<Scene>,
-    /// Vec<(String, PPtr<Object>)>: (2018.1.0b2 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Object`]>)>: (2018.1.0b2 - 2022.3.2f1)
     pub m_configObjects: Option<Vec<(String, PPtr)>>,
 }
 
@@ -4745,13 +4745,13 @@ pub struct EditorBuildSettings {
 pub struct EditorExtensionImpl {
     /// Vec<u8>: (3.4.0 - 3.4.2)
     pub gFlattenedTypeTree: Option<Vec<u8>>,
-    /// PPtr<DataTemplate>: (3.4.0 - 3.4.2)
+    /// PPtr<[`DataTemplate`]>: (3.4.0 - 3.4.2)
     pub m_DataTemplate: Option<PPtr>,
-    /// PPtr<EditorExtension>: (3.4.0 - 3.4.2)
+    /// PPtr<[`EditorExtension`]>: (3.4.0 - 3.4.2)
     pub m_Object: Option<PPtr>,
     /// bitset: (3.4.0 - 3.4.2)
     pub m_OverrideVariable: Option<bitset>,
-    /// PPtr<EditorExtensionImpl>: (3.4.0 - 3.4.2)
+    /// PPtr<[`EditorExtensionImpl`]>: (3.4.0 - 3.4.2)
     pub m_TemplateFather: Option<PPtr>,
 }
 
@@ -4837,9 +4837,9 @@ pub struct EditorSettings {
     pub m_LineEndingsForNewScripts: Option<i32>,
     /// bool: (2020.2.0b1 - 2022.3.2f1)
     pub m_PrefabModeAllowAutoSave: Option<bool>,
-    /// PPtr<SceneAsset>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`SceneAsset`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_PrefabRegularEnvironment: Option<PPtr>,
-    /// PPtr<SceneAsset>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`SceneAsset`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_PrefabUIEnvironment: Option<PPtr>,
     /// String: (5.2.0f2 - 2022.3.2f1)
     pub m_ProjectGenerationIncludedExtensions: Option<String>,
@@ -5227,7 +5227,7 @@ pub struct EllipsoidParticleEmitter {
     pub m_Ellipsoid: Vector3f,
     pub m_Emit: bool,
     pub m_Enabled: bool,
-    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2018.2.21f1)
     pub m_GameObject: PPtr,
     pub m_MinEmitterRange: f32,
     pub m_OneShot: bool,
@@ -5313,7 +5313,7 @@ pub struct EmptyObject {}
 pub struct EnlightenRendererInformation {
     pub dynamicLightmapSTInSystem: Vector4f,
     pub instanceHash: Hash128,
-    /// PPtr<Object>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (5.0.0f4 - 2022.3.2f1)
     pub renderer: PPtr,
     pub systemId: i32,
 }
@@ -5369,7 +5369,7 @@ pub struct ExpandedData {
 /// ExposedReferenceTable is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ExposedReferenceTable {
-    /// Vec<(String, PPtr<Object>)>: (2017.1.0b1 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Object`]>)>: (2017.1.0b1 - 2022.3.2f1)
     pub m_References: Vec<(String, PPtr)>,
 }
 
@@ -5414,7 +5414,7 @@ pub struct ExternalForcesModule {
     /**Apply all Force Fields belonging to a matching Layer to this Particle System.*/
     /// i32: (2018.3.0f2 - 2022.3.2f1)
     pub influenceFilter: Option<i32>,
-    /// Vec<PPtr<ParticleSystemForceField>>: (2018.3.0f2 - 2022.3.2f1)
+    /// Vec<PPtr<[`ParticleSystemForceField`]>>: (2018.3.0f2 - 2022.3.2f1)
     pub influenceList: Option<Vec<PPtr>>,
     /**Particle System Force Field Components with a matching Layer affect this Particle System.*/
     /// BitField: (2018.3.0f2 - 2022.3.2f1)
@@ -5490,13 +5490,13 @@ pub struct FixedJoint {
     /**The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.*/
     pub m_BreakTorque: f32,
     /**A reference to another rigidbody this joint connects to.*/
-    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody`]>: (3.4.0 - 2022.3.2f1)
     pub m_ConnectedBody: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`ArticulationBody`]>: (2020.2.0b1 - 2022.3.2f1)
     pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
     /// f32: (2017.1.0b2 - 2022.3.2f1)
@@ -5531,7 +5531,7 @@ pub struct FixedJoint2D {
     pub m_BreakTorque: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    /// PPtr<Rigidbody2D>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**The amount by which the spring force is reduced in proportion to the movement speed.*/
     pub m_DampingRatio: f32,
@@ -5542,7 +5542,7 @@ pub struct FixedJoint2D {
     /**The frequency at which the spring oscillates around the distance between the objects.*/
     pub m_Frequency: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The action to take when the joint breaks the breakForce or breakTorque.*/
     /// i32: (2022.2.0b1 - 2022.3.2f1)
@@ -5560,7 +5560,7 @@ You can reference flares and assign them to a Light at runtime.See Also: Flare a
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Flare {
     pub m_Elements: Vec<FlareElement>,
-    /// PPtr<Texture>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture`]>: (3.4.0 - 2022.3.2f1)
     pub m_FlareTexture: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
@@ -5588,7 +5588,7 @@ pub struct FloatCurve {
     pub classID: i32,
     pub curve: AnimationCurve,
     pub path: String,
-    /// PPtr<MonoScript>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`MonoScript`]>: (3.4.0 - 2022.3.2f1)
     pub script: PPtr,
     /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub flags: Option<i32>,
@@ -5607,7 +5607,7 @@ pub struct Font {
     pub m_AsciiStartOffset: i32,
     pub m_CharacterRects: Vec<CharacterInfo>,
     pub m_ConvertCase: i32,
-    /// PPtr<Material>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (3.4.0 - 2022.3.2f1)
     pub m_DefaultMaterial: PPtr,
     pub m_DefaultStyle: u32,
     pub m_FontData: Vec<char>,
@@ -5618,7 +5618,7 @@ pub struct Font {
     pub m_LineSpacing: f32,
     /**The name of the object.*/
     pub m_Name: String,
-    /// PPtr<Texture>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture`]>: (3.4.0 - 2022.3.2f1)
     pub m_Texture: PPtr,
     /// i32: (4.0.0 - 2022.3.2f1)
     pub m_CharacterPadding: Option<i32>,
@@ -5626,7 +5626,7 @@ pub struct Font {
     pub m_CharacterSpacing: Option<i32>,
     /// f32: (5.4.0f3 - 2022.3.2f1)
     pub m_Descent: Option<f32>,
-    /// Vec<PPtr<Font>>: (4.0.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Font`]>>: (4.0.0 - 2022.3.2f1)
     pub m_FallbackFonts: Option<Vec<PPtr>>,
     /// i32: (3.4.0 - 3.5.7)
     pub m_FontCountX: Option<i32>,
@@ -5679,14 +5679,14 @@ pub struct FrictionJoint2D {
     pub m_BreakTorque: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    /// PPtr<Rigidbody2D>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**Should the two rigid bodies connected with this joint collide with each other?*/
     pub m_EnableCollision: bool,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The maximum force that can be generated when trying to maintain the friction joint constraint.*/
     pub m_MaxForce: f32,
@@ -5755,14 +5755,14 @@ pub struct GUIText {
     pub m_Alignment: i16,
     pub m_Anchor: i16,
     pub m_Enabled: u8,
-    /// PPtr<Font>: (3.4.0 - 2019.3.0a3)
+    /// PPtr<[`Font`]>: (3.4.0 - 2019.3.0a3)
     pub m_Font: PPtr,
     pub m_FontSize: i32,
     pub m_FontStyle: i32,
-    /// PPtr<GameObject>: (3.4.0 - 2019.3.0a3)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2019.3.0a3)
     pub m_GameObject: PPtr,
     pub m_LineSpacing: f32,
-    /// PPtr<Material>: (3.4.0 - 2019.3.0a3)
+    /// PPtr<[`Material`]>: (3.4.0 - 2019.3.0a3)
     pub m_Material: PPtr,
     pub m_PixelCorrect: bool,
     pub m_PixelOffset: Vector2f,
@@ -5780,12 +5780,12 @@ pub struct GUITexture {
     pub m_BottomBorder: i32,
     pub m_Color: ColorRGBA,
     pub m_Enabled: u8,
-    /// PPtr<GameObject>: (3.4.0 - 2019.3.0a3)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2019.3.0a3)
     pub m_GameObject: PPtr,
     pub m_LeftBorder: i32,
     pub m_PixelInset: Rectf,
     pub m_RightBorder: i32,
-    /// PPtr<Texture>: (3.4.0 - 2019.3.0a3)
+    /// PPtr<[`Texture`]>: (3.4.0 - 2019.3.0a3)
     pub m_Texture: PPtr,
     pub m_TopBorder: i32,
 }
@@ -5802,8 +5802,8 @@ Note: Many variables in the GameObject class have been removed. To access GameOb
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GameObject {
-    /// Vec<(i32, PPtr<Component>)>: (3.4.0 - 5.4.6f3); Vec<ComponentPair>: (5.5.0f3 - 2022.3.2f1)
-    pub m_Component: Vec<Enum_i32__PPtr___ComponentPair>,
+    /// Vec<(i32, PPtr<[`Component`]>)>: (3.4.0 - 5.4.6f3); Vec<ComponentPair>: (5.5.0f3 - 2022.3.2f1)
+    pub m_Component: Vec<Enum_ComponentPair___i32__PPtr>,
     pub m_IsActive: Enum_u8__bool,
     /**The layer the GameObject is in.*/
     pub m_Layer: u32,
@@ -5815,9 +5815,9 @@ pub struct GameObject {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_i32__PPtr___ComponentPair {
-    i32__PPtr((i32, PPtr)),
+pub enum Enum_ComponentPair___i32__PPtr {
     ComponentPair(ComponentPair),
+    i32__PPtr((i32, PPtr)),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -5846,7 +5846,7 @@ pub struct GenericBinding {
     pub customType: u8,
     pub isPPtrCurve: u8,
     pub path: u32,
-    /// PPtr<Object>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (4.3.0 - 2022.3.2f1)
     pub script: PPtr,
     /// u16: (4.3.0 - 5.5.6f1)
     pub classID: Option<u16>,
@@ -5991,7 +5991,7 @@ Script interface for Graphics Settings.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GraphicsSettings {
-    /// Vec<PPtr<Shader>>: (4.2.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Shader`]>>: (4.2.0 - 2022.3.2f1)
     pub m_AlwaysIncludedShaders: Vec<PPtr>,
     /// bool: (2019.3.0b1 - 2020.1.0a7)
     pub m_AllowEnlightenSupportForUpgradedProject: Option<bool>,
@@ -5999,7 +5999,7 @@ pub struct GraphicsSettings {
     pub m_CameraRelativeLightCulling: Option<bool>,
     /// bool: (2020.3.45f1 - 2022.3.2f1)
     pub m_CameraRelativeShadowCulling: Option<bool>,
-    /// PPtr<MonoBehaviour>: (5.6.0f1 - 2022.3.2f1)
+    /// PPtr<[`MonoBehaviour`]>: (5.6.0f1 - 2022.3.2f1)
     pub m_CustomRenderPipeline: Option<PPtr>,
     /// u32: (2020.2.0b1 - 2022.3.2f1)
     pub m_DefaultRenderingLayerMask: Option<u32>,
@@ -6029,9 +6029,9 @@ pub struct GraphicsSettings {
     pub m_MotionVectors: Option<BuiltinShaderSettings>,
     /// i32: (2021.2.0b1 - 2022.3.2f1)
     pub m_PreloadShadersBatchTimeLimit: Option<i32>,
-    /// Vec<PPtr<ShaderVariantCollection>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`ShaderVariantCollection`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_PreloadedShaders: Option<Vec<PPtr>>,
-    /// Vec<(String, PPtr<Object>)>: (2021.2.0b1 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Object`]>)>: (2021.2.0b1 - 2022.3.2f1)
     pub m_SRPDefaultSettings: Option<Vec<(String, PPtr)>>,
     /// BuiltinShaderSettings: (5.4.0f3 - 2022.3.2f1)
     pub m_ScreenSpaceShadows: Option<BuiltinShaderSettings>,
@@ -6045,7 +6045,7 @@ pub struct GraphicsSettings {
     pub m_ShaderSettings_Tier2: Option<PlatformShaderSettings>,
     /// PlatformShaderSettings: (5.4.0f3 - 5.4.6f3)
     pub m_ShaderSettings_Tier3: Option<PlatformShaderSettings>,
-    /// PPtr<Material>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_SpritesDefaultMaterial: Option<PPtr>,
     /// TierGraphicsSettings: (5.5.0f3 - 2022.3.2f1)
     pub m_TierSettings_Tier1: Option<TierGraphicsSettings>,
@@ -6080,7 +6080,7 @@ pub struct Grid {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
 }
 
@@ -6110,7 +6110,7 @@ pub struct GroupConstant {
 pub struct Halo {
     pub m_Color: ColorRGBA,
     pub m_Enabled: u8,
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_Size: f32,
 }
@@ -6215,7 +6215,7 @@ pub struct Heightmap {
     pub m_MinMaxPatchHeights: Vec<f32>,
     pub m_PrecomputedError: Vec<f32>,
     pub m_Scale: Vector3f,
-    /// PPtr<PhysicMaterial>: (3.4.0 - 4.7.2)
+    /// PPtr<[`PhysicMaterial`]>: (3.4.0 - 4.7.2)
     pub m_DefaultPhysicMaterial: Option<PPtr>,
     /// bool: (2019.3.0b1 - 2022.3.2f1)
     pub m_EnableHolesTextureCompression: Option<bool>,
@@ -6242,7 +6242,7 @@ pub struct Heightmap {
 /// HeightmapData is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HeightmapData {
-    /// PPtr<Object>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (3.5.0 - 2022.3.2f1)
     pub terrainData: PPtr,
     /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub isRotated: Option<bool>,
@@ -6261,9 +6261,9 @@ pub struct HierarchicalSceneData {
 /// HierarchyState is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HierarchyState {
-    /// Vec<PPtr<Object>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (3.4.0 - 2022.3.2f1)
     pub expanded: Vec<PPtr>,
-    /// Vec<PPtr<Object>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (3.4.0 - 2022.3.2f1)
     pub selection: Vec<PPtr>,
     /// f32: (3.4.0 - 2022.3.2f1)
     #[serde(alias = "scrollposition.x")]
@@ -6294,10 +6294,10 @@ pub struct HingeJoint {
     /**The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.*/
     pub m_BreakTorque: f32,
     /**A reference to another rigidbody this joint connects to.*/
-    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody`]>: (3.4.0 - 2022.3.2f1)
     pub m_ConnectedBody: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Limit of angular rotation (in degrees) on the hinge joint.*/
     pub m_Limits: JointLimits,
@@ -6318,7 +6318,7 @@ pub struct HingeJoint {
     /// Vector3f: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedAnchor: Option<Vector3f>,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`ArticulationBody`]>: (2020.2.0b1 - 2022.3.2f1)
     pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
     /// f32: (2017.1.0b2 - 2022.3.2f1)
@@ -6355,12 +6355,12 @@ pub struct HingeJoint2D {
     pub m_AngleLimits: Enum_JointAngleLimit2D__JointAngleLimits2D,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    /// PPtr<Rigidbody2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Parameters for the motor force applied to the joint.*/
     pub m_Motor: JointMotor2D,
@@ -6497,7 +6497,14 @@ pub struct HumanPose {
     pub m_RightHandPose: HandPose,
     pub m_RootX: xform,
     /// Vec<float4>: (5.2.0f2 - 5.3.8f2); Vec<float3>: (5.4.0f3 - 2022.3.2f1)
-    pub m_TDoFArray: Option<Vec<Enum_float4__float3>>,
+    pub m_TDoFArray: Option<Vec<Enum_float3__float4>>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Enum_float3__float4 {
+    float3(float3),
+    float4(float4),
 }
 
 /// HumanTemplate is a  class of the Unity engine since version 4.0.0.
@@ -6525,7 +6532,7 @@ pub struct IHVImageFormatImporter {
     pub m_TextureSettings: GLTextureSettings,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**Enable if the texture should ignore any texture mipmap limit settings set in the Project Settings.*/
     /// bool: (2022.2.0f1 - 2022.3.2f1)
@@ -6581,7 +6588,7 @@ pub struct ImportLog_ImportLogEntry {
     pub line: i32,
     pub message: String,
     pub mode: i32,
-    /// PPtr<Object>: (2022.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (2022.2.0b1 - 2022.3.2f1)
     pub object: PPtr,
 }
 
@@ -6706,9 +6713,9 @@ pub struct InteractiveCloth {
     pub m_Enabled: u8,
     pub m_ExternalAcceleration: Vector3f,
     pub m_Friction: f32,
-    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 4.7.2)
     pub m_GameObject: PPtr,
-    /// PPtr<Mesh>: (3.4.0 - 4.7.2)
+    /// PPtr<[`Mesh`]>: (3.4.0 - 4.7.2)
     pub m_Mesh: PPtr,
     pub m_Pressure: f32,
     pub m_RandomAcceleration: Vector3f,
@@ -6936,7 +6943,7 @@ pub struct LODGroup {
     /**Allows you to enable or disable the LODGroup.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_LODs: Vec<LOD>,
     /**The local reference point against which the LOD distance is calculated.*/
@@ -6958,7 +6965,7 @@ pub struct LODGroup {
 /// LODRenderer is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LODRenderer {
-    /// PPtr<Renderer>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Renderer`]>: (3.5.0 - 2022.3.2f1)
     pub renderer: PPtr,
 }
 
@@ -6997,10 +7004,10 @@ pub struct LensFlare {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The flare asset to use.*/
-    /// PPtr<Flare>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Flare`]>: (3.4.0 - 2022.3.2f1)
     pub m_Flare: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_IgnoreLayers: BitField,
     /**The fade speed of the flare.*/
@@ -7021,7 +7028,7 @@ pub struct LibraryAssetImporter {
     pub m_AssetBundleName: Option<String>,
     /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
@@ -7040,7 +7047,7 @@ pub struct LibraryRepresentation {
     pub guid: Option<GUID>,
     /// i64: (5.1.0f1 - 2020.1.17f1)
     pub localIdentifier: Option<i64>,
-    /// PPtr<EditorExtension>: (3.4.0 - 3.4.2); PPtr<Object>: (3.5.0 - 5.0.4f1)
+    /// PPtr<[`EditorExtension`]>: (3.4.0 - 3.4.2); PPtr<[`Object`]>: (3.5.0 - 5.0.4f1)
     pub object: Option<PPtr>,
     /// String: (5.1.0f1 - 2020.1.17f1)
     pub path: Option<String>,
@@ -7075,7 +7082,7 @@ pub struct Light {
     /**The color of the light.*/
     pub m_Color: ColorRGBA,
     /**The cookie texture projected by the light.*/
-    /// PPtr<Texture>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture`]>: (3.4.0 - 2022.3.2f1)
     pub m_Cookie: PPtr,
     /**The size of a directional light's cookie.*/
     pub m_CookieSize: f32,
@@ -7085,10 +7092,10 @@ pub struct Light {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The flare asset to use for this light.*/
-    /// PPtr<Flare>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Flare`]>: (3.4.0 - 2022.3.2f1)
     pub m_Flare: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The Intensity of a light is multiplied with the Light color.*/
     pub m_Intensity: f32,
@@ -7190,7 +7197,7 @@ Light Probe Group.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightProbeGroup {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     /// u8: (4.0.0 - 2022.3.2f1)
@@ -7226,7 +7233,7 @@ pub struct LightProbeProxyVolume {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The mode in which the interpolated Light Probe positions are generated.*/
     pub m_ProbePositionMode: i32,
@@ -7281,13 +7288,13 @@ Please note that modifying this value currently does not affect the Scene immedi
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightingDataAsset {
     pub m_BakedAmbientProbeInLinear: SphericalHarmonicsL2,
-    /// Vec<PPtr<Texture>>: (5.3.0f1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture`]>>: (5.3.0f1 - 2022.3.2f1)
     pub m_BakedReflectionProbeCubemaps: Vec<PPtr>,
     pub m_BakedReflectionProbes: Vec<SceneObjectIdentifier>,
     pub m_EnlightenData: Vec<u8>,
     pub m_EnlightenSceneMapping: EnlightenSceneMapping,
     pub m_EnlightenSceneMappingRendererIDs: Vec<SceneObjectIdentifier>,
-    /// PPtr<LightProbes>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`LightProbes`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_LightProbes: PPtr,
     pub m_LightmappedRendererData: Vec<RendererData>,
     pub m_LightmappedRendererDataIDs: Vec<SceneObjectIdentifier>,
@@ -7295,7 +7302,7 @@ pub struct LightingDataAsset {
     pub m_Lights: Vec<SceneObjectIdentifier>,
     /**The name of the object.*/
     pub m_Name: String,
-    /// Vec<PPtr<Texture2D>>: (2019.1.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture2D`]>>: (2019.1.0b1 - 2022.3.2f1)
     pub m_AOTextures: Option<Vec<PPtr>>,
     /// Vec<i32>: (5.4.0f3 - 5.6.0b1)
     pub m_BakedLightIndices: Option<Vec<i32>>,
@@ -7309,7 +7316,7 @@ pub struct LightingDataAsset {
     pub m_LightmapsCacheFiles: Option<Vec<String>>,
     /// i32: (5.4.0f3 - 2022.3.2f1)
     pub m_LightmapsMode: Option<i32>,
-    /// PPtr<SceneAsset>: (2017.1.0f2 - 2022.3.2f1)
+    /// PPtr<[`SceneAsset`]>: (2017.1.0f2 - 2022.3.2f1)
     pub m_Scene: Option<PPtr>,
     /// GUID: (5.3.0f1 - 5.3.0f2)
     pub m_SceneGUID: Option<GUID>,
@@ -7373,7 +7380,7 @@ pub struct LightingSettings {
     /**The maximum size in pixels of an individual lightmap texture. (Editor only).*/
     /// i32: (2020.1.0a3 - 2020.1.0a12)
     pub m_LightmapMaxSize: Option<i32>,
-    /// PPtr<LightmapParameters>: (2020.1.0a3 - 2020.1.0a12)
+    /// PPtr<[`LightmapParameters`]>: (2020.1.0a3 - 2020.1.0a12)
     pub m_LightmapParameters: Option<PPtr>,
     /// i32: (2020.1.0a3 - 2020.1.0a12)
     pub m_LightmapsBakeMode: Option<i32>,
@@ -7450,14 +7457,14 @@ each object can refer to a different lightmap or different portion of the same l
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightmapData {
-    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (3.4.0 - 2022.3.2f1)
     pub m_Lightmap: PPtr,
-    /// PPtr<Texture2D>: (5.6.0f1 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (5.6.0f1 - 2022.3.2f1)
     pub m_DirLightmap: Option<PPtr>,
-    /// PPtr<Texture2D>: (3.4.0 - 5.6.0b1)
+    /// PPtr<[`Texture2D`]>: (3.4.0 - 5.6.0b1)
     pub m_IndirectLightmap: Option<PPtr>,
     /**Texture storing occlusion mask per light (ShadowMask, up to four lights).*/
-    /// PPtr<Texture2D>: (5.6.0f1 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (5.6.0f1 - 2022.3.2f1)
     pub m_ShadowMask: Option<PPtr>,
 }
 
@@ -7532,9 +7539,9 @@ pub struct LightmapSettings {
     pub m_EnlightenSceneMapping: Option<EnlightenSceneMapping>,
     /// GISettings: (5.0.0f4 - 2022.3.2f1)
     pub m_GISettings: Option<GISettings>,
-    /// PPtr<LightProbes>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`LightProbes`]>: (3.5.0 - 2022.3.2f1)
     pub m_LightProbes: Option<PPtr>,
-    /// PPtr<LightingSettings>: (2020.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`LightingSettings`]>: (2020.1.0b1 - 2022.3.2f1)
     pub m_LightingSettings: Option<PPtr>,
     /// i32: (5.0.0f4 - 5.6.0b6)
     pub m_RuntimeCPUUsage: Option<i32>,
@@ -7549,13 +7556,13 @@ pub struct LightmapSettings {
 /// LightmapSnapshot is a  class of the Unity engine since version 5.0.0f4.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LightmapSnapshot {
-    /// Vec<PPtr<Texture>>: (5.0.0f4 - 5.2.5f1)
+    /// Vec<PPtr<[`Texture`]>>: (5.0.0f4 - 5.2.5f1)
     pub m_BakedReflectionProbeCubemaps: Vec<PPtr>,
     pub m_BakedReflectionProbes: Vec<SceneObjectIdentifier>,
     pub m_EnlightenData: Vec<u8>,
     pub m_EnlightenSceneMapping: EnlightenSceneMapping,
     pub m_EnlightenSceneMappingRendererIDs: Vec<SceneObjectIdentifier>,
-    /// PPtr<LightProbes>: (5.0.0f4 - 5.2.5f1)
+    /// PPtr<[`LightProbes`]>: (5.0.0f4 - 5.2.5f1)
     pub m_LightProbes: PPtr,
     pub m_LightmappedRendererData: Vec<RendererData>,
     pub m_LightmappedRendererDataIDs: Vec<SceneObjectIdentifier>,
@@ -7570,7 +7577,7 @@ pub struct LightmapSnapshot {
     pub m_BakedAmbientProbesInGamma: Option<Vec<SphericalHarmonicsL2>>,
     /// Vec<SphericalHarmonicsL2>: (5.0.0f4 - 5.1.5f1)
     pub m_BakedAmbientProbesInLinear: Option<Vec<SphericalHarmonicsL2>>,
-    /// Vec<PPtr<Texture>>: (5.0.0f4 - 5.1.5f1)
+    /// Vec<PPtr<[`Texture`]>>: (5.0.0f4 - 5.1.5f1)
     pub m_BakedSkyboxProbeCubemaps: Option<Vec<PPtr>>,
     /// GUID: (5.2.0f2 - 5.2.5f1)
     pub m_SceneGUID: Option<GUID>,
@@ -7591,7 +7598,7 @@ pub struct LightsModule {
     pub intensity: bool,
     pub intensityCurve: MinMaxCurve,
     /**Select what Light Prefab you want to base your particle lights on.*/
-    /// PPtr<Light>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`Light`]>: (5.5.0f3 - 2022.3.2f1)
     pub light: PPtr,
     /**Set a limit on how many Lights this Module can create.*/
     pub maxLights: i32,
@@ -7648,19 +7655,19 @@ pub struct LineRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (3.4.0 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     pub m_Parameters: LineParameters,
     pub m_Positions: Vec<Vector3f>,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
-    /// PPtr<Transform>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.4.0 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /**If enabled, the lines are defined in world space.*/
     pub m_UseWorldSpace: bool,
@@ -7668,12 +7675,12 @@ pub struct LineRenderer {
     pub m_ApplyActiveColorSpace: Option<bool>,
     /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
-    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.5.0 - 4.7.2)
     pub m_LightProbeAnchor: Option<PPtr>,
     /**The light probe interpolation type.*/
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: Option<PPtr>,
     /// u16: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapIndexDynamic: Option<u16>,
@@ -7688,7 +7695,7 @@ pub struct LineRenderer {
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_MotionVectors: Option<u8>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_ProbeAnchor: Option<PPtr>,
     /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
@@ -7749,7 +7756,7 @@ pub struct LocalizationAsset {
 pub struct LocalizationImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2018.2.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2018.2.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UserData: String,
@@ -7768,7 +7775,7 @@ pub struct LookAtConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.2.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The rotation angle along the z axis of the object. The constraint uses this property to calculate the world up vector when Animations.LookAtConstraint.UseUpObject is false.*/
     pub m_Roll: f32,
@@ -7782,7 +7789,7 @@ pub struct LookAtConstraint {
     /**The weight of the constraint component.*/
     pub m_Weight: f32,
     /**The world up object, used to calculate the world up vector when Animations.LookAtConstraint.UseUpObject is true.*/
-    /// PPtr<Transform>: (2018.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2018.2.0b1 - 2022.3.2f1)
     pub m_WorldUpObject: PPtr,
     /// bool: (2022.1.0b1 - 2022.3.2f1)
     pub m_Active: Option<bool>,
@@ -7816,7 +7823,7 @@ pub struct Material {
     pub m_Name: String,
     pub m_SavedProperties: UnityPropertySheet,
     /**The shader used by the material.*/
-    /// PPtr<Shader>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Shader`]>: (3.4.0 - 2022.3.2f1)
     pub m_Shader: PPtr,
     /// Vec<String>: (5.6.0f1 - 2022.3.2f1)
     pub disabledShaderPasses: Option<Vec<String>>,
@@ -7870,7 +7877,7 @@ pub struct MaterialInstanceSettings {
     pub lightmapFlags: Option<u32>,
     /// i32: (5.0.0f4 - 2017.4.40f1)
     pub renderQueue: Option<i32>,
-    /// PPtr<Shader>: (4.5.0 - 2017.4.40f1)
+    /// PPtr<[`Shader`]>: (4.5.0 - 2017.4.40f1)
     pub shader: Option<PPtr>,
     /// String: (5.0.0f4 - 2017.4.40f1)
     pub shaderKeywords: Option<String>,
@@ -8049,7 +8056,7 @@ pub struct Mesh {
     /// Vec<MeshBlendShape>: (4.1.0 - 4.2.2); BlendShapeData: (4.3.0 - 2022.3.2f1)
     pub m_Shapes: Option<Enum_Vec_MeshBlendShape___BlendShapeData>,
     /// Vec<BoneInfluence>: (3.4.0 - 5.6.7f1); Vec<BoneWeights4>: (2017.1.0b1 - 2018.1.9f2)
-    pub m_Skin: Option<Vec<Enum_BoneWeights4__BoneInfluence>>,
+    pub m_Skin: Option<Vec<Enum_BoneInfluence__BoneWeights4>>,
     /// u8: (4.0.0 - 4.7.2)
     pub m_StreamCompression: Option<u8>,
     /// StreamingInfo: (2018.3.0f2 - 2022.3.2f1)
@@ -8082,9 +8089,9 @@ pub enum Enum_Vec_MeshBlendShape___BlendShapeData {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_BoneWeights4__BoneInfluence {
-    BoneWeights4(BoneWeights4),
+pub enum Enum_BoneInfluence__BoneWeights4 {
     BoneInfluence(BoneInfluence),
+    BoneWeights4(BoneWeights4),
 }
 
 /// MeshBlendShape is a sub class of the Unity engine since version 4.1.0.
@@ -8133,14 +8140,14 @@ pub struct MeshCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Specify if this collider is configured as a trigger.*/
     pub m_IsTrigger: bool,
     /**The material used by the collider.*/
-    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicMaterial`]>: (3.4.0 - 2022.3.2f1)
     pub m_Material: PPtr,
-    /// PPtr<Mesh>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (3.4.0 - 2022.3.2f1)
     pub m_Mesh: PPtr,
     /**Options used to enable or disable certain features in mesh cooking.*/
     /// i32: (2017.3.0b1 - 2022.3.2f1)
@@ -8174,10 +8181,10 @@ Use this with a procedural mesh interface. See Also: Mesh class.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MeshFilter {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Returns either a new mesh or a duplicate of the existing mesh, and assigns it to the mesh filter.*/
-    /// PPtr<Mesh>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (3.4.0 - 2022.3.2f1)
     pub m_Mesh: PPtr,
 }
 
@@ -8189,11 +8196,11 @@ pub struct MeshParticleEmitter {
     pub localVelocity: Vector3f,
     pub m_Emit: bool,
     pub m_Enabled: bool,
-    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2018.2.21f1)
     pub m_GameObject: PPtr,
     pub m_InterpolateTriangles: bool,
     pub m_MaxNormalVelocity: f32,
-    /// PPtr<Mesh>: (3.4.0 - 2018.2.21f1)
+    /// PPtr<[`Mesh`]>: (3.4.0 - 2018.2.21f1)
     pub m_Mesh: PPtr,
     pub m_MinNormalVelocity: f32,
     pub m_OneShot: bool,
@@ -8222,13 +8229,13 @@ Renders meshes inserted by the MeshFilter or TextMesh.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MeshRenderer {
     /**Vertex attributes in this mesh will override or add attributes of the primary mesh in the MeshRenderer.*/
-    /// PPtr<Mesh>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_AdditionalVertexStreams: PPtr,
     pub m_CastShadows: u8,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
@@ -8236,10 +8243,10 @@ pub struct MeshRenderer {
     pub m_LightmapTilingOffset: Vector4f,
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (5.0.0f4 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
@@ -8247,17 +8254,17 @@ pub struct MeshRenderer {
     pub m_ReflectionProbeUsage: i32,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
     /**Vertex attributes that override the primary mesh when the MeshRenderer uses lightmaps in the Realtime Global Illumination system.*/
-    /// PPtr<Mesh>: (2020.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (2020.1.0b1 - 2022.3.2f1)
     pub m_EnlightenVertexStream: Option<PPtr>,
     /**The light probe interpolation type.*/
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: Option<PPtr>,
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_MotionVectors: Option<u8>,
@@ -8371,7 +8378,7 @@ pub struct ModelImporter {
     /**Global scale factor for importing.*/
     pub m_GlobalScale: f32,
     pub m_HasExtraRoot: bool,
-    /// Vec<PPtr<GameObject>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`GameObject`]>>: (3.4.0 - 2022.3.2f1)
     pub m_ImportedRoots: Vec<PPtr>,
     /**Mesh compression setting.*/
     pub m_MeshCompression: i32,
@@ -8427,7 +8434,7 @@ pub struct ModelImporter {
     pub m_AvatarSetup: Option<i32>,
     /// bool: (4.0.0 - 2019.3.0a2)
     pub m_CopyAvatar: Option<bool>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**Animation optimization setting.*/
     /// Vec<String>: (4.3.0 - 2022.3.2f1)
@@ -8501,7 +8508,7 @@ pub struct ModelImporter {
     pub m_IsReadable: Option<bool>,
     /// Vec<f32>: (3.5.0 - 2022.3.2f1)
     pub m_LODScreenPercentages: Option<Vec<f32>>,
-    /// PPtr<Avatar>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`Avatar`]>: (4.0.0 - 2022.3.2f1)
     pub m_LastHumanDescriptionAvatarSource: Option<PPtr>,
     /// i32: (4.0.0 - 2022.3.2f1)
     pub m_LegacyGenerateAnimations: Option<i32>,
@@ -8671,7 +8678,7 @@ pub struct Module {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MonoAssemblyImporter {
     pub m_ExecutionOrder: Vec<(String, i32)>,
-    /// Vec<(String, PPtr<Texture2D>)>: (3.4.0 - 4.7.2)
+    /// Vec<(String, PPtr<[`Texture2D`]>)>: (3.4.0 - 4.7.2)
     pub m_IconMap: Vec<(String, PPtr)>,
     pub m_Name: String,
     /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
@@ -8709,11 +8716,11 @@ pub struct MonoBehaviour {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
-    /// PPtr<MonoScript>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`MonoScript`]>: (3.4.0 - 2022.3.2f1)
     pub m_Script: PPtr,
 }
 
@@ -8725,9 +8732,9 @@ Represents a C# script in the project.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MonoImporter {
     pub executionOrder: i16,
-    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (3.4.0 - 2022.3.2f1)
     pub icon: PPtr,
-    /// Vec<(String, PPtr<Object>)>: (3.4.0 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Object`]>)>: (3.4.0 - 2022.3.2f1)
     pub m_DefaultReferences: Vec<(String, PPtr)>,
     /**The name of the object.*/
     pub m_Name: String,
@@ -8737,7 +8744,7 @@ pub struct MonoImporter {
     /**Get or set the AssetBundle variant.*/
     /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
@@ -8755,7 +8762,7 @@ pub struct MonoImporter {
 /// MonoManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MonoManager {
-    /// Vec<PPtr<MonoScript>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`MonoScript`]>>: (3.4.0 - 2022.3.2f1)
     pub m_Scripts: Vec<PPtr>,
     /// Vec<String>: (3.4.0 - 2020.2.0a19)
     pub m_AssemblyNames: Option<Vec<String>>,
@@ -8786,13 +8793,6 @@ pub struct MonoScript {
     pub m_IsEditorScript: Option<bool>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum Enum_u32__Hash128 {
-    u32(u32),
-    Hash128(Hash128),
-}
-
 /// MovieImporter is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MovieImporter {
@@ -8802,7 +8802,7 @@ pub struct MovieImporter {
     pub m_AssetBundleName: Option<String>,
     /// String: (5.0.0f4 - 2019.2.21f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2019.2.21f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2019.2.21f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
@@ -8827,7 +8827,7 @@ MovieTexture has been removed. Use VideoPlayer instead.
 pub struct MovieTexture {
     /**The name of the object.*/
     pub m_Name: String,
-    /// PPtr<AudioClip>: (3.4.0 - 2019.2.21f1)
+    /// PPtr<[`AudioClip`]>: (3.4.0 - 2019.2.21f1)
     pub m_AudioClip: Option<PPtr>,
     /// i32: (3.5.0 - 2019.2.21f1)
     pub m_ColorSpace: Option<i32>,
@@ -8848,7 +8848,7 @@ pub struct MovieTexture {
 pub struct MultiArtifactTestImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.2.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2019.2.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -8872,7 +8872,7 @@ pub struct NScreenBridge {}
 /// NameToObjectMap is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NameToObjectMap {
-    /// Vec<(PPtr<Shader>, String)>: (3.4.0 - 2022.3.2f1)
+    /// Vec<(PPtr<[`Shader`]>, String)>: (3.4.0 - 2022.3.2f1)
     pub m_ObjectToName: Vec<(PPtr, String)>,
 }
 
@@ -8891,7 +8891,7 @@ pub struct NativeFormatImporter {
     pub m_AssetBundleName: Option<String>,
     /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// i64: (5.6.0f1 - 2022.3.2f1)
     pub m_MainObjectFileID: Option<i64>,
@@ -8952,7 +8952,7 @@ pub struct NavMeshAgent {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The height of the agent for purposes of passing under obstacles, etc.*/
     pub m_Height: f32,
@@ -9220,7 +9220,7 @@ pub struct NavMeshObstacle {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.0.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /// bool: (4.3.0 - 2022.3.2f1)
     pub m_Carve: Option<bool>,
@@ -9272,9 +9272,9 @@ pub struct NavMeshProjectSettings {
 /// NavMeshSettings is a  class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NavMeshSettings {
-    /// PPtr<NavMesh>: (3.5.0 - 4.7.2)
+    /// PPtr<[`NavMesh`]>: (3.5.0 - 4.7.2)
     pub m_NavMesh: Option<PPtr>,
-    /// PPtr<NavMeshData>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`NavMeshData`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_NavMeshData: Option<PPtr>,
 }
 
@@ -9289,7 +9289,7 @@ pub struct NavMeshTileData {
 /// NetworkManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct NetworkManager {
-    /// Vec<(GUID, PPtr<GameObject>)>: (3.4.0 - 2018.1.9f2)
+    /// Vec<(GUID, PPtr<[`GameObject`]>)>: (3.4.0 - 2018.1.9f2)
     pub m_AssetToPrefab: Vec<(GUID, PPtr)>,
     pub m_DebugLevel: i32,
     pub m_Sendrate: f32,
@@ -9309,9 +9309,9 @@ pub struct NetworkView {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2018.1.9f2)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2018.1.9f2)
     pub m_GameObject: PPtr,
-    /// PPtr<Component>: (3.4.0 - 2018.1.9f2)
+    /// PPtr<[`Component`]>: (3.4.0 - 2018.1.9f2)
     pub m_Observed: PPtr,
     pub m_StateSynchronization: i32,
     pub m_ViewID: NetworkViewID,
@@ -9404,7 +9404,7 @@ pub struct OcclusionArea {
     /**Center of the occlusion area relative to the transform.*/
     pub m_Center: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_IsViewVolume: bool,
     /**Size that the occlusion area will have.*/
@@ -9426,12 +9426,12 @@ pub struct OcclusionCullingData {
 /// OcclusionCullingSettings is a  class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OcclusionCullingSettings {
-    /// PPtr<OcclusionCullingData>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`OcclusionCullingData`]>: (5.5.0f3 - 2022.3.2f1)
     pub m_OcclusionCullingData: PPtr,
-    /// Vec<PPtr<OcclusionPortal>>: (5.5.0f3 - 2022.3.2f1)
+    /// Vec<PPtr<[`OcclusionPortal`]>>: (5.5.0f3 - 2022.3.2f1)
     pub m_Portals: Vec<PPtr>,
     pub m_SceneGUID: GUID,
-    /// Vec<PPtr<Renderer>>: (5.5.0f3 - 2022.3.2f1)
+    /// Vec<PPtr<[`Renderer`]>>: (5.5.0f3 - 2022.3.2f1)
     pub m_StaticRenderers: Vec<PPtr>,
 }
 
@@ -9444,7 +9444,7 @@ The portal for dynamically changing occlusion at runtime.
 pub struct OcclusionPortal {
     pub m_Center: Vector3f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Gets / sets the portal's open state.*/
     pub m_Open: bool,
@@ -9487,12 +9487,12 @@ pub struct OffMeshLink {
     pub m_BiDirectional: bool,
     /**Modify pathfinding cost for the link.*/
     pub m_CostOverride: f32,
-    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2022.3.2f1)
     pub m_End: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
-    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2022.3.2f1)
     pub m_Start: PPtr,
     /// i32: (5.6.0b1 - 2022.3.2f1)
     pub m_AgentTypeID: Option<i32>,
@@ -9535,7 +9535,7 @@ pub struct PPtrCurve {
     /// Vec<PPtrKeyframe>: (4.3.0 - 2022.3.2f1)
     pub curve: Vec<PPtrKeyframe>,
     pub path: String,
-    /// PPtr<MonoScript>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`MonoScript`]>: (4.3.0 - 2022.3.2f1)
     pub script: PPtr,
     /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub flags: Option<i32>,
@@ -9545,7 +9545,7 @@ pub struct PPtrCurve {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PPtrKeyframe {
     pub time: f32,
-    /// PPtr<Object>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (4.3.0 - 2022.3.2f1)
     pub value: PPtr,
 }
 
@@ -9572,7 +9572,7 @@ pub struct PackageManifest {
 pub struct PackageManifestImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.1.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2019.1.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -9642,7 +9642,7 @@ pub struct ParentConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The rotation used when the sources have a total weight of 0.*/
     pub m_RotationAtRest: Vector3f,
@@ -9675,7 +9675,7 @@ pub struct ParticleAnimator {
     pub damping: f32,
     pub force: Vector3f,
     pub localRotationAxis: Vector3f,
-    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2018.2.21f1)
     pub m_GameObject: PPtr,
     pub rndForce: Vector3f,
     pub sizeGrow: f32,
@@ -9707,16 +9707,16 @@ pub struct ParticleRenderer {
     pub m_CameraVelocityScale: f32,
     pub m_CastShadows: Enum_bool__u8,
     pub m_Enabled: bool,
-    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2018.2.21f1)
     pub m_GameObject: PPtr,
     pub m_LengthScale: f32,
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
-    /// Vec<PPtr<Material>>: (3.4.0 - 2018.2.21f1)
+    /// Vec<PPtr<[`Material`]>>: (3.4.0 - 2018.2.21f1)
     pub m_Materials: Vec<PPtr>,
     pub m_MaxParticleSize: f32,
     pub m_ReceiveShadows: Enum_bool__u8,
-    /// PPtr<Transform>: (3.4.0 - 2018.2.21f1)
+    /// PPtr<[`Transform`]>: (3.4.0 - 2018.2.21f1)
     pub m_StaticBatchRoot: PPtr,
     pub m_StretchParticles: i32,
     pub m_VelocityScale: f32,
@@ -9725,11 +9725,11 @@ pub struct ParticleRenderer {
     pub UV_Animation: Option<UVAnimation>,
     /// u8: (2017.2.0b2 - 2018.2.21f1)
     pub m_DynamicOccludee: Option<u8>,
-    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.5.0 - 4.7.2)
     pub m_LightProbeAnchor: Option<PPtr>,
     /// u8: (5.4.0f3 - 2018.2.21f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr<GameObject>: (5.4.0f3 - 2018.2.21f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2018.2.21f1)
     pub m_LightProbeVolumeOverride: Option<PPtr>,
     /// u16: (5.0.0f4 - 2018.2.21f1)
     pub m_LightmapIndexDynamic: Option<u16>,
@@ -9737,7 +9737,7 @@ pub struct ParticleRenderer {
     pub m_LightmapTilingOffsetDynamic: Option<Vector4f>,
     /// u8: (5.4.0f3 - 2018.2.21f1)
     pub m_MotionVectors: Option<u8>,
-    /// PPtr<Transform>: (5.0.0f4 - 2018.2.21f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2018.2.21f1)
     pub m_ProbeAnchor: Option<PPtr>,
     /// i32: (5.0.0f4 - 5.3.8f2); u8: (5.4.0f3 - 2018.2.21f1)
     pub m_ReflectionProbeUsage: Option<i32>,
@@ -9796,7 +9796,7 @@ pub struct ParticleSystem {
     pub lengthInSec: f32,
     pub looping: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub moveWithTransform: Enum_bool__i32,
     pub playOnAwake: bool,
@@ -9826,7 +9826,7 @@ pub struct ParticleSystem {
     pub cullingMode: Option<i32>,
     /// i32: (2021.1.0b1 - 2022.3.2f1)
     pub emitterVelocityMode: Option<i32>,
-    /// PPtr<Transform>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.5.0f3 - 2022.3.2f1)
     pub moveWithCustomTransform: Option<PPtr>,
     /// Vector2f: (2018.3.0f2 - 2022.3.2f1)
     pub ringBufferLoopRange: Option<Vector2f>,
@@ -9873,7 +9873,7 @@ pub struct ParticleSystemForceField {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_Parameters: ParticleSystemForceFieldParameters,
 }
@@ -9896,7 +9896,7 @@ pub struct ParticleSystemForceFieldParameters {
     pub m_RotationSpeedCurve: MinMaxCurve,
     pub m_Shape: i32,
     pub m_StartRange: f32,
-    /// PPtr<Texture3D>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`Texture3D`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_VectorField: PPtr,
     pub m_VectorFieldAttractionCurve: MinMaxCurve,
     pub m_VectorFieldSpeedCurve: MinMaxCurve,
@@ -9915,7 +9915,7 @@ pub struct ParticleSystemRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**How much are the particles stretched in their direction of motion, defined as the length of the particle compared to its width.*/
     pub m_LengthScale: f32,
@@ -9923,12 +9923,12 @@ pub struct ParticleSystemRenderer {
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (3.5.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (3.5.0 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     /**Clamp the maximum particle size.*/
     pub m_MaxParticleSize: f32,
     /**The Mesh that the particle uses instead of a billboarded Texture.*/
-    /// PPtr<Mesh>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (3.5.0 - 2022.3.2f1)
     pub m_Mesh: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
@@ -9938,7 +9938,7 @@ pub struct ParticleSystemRenderer {
     pub m_SortMode: i32,
     /**Biases Particle System sorting amongst other transparencies.*/
     pub m_SortingFudge: f32,
-    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /**Specifies how much particles stretch depending on their velocity.*/
     pub m_VelocityScale: f32,
@@ -9958,12 +9958,12 @@ pub struct ParticleSystemRenderer {
     /**Enables freeform stretching behavior.*/
     /// bool: (2020.1.0b1 - 2022.3.2f1)
     pub m_FreeformStretching: Option<bool>,
-    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.5.0 - 4.7.2)
     pub m_LightProbeAnchor: Option<PPtr>,
     /**The light probe interpolation type.*/
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: Option<PPtr>,
     /// u16: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapIndexDynamic: Option<u16>,
@@ -9972,11 +9972,11 @@ pub struct ParticleSystemRenderer {
     /**Specifies how the Particle System Renderer interacts with SpriteMask.*/
     /// i32: (2017.1.0b1 - 2022.3.2f1)
     pub m_MaskInteraction: Option<i32>,
-    /// PPtr<Mesh>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (4.0.0 - 2022.3.2f1)
     pub m_Mesh1: Option<PPtr>,
-    /// PPtr<Mesh>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (4.0.0 - 2022.3.2f1)
     pub m_Mesh2: Option<PPtr>,
-    /// PPtr<Mesh>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (4.0.0 - 2022.3.2f1)
     pub m_Mesh3: Option<PPtr>,
     /**Specifies how the system randomly assigns meshes to particles.*/
     /// u8: (2021.2.0b1 - 2022.3.2f1)
@@ -10001,7 +10001,7 @@ pub struct ParticleSystemRenderer {
     /// Vector3f: (5.3.0f1 - 2022.3.2f1)
     pub m_Pivot: Option<Vector3f>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_ProbeAnchor: Option<PPtr>,
     /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
@@ -10110,7 +10110,7 @@ pub struct PhysicMaterial {
 /// Physics2DSettings is a  class of the Unity engine since version 4.3.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Physics2DSettings {
-    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_DefaultMaterial: PPtr,
     pub m_Gravity: Vector2f,
     pub m_LayerCollisionMatrix: Vec<u32>,
@@ -10227,7 +10227,7 @@ pub struct PhysicsJobOptions2D {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PhysicsManager {
     pub m_BounceThreshold: f32,
-    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicMaterial`]>: (3.4.0 - 2022.3.2f1)
     pub m_DefaultMaterial: PPtr,
     pub m_Gravity: Vector3f,
     pub m_LayerCollisionMatrix: Vec<u32>,
@@ -10351,7 +10351,7 @@ pub struct PhysicsShapeGroup2D {
 /// Pipeline is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pipeline {
-    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 4.7.2)
     pub m_GameObject: PPtr,
 }
 
@@ -10368,7 +10368,7 @@ pub struct PlatformEffector2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /// bool: (5.0.0f4 - 5.0.0f4)
     pub m_OneWay: Option<bool>,
@@ -10467,13 +10467,13 @@ pub struct PlayableDirector {
     pub m_Enabled: u8,
     pub m_ExposedReferences: ExposedReferenceTable,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2017.1.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_InitialState: i32,
     /**The time at which the Playable should start when first played.*/
     pub m_InitialTime: f64,
     /**The PlayableAsset that is used to instantiate a playable for playback.*/
-    /// PPtr<Object>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (2017.1.0b1 - 2022.3.2f1)
     pub m_PlayableAsset: PPtr,
     pub m_SceneBindings: Vec<DirectorGenericBinding>,
     pub m_WrapMode: i32,
@@ -10578,7 +10578,7 @@ pub struct PlayerSettings {
     pub d3d9FullscreenMode: Option<i32>,
     /// i32: (3.5.5 - 3.5.7)
     pub debugUnloadMode: Option<i32>,
-    /// PPtr<Texture2D>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (4.0.0 - 2022.3.2f1)
     pub defaultCursor: Option<PPtr>,
     /// bool: (3.4.0 - 2017.4.40f1)
     pub defaultIsFullScreen: Option<bool>,
@@ -10622,7 +10622,7 @@ pub struct PlayerSettings {
     pub hdrBitDepth: Option<i32>,
     /// bool: (5.6.5f1 - 2022.3.2f1)
     pub hideHomeButton: Option<bool>,
-    /// PPtr<Texture2D>: (2022.2.0f1 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2022.2.0f1 - 2022.3.2f1)
     pub hmiLoadingImage: Option<PPtr>,
     /// String: (4.1.2 - 4.7.2)
     pub iPhoneBundleIdentifier: Option<String>,
@@ -10630,7 +10630,7 @@ pub struct PlayerSettings {
     pub ignoreAlphaClear: Option<bool>,
     /// i32: (2022.1.0b1 - 2022.3.2f1)
     pub insecureHttpOption: Option<i32>,
-    /// PPtr<Texture2D>: (2022.2.3f1 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2022.2.3f1 - 2022.3.2f1)
     pub invalidatedPatternTexture: Option<PPtr>,
     /// bool: (5.2.1f1 - 2021.3.27f1)
     pub iosAllowHTTPDownload: Option<bool>,
@@ -10652,7 +10652,7 @@ pub struct PlayerSettings {
     pub m_ColorGamuts: Option<Vec<i32>>,
     /// bool: (5.5.0f3 - 2022.3.2f1)
     pub m_HolographicPauseOnTrackingLoss: Option<bool>,
-    /// PPtr<Texture2D>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (5.5.0f3 - 2022.3.2f1)
     pub m_HolographicTrackingLossScreen: Option<PPtr>,
     /// bool: (3.5.0 - 2022.3.2f1)
     pub m_MTRendering: Option<bool>,
@@ -10672,13 +10672,13 @@ pub struct PlayerSettings {
     pub m_SplashScreenBackgroundAnimationZoom: Option<f32>,
     /// ColorRGBA: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundColor: Option<ColorRGBA>,
-    /// PPtr<Texture2D>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundLandscape: Option<PPtr>,
     /// f32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundLandscapeAspect: Option<f32>,
     /// Rectf: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundLandscapeUvs: Option<Rectf>,
-    /// PPtr<Texture2D>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundPortrait: Option<PPtr>,
     /// f32: (5.5.0f3 - 2022.3.2f1)
     pub m_SplashScreenBackgroundPortraitAspect: Option<f32>,
@@ -10706,11 +10706,11 @@ pub struct PlayerSettings {
     pub m_Stereoscopic3D: Option<bool>,
     /// AspectRatios: (3.4.0 - 2022.1.24f1)
     pub m_SupportedAspectRatios: Option<AspectRatios>,
-    /// PPtr<Sprite>: (2022.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`Sprite`]>: (2022.2.0b1 - 2022.3.2f1)
     pub m_UnitySplashLogo: Option<PPtr>,
     /// bool: (4.0.0 - 5.0.4f1)
     pub m_UseDX11: Option<bool>,
-    /// PPtr<Texture2D>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_VirtualRealitySplashScreen: Option<PPtr>,
     /// String: (5.6.1f1 - 2022.3.2f1)
     pub macAppStoreCategory: Option<String>,
@@ -10750,7 +10750,7 @@ pub struct PlayerSettings {
     pub playerDataPath: Option<String>,
     /// i32: (2020.2.0f1 - 2022.3.2f1)
     pub playerMinOpenGLESVersion: Option<i32>,
-    /// Vec<PPtr<Object>>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (5.0.0f4 - 2022.3.2f1)
     pub preloadedAssets: Option<Vec<PPtr>>,
     /// bool: (2017.3.0b2 - 2022.3.2f1)
     pub preserveFramebufferAlpha: Option<bool>,
@@ -10762,7 +10762,7 @@ pub struct PlayerSettings {
     pub projectName: Option<String>,
     /// bool: (5.4.0f3 - 2019.3.0a12)
     pub protectGraphicsMemory: Option<bool>,
-    /// PPtr<Texture2D>: (5.0.0f4 - 5.4.6f3)
+    /// PPtr<[`Texture2D`]>: (5.0.0f4 - 5.4.6f3)
     pub ps3SplashScreen: Option<PPtr>,
     /// bool: (5.0.0f4 - 2018.2.21f1)
     pub psp2AcquireBGM: Option<bool>,
@@ -10966,7 +10966,7 @@ pub struct PluginImporter {
     /**Get or set the AssetBundle variant.*/
     pub m_AssetBundleVariant: String,
     pub m_ExecutionOrder: Vec<(String, i32)>,
-    /// Vec<(String, PPtr<Texture2D>)>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Texture2D`]>)>: (5.0.0f4 - 2022.3.2f1)
     pub m_IconMap: Vec<(String, PPtr)>,
     /**Is a native plugin loaded during startup or on demand?*/
     pub m_IsPreloaded: bool,
@@ -10979,7 +10979,7 @@ pub struct PluginImporter {
     /**Allows you to specify a list of #define directives which controls whether your plug-in should be included.*/
     /// Vec<String>: (2018.3.0f2 - 2022.3.2f1)
     pub m_DefineConstraints: Option<Vec<String>>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// bool: (2018.3.0f2 - 2022.3.2f1)
     pub m_IsExplicitlyReferenced: Option<bool>,
@@ -11027,7 +11027,7 @@ pub struct PointEffector2D {
     /**The variation of the magnitude of the force to be applied.*/
     pub m_ForceVariation: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Should the collider-mask be used or the global collision matrix?*/
     /// bool: (5.0.2f1 - 2022.3.2f1)
@@ -11051,11 +11051,11 @@ pub struct PolygonCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    /// PPtr<PhysicsMaterial2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**Determines whether the PolygonCollider2D's shape is automatically updated based on a SpriteRenderer's tiling properties.*/
     /// bool: (5.6.0f1 - 2022.3.2f1)
@@ -11118,7 +11118,7 @@ pub struct PositionConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_Sources: Vec<ConstraintSource>,
     /**The translation used when the sources have a total weight of 0.*/
@@ -11136,7 +11136,7 @@ pub struct PositionConstraint {
 /// Prefab is a  class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Prefab {
-    /// PPtr<GameObject>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.5.0 - 2022.3.2f1)
     pub m_RootGameObject: PPtr,
     /// bool: (2021.2.0b1 - 2022.3.2f1)
     pub m_ContainsMissingSerializeReferenceTypes: Option<bool>,
@@ -11150,9 +11150,9 @@ pub struct Prefab {
     pub m_IsPrefabParent: Option<bool>,
     /// PrefabModification: (3.5.0 - 2018.2.21f1)
     pub m_Modification: Option<PrefabModification>,
-    /// PPtr<Prefab>: (3.5.0 - 2018.1.9f2)
+    /// PPtr<[`Prefab`]>: (3.5.0 - 2018.1.9f2)
     pub m_ParentPrefab: Option<PPtr>,
-    /// PPtr<Prefab>: (2018.2.0b1 - 2018.2.21f1)
+    /// PPtr<[`Prefab`]>: (2018.2.0b1 - 2018.2.21f1)
     pub m_SourcePrefab: Option<PPtr>,
 }
 
@@ -11162,7 +11162,7 @@ pub struct PrefabImporter {
     pub m_AddedObjectFileIDs: Vec<i64>,
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2018.3.0f2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2018.3.0f2 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_IsPrefabVariant: bool,
     pub m_Name: String,
@@ -11179,9 +11179,9 @@ pub struct PrefabImporter {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PrefabInstance {
     pub m_Modification: PrefabModification,
-    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_RootGameObject: PPtr,
-    /// PPtr<Prefab>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`Prefab`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_SourcePrefab: PPtr,
 }
 
@@ -11189,22 +11189,22 @@ pub struct PrefabInstance {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PrefabModification {
     pub m_Modifications: Vec<PropertyModification>,
-    /// Vec<PPtr<Object>>: (3.5.0 - 2018.2.21f1); Vec<PPtr<Component>>: (2018.3.0f2 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (3.5.0 - 2018.2.21f1); Vec<PPtr<[`Component`]>>: (2018.3.0f2 - 2022.3.2f1)
     pub m_RemovedComponents: Vec<PPtr>,
-    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2022.3.2f1)
     pub m_TransformParent: PPtr,
     /// Vec<AddedComponent>: (2022.2.0b1 - 2022.3.2f1)
     pub m_AddedComponents: Option<Vec<AddedComponent>>,
     /// Vec<AddedGameObject>: (2022.1.0b1 - 2022.3.2f1)
     pub m_AddedGameObjects: Option<Vec<AddedGameObject>>,
-    /// Vec<PPtr<GameObject>>: (2022.2.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`GameObject`]>>: (2022.2.0b1 - 2022.3.2f1)
     pub m_RemovedGameObjects: Option<Vec<PPtr>>,
 }
 
 /// PreloadData is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PreloadData {
-    /// Vec<PPtr<Object>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (3.4.0 - 2022.3.2f1)
     pub m_Assets: Vec<PPtr>,
     pub m_Name: String,
     /// Vec<String>: (5.0.0f4 - 2022.3.2f1)
@@ -11250,7 +11250,7 @@ Only classes that inherit from UnityEngine.Object are represented by a PresetTyp
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PresetType {
     pub m_ManagedTypeFallback: String,
-    /// PPtr<MonoScript>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`MonoScript`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_ManagedTypePPtr: PPtr,
     pub m_NativeTypeID: i32,
 }
@@ -11296,7 +11296,7 @@ pub struct PreviewData {
 pub struct PreviewImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2020.2.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2020.2.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -11329,7 +11329,7 @@ pub struct ProceduralMaterial {
     pub m_Name: String,
     pub m_SavedProperties: UnityPropertySheet,
     /**The shader used by the material.*/
-    /// PPtr<Shader>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Shader`]>: (3.4.0 - 2022.3.2f1)
     pub m_Shader: PPtr,
     /// Vec<String>: (5.6.0f1 - 2022.3.2f1)
     pub disabledShaderPasses: Option<Vec<String>>,
@@ -11369,9 +11369,9 @@ pub struct ProceduralMaterial {
     /**An array containing names of the local shader keywords that are currently enabled for this material.*/
     /// Vec<String>: (4.1.0 - 4.7.2); String: (5.0.0f4 - 2022.1.0a16)
     pub m_ShaderKeywords: Option<Enum_Vec_String___String>,
-    /// PPtr<SubstanceArchive>: (3.4.0 - 2017.4.40f1)
+    /// PPtr<[`SubstanceArchive`]>: (3.4.0 - 2017.4.40f1)
     pub m_SubstancePackage: Option<PPtr>,
-    /// Vec<PPtr<ProceduralTexture>>: (3.4.0 - 2017.4.40f1)
+    /// Vec<PPtr<[`ProceduralTexture`]>>: (3.4.0 - 2017.4.40f1)
     pub m_Textures: Option<Vec<PPtr>>,
     /// Vec<String>: (2021.2.18f1 - 2022.3.2f1)
     pub m_ValidKeywords: Option<Vec<String>>,
@@ -11433,7 +11433,7 @@ pub struct ProceduralTexture {
     pub m_LightmapFormat: Option<i32>,
     /// i32: (4.5.0 - 2017.4.40f1)
     pub m_Mipmaps: Option<i32>,
-    /// PPtr<ProceduralMaterial>: (3.4.0 - 2017.4.40f1)
+    /// PPtr<[`ProceduralMaterial`]>: (3.4.0 - 2017.4.40f1)
     pub m_SubstanceMaterial: Option<PPtr>,
     /// u64: (3.4.0 - 2017.4.40f1)
     pub m_SubstanceTextureUID: Option<u64>,
@@ -11447,7 +11447,7 @@ pub struct ProceduralTexture {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ProceduralTextureAssignment {
     pub baseUID: u32,
-    /// PPtr<ProceduralMaterial>: (4.5.0 - 2017.4.40f1)
+    /// PPtr<[`ProceduralMaterial`]>: (4.5.0 - 2017.4.40f1)
     pub material: PPtr,
     pub shaderProp: Enum_FastPropertyName__String,
 }
@@ -11478,12 +11478,12 @@ pub struct Projector {
     /**The field of view of the projection in degrees.*/
     pub m_FieldOfView: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Which object layers are ignored by the projector.*/
     pub m_IgnoreLayers: BitField,
     /**The material that will be projected onto every object.*/
-    /// PPtr<Material>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (3.4.0 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The near clipping plane distance.*/
     pub m_NearClipPlane: f32,
@@ -11502,12 +11502,12 @@ Used by the Prefab system to track any changes applied to an instance.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PropertyModification {
     /**The value being applied when it is an object reference (which can not be represented as a string).*/
-    /// PPtr<Object>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (3.5.0 - 2022.3.2f1)
     pub objectReference: PPtr,
     /**Property path of the property being modified (Matches as SerializedProperty.propertyPath).*/
     pub propertyPath: String,
     /**Object that will be modified.*/
-    /// PPtr<Object>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (3.5.0 - 2022.3.2f1)
     pub target: PPtr,
     /**The value being applied.*/
     pub value: String,
@@ -11561,7 +11561,7 @@ pub struct QualitySetting {
     pub billboardsFaceCameraPosition: Option<bool>,
     /// i32: (3.4.0 - 2018.4.36f1)
     pub blendWeights: Option<i32>,
-    /// PPtr<MonoBehaviour>: (2019.3.0b1 - 2022.3.2f1)
+    /// PPtr<[`MonoBehaviour`]>: (2019.3.0b1 - 2022.3.2f1)
     pub customRenderPipeline: Option<PPtr>,
     /// bool: (2022.2.0b1 - 2022.3.2f1)
     pub enableLODCrossFade: Option<bool>,
@@ -11739,7 +11739,7 @@ pub struct RayTracingShaderID {
 pub struct RayTracingShaderImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.3.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2019.3.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -11816,11 +11816,11 @@ pub struct RayTracingShaderVariant {
 pub struct RaycastCollider {
     pub m_Center: Vector3f,
     pub m_Enabled: bool,
-    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 4.7.2)
     pub m_GameObject: PPtr,
     pub m_IsTrigger: bool,
     pub m_Length: f32,
-    /// PPtr<PhysicMaterial>: (3.4.0 - 4.7.2)
+    /// PPtr<[`PhysicMaterial`]>: (3.4.0 - 4.7.2)
     pub m_Material: PPtr,
 }
 
@@ -11839,7 +11839,7 @@ pub struct RectTransform {
     /**The normalized position in the parent RectTransform that the lower left corner is anchored to.*/
     pub m_AnchorMin: Vector2f,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The normalized position in this RectTransform that it rotates around.*/
     pub m_Pivot: Vector2f,
@@ -11848,9 +11848,9 @@ pub struct RectTransform {
     /**The position of the pivot of this RectTransform relative to the anchor reference point.*/
     /// Vector2f: (4.6.0 - 2022.3.2f1)
     pub m_AnchoredPosition: Option<Vector2f>,
-    /// Vec<PPtr<Transform>>: (4.6.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Transform`]>>: (4.6.0 - 2022.3.2f1)
     pub m_Children: Option<Vec<PPtr>>,
-    /// PPtr<Transform>: (4.6.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (4.6.0 - 2022.3.2f1)
     pub m_Father: Option<PPtr>,
     /**Position of the transform relative to the parent transform.*/
     /// Vector3f: (4.6.0 - 2022.3.2f1)
@@ -11880,7 +11880,7 @@ pub struct Rectf {
 pub struct ReferencesArtifactGenerator {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2019.2.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2019.2.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -11900,7 +11900,7 @@ pub struct ReflectionProbe {
     /**The color with which the texture of reflection probe will be cleared.*/
     pub m_BackGroundColor: ColorRGBA,
     /**Reference to the baked texture of the reflection probe's surrounding.*/
-    /// PPtr<Texture>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Texture`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_BakedTexture: PPtr,
     pub m_BoxOffset: Vector3f,
     /**Should this reflection probe use box projection?*/
@@ -11911,13 +11911,13 @@ pub struct ReflectionProbe {
     /**This is used to render parts of the reflecion probe's surrounding selectively.*/
     pub m_CullingMask: BitField,
     /**Reference to the baked texture of the reflection probe's surrounding. Use this to assign custom reflection texture.*/
-    /// PPtr<Texture>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Texture`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_CustomBakedTexture: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     pub m_FarClip: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Should this reflection probe use HDR rendering?*/
     pub m_HDR: bool,
@@ -11961,7 +11961,7 @@ pub struct RelativeJoint2D {
     pub m_BreakForce: f32,
     /**The torque that needs to be applied for this joint to break.*/
     pub m_BreakTorque: f32,
-    /// PPtr<Rigidbody2D>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**Scales both the linear and angular forces used to correct the required relative orientation.*/
     pub m_CorrectionScale: f32,
@@ -11970,7 +11970,7 @@ pub struct RelativeJoint2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The current linear offset between the Rigidbody2D that the joint connects.*/
     pub m_LinearOffset: Vector2f,
@@ -12001,13 +12001,13 @@ pub struct RenderSettings {
     pub m_FogDensity: f32,
     pub m_FogMode: i32,
     pub m_HaloStrength: f32,
-    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (3.4.0 - 2022.3.2f1)
     pub m_HaloTexture: PPtr,
     pub m_LinearFogEnd: f32,
     pub m_LinearFogStart: f32,
-    /// PPtr<Material>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (3.4.0 - 2022.3.2f1)
     pub m_SkyboxMaterial: PPtr,
-    /// PPtr<Texture2D>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (3.4.0 - 2022.3.2f1)
     pub m_SpotCookie: PPtr,
     /// ColorRGBA: (5.0.0f4 - 2022.3.2f1)
     pub m_AmbientEquatorColor: Option<ColorRGBA>,
@@ -12025,7 +12025,7 @@ pub struct RenderSettings {
     pub m_AmbientProbeInGamma: Option<SphericalHarmonicsL2>,
     /// ColorRGBA: (5.0.0f4 - 2022.3.2f1)
     pub m_AmbientSkyColor: Option<ColorRGBA>,
-    /// PPtr<Cubemap>: (5.0.0f4 - 2021.1.28f1); PPtr<Texture>: (2021.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`Cubemap`]>: (5.0.0f4 - 2021.1.28f1); PPtr<[`Texture`]>: (2021.2.0b1 - 2022.3.2f1)
     pub m_CustomReflection: Option<PPtr>,
     /// i32: (5.0.0f4 - 2022.3.2f1)
     pub m_DefaultReflectionMode: Option<i32>,
@@ -12033,7 +12033,7 @@ pub struct RenderSettings {
     pub m_DefaultReflectionResolution: Option<i32>,
     /// f32: (4.3.0 - 2022.3.2f1)
     pub m_FlareFadeSpeed: Option<f32>,
-    /// PPtr<Cubemap>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Cubemap`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GeneratedSkyboxReflection: Option<PPtr>,
     /// ColorRGBA: (5.4.0f3 - 2022.3.2f1)
     pub m_IndirectSpecularColor: Option<ColorRGBA>,
@@ -12043,7 +12043,7 @@ pub struct RenderSettings {
     pub m_ReflectionIntensity: Option<f32>,
     /// ColorRGBA: (5.6.0f1 - 2022.3.2f1)
     pub m_SubtractiveShadowColor: Option<ColorRGBA>,
-    /// PPtr<Light>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Light`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_Sun: Option<PPtr>,
     /// bool: (2018.1.0b2 - 2022.3.2f1)
     pub m_UseRadianceAmbientProbe: Option<bool>,
@@ -12137,20 +12137,20 @@ pub struct Renderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 4.7.2)
     pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u8,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (3.4.0 - 4.7.2)
+    /// Vec<PPtr<[`Material`]>>: (3.4.0 - 4.7.2)
     pub m_Materials: Vec<PPtr>,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: bool,
-    /// PPtr<Transform>: (3.4.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.4.0 - 4.7.2)
     pub m_StaticBatchRoot: PPtr,
     pub m_SubsetIndices: Vec<u32>,
-    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.5.0 - 4.7.2)
     pub m_LightProbeAnchor: Option<PPtr>,
     /// i16: (4.3.0 - 4.3.4)
     pub m_SortingLayer: Option<i16>,
@@ -12173,7 +12173,7 @@ pub struct RendererData {
     pub lightmapSTDynamic: Vector4f,
     pub terrainChunkDynamicUVST: Vector4f,
     pub terrainDynamicUVST: Vector4f,
-    /// PPtr<Mesh>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (5.0.0f4 - 2022.3.2f1)
     pub uvMesh: PPtr,
     /// Hash128: (2018.2.0b1 - 2022.3.2f1)
     pub explicitProbeSetHash: Option<Hash128>,
@@ -12182,7 +12182,7 @@ pub struct RendererData {
 /// ResourceManager is a  class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ResourceManager {
-    /// Vec<(String, PPtr<Object>)>: (3.4.0 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Object`]>)>: (3.4.0 - 2022.3.2f1)
     pub m_Container: Vec<(String, PPtr)>,
     /// Vec<ResourceManager_Dependency>: (3.5.0 - 2022.3.2f1)
     pub m_DependentAssets: Option<Vec<ResourceManager_Dependency>>,
@@ -12191,9 +12191,9 @@ pub struct ResourceManager {
 /// ResourceManager_Dependency is a sub class of the Unity engine since version 3.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ResourceManager_Dependency {
-    /// Vec<PPtr<Object>>: (3.5.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (3.5.0 - 2022.3.2f1)
     pub m_Dependencies: Vec<PPtr>,
-    /// PPtr<Object>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (3.5.0 - 2022.3.2f1)
     pub m_Object: PPtr,
 }
 
@@ -12213,7 +12213,7 @@ pub struct Rigidbody {
     /**The drag of the object.*/
     pub m_Drag: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_Interpolate: u8,
     /**Controls whether physics affects the rigidbody.*/
@@ -12254,7 +12254,7 @@ pub struct Rigidbody2D {
     pub m_AngularDrag: f32,
     pub m_CollisionDetection: i32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The degree to which this object is affected by gravity.*/
     pub m_GravityScale: f32,
@@ -12280,7 +12280,7 @@ pub struct Rigidbody2D {
     /**Should this rigidbody be taken out of physics control?*/
     /// bool: (4.3.0 - 5.4.6f3)
     pub m_IsKinematic: Option<bool>,
-    /// PPtr<PhysicsMaterial2D>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (5.5.0f3 - 2022.3.2f1)
     pub m_Material: Option<PPtr>,
     /**Indicates whether the rigid body should be simulated or not by the physics system.*/
     /// bool: (5.5.0f3 - 2022.3.2f1)
@@ -12304,7 +12304,7 @@ pub struct RoslynAdditionalFileAsset {
 pub struct RoslynAdditionalFileImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2021.3.3f1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2021.3.3f1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -12322,7 +12322,7 @@ pub struct RoslynAnalyzerConfigAsset {
 pub struct RoslynAnalyzerConfigImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2021.3.3f1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2021.3.3f1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -12366,7 +12366,7 @@ pub struct RotationConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The rotation used when the sources have a total weight of 0.*/
     pub m_RotationAtRest: Vector3f,
@@ -12406,7 +12406,7 @@ pub struct RuleSetFileAsset {
 pub struct RuleSetFileImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2020.2.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2020.2.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -12421,7 +12421,7 @@ The runtime representation of the AnimatorController. Use this representation to
 #[derive(Debug, Serialize, Deserialize)]
 pub struct RuntimeAnimatorController {
     /**Retrieves all AnimationClip used by the controller.*/
-    /// Vec<PPtr<AnimationClip>>: (4.1.0 - 4.2.2)
+    /// Vec<PPtr<[`AnimationClip`]>>: (4.1.0 - 4.2.2)
     pub m_AnimationClips: Vec<PPtr>,
     pub m_Controller: ControllerConstant,
     pub m_ControllerSize: u32,
@@ -12769,7 +12769,7 @@ pub struct ScaleConstraint {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The scale used when the sources have a total weight of 0.*/
     pub m_ScaleAtRest: Vector3f,
@@ -12797,9 +12797,9 @@ pub struct Scene {
     pub guid: Option<GUID>,
     /// Vec<u8>: (3.4.0 - 3.5.7)
     pub m_PVSData: Option<Vec<u8>>,
-    /// Vec<PPtr<Renderer>>: (3.4.0 - 3.5.7)
+    /// Vec<PPtr<[`Renderer`]>>: (3.4.0 - 3.5.7)
     pub m_PVSObjectsArray: Option<Vec<PPtr>>,
-    /// Vec<PPtr<OcclusionPortal>>: (3.5.0 - 3.5.7)
+    /// Vec<PPtr<[`OcclusionPortal`]>>: (3.5.0 - 3.5.7)
     pub m_PVSPortalsArray: Option<Vec<PPtr>>,
     /// u32: (3.5.0 - 3.5.7)
     pub m_QueryMode: Option<u32>,
@@ -12832,9 +12832,9 @@ pub struct SceneObjectIdentifier {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SceneSettings {
     pub m_PVSData: Vec<u8>,
-    /// Vec<PPtr<Renderer>>: (4.0.0 - 5.4.6f3)
+    /// Vec<PPtr<[`Renderer`]>>: (4.0.0 - 5.4.6f3)
     pub m_PVSObjectsArray: Vec<PPtr>,
-    /// Vec<PPtr<OcclusionPortal>>: (4.0.0 - 5.4.6f3)
+    /// Vec<PPtr<[`OcclusionPortal`]>>: (4.0.0 - 5.4.6f3)
     pub m_PVSPortalsArray: Vec<PPtr>,
     /// u32: (4.0.0 - 4.2.2)
     pub m_QueryMode: Option<u32>,
@@ -12902,11 +12902,11 @@ pub struct ScriptedImporter {
     pub m_AssetBundleVariant: String,
     /**The name of the object.*/
     pub m_Name: String,
-    /// PPtr<MonoScript>: (2017.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`MonoScript`]>: (2017.1.0b2 - 2022.3.2f1)
     pub m_Script: PPtr,
     /**Get or set any user data.*/
     pub m_UserData: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.3.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.3.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<(i64, String)>: (2017.3.0b1 - 2018.4.36f1)
     pub m_FileIDToRecycleName: Option<Vec<(i64, String)>>,
@@ -12926,7 +12926,7 @@ pub struct SecondarySpriteTexture {
     /**The shader property name of the secondary Sprite texture. Use this name to identify and sample the texture in the shader.*/
     pub name: String,
     /**The texture to be used as a secondary Sprite texture.*/
-    /// PPtr<Texture2D>: (2019.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2019.1.0b1 - 2022.3.2f1)
     pub texture: PPtr,
 }
 
@@ -12941,14 +12941,14 @@ pub struct SecondaryTextureSettings {
 /// SerializableManagedHost is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializableManagedHost {
-    /// PPtr<MonoScript>: (2019.1.0b1 - 2020.3.24f1)
+    /// PPtr<[`MonoScript`]>: (2019.1.0b1 - 2020.3.24f1)
     pub m_Script: PPtr,
 }
 
 /// SerializableManagedRefTestClass is a  class of the Unity engine since version 2019.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SerializableManagedRefTestClass {
-    /// PPtr<MonoScript>: (2019.1.0b1 - 2020.3.24f1)
+    /// PPtr<[`MonoScript`]>: (2019.1.0b1 - 2020.3.24f1)
     pub m_Script: PPtr,
 }
 
@@ -13241,14 +13241,14 @@ pub struct Shader {
     /// Vec<u8>: (5.5.0f3 - 2022.3.2f1)
     pub compressedBlob: Option<Vec<u8>>,
     /// Vec<u32>: (5.5.0f3 - 2019.3.0a12); Vec<Vec<u32>>: (2019.3.0b1 - 2022.3.2f1)
-    pub compressedLengths: Option<Vec<Enum_Vec_u32___u32>>,
+    pub compressedLengths: Option<Vec<Enum_u32__Vec_u32>>,
     /// Vec<u32>: (5.5.0f3 - 2019.3.0a12); Vec<Vec<u32>>: (2019.3.0b1 - 2022.3.2f1)
-    pub decompressedLengths: Option<Vec<Enum_Vec_u32___u32>>,
+    pub decompressedLengths: Option<Vec<Enum_u32__Vec_u32>>,
     /// u32: (5.3.0f1 - 5.4.6f3)
     pub decompressedSize: Option<u32>,
-    /// Vec<PPtr<Shader>>: (4.0.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Shader`]>>: (4.0.0 - 2022.3.2f1)
     pub m_Dependencies: Option<Vec<PPtr>>,
-    /// Vec<(String, PPtr<Texture>)>: (2018.1.0b2 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Texture`]>)>: (2018.1.0b2 - 2022.3.2f1)
     pub m_NonModifiableTextures: Option<Vec<(String, PPtr)>>,
     /// SerializedShader: (5.5.0f3 - 2022.3.2f1)
     pub m_ParsedForm: Option<SerializedShader>,
@@ -13261,7 +13261,7 @@ pub struct Shader {
     /// Vec<u8>: (5.3.0f1 - 5.4.6f3)
     pub m_SubProgramBlob: Option<Vec<u8>>,
     /// Vec<u32>: (5.5.0f3 - 2019.3.0a12); Vec<Vec<u32>>: (2019.3.0b1 - 2022.3.2f1)
-    pub offsets: Option<Vec<Enum_Vec_u32___u32>>,
+    pub offsets: Option<Vec<Enum_u32__Vec_u32>>,
     /// Vec<u32>: (5.5.0f3 - 2022.3.2f1)
     pub platforms: Option<Vec<u32>>,
     /// Vec<u32>: (2021.3.12f1 - 2022.3.2f1)
@@ -13270,9 +13270,9 @@ pub struct Shader {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_Vec_u32___u32 {
-    Vec(Vec<u32>),
+pub enum Enum_u32__Vec_u32 {
     u32(u32),
+    Vec(Vec<u32>),
 }
 
 /// ShaderBindChannel is a sub class of the Unity engine since version 5.5.0f3.
@@ -13303,11 +13303,11 @@ pub struct ShaderImporter {
     /**Get or set the AssetBundle variant.*/
     /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(String, PPtr<Texture>)>: (4.2.0 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Texture`]>)>: (4.2.0 - 2022.3.2f1)
     pub m_DefaultTextures: Option<Vec<(String, PPtr)>>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
-    /// Vec<(String, PPtr<Texture>)>: (2018.1.0b2 - 2022.3.2f1)
+    /// Vec<(String, PPtr<[`Texture`]>)>: (2018.1.0b2 - 2022.3.2f1)
     pub m_NonModifiableTextures: Option<Vec<(String, PPtr)>>,
     /**This property has no effect.*/
     /// i32: (2020.2.0b1 - 2022.1.0a9)
@@ -13321,7 +13321,7 @@ pub struct ShaderImporter {
 pub struct ShaderIncludeImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2021.2.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2021.2.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UsedFileIDs: Vec<i64>,
@@ -13359,7 +13359,7 @@ shader variants are loaded at startup (or level load time), to avoid shader comp
 pub struct ShaderVariantCollection {
     /**The name of the object.*/
     pub m_Name: String,
-    /// Vec<(PPtr<Shader>, ShaderInfo)>: (5.0.0f4 - 2022.3.2f1)
+    /// Vec<(PPtr<[`Shader`]>, ShaderInfo)>: (5.0.0f4 - 2022.3.2f1)
     pub m_Shaders: Vec<(PPtr, ShaderInfo)>,
 }
 
@@ -13399,7 +13399,7 @@ pub struct ShapeModule {
     /**Specifies whether the ShapeModule is enabled or disabled.*/
     pub enabled: bool,
     /**Mesh to emit particles from.*/
-    /// PPtr<Mesh>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (3.5.0 - 2022.3.2f1)
     pub m_Mesh: PPtr,
     pub placementMode: i32,
     /**Radius of the shape to emit particles from.*/
@@ -13434,7 +13434,7 @@ pub struct ShapeModule {
     /// f32: (5.3.0f1 - 2022.3.2f1)
     pub m_MeshNormalOffset: Option<f32>,
     /**MeshRenderer to emit particles from.*/
-    /// PPtr<MeshRenderer>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`MeshRenderer`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_MeshRenderer: Option<PPtr>,
     /// f32: (5.5.0f3 - 2017.1.0b1)
     pub m_MeshScale: Option<f32>,
@@ -13450,16 +13450,16 @@ pub struct ShapeModule {
     /// Vector3f: (2017.1.0b2 - 2022.3.2f1)
     pub m_Scale: Option<Vector3f>,
     /**SkinnedMeshRenderer to emit particles from.*/
-    /// PPtr<SkinnedMeshRenderer>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`SkinnedMeshRenderer`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_SkinnedMeshRenderer: Option<PPtr>,
     /**Sprite to emit particles from.*/
-    /// PPtr<Sprite>: (2018.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`Sprite`]>: (2018.2.0b1 - 2022.3.2f1)
     pub m_Sprite: Option<PPtr>,
     /**SpriteRenderer to emit particles from.*/
-    /// PPtr<SpriteRenderer>: (2018.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`SpriteRenderer`]>: (2018.2.0b1 - 2022.3.2f1)
     pub m_SpriteRenderer: Option<PPtr>,
     /**Specifies a Texture to tint the particle's start colors.*/
-    /// PPtr<Texture2D>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Texture: Option<PPtr>,
     /**When enabled, the system applies the alpha channel of the Texture to the particle alpha when the particle spawns.*/
     /// bool: (2018.1.0b2 - 2022.3.2f1)
@@ -13688,14 +13688,14 @@ pub struct SketchUpImporter {
     pub m_ImportAnimation: bool,
     /**Controls import of BlendShapes.*/
     pub m_ImportBlendShapes: bool,
-    /// Vec<PPtr<GameObject>>: (5.1.0f1 - 2022.3.2f1)
+    /// Vec<PPtr<[`GameObject`]>>: (5.1.0f1 - 2022.3.2f1)
     pub m_ImportedRoots: Vec<PPtr>,
     /**Generates the list of all imported take.*/
     pub m_ImportedTakeInfos: Vec<TakeInfo>,
     /**Are mesh vertices and indices accessible from script?*/
     pub m_IsReadable: bool,
     pub m_LODScreenPercentages: Vec<f32>,
-    /// PPtr<Avatar>: (5.1.0f1 - 2022.3.2f1)
+    /// PPtr<[`Avatar`]>: (5.1.0f1 - 2022.3.2f1)
     pub m_LastHumanDescriptionAvatarSource: PPtr,
     /**Retrieves the latitude Geo Coordinate imported from the SketchUp file.*/
     pub m_Latitude: f64,
@@ -13764,7 +13764,7 @@ pub struct SketchUpImporter {
     pub m_AvatarSetup: Option<i32>,
     /// bool: (5.1.0f1 - 2019.3.0a2)
     pub m_CopyAvatar: Option<bool>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**A list of default FBX properties to treat as user properties during OnPostprocessGameObjectWithUserProperties.*/
     /// Vec<String>: (2017.1.0f2 - 2022.3.2f1)
@@ -13893,7 +13893,7 @@ pub struct SkinnedCloth {
     pub m_Damping: f32,
     pub m_Enabled: u8,
     pub m_ExternalAcceleration: Vector3f,
-    /// PPtr<GameObject>: (3.4.0 - 4.7.2)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 4.7.2)
     pub m_GameObject: PPtr,
     pub m_RandomAcceleration: Vector3f,
     pub m_SelfCollision: bool,
@@ -13913,28 +13913,28 @@ The Skinned Mesh filter.
 pub struct SkinnedMeshRenderer {
     pub m_AABB: AABB,
     /**The bones used to skin the mesh.*/
-    /// Vec<PPtr<Transform>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Transform`]>>: (3.4.0 - 2022.3.2f1)
     pub m_Bones: Vec<PPtr>,
     pub m_CastShadows: Enum_bool__u8,
     pub m_DirtyAABB: bool,
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (3.4.0 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
-    /// PPtr<Mesh>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Mesh`]>: (3.4.0 - 2022.3.2f1)
     pub m_Mesh: PPtr,
     /**The maximum number of bones per vertex that are taken into account during skinning.*/
     pub m_Quality: i32,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
-    /// PPtr<Transform>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.4.0 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /**If enabled, the Skinned Mesh will be updated when offscreen. If disabled, this also disables updating animations.*/
     pub m_UpdateWhenOffscreen: bool,
@@ -13942,12 +13942,12 @@ pub struct SkinnedMeshRenderer {
     pub m_BlendShapeWeights: Option<Vec<f32>>,
     /// u8: (2017.2.0b2 - 2022.3.2f1)
     pub m_DynamicOccludee: Option<u8>,
-    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.5.0 - 4.7.2)
     pub m_LightProbeAnchor: Option<PPtr>,
     /**The light probe interpolation type.*/
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: Option<PPtr>,
     /// u16: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapIndexDynamic: Option<u16>,
@@ -13956,7 +13956,7 @@ pub struct SkinnedMeshRenderer {
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_MotionVectors: Option<u8>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_ProbeAnchor: Option<PPtr>,
     /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
@@ -13972,7 +13972,7 @@ pub struct SkinnedMeshRenderer {
     /**Determines which rendering layer this renderer lives on.*/
     /// u32: (2018.1.0b2 - 2022.3.2f1)
     pub m_RenderingLayerMask: Option<u32>,
-    /// PPtr<Transform>: (3.5.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.5.0 - 2022.3.2f1)
     pub m_RootBone: Option<PPtr>,
     /**Specifies whether skinned motion vectors should be used for this renderer.*/
     /// bool: (5.4.0f3 - 2022.3.2f1)
@@ -14004,12 +14004,12 @@ The skybox class has only the material property.See Also: skybox component.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Skybox {
-    /// PPtr<Material>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (3.4.0 - 2022.3.2f1)
     pub m_CustomSkybox: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
 }
 
@@ -14027,12 +14027,12 @@ pub struct SliderJoint2D {
     pub m_Angle: f32,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    /// PPtr<Rigidbody2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Parameters for a motor force that is applied automatically to the Rigibody2D along the line.*/
     pub m_Motor: JointMotor2D,
@@ -14117,7 +14117,7 @@ pub struct SortingGroup {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_SortingLayer: i16,
     /**Renderer's order within a sorting layer.*/
@@ -14236,7 +14236,7 @@ pub struct SpeedTreeImporter {
     /**Indicates if the cross-fade LOD transition, applied to the last mesh LOD and the billboard, should be animated.*/
     /// bool: (5.1.0f1 - 2022.3.2f1)
     pub m_AnimateCrossFading: Option<bool>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// i32: (2019.1.0b1 - 2022.3.2f1)
     pub m_FileIDType: Option<i32>,
@@ -14315,12 +14315,12 @@ pub struct SphereCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Specify if this collider is configured as a trigger.*/
     pub m_IsTrigger: bool,
     /**The material used by the collider.*/
-    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicMaterial`]>: (3.4.0 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The radius of the sphere measured in the object's local space.*/
     pub m_Radius: f32,
@@ -14439,14 +14439,14 @@ pub struct SplashScreenLogo {
     /**The total time in seconds for which the logo is shown. The minimum duration is 2 seconds.*/
     pub duration: f32,
     /**The Sprite that is shown during this logo. If this is null, then no logo will be displayed for the duration.*/
-    /// PPtr<Sprite>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`Sprite`]>: (5.5.0f3 - 2022.3.2f1)
     pub logo: PPtr,
 }
 
 /// SplatDatabase is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SplatDatabase {
-    /// Vec<PPtr<Texture2D>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Texture2D`]>>: (3.4.0 - 2022.3.2f1)
     pub m_AlphaTextures: Vec<PPtr>,
     pub m_AlphamapResolution: i32,
     pub m_BaseMapResolution: i32,
@@ -14458,7 +14458,7 @@ pub struct SplatDatabase {
     pub m_MaterialRequiresSmoothness: Option<bool>,
     /// Vec<SplatPrototype>: (3.4.0 - 2018.2.21f1)
     pub m_Splats: Option<Vec<SplatPrototype>>,
-    /// Vec<PPtr<TerrainLayer>>: (2018.3.0f2 - 2022.3.2f1)
+    /// Vec<PPtr<[`TerrainLayer`]>>: (2018.3.0f2 - 2022.3.2f1)
     pub m_TerrainLayers: Option<Vec<PPtr>>,
 }
 
@@ -14471,14 +14471,14 @@ A class on a Terrain GameObject.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SplatPrototype {
     /**Texture of the splat applied to the Terrain.*/
-    /// PPtr<Texture2D>: (3.4.0 - 2018.2.21f1)
+    /// PPtr<[`Texture2D`]>: (3.4.0 - 2018.2.21f1)
     pub texture: PPtr,
     /**Offset of the tile texture of the SplatPrototype.*/
     pub tileOffset: Vector2f,
     /**Size of the tile used in the texture of the SplatPrototype.*/
     pub tileSize: Vector2f,
     /**Normal map of the splat applied to the Terrain.*/
-    /// PPtr<Texture2D>: (4.0.0 - 2018.2.21f1)
+    /// PPtr<[`Texture2D`]>: (4.0.0 - 2018.2.21f1)
     pub normalMap: Option<PPtr>,
     /**The smoothness value of the splat layer when the main texture has no alpha channel.*/
     /// f32: (5.0.1f1 - 2018.2.21f1)
@@ -14506,12 +14506,12 @@ pub struct SpringJoint {
     /**The torque that needs to be applied for this joint to break. To be able to break, a joint must be _Locked_ or _Limited_ on the axis of rotation where the torque is being applied. This means that some joints cannot break, such as an unconstrained Configurable Joint.*/
     pub m_BreakTorque: f32,
     /**A reference to another rigidbody this joint connects to.*/
-    /// PPtr<Rigidbody>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody`]>: (3.4.0 - 2022.3.2f1)
     pub m_ConnectedBody: PPtr,
     /**The damper force used to dampen the spring force.*/
     pub m_Damper: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The maximum distance between the bodies relative to their initial distance.*/
     pub m_MaxDistance: f32,
@@ -14526,7 +14526,7 @@ pub struct SpringJoint {
     /// Vector3f: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedAnchor: Option<Vector3f>,
     /**A reference to an articulation body this joint connects to.*/
-    /// PPtr<ArticulationBody>: (2020.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`ArticulationBody`]>: (2020.2.0b1 - 2022.3.2f1)
     pub m_ConnectedArticulationBody: Option<PPtr>,
     /**The scale to apply to the inverse mass and inertia tensor of the connected body prior to solving the constraints.*/
     /// f32: (2017.1.0b2 - 2022.3.2f1)
@@ -14559,7 +14559,7 @@ pub struct SpringJoint2D {
     pub m_Anchor: Vector2f,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    /// PPtr<Rigidbody2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (4.3.0 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**The amount by which the spring force is reduced in proportion to the movement speed.*/
     pub m_DampingRatio: f32,
@@ -14570,7 +14570,7 @@ pub struct SpringJoint2D {
     /**The frequency at which the spring oscillates around the distance distance between the objects.*/
     pub m_Frequency: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Should the connectedAnchor be calculated automatically?*/
     /// bool: (5.3.0f1 - 2022.3.2f1)
@@ -14626,7 +14626,7 @@ pub struct Sprite {
     pub m_Pivot: Option<Vector2f>,
     /// (GUID, i64): (2017.1.0b1 - 2022.3.2f1)
     pub m_RenderDataKey: Option<(GUID, i64)>,
-    /// PPtr<SpriteAtlas>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`SpriteAtlas`]>: (2017.1.0b1 - 2022.3.2f1)
     pub m_SpriteAtlas: Option<PPtr>,
 }
 
@@ -14643,7 +14643,7 @@ pub struct SpriteAtlas {
     /**The name of the object.*/
     pub m_Name: String,
     pub m_PackedSpriteNamesToIndex: Vec<String>,
-    /// Vec<PPtr<Sprite>>: (2017.1.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Sprite`]>>: (2017.1.0b1 - 2022.3.2f1)
     pub m_PackedSprites: Vec<PPtr>,
     pub m_RenderDataMap: Vec<((GUID, i64), SpriteAtlasData)>,
     /**Get the tag of this SpriteAtlas.*/
@@ -14660,7 +14660,7 @@ pub struct SpriteAtlasAsset {
     pub m_ImporterData: Enum_SpriteAtlasEditorData__SpriteAtlasAssetData,
     /**Checks whether the Sprite Atlas Importer set the Sprite Atlas as a Variant.*/
     pub m_IsVariant: bool,
-    /// PPtr<SpriteAtlas>: (2020.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`SpriteAtlas`]>: (2020.1.0b1 - 2022.3.2f1)
     pub m_MasterAtlas: PPtr,
     /**The name of the object.*/
     pub m_Name: String,
@@ -14676,18 +14676,18 @@ pub enum Enum_SpriteAtlasEditorData__SpriteAtlasAssetData {
 /// SpriteAtlasAssetData is a sub class of the Unity engine since version 2022.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteAtlasAssetData {
-    /// Vec<PPtr<Object>>: (2022.1.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Object`]>>: (2022.1.0b1 - 2022.3.2f1)
     pub packables: Vec<PPtr>,
 }
 
 /// SpriteAtlasData is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteAtlasData {
-    /// PPtr<Texture2D>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2017.1.0b1 - 2022.3.2f1)
     pub alphaTexture: PPtr,
     pub downscaleMultiplier: f32,
     pub settingsRaw: u32,
-    /// PPtr<Texture2D>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2017.1.0b1 - 2022.3.2f1)
     pub texture: PPtr,
     pub textureRect: Rectf,
     pub textureRectOffset: Vector2f,
@@ -14706,10 +14706,10 @@ pub struct SpriteAtlasDatabase {}
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteAtlasEditorData {
     pub bindAsDefault: bool,
-    /// PPtr<CachedSpriteAtlasRuntimeData>: (2020.1.0b1 - 2022.1.0a13)
+    /// PPtr<[`CachedSpriteAtlasRuntimeData`]>: (2020.1.0b1 - 2022.1.0a13)
     pub cachedData: PPtr,
     pub isAtlasV2: bool,
-    /// Vec<PPtr<Object>>: (2020.1.0b1 - 2022.1.0a13)
+    /// Vec<PPtr<[`Object`]>>: (2020.1.0b1 - 2022.1.0a13)
     pub packables: Vec<PPtr>,
     pub packingSettings: PackingSettings,
     pub platformSettings: Vec<TextureImporterPlatformSettings>,
@@ -14734,7 +14734,7 @@ pub struct SpriteAtlasImporter {
     pub m_AssetBundleName: String,
     /**Get or set the AssetBundle variant.*/
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2020.1.0b1 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2020.1.0b1 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     /**The name of the object.*/
     pub m_Name: String,
@@ -14786,7 +14786,7 @@ pub struct SpriteBone {
 /// SpriteData is a sub class of the Unity engine since version 2017.1.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteData {
-    /// PPtr<Object>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (2017.1.0b1 - 2022.3.2f1)
     pub sprite: PPtr,
 }
 
@@ -14808,13 +14808,13 @@ pub struct SpriteMask {
     /**Order within the front sorting layer defining the start of the custom range.*/
     pub m_FrontSortingOrder: i16,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2017.1.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Mask sprites from front to back sorting values only.*/
     pub m_IsCustomRangeActive: bool,
     /**The light probe interpolation type.*/
     pub m_LightProbeUsage: u8,
-    /// PPtr<GameObject>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2017.1.0b1 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
@@ -14823,11 +14823,11 @@ pub struct SpriteMask {
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     pub m_MaskAlphaCutoff: f32,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (2017.1.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (2017.1.0b1 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     pub m_MotionVectors: u8,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2017.1.0b1 - 2022.3.2f1)
     pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: u8,
@@ -14839,10 +14839,10 @@ pub struct SpriteMask {
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
     /**The Sprite used to define the mask.*/
-    /// PPtr<Sprite>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Sprite`]>: (2017.1.0b1 - 2022.3.2f1)
     pub m_Sprite: PPtr,
     pub m_StaticBatchInfo: StaticBatchInfo,
-    /// PPtr<Transform>: (2017.1.0b1 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2017.1.0b1 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /**Unique ID of the sorting layer defining the end of the custom range.*/
     /// i32: (2018.4.5f1 - 2022.3.2f1)
@@ -14916,11 +14916,11 @@ pub struct SpriteMetaData {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SpriteRenderData {
     pub settingsRaw: u32,
-    /// PPtr<Texture2D>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (4.3.0 - 2022.3.2f1)
     pub texture: PPtr,
     pub textureRect: Rectf,
     pub textureRectOffset: Vector2f,
-    /// PPtr<Texture2D>: (5.2.0f2 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (5.2.0f2 - 2022.3.2f1)
     pub alphaTexture: Option<PPtr>,
     /// Vector2f: (5.4.6f1 - 2022.3.2f1)
     pub atlasRectOffset: Option<Vector2f>,
@@ -14959,22 +14959,22 @@ pub struct SpriteRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.3.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (4.3.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (4.3.0 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
     /**The Sprite to render.*/
-    /// PPtr<Sprite>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Sprite`]>: (4.3.0 - 2022.3.2f1)
     pub m_Sprite: PPtr,
-    /// PPtr<Transform>: (4.3.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (4.3.0 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /**The current threshold for Sprite Renderer tiling.*/
     /// f32: (5.6.0f1 - 2022.3.2f1)
@@ -14990,12 +14990,12 @@ pub struct SpriteRenderer {
     /**Flips the sprite on the Y axis.*/
     /// bool: (5.3.0f1 - 2022.3.2f1)
     pub m_FlipY: Option<bool>,
-    /// PPtr<Transform>: (4.3.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (4.3.0 - 4.7.2)
     pub m_LightProbeAnchor: Option<PPtr>,
     /**The light probe interpolation type.*/
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: Option<PPtr>,
     /// u16: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapIndexDynamic: Option<u16>,
@@ -15007,7 +15007,7 @@ pub struct SpriteRenderer {
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_MotionVectors: Option<u8>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_ProbeAnchor: Option<PPtr>,
     /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
@@ -15063,11 +15063,11 @@ pub struct SpriteShapeRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The light probe interpolation type.*/
     pub m_LightProbeUsage: u8,
-    /// PPtr<GameObject>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
@@ -15078,11 +15078,11 @@ pub struct SpriteShapeRenderer {
     /**Specifies how the SpriteShape interacts with the masks.*/
     pub m_MaskInteraction: i32,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (2018.1.0b2 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     pub m_MotionVectors: u8,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: u8,
@@ -15090,17 +15090,17 @@ pub struct SpriteShapeRenderer {
     pub m_ReflectionProbeUsage: u8,
     /**Determines which rendering layer this renderer lives on.*/
     pub m_RenderingLayerMask: u32,
-    /// PPtr<Texture2D>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_ShapeTexture: PPtr,
     pub m_SortingLayer: i16,
     /**Unique ID of the Renderer's sorting layer.*/
     pub m_SortingLayerID: i32,
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
-    /// Vec<PPtr<Sprite>>: (2018.1.0b2 - 2022.3.2f1)
+    /// Vec<PPtr<[`Sprite`]>>: (2018.1.0b2 - 2022.3.2f1)
     pub m_Sprites: Vec<PPtr>,
     pub m_StaticBatchInfo: StaticBatchInfo,
-    /// PPtr<Transform>: (2018.1.0b2 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2018.1.0b2 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
@@ -15173,10 +15173,10 @@ Serializable structure used to hold the full internal state of the random number
 #[derive(Debug, Serialize, Deserialize)]
 pub struct State {
     pub m_IKOnFeet: bool,
-    /// Vec<PPtr<Motion>>: (4.0.0 - 4.7.2)
+    /// Vec<PPtr<[`Motion`]>>: (4.0.0 - 4.7.2)
     pub m_Motions: Vec<PPtr>,
     pub m_Name: String,
-    /// PPtr<StateMachine>: (4.0.0 - 4.7.2)
+    /// PPtr<[`StateMachine`]>: (4.0.0 - 4.7.2)
     pub m_ParentStateMachine: PPtr,
     pub m_Position: Vector3f,
     pub m_Speed: f32,
@@ -15198,19 +15198,19 @@ pub struct StateKey {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StateMachine {
     pub m_AnyStatePosition: Vector3f,
-    /// Vec<PPtr<StateMachine>>: (4.0.0 - 4.7.2)
+    /// Vec<PPtr<[`StateMachine`]>>: (4.0.0 - 4.7.2)
     pub m_ChildStateMachine: Vec<PPtr>,
     pub m_ChildStateMachinePosition: Vec<Vector3f>,
-    /// PPtr<State>: (4.0.0 - 4.7.2)
+    /// PPtr<[`State`]>: (4.0.0 - 4.7.2)
     pub m_DefaultState: PPtr,
     pub m_MotionSetCount: i32,
     pub m_Name: String,
-    /// Vec<(PPtr<State>, Vec<PPtr<Transition>>)>: (4.0.0 - 4.7.2)
+    /// Vec<(PPtr<[`State`]>, Vec<PPtr<[`Transition`]>>)>: (4.0.0 - 4.7.2)
     pub m_OrderedTransitions: Vec<(PPtr, Vec<PPtr>)>,
     pub m_ParentStateMachinePosition: Vector3f,
-    /// Vec<PPtr<State>>: (4.0.0 - 4.7.2)
+    /// Vec<PPtr<[`State`]>>: (4.0.0 - 4.7.2)
     pub m_States: Vec<PPtr>,
-    /// Vec<(PPtr<State>, Vec<PPtr<Transition>>)>: (4.0.0 - 4.1.5)
+    /// Vec<(PPtr<[`State`]>, Vec<PPtr<[`Transition`]>>)>: (4.0.0 - 4.1.5)
     pub m_LocalTransitions: Option<Vec<(PPtr, Vec<PPtr>)>>,
 }
 
@@ -15279,7 +15279,7 @@ pub struct StreamingController {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.2.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Offset applied to the mipmap level chosen by the texture streaming system for any textures visible from this camera. This Offset can take either a positive or negative value.*/
     pub m_StreamingMipmapBias: f32,
@@ -15320,7 +15320,7 @@ pub struct StyleSheetImporter {
 /// SubCollider is a sub class of the Unity engine since version 5.6.0b1.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubCollider {
-    /// PPtr<Collider2D>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`Collider2D`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_Collider: PPtr,
     pub m_ColliderPaths: Vec<Vec<IntPoint>>,
 }
@@ -15332,7 +15332,7 @@ pub struct SubDerived {}
 /// SubEmitterData is a sub class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubEmitterData {
-    /// PPtr<ParticleSystem>: (5.5.0f3 - 2022.3.2f1)
+    /// PPtr<[`ParticleSystem`]>: (5.5.0f3 - 2022.3.2f1)
     pub emitter: PPtr,
     pub properties: i32,
     /// i32: (5.5.0f3 - 2022.3.2f1)
@@ -15364,17 +15364,17 @@ pub struct SubMesh {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubModule {
     pub enabled: bool,
-    /// PPtr<ParticleSystem>: (3.5.0 - 5.4.6f3)
+    /// PPtr<[`ParticleSystem`]>: (3.5.0 - 5.4.6f3)
     pub subEmitterBirth: Option<PPtr>,
-    /// PPtr<ParticleSystem>: (4.0.0 - 5.4.6f3)
+    /// PPtr<[`ParticleSystem`]>: (4.0.0 - 5.4.6f3)
     pub subEmitterBirth1: Option<PPtr>,
-    /// PPtr<ParticleSystem>: (3.5.0 - 5.4.6f3)
+    /// PPtr<[`ParticleSystem`]>: (3.5.0 - 5.4.6f3)
     pub subEmitterCollision: Option<PPtr>,
-    /// PPtr<ParticleSystem>: (4.0.0 - 5.4.6f3)
+    /// PPtr<[`ParticleSystem`]>: (4.0.0 - 5.4.6f3)
     pub subEmitterCollision1: Option<PPtr>,
-    /// PPtr<ParticleSystem>: (3.5.0 - 5.4.6f3)
+    /// PPtr<[`ParticleSystem`]>: (3.5.0 - 5.4.6f3)
     pub subEmitterDeath: Option<PPtr>,
-    /// PPtr<ParticleSystem>: (4.0.0 - 5.4.6f3)
+    /// PPtr<[`ParticleSystem`]>: (4.0.0 - 5.4.6f3)
     pub subEmitterDeath1: Option<PPtr>,
     /// Vec<SubEmitterData>: (5.5.0f3 - 2022.3.2f1)
     pub subEmitters: Option<Vec<SubEmitterData>>,
@@ -15405,7 +15405,7 @@ pub struct SubstanceImporter {
     pub m_AssetBundleVariant: Option<String>,
     /// Vec<String>: (3.5.2 - 2017.4.40f1)
     pub m_DeletedPrototypes: Option<Vec<String>>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
@@ -15456,7 +15456,7 @@ pub struct SubstanceInput {
 /// SubstanceValue is a sub class of the Unity engine since version 3.4.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SubstanceValue {
-    /// PPtr<Texture2D>: (3.4.0 - 2017.4.40f1)
+    /// PPtr<[`Texture2D`]>: (3.4.0 - 2017.4.40f1)
     pub texture: PPtr,
     /// f32: (3.4.0 - 2017.4.40f1)
     #[serde(alias = "scalar[0]")]
@@ -15487,7 +15487,7 @@ pub struct SurfaceEffector2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The speed to be maintained along the surface.*/
     pub m_Speed: f32,
@@ -15628,7 +15628,7 @@ pub struct TakeInfo {
     pub bakeStartTime: f32,
     /**Stop time in second.*/
     pub bakeStopTime: f32,
-    /// PPtr<AnimationClip>: (4.0.0 - 2022.3.2f1)
+    /// PPtr<[`AnimationClip`]>: (4.0.0 - 2022.3.2f1)
     pub clip: PPtr,
     /**This is the default clip name for the clip generated for this take.*/
     pub defaultClipName: String,
@@ -15660,7 +15660,7 @@ pub struct TargetJoint2D {
     pub m_BreakForce: f32,
     /**The torque that needs to be applied for this joint to break.*/
     pub m_BreakTorque: f32,
-    /// PPtr<Rigidbody2D>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**The amount by which the target spring force is reduced in proportion to the movement speed.*/
     pub m_DampingRatio: f32,
@@ -15671,7 +15671,7 @@ pub struct TargetJoint2D {
     /**The frequency at which the target spring oscillates around the target position.*/
     pub m_Frequency: f32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.3.0f1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.3.0f1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The maximum force that can be generated when trying to maintain the target joint constraint.*/
     pub m_MaxForce: f32,
@@ -15704,7 +15704,7 @@ pub struct Terrain {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Lets you essentially lower the heightmap resolution used for rendering.*/
     pub m_HeightmapMaximumLOD: i32,
@@ -15716,13 +15716,13 @@ pub struct Terrain {
     pub m_LightmapTilingOffset: Vector4f,
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     /**The custom material Unity uses to render the Terrain.*/
-    /// PPtr<Material>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Material`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_MaterialTemplate: PPtr,
     /**How reflection probes are used for terrain. See ReflectionProbeUsage.*/
     pub m_ReflectionProbeUsage: i32,
     pub m_SplatMapDistance: f32,
     /**The Terrain Data that stores heightmaps, terrain textures, detail meshes and trees.*/
-    /// PPtr<TerrainData>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`TerrainData`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_TerrainData: PPtr,
     /**Distance from the camera where trees will be rendered as billboards only.*/
     pub m_TreeBillboardDistance: f32,
@@ -15787,10 +15787,10 @@ pub struct TerrainCollider {
     /**Enabled Colliders will collide with other Colliders, disabled Colliders won't.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The terrain that stores the heightmap.*/
-    /// PPtr<TerrainData>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`TerrainData`]>: (3.4.0 - 2022.3.2f1)
     pub m_TerrainData: PPtr,
     /// bool: (3.4.0 - 4.7.2)
     pub m_CreateTreeColliders: Option<bool>,
@@ -15809,7 +15809,7 @@ pub struct TerrainCollider {
     /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_LayerOverridePriority: Option<i32>,
     /**The material used by the collider.*/
-    /// PPtr<PhysicMaterial>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`PhysicMaterial`]>: (3.4.0 - 2022.3.2f1)
     pub m_Material: Option<PPtr>,
     /**Whether or not this Collider generates contacts for Physics.ContactEvent.*/
     /// bool: (2022.2.0b1 - 2022.3.2f1)
@@ -15829,7 +15829,7 @@ pub struct TerrainData {
     /**The name of the object.*/
     pub m_Name: String,
     pub m_SplatDatabase: SplatDatabase,
-    /// Vec<PPtr<Shader>>: (2018.4.14f1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Shader`]>>: (2018.4.14f1 - 2022.3.2f1)
     pub m_PreloadShaders: Option<Vec<PPtr>>,
 }
 
@@ -15845,21 +15845,21 @@ pub struct TerrainLayer {
     /**A Vector4 value specifying the minimum RGBA value that the diffuse texture maps to when the value of the channel is 0.*/
     pub m_DiffuseRemapMin: Vector4f,
     /**The diffuse texture used by the terrain layer.*/
-    /// PPtr<Texture2D>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_DiffuseTexture: PPtr,
     /**A Vector4 value specifying the maximum RGBA value that the mask map texture maps to when the value of the channel is 1.*/
     pub m_MaskMapRemapMax: Vector4f,
     /**A Vector4 value specifying the minimum RGBA value that the mask map texture maps to when the value of the channel is 0.*/
     pub m_MaskMapRemapMin: Vector4f,
     /**The mask map texture used by the terrain layer.*/
-    /// PPtr<Texture2D>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_MaskMapTexture: PPtr,
     /**Metallic factor used by the terrain layer.*/
     pub m_Metallic: f32,
     /**The name of the object.*/
     pub m_Name: String,
     /**Normal map texture used by the terrain layer.*/
-    /// PPtr<Texture2D>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`Texture2D`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_NormalMapTexture: PPtr,
     /**A float value that scales the normal vector. The minimum value is 0, the maximum value is 1.*/
     pub m_NormalScale: f32,
@@ -15987,14 +15987,14 @@ pub struct TextMesh {
     /**The size of each character (This scales the whole text).*/
     pub m_CharacterSize: f32,
     /**The Font used.*/
-    /// PPtr<Font>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Font`]>: (3.4.0 - 2022.3.2f1)
     pub m_Font: PPtr,
     /**The font size to use (for dynamic fonts).*/
     pub m_FontSize: i32,
     /**The font style to use (for dynamic fonts).*/
     pub m_FontStyle: i32,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**How much space will be in-between lines of text.*/
     pub m_LineSpacing: f32,
@@ -16021,7 +16021,7 @@ pub struct TextScriptImporter {
     pub m_AssetBundleName: Option<String>,
     /// String: (5.0.0f4 - 2022.3.2f1)
     pub m_AssetBundleVariant: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<i64>: (2019.1.0b1 - 2022.3.2f1)
     pub m_UsedFileIDs: Option<Vec<i64>>,
@@ -16317,7 +16317,7 @@ pub struct TextureImporter {
     pub m_CubemapConvolutionExponent: Option<f32>,
     /// i32: (5.0.0f4 - 5.4.6f3)
     pub m_CubemapConvolutionSteps: Option<i32>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /// Vec<(i32, String)>: (3.4.0 - 4.7.2); Vec<(i64, String)>: (5.0.0f4 - 2018.4.36f1)
     pub m_FileIDToRecycleName: Option<Vec<(i64, String)>>,
@@ -16359,7 +16359,7 @@ pub struct TextureImporter {
     /// bool: (2018.2.1f1 - 2022.1.0a12)
     pub m_PSDShowRemoveMatteOption: Option<bool>,
     /// Vec<PlatformSettings>: (5.5.0f3 - 2017.2.5f1); Vec<TextureImporterPlatformSettings>: (2017.3.0b1 - 2022.3.2f1)
-    pub m_PlatformSettings: Option<Vec<Enum_TextureImporterPlatformSettings__PlatformSettings>>,
+    pub m_PlatformSettings: Option<Vec<Enum_PlatformSettings__TextureImporterPlatformSettings>>,
     /// i32: (2018.2.0b2 - 2018.2.0b2)
     pub m_PushPullDilation: Option<i32>,
     /// i32: (5.0.0f4 - 5.4.6f3)
@@ -16429,9 +16429,9 @@ pub enum Enum_i32__bool {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Enum_TextureImporterPlatformSettings__PlatformSettings {
-    TextureImporterPlatformSettings(TextureImporterPlatformSettings),
+pub enum Enum_PlatformSettings__TextureImporterPlatformSettings {
     PlatformSettings(PlatformSettings),
+    TextureImporterPlatformSettings(TextureImporterPlatformSettings),
 }
 
 /// TextureImporterPlatformSettings is a sub class of the Unity engine since version 2017.3.0b1.
@@ -16536,7 +16536,7 @@ pub struct Tile {
     pub m_AllTileFlags: Option<u32>,
     /// i32: (2017.2.0b2 - 2019.3.0a11)
     pub m_ColliderType: Option<i32>,
-    /// PPtr<GameObject>: (2017.2.0b2 - 2019.3.0a11)
+    /// PPtr<[`GameObject`]>: (2017.2.0b2 - 2019.3.0a11)
     pub m_ObjectToInstantiate: Option<PPtr>,
     /// u32: (2017.2.0b2 - 2017.2.0b6); i32: (2017.2.0f2 - 2019.3.0a11)
     pub m_TileFlags: Option<i64>,
@@ -16552,7 +16552,7 @@ A Struct for the required data for animating a Tile.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TileAnimationData {
     /**The array of sprites that are ordered by appearance in the animation.*/
-    /// Vec<PPtr<Sprite>>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<PPtr<[`Sprite`]>>: (2017.2.0b2 - 2022.3.2f1)
     pub m_AnimatedSprites: Vec<PPtr>,
     /**The animation speed.*/
     pub m_AnimationSpeed: f32,
@@ -16579,7 +16579,7 @@ pub struct Tilemap {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The origin of the Tilemap in cell position.*/
     pub m_Origin: int3_storage,
@@ -16611,11 +16611,11 @@ pub struct TilemapCollider2D {
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Is this collider configured as a trigger?*/
     pub m_IsTrigger: bool,
-    /// PPtr<PhysicsMaterial2D>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`PhysicsMaterial2D`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_Material: PPtr,
     /**The local offset of the collider geometry.*/
     pub m_Offset: Vector2f,
@@ -16659,14 +16659,14 @@ pub struct TilemapCollider2D {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TilemapEditorUserSettings {
     pub m_FocusMode: i32,
-    /// PPtr<GameObject>: (2017.2.0b2 - 2019.2.0a6)
+    /// PPtr<[`GameObject`]>: (2017.2.0b2 - 2019.2.0a6)
     pub m_LastUsedPalette: PPtr,
 }
 
 /// TilemapRefCountedData is a sub class of the Unity engine since version 2017.2.0b2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TilemapRefCountedData {
-    /// PPtr<Object>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`Object`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_Data: PPtr,
     pub m_RefCount: u32,
 }
@@ -16686,11 +16686,11 @@ pub struct TilemapRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The light probe interpolation type.*/
     pub m_LightProbeUsage: u8,
-    /// PPtr<GameObject>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
@@ -16700,7 +16700,7 @@ pub struct TilemapRenderer {
     /**Specifies how the Tilemap interacts with the masks.*/
     pub m_MaskInteraction: i32,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (2017.2.0b2 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     /**Maximum number of chunks the TilemapRenderer caches in memory.*/
     pub m_MaxChunkCount: u32,
@@ -16708,7 +16708,7 @@ pub struct TilemapRenderer {
     pub m_MaxFrameAge: u32,
     pub m_MotionVectors: u8,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ProbeAnchor: PPtr,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: u8,
@@ -16722,7 +16722,7 @@ pub struct TilemapRenderer {
     /**Renderer's order within a sorting layer.*/
     pub m_SortingOrder: i16,
     pub m_StaticBatchInfo: StaticBatchInfo,
-    /// PPtr<Transform>: (2017.2.0b2 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2017.2.0b2 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /**Bounds used for culling of Tilemap chunks.*/
     /// Vector3f: (2017.4.33f1 - 2022.3.2f1)
@@ -16835,19 +16835,19 @@ pub struct TrailRenderer {
     /**Makes the rendered 3D object visible if enabled.*/
     pub m_Enabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The index of the baked lightmap applied to this renderer.*/
     pub m_LightmapIndex: u16,
     pub m_LightmapTilingOffset: Vector4f,
     /**Returns all the instantiated materials of this object.*/
-    /// Vec<PPtr<Material>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Material`]>>: (3.4.0 - 2022.3.2f1)
     pub m_Materials: Vec<PPtr>,
     /**Set the minimum distance the trail can travel before a new vertex is added to it.*/
     pub m_MinVertexDistance: f32,
     /**Does this object receive shadows?*/
     pub m_ReceiveShadows: Enum_bool__u8,
-    /// PPtr<Transform>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.4.0 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
     /**How long does the trail take to fade out.*/
     pub m_Time: f32,
@@ -16863,12 +16863,12 @@ pub struct TrailRenderer {
     /**The width of the trail at the end of the trail.*/
     /// f32: (3.4.0 - 5.4.6f3)
     pub m_EndWidth: Option<f32>,
-    /// PPtr<Transform>: (3.5.0 - 4.7.2)
+    /// PPtr<[`Transform`]>: (3.5.0 - 4.7.2)
     pub m_LightProbeAnchor: Option<PPtr>,
     /**The light probe interpolation type.*/
     /// u8: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeUsage: Option<u8>,
-    /// PPtr<GameObject>: (5.4.0f3 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.4.0f3 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: Option<PPtr>,
     /// u16: (5.0.0f4 - 2022.3.2f1)
     pub m_LightmapIndexDynamic: Option<u16>,
@@ -16882,7 +16882,7 @@ pub struct TrailRenderer {
     /// LineParameters: (5.5.0f3 - 2022.3.2f1)
     pub m_Parameters: Option<LineParameters>,
     /**If set, Renderer will use this Transform's position to find the light or reflection probe.*/
-    /// PPtr<Transform>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_ProbeAnchor: Option<PPtr>,
     /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
@@ -16935,12 +16935,12 @@ See Also: The component reference, Physics class.
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Transform {
-    /// Vec<PPtr<Transform>>: (3.4.0 - 2022.3.2f1)
+    /// Vec<PPtr<[`Transform`]>>: (3.4.0 - 2022.3.2f1)
     pub m_Children: Vec<PPtr>,
-    /// PPtr<Transform>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (3.4.0 - 2022.3.2f1)
     pub m_Father: PPtr,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Position of the transform relative to the parent transform.*/
     pub m_LocalPosition: Vector3f,
@@ -16962,12 +16962,12 @@ pub struct TransformMaskElement {
 pub struct Transition {
     pub m_Atomic: bool,
     pub m_Conditions: Vec<Condition>,
-    /// PPtr<State>: (4.0.0 - 4.7.2)
+    /// PPtr<[`State`]>: (4.0.0 - 4.7.2)
     pub m_DstState: PPtr,
     pub m_Mute: bool,
     pub m_Name: String,
     pub m_Solo: bool,
-    /// PPtr<State>: (4.0.0 - 4.7.2)
+    /// PPtr<[`State`]>: (4.0.0 - 4.7.2)
     pub m_SrcState: PPtr,
     pub m_TransitionDuration: f32,
     pub m_TransitionOffset: f32,
@@ -16983,9 +16983,9 @@ Tree Component for the tree creator.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Tree {
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
-    /// PPtr<SpeedTreeWindAsset>: (5.0.0f4 - 2022.3.2f1)
+    /// PPtr<[`SpeedTreeWindAsset`]>: (5.0.0f4 - 2022.3.2f1)
     pub m_SpeedTreeWindAsset: Option<PPtr>,
 }
 
@@ -17024,7 +17024,7 @@ pub struct TreePrototype {
     /**Bend factor of the tree prototype.*/
     pub bendFactor: f32,
     /**Retrieves the actual GameObject used by the tree.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub prefab: PPtr,
     /**The LOD index of a Tree LODGroup that Unity uses to generate a NavMesh. It uses this value only for Trees with a LODGroup, and ignores this value for regular Trees.*/
     /// i32: (2020.2.0b1 - 2022.3.2f1)
@@ -17054,19 +17054,19 @@ pub struct TriggerModule {
     /**Determines whether collider information is available when calling [[ParticleSystem::GetTriggerParticles]].*/
     /// i32: (2020.2.0b1 - 2022.3.2f1)
     pub colliderQueryMode: Option<i32>,
-    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    /// PPtr<[`Component`]>: (5.4.0f3 - 2020.2.0a13)
     pub collisionShape0: Option<PPtr>,
-    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    /// PPtr<[`Component`]>: (5.4.0f3 - 2020.2.0a13)
     pub collisionShape1: Option<PPtr>,
-    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    /// PPtr<[`Component`]>: (5.4.0f3 - 2020.2.0a13)
     pub collisionShape2: Option<PPtr>,
-    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    /// PPtr<[`Component`]>: (5.4.0f3 - 2020.2.0a13)
     pub collisionShape3: Option<PPtr>,
-    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    /// PPtr<[`Component`]>: (5.4.0f3 - 2020.2.0a13)
     pub collisionShape4: Option<PPtr>,
-    /// PPtr<Component>: (5.4.0f3 - 2020.2.0a13)
+    /// PPtr<[`Component`]>: (5.4.0f3 - 2020.2.0a13)
     pub collisionShape5: Option<PPtr>,
-    /// Vec<PPtr<Component>>: (2020.2.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Component`]>>: (2020.2.0b1 - 2022.3.2f1)
     pub primitives: Option<Vec<PPtr>>,
 }
 
@@ -17104,9 +17104,9 @@ pub struct TrueTypeFontImporter {
     /**A custom set of characters to be included in the Font Texture.*/
     /// String: (3.5.0 - 2022.3.2f1)
     pub m_CustomCharacters: Option<String>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
-    /// Vec<PPtr<Font>>: (5.2.0f2 - 2022.3.2f1)
+    /// Vec<PPtr<[`Font`]>>: (5.2.0f2 - 2022.3.2f1)
     pub m_FallbackFontReferences: Option<Vec<PPtr>>,
     /// Vec<(i32, String)>: (3.4.0 - 3.4.2)
     pub m_FileIDToRecycleName: Option<Vec<(i32, String)>>,
@@ -17152,7 +17152,7 @@ pub struct UAVParameter {
 /// UIRenderer is a  class of the Unity engine since version 4.5.0.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct UIRenderer {
-    /// PPtr<GameObject>: (4.5.0 - 4.5.5)
+    /// PPtr<[`GameObject`]>: (4.5.0 - 4.5.5)
     pub m_GameObject: PPtr,
 }
 
@@ -17304,7 +17304,7 @@ pub struct UnityPurchasingSettings {
 pub struct UnityTexEnv {
     pub m_Offset: Vector2f,
     pub m_Scale: Vector2f,
-    /// PPtr<Texture>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`Texture`]>: (3.4.0 - 2022.3.2f1)
     pub m_Texture: PPtr,
 }
 
@@ -17352,7 +17352,7 @@ pub struct VFXEditorSystemDesc {
 pub struct VFXEditorTaskDesc {
     pub buffers: Vec<VFXMapping>,
     pub params: Vec<VFXMapping>,
-    /// PPtr<NamedObject>: (2018.3.0f2 - 2020.1.0a12)
+    /// PPtr<[`NamedObject`]>: (2018.3.0f2 - 2020.1.0a12)
     pub processor: PPtr,
     pub shaderSourceIndex: i32,
     pub values: Vec<VFXMapping>,
@@ -17445,14 +17445,14 @@ Use this class to set a number of properties that control VisualEffect behavior 
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VFXManager {
-    /// PPtr<ComputeShader>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`ComputeShader`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_CopyBufferShader: PPtr,
     pub m_FixedTimeStep: f32,
-    /// PPtr<ComputeShader>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`ComputeShader`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_IndirectShader: PPtr,
     pub m_MaxDeltaTime: f32,
     pub m_RenderPipeSettingsPath: String,
-    /// PPtr<ComputeShader>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`ComputeShader`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_SortShader: PPtr,
     /// u32: (2022.2.0f1 - 2022.3.2f1)
     pub m_BatchEmptyLifetime: Option<u32>,
@@ -17460,11 +17460,11 @@ pub struct VFXManager {
     pub m_CompiledVersion: Option<u32>,
     /// f32: (2022.1.0b1 - 2022.3.2f1)
     pub m_MaxScrubTime: Option<f32>,
-    /// PPtr<MonoBehaviour>: (2021.2.0b1 - 2022.3.2f1)
+    /// PPtr<[`MonoBehaviour`]>: (2021.2.0b1 - 2022.3.2f1)
     pub m_RuntimeResources: Option<PPtr>,
     /// u32: (2020.1.0b1 - 2022.3.2f1)
     pub m_RuntimeVersion: Option<u32>,
-    /// PPtr<ComputeShader>: (2019.3.0b1 - 2022.3.2f1)
+    /// PPtr<[`ComputeShader`]>: (2019.3.0b1 - 2022.3.2f1)
     pub m_StripUpdateShader: Option<PPtr>,
 }
 
@@ -17505,17 +17505,17 @@ pub struct VFXRenderer {
     pub m_CastShadows: u8,
     pub m_DynamicOccludee: u8,
     pub m_Enabled: bool,
-    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_LightProbeUsage: u8,
-    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_LightProbeVolumeOverride: PPtr,
     pub m_LightmapIndex: u16,
     pub m_LightmapIndexDynamic: u16,
     pub m_LightmapTilingOffset: Vector4f,
     pub m_LightmapTilingOffsetDynamic: Vector4f,
     pub m_MotionVectors: u8,
-    /// PPtr<Transform>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_ProbeAnchor: PPtr,
     pub m_ReceiveShadows: u8,
     pub m_ReflectionProbeUsage: u8,
@@ -17525,9 +17525,9 @@ pub struct VFXRenderer {
     pub m_SortingLayerID: i32,
     pub m_SortingOrder: i16,
     pub m_StaticBatchInfo: StaticBatchInfo,
-    /// PPtr<Transform>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`Transform`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_StaticBatchRoot: PPtr,
-    /// Vec<PPtr<Material>>: (2018.3.0f2 - 2021.1.28f1)
+    /// Vec<PPtr<[`Material`]>>: (2018.3.0f2 - 2021.1.28f1)
     pub m_Materials: Option<Vec<PPtr>>,
     /// u8: (2020.1.0b1 - 2022.3.2f1)
     pub m_RayTraceProcedural: Option<u8>,
@@ -17576,7 +17576,7 @@ pub struct VFXSystemDesc {
 pub struct VFXTaskDesc {
     pub buffers: Vec<VFXMapping>,
     pub params: Vec<VFXMapping>,
-    /// PPtr<NamedObject>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`NamedObject`]>: (2018.3.0f2 - 2022.3.2f1)
     pub processor: PPtr,
     pub values: Vec<VFXMapping>,
     /// i32: (2018.3.0f2 - 2022.3.2f1)
@@ -17785,7 +17785,7 @@ pub struct VideoClip {
     pub m_PixelAspecRatioDen: Option<u32>,
     /// u32: (2017.2.0b2 - 2022.3.2f1)
     pub m_PixelAspecRatioNum: Option<u32>,
-    /// Vec<PPtr<Shader>>: (2020.1.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Shader`]>>: (2020.1.0b1 - 2022.3.2f1)
     pub m_VideoShaders: Option<Vec<PPtr>>,
     /**Whether the imported clip contains sRGB color data (Read Only).*/
     /// bool: (2019.2.0b1 - 2022.3.2f1)
@@ -17822,7 +17822,7 @@ pub struct VideoClipImporter {
     pub m_UserData: String,
     /// i32: (5.6.0b1 - 5.6.0b2)
     pub m_AudioImportMode: Option<i32>,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2017.2.0b2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2017.2.0b2 - 2022.3.2f1)
     pub m_ExternalObjects: Option<Vec<(SourceAssetIdentifier, PPtr)>>,
     /**Number of frames in the clip.*/
     /// i32: (5.6.0b1 - 2017.2.1f1)
@@ -17942,7 +17942,7 @@ pub struct VideoPlayer {
     pub m_EnabledAudioTracks: Vec<bool>,
     pub m_FrameReadyEventEnabled: bool,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_Looping: bool,
     /**Whether the content will start playing back as soon as the component awakes.*/
@@ -17953,24 +17953,24 @@ pub struct VideoPlayer {
     pub m_RenderMode: i32,
     /**Whether the VideoPlayer is allowed to skip frames to catch up with current time.*/
     pub m_SkipOnDrop: bool,
-    /// Vec<PPtr<AudioSource>>: (5.6.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`AudioSource`]>>: (5.6.0b1 - 2022.3.2f1)
     pub m_TargetAudioSources: Vec<PPtr>,
     /**Camera component to draw to when VideoPlayer.renderMode is set to either VideoRenderMode.CameraFarPlane or VideoRenderMode.CameraNearPlane.*/
-    /// PPtr<Camera>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`Camera`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_TargetCamera: PPtr,
     /**Overall transparency level of the target camera plane video.*/
     pub m_TargetCameraAlpha: f32,
     /**Material texture property which is targeted when VideoPlayer.renderMode is set to Video.VideoTarget.MaterialOverride.*/
     pub m_TargetMaterialProperty: String,
     /**Renderer which is targeted when VideoPlayer.renderMode is set to Video.VideoTarget.MaterialOverride*/
-    /// PPtr<Renderer>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`Renderer`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_TargetMaterialRenderer: PPtr,
     /**RenderTexture to draw to when VideoPlayer.renderMode is set to Video.VideoTarget.RenderTexture.*/
-    /// PPtr<RenderTexture>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`RenderTexture`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_TargetTexture: PPtr,
     /**The file or HTTP URL that the VideoPlayer reads content from.*/
     pub m_Url: String,
-    /// PPtr<VideoClip>: (5.6.0b1 - 2022.3.2f1)
+    /// PPtr<[`VideoClip`]>: (5.6.0b1 - 2022.3.2f1)
     pub m_VideoClip: PPtr,
     /**Determines whether the VideoPlayer will wait for the first frame to be loaded into the texture before starting playback when VideoPlayer.playOnAwake is on.*/
     pub m_WaitForFirstFrame: bool,
@@ -17985,7 +17985,7 @@ pub struct VideoPlayer {
     /**The clock source used by the VideoPlayer to derive its current time.*/
     /// i32: (2022.2.0b1 - 2022.3.2f1)
     pub m_TimeUpdateMode: Option<i32>,
-    /// Vec<PPtr<Shader>>: (2020.1.0b1 - 2022.3.2f1)
+    /// Vec<PPtr<[`Shader`]>>: (2020.1.0b1 - 2022.3.2f1)
     pub m_VideoShaders: Option<Vec<PPtr>>,
 }
 
@@ -17996,12 +17996,12 @@ The visual effect class that references an VisualEffectAsset instance within the
 */
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffect {
-    /// PPtr<VisualEffectAsset>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`VisualEffectAsset`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_Asset: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     pub m_PropertySheet: VFXPropertySheetSerializedBase,
     /**This property controls whether the visual effect generates a new seed for the random number generator with each call to VisualEffect.Play function.*/
@@ -18036,7 +18036,7 @@ pub struct VisualEffectAsset {
 pub struct VisualEffectImporter {
     pub m_AssetBundleName: String,
     pub m_AssetBundleVariant: String,
-    /// Vec<(SourceAssetIdentifier, PPtr<Object>)>: (2018.3.0f2 - 2022.3.2f1)
+    /// Vec<(SourceAssetIdentifier, PPtr<[`Object`]>)>: (2018.3.0f2 - 2022.3.2f1)
     pub m_ExternalObjects: Vec<(SourceAssetIdentifier, PPtr)>,
     pub m_Name: String,
     pub m_UserData: String,
@@ -18079,7 +18079,7 @@ pub struct VisualEffectInfo {
 /// VisualEffectResource is a  class of the Unity engine since version 2018.3.0f2.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct VisualEffectResource {
-    /// PPtr<MonoBehaviour>: (2018.3.0f2 - 2022.3.2f1)
+    /// PPtr<[`MonoBehaviour`]>: (2018.3.0f2 - 2022.3.2f1)
     pub m_Graph: PPtr,
     pub m_Infos: Enum_VisualEffectInfo__VisualEffectSettings,
     pub m_Name: String,
@@ -18152,7 +18152,7 @@ pub struct WheelCollider {
     /**Properties of tire friction in the direction the wheel is pointing in.*/
     pub m_ForwardFriction: WheelFrictionCurve,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**The mass of the wheel, expressed in kilograms. Must be larger than zero. Typical values would be in range (20,80).*/
     pub m_Mass: f32,
@@ -18252,12 +18252,12 @@ pub struct WheelJoint2D {
     pub m_Anchor: Vector2f,
     /**The joint's anchor point on the second object (ie, the one which doesn't have the joint component).*/
     pub m_ConnectedAnchor: Vector2f,
-    /// PPtr<Rigidbody2D>: (4.5.0 - 2022.3.2f1)
+    /// PPtr<[`Rigidbody2D`]>: (4.5.0 - 2022.3.2f1)
     pub m_ConnectedRigidBody: PPtr,
     /**Enabled Behaviours are Updated, disabled Behaviours are not.*/
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (4.5.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (4.5.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Parameters for a motor force that is applied automatically to the Rigibody2D along the line.*/
     pub m_Motor: JointMotor2D,
@@ -18294,7 +18294,7 @@ Note: This only works with trees created by the tree creator or imported from Sp
 pub struct WindZone {
     pub m_Enabled: u8,
     /**The game object this component is attached to. A component is always attached to a game object.*/
-    /// PPtr<GameObject>: (3.4.0 - 2022.3.2f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2022.3.2f1)
     pub m_GameObject: PPtr,
     /**Defines the type of wind zone to be used (Spherical or Directional).*/
     pub m_Mode: i32,
@@ -18313,7 +18313,7 @@ pub struct WindZone {
 /// WorldAnchor is a  class of the Unity engine since version 5.5.0f3.
 #[derive(Debug, Serialize, Deserialize)]
 pub struct WorldAnchor {
-    /// PPtr<GameObject>: (5.5.0f3 - 2020.2.0a15)
+    /// PPtr<[`GameObject`]>: (5.5.0f3 - 2020.2.0a15)
     pub m_GameObject: PPtr,
 }
 
@@ -18323,7 +18323,7 @@ pub struct WorldParticleCollider {
     pub m_BounceFactor: f32,
     pub m_CollidesWith: BitField,
     pub m_CollisionEnergyLoss: f32,
-    /// PPtr<GameObject>: (3.4.0 - 2018.2.21f1)
+    /// PPtr<[`GameObject`]>: (3.4.0 - 2018.2.21f1)
     pub m_GameObject: PPtr,
     pub m_MinKillVelocity: f32,
     pub m_SendCollisionMessage: bool,

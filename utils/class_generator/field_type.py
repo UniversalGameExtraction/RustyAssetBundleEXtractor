@@ -48,7 +48,7 @@ class PPtrTyp(Typ):
         return "PPtr"
 
     def doc_str(self) -> str:
-        return f"PPtr<{self.value}>"
+        return f"PPtr<[`{self.value}`]>"
 
     @staticmethod
     def find_common_superior(*types: PPtrTyp) -> Typ:
