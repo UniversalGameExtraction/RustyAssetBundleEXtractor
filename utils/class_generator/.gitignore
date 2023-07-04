@@ -1,0 +1,8 @@
+/__pycache__
+/.vscode
+/dev
+/script_reference_cache
+/TypeTreeDumps
+
+metadata.json
+classes.rs
