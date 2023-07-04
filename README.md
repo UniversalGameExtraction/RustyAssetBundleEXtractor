@@ -1,9 +1,16 @@
-# UnityRustEXtractor [![Build Status]][actions] [![Latest Version]][crates.io]
+# UnityRustEXtractor [![Build Status]][actions] [![Latest Version]][crates.io] [![Docs]][docs.rs] [![License_MIT]][license_mit] [![License_APACHE]][license_apache] 
 
 [Build Status]: https://img.shields.io/github/actions/workflow/status/UnityRustEXtractor/urex/ci.yml?branch=main
 [actions]: https://github.com/UnityRustEXtractor/urex/actions?query=branch%3Amain
 [Latest Version]: https://img.shields.io/crates/v/urex.svg
 [crates.io]: https://crates.io/crates/urex
+[Docs]: https://docs.rs/urex/badge.svg
+[docs.rs]: https://docs.rs/crate/urex/
+[License_MIT]: https://img.shields.io/badge/License-MIT-yellow.svg
+[license_mit]: https://raw.githubusercontent.com/UnityRustEXtractor/urex/main/LICENSE-MIT
+[License_APACHE]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+[license_apache]: https://raw.githubusercontent.com/UnityRustEXtractor/urex/main/LICENSE-APACHE
+
 
 A work-in-progress extractor and patcher for Unity Engine asset files.
 Currently it can do about nothing, so please check back later.
@@ -141,32 +148,32 @@ let bundle = crate::files::BundleFile::from_reader(&mut reader, &config).unwrap(
 
 - Parsers:
 
-  - [] WebFile
+  - [ ] WebFile
   - [x] SerializedFile
 
 - Object Classes:
 
-  - [] Generator
+  - [x] Generator
   - [x] Parser
-  - [] Writer
-  - [] Export Functions
+  - [ ] Writer
+  - [ ] Export Functions
 
 - Tests:
 
-  - [] Normal Tests
-  - [] Artificing Test Files
-  - [] 100% Coverage
+  - [ ] Normal Tests
+  - [ ] Artificing Test Files
+  - [ ] 100% Coverage
 
 - Other:
-  - [] feature config
+  - [ ] feature config
 
 ## Getting Help
 
 TODO:
 
-- [] Docs
-- [] GitHub Issues and Discussion
-- [] Discord server
+- [ ] Docs
+- [ ] GitHub Issues and Discussion
+- [ ] Discord server
 
 ## Contributing
 
