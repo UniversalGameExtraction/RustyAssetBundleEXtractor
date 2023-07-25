@@ -1,15 +1,15 @@
-# UnityRustEXtractor [![Build Status]][actions] [![Latest Version]][crates.io] [![Docs]][docs.rs] [![License_MIT]][license_mit] [![License_APACHE]][license_apache] 
+# RustyAssetBundleEXtractor (rabex) [![Build Status]][actions] [![Latest Version]][crates.io] [![Docs]][docs.rs] [![License_MIT]][license_mit] [![License_APACHE]][license_apache] 
 
-[Build Status]: https://img.shields.io/github/actions/workflow/status/UnityRustEXtractor/urex/ci.yml?branch=main
-[actions]: https://github.com/UnityRustEXtractor/urex/actions?query=branch%3Amain
-[Latest Version]: https://img.shields.io/crates/v/urex.svg
-[crates.io]: https://crates.io/crates/urex
-[Docs]: https://docs.rs/urex/badge.svg
-[docs.rs]: https://docs.rs/crate/urex/
+[Build Status]: https://img.shields.io/github/actions/workflow/status/UniversalGameExtraction/RustyAssetBundleEXtractor/ci.yml?branch=main
+[actions]: https://github.com/UniversalGameExtraction/RustyAssetBundleEXtractor/actions?query=branch%3Amain
+[Latest Version]: https://img.shields.io/crates/v/RustyAssetBundleEXtractor.svg
+[crates.io]: https://crates.io/crates/rabex
+[Docs]: https://docs.rs/rabex/badge.svg
+[docs.rs]: https://docs.rs/crate/rabex/
 [License_MIT]: https://img.shields.io/badge/License-MIT-yellow.svg
-[license_mit]: https://raw.githubusercontent.com/UnityRustEXtractor/urex/main/LICENSE-MIT
+[license_mit]: https://raw.githubusercontent.com/UniversalGameExtraction/RustyAssetBundleEXtractor/main/LICENSE-MIT
 [License_APACHE]: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-[license_apache]: https://raw.githubusercontent.com/UnityRustEXtractor/urex/main/LICENSE-APACHE
+[license_apache]: https://raw.githubusercontent.com/UniversalGameExtraction/RustyAssetBundleEXtractor/main/LICENSE-APACHE
 
 
 A work-in-progress extractor and patcher for Unity Engine asset files.
@@ -43,8 +43,8 @@ use std::{
     path::Path,
 };
 
-use urex::files::{BundleFile, SerializedFile};
-use urex::config::ExtractionConfig;
+use rabex::files::{BundleFile, SerializedFile};
+use rabex::config::ExtractionConfig;
 
 let mut reader = File::open(fp).unwrap();
 let export_dir = Path::new("dump");
@@ -110,9 +110,9 @@ for directory in &bundle.m_DirectoryInfo {
 
                 // serialize as actual class
                 // note: a small part of the object classes isn't implemented yet
-                if object.m_ClassID == urex::objects::map::AssetBundle {
+                if object.m_ClassID == rabex::objects::map::AssetBundle {
                     let ab = handler
-                        .parse::<urex::objects::classes::AssetBundle>()
+                        .parse::<rabex::objects::classes::AssetBundle>()
                         .unwrap();
                     println!("{:?}", ab);
                 }
@@ -148,8 +148,9 @@ let bundle = crate::files::BundleFile::from_reader(&mut reader, &config).unwrap(
 
 - Parsers:
 
-  - [ ] WebFile
   - [x] SerializedFile
+  - [x] BundleFile
+  - [ ] WebFile
 
 - Object Classes:
 
@@ -181,7 +182,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-UnityRustEXtractor is primarily distributed under the terms of both the MIT license and the
+RustyAssetBundleEXtractor is primarily distributed under the terms of both the MIT license and the
 Apache License (Version 2.0).
 
 See [LICENSE-APACHE](LICENSE-APACHE), [LICENSE-MIT](LICENSE-MIT), and

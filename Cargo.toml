@@ -1,5 +1,5 @@
 [package]
-name = "urex"
+name = "rabex"
 version = "0.0.3"
 edition = "2021"
 include = [
@@ -12,11 +12,11 @@ include = [
 ]
 authors = ["Rudolf Kolbe <rkolbe96@gmail.com>"]
 description = "wip UnityRustExtractor and patcher"
-documentation = "https://docs.rs/urex"
-homepage = "https://crates.io/crates/urex"
+documentation = "https://docs.rs/rabes"
+homepage = "https://crates.io/crates/rabex"
 license = "MIT OR Apache-2.0"
 readme = "README.md"
-repository = "https://github.com/UnityRustEXtractor/urex"
+repository = "https://github.com/UniversalGameExtraction/RustyAssetBundleEXtractor"
 
 
 [dependencies]
