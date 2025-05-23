@@ -280,7 +280,7 @@ impl BundleFile {
         if use_new_archive_flags
             & (block_info.flags & ArchiveFlags::BLOCK_INFO_NEED_PADDING_AT_START.bits() > 0)
         {
-            block_info_reader.align(16)?;
+            reader.align(16)?;
         }
 
         let block_data: Vec<u8> = m_BlocksInfo
