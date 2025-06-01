@@ -11,7 +11,7 @@ impl PPtr {
         &'a self,
         asset: &'a crate::files::SerializedFile,
         reader: &'a mut R,
-    ) -> std::io::Result<crate::files::ObjectHandler<R>> {
+    ) -> std::io::Result<crate::files::ObjectHandler<'a, R>> {
         match asset.m_Objects.iter().find(|x| x.m_PathID == self.m_PathID) {
             Some(objectinfo) => Ok(asset.get_object_handler(objectinfo, reader)),
             None => Err(std::io::Error::new(

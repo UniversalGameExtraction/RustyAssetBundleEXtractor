@@ -467,11 +467,9 @@ impl TypeTreeNode {
             "UInt64" | "unsigned long long" | "FileSize" => {
                 rmp::encode::write_u64::<W>(writer, reader.read_u64::<B>().unwrap())
             }
-            "bool" => match rmp::encode::write_bool::<W>(writer, reader.read_bool().unwrap()){
+            "bool" => match rmp::encode::write_bool::<W>(writer, reader.read_bool().unwrap()) {
                 Ok(_) => Ok(()),
-                Err(e) => {
-                    Err(rmp::encode::ValueWriteError::InvalidDataWrite(e))
-                }
+                Err(e) => Err(rmp::encode::ValueWriteError::InvalidDataWrite(e)),
             },
             "float" => rmp::encode::write_f32::<W>(writer, reader.read_f32::<B>().unwrap()),
             "double" => rmp::encode::write_f64::<W>(writer, reader.read_f64::<B>().unwrap()),
@@ -499,8 +497,8 @@ impl TypeTreeNode {
                 rmp::encode::write_array_len(writer, size as u32).unwrap();
                 for _ in 0..size {
                     rmp::encode::write_array_len(writer, 2).unwrap();
-                    first._read_as_msgpack::<R,B,W>(reader, writer)?;
-                    second._read_as_msgpack::<R,B,W>(reader, writer)?;
+                    first._read_as_msgpack::<R, B, W>(reader, writer)?;
+                    second._read_as_msgpack::<R, B, W>(reader, writer)?;
                 }
                 Ok(())
             }
@@ -519,7 +517,7 @@ impl TypeTreeNode {
 
                     rmp::encode::write_array_len(writer, size as u32).unwrap();
                     for _ in 0..size {
-                        array_node._read_as_msgpack::<R,B,W>(reader, writer)?;
+                        array_node._read_as_msgpack::<R, B, W>(reader, writer)?;
                     }
                     Ok(())
                 } else {
@@ -527,7 +525,7 @@ impl TypeTreeNode {
                     rmp::encode::write_map_len(writer, self.children.len() as u32).unwrap();
                     for child in &self.children {
                         rmp::encode::write_str(writer, &child.m_Name).unwrap();
-                        child._read_as_msgpack::<R,B,W>(reader, writer)?;
+                        child._read_as_msgpack::<R, B, W>(reader, writer)?;
                     }
                     Ok(())
                 }

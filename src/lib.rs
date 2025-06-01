@@ -5,9 +5,9 @@ pub mod asset_manager;
 pub mod commonstring;
 pub mod config;
 pub mod files;
+pub mod objects;
 pub mod read_ext;
 pub mod typetree;
-pub mod objects;
 
 mod archive_storage_manager;
 // mod test;
