@@ -159,26 +159,26 @@ macro_rules! generate_read_as {
 
 #[derive(Debug, Clone)]
 pub struct TypeTreeNode {
-    m_Version: i32,
-    m_Level: u8,
-    m_TypeFlags: i32,
-    m_ByteSize: i32,
-    m_Index: Option<i32>,
-    m_MetaFlag: Option<i32>,
-    m_Type: String,
-    m_Name: String,
+    pub m_Version: i32,
+    pub m_Level: u8,
+    pub m_TypeFlags: i32,
+    pub m_ByteSize: i32,
+    pub m_Index: Option<i32>,
+    pub m_MetaFlag: Option<i32>,
+    pub m_Type: String,
+    pub m_Name: String,
     //unsigned short children_count,
     //struct TypeTreeNodeObject **children,
     // UnityFS
     // unsigned int m_TypeStrOffset,
     // unsigned int m_NameStrOffset,
     // UnityFS - version >= 19
-    m_RefTypeHash: Option<u64>,
+    pub m_RefTypeHash: Option<u64>,
     // UnityRaw - versin = 2
-    m_VariableCount: Option<i32>,
+    pub m_VariableCount: Option<i32>,
     // helper fields
     //typehash: u32,
-    children: Vec<TypeTreeNode>,
+    pub children: Vec<TypeTreeNode>,
 }
 impl TypeTreeNode {
     pub fn from_reader<R: std::io::Read + std::io::Seek, B: ByteOrder>(
@@ -538,5 +538,23 @@ impl TypeTreeNode {
             reader.align4()?;
         }
         Ok(())
+    }
+
+    pub fn dump(&self) -> String {
+        use std::fmt::Write;
+        pub fn dump_inner(tt: &TypeTreeNode, out: &mut String, indent: usize) {
+            for i in 0..indent {
+                out.push_str("  ");
+            }
+            let _ = writeln!(out, "{} {}", tt.m_Type, tt.m_Name);
+
+            for child in &tt.children {
+                dump_inner(child, out, indent + 1);
+            }
+        }
+
+        let mut out = String::new();
+        dump_inner(self, &mut out, 0);
+        out
     }
 }
