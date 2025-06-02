@@ -101,7 +101,7 @@ pub struct BundleFile {
     pub m_Header: BundleFileHeader,
     pub m_BlocksInfo: Vec<StorageBlock>,
     pub m_DirectoryInfo: Vec<FileEntry>,
-    pub m_BlockReader: Cursor<Vec<u8>>,
+    pub m_BlockData: Vec<u8>,
     _decryptor: Option<ArchiveStorageDecryptor>,
 }
 
@@ -114,11 +114,11 @@ impl BundleFile {
             m_Header: BundleFileHeader::from_reader(reader)?,
             m_BlocksInfo: Vec::new(),
             m_DirectoryInfo: Vec::new(),
-            m_BlockReader: Cursor::new(Vec::new()),
+            m_BlockData: Vec::new(),
             _decryptor: None,
         };
 
-        (bundle.m_DirectoryInfo, bundle.m_BlockReader) = match bundle.m_Header.signature.as_str() {
+        (bundle.m_DirectoryInfo, bundle.m_BlockData) = match bundle.m_Header.signature.as_str() {
             "UnityArchive" => {
                 panic!("UnityArchive is not supported");
             }
@@ -141,7 +141,7 @@ impl BundleFile {
         &mut self,
         reader: &mut T,
         config: &ExtractionConfig,
-    ) -> Result<(Vec<FileEntry>, Cursor<Vec<u8>>), Error> {
+    ) -> Result<(Vec<FileEntry>, Vec<u8>), Error> {
         if self.m_Header.version >= 4 {
             let hash = reader.read_u128::<BigEndian>().unwrap();
             let crc = reader.read_u32::<BigEndian>().unwrap();
@@ -182,7 +182,7 @@ impl BundleFile {
         }
 
         let blocks_info_bytes = self.decompress_block(reader, &m_BlocksInfo, 0)?;
-        let mut block_info_reader = Cursor::new(blocks_info_bytes);
+        let block_info_reader = &mut blocks_info_bytes.as_slice();
 
         let FileEntrys_count = block_info_reader.read_i32::<BigEndian>().unwrap();
         let m_DirectoryInfo: Vec<FileEntry> = (0..FileEntrys_count)
@@ -194,14 +194,14 @@ impl BundleFile {
             })
             .collect();
 
-        Ok((m_DirectoryInfo, block_info_reader))
+        Ok((m_DirectoryInfo, blocks_info_bytes))
     }
 
     fn read_unityfs<T: Read + Seek>(
         &mut self,
         reader: &mut T,
         config: &ExtractionConfig,
-    ) -> Result<(Vec<FileEntry>, Cursor<Vec<u8>>), Error> {
+    ) -> Result<(Vec<FileEntry>, Vec<u8>), Error> {
         let use_new_archive_flags = !{
             let version = self.m_Header.get_revision_tuple(config);
             (version < (2020, 0, 0))
@@ -289,8 +289,7 @@ impl BundleFile {
             .map(|(i, block)| self.decompress_block(reader, block, i).unwrap())
             .collect::<Vec<Vec<u8>>>()
             .concat();
-        let block_reader = Cursor::new(block_data);
-        Ok((m_DirectoryInfo, block_reader))
+        Ok((m_DirectoryInfo, block_data))
     }
 
     fn read_files<T: Read + Seek>(
