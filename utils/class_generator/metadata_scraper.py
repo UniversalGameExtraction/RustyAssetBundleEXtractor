@@ -6,7 +6,7 @@ import os
 
 
 import requests
-from bs4 import BeautifulSoup as Soup
+from bs4 import BeautifulSoup as Soup, Tag
 
 
 from config import METADATA_PATH, SCRIPT_REFERENCE_CACHE_PATH
@@ -107,7 +107,16 @@ class UnityClass:
 
             if title is None:
                 if description:
-                    description += "\n" + subsection.find("p").text.strip()
+                    s = subsection.find("p")
+                    for child in subsection.children:
+                        if isinstance(child, Tag):
+                            if child.name == 'p':
+                                description += "\n" + child.text.strip()
+                            elif child.name == 'ul':
+                                for li in child.find_all("li"):
+                                    description += "\n- " + li.text.strip()
+                            else:
+                                description += f"\nTODO {child.name}"
                 continue
 
             title = title.text.strip()

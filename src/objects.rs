@@ -1,5 +1,6 @@
 pub mod classes;
-pub mod map;
 
+mod class_id;
+pub use class_id::ClassId;
 mod pptr;
 pub use pptr::PPtr;

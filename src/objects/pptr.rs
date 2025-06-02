@@ -1,8 +1,8 @@
-use serde::{Deserialize, Serialize};
+use serde_derive::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct PPtr {
-    pub m_FileID: i64,
+    pub m_FileID: i32,
     pub m_PathID: i64,
 }
 

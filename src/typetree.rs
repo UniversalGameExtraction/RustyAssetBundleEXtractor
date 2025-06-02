@@ -1,11 +1,9 @@
 #![allow(clippy::redundant_closure_call)]
 use crate::commonstring::COMMONSTRING;
-use crate::read_ext::ReadSeekUrexExt;
 use crate::read_ext::ReadUrexExt;
 use bitflags::bitflags;
 use byteorder::{ByteOrder, ReadBytesExt};
-use rmp;
-use std::io::{Read, Seek, Write};
+use std::io::{Read, Seek};
 
 bitflags! {
     struct TransferMetaFlags: i32 {
@@ -60,125 +58,28 @@ bitflags! {
     }
 }
 
-macro_rules! generate_read_as {
-    ($format: expr, $result: ty, $conv_i8: expr, $conv_u8: expr, $conv_i16: expr, $conv_u16: expr, $conv_i32: expr, $conv_u32: expr, $conv_i64: expr, $conv_u64: expr, $conv_f32: expr, $conv_f64: expr, $conv_bool: expr, $conv_str: expr, $conv_bytes: expr, $conv_map: expr, $conv_array: expr, $conv_cls: expr) => {
-        paste::item! {
-        #[doc = "Parses the data as of the object into the " $format "."]
-        pub fn [< read_as_ $format >]<R: Read + Seek, B: ByteOrder> (&self, reader: &mut R,) -> Result<$result, std::io::Error>{
-            // pub fn read_as_json2<R: Read + Seek, B: ByteOrder>(
-            //     &self,
-            //     reader: &mut R,
-            // ) -> Result<serde_json::Value, std::io::Error> {
-                let mut align = self.requires_align();
-                let value: $result = match self.m_Type.as_str() {
-                    "SInt8" => {
-                        $conv_i8(reader.read_i8().unwrap())
-                    }
-                    "UInt8" => {
-                        $conv_u8(reader.read_u8().unwrap())
-                    }
-                    "char" => {
-                        $conv_str((reader.read_u8().unwrap() as char).to_string())
-                    }
-                    "SInt16" | "short" => {
-                        $conv_i16(reader.read_i16::<B>().unwrap())
-                    }
-                    "UInt16" | "unsigned short" => {
-                        $conv_u16(reader.read_u16::<B>().unwrap())
-                    }
-                    "SInt32" | "int" => {
-                        $conv_i32(reader.read_i32::<B>().unwrap())
-                    }
-                    "UInt32" | "unsigned int" | "Type*" => {
-                        $conv_u32(reader.read_u32::<B>().unwrap())
-                    }
-                    "SInt64" | "long long" => {
-                        $conv_i64(reader.read_i64::<B>().unwrap())
-                    }
-                    "UInt64" | "unsigned long long" | "FileSize" => {
-                        $conv_u64(reader.read_u64::<B>().unwrap())
-                    }
-                    "float" => {
-                        $conv_f32(reader.read_f32::<B>().unwrap())
-                    }
-                    "double" => {
-                        $conv_f64(reader.read_f64::<B>().unwrap())
-                    }
-                    "bool" => {
-                        $conv_bool(reader.read_bool().unwrap())
-                    }
-                    "string" => {
-                        align |= &self.children[0].requires_align();
-                        $conv_str(reader.read_string::<B>().unwrap())
-                    }
-                    "TypelessData" => $conv_bytes(&reader.read_bytes::<B>().unwrap()),
-                    "map" => {
-                        // map m_Container
-                        //  Array Array
-                        //      int size
-                        //      pair data
-                        //          TYPE first
-                        //          TYPE second
-                        //assert_eq!(self.children.len(), 1);
-                        let size = reader.read_array_len::<B>().unwrap();
-                        //assert_eq!(self.children[0].children.len(), 2);
-                        let pair = &self.children[0].children[1];
-                        align |= pair.requires_align();
-                        //assert_eq!(pair.children.len(), 2);
-                        let first = &pair.children[0];
-                        let second = &pair.children[1];
-                        $conv_map(reader, size, first, second)
-                    }
-                    default => {
-                        // array
-                        //vector m_Component // ByteSize{ffffffff}, Index{1}, Version{1}, IsArray{0}, MetaFlag{8041}
-                        //  Array Array // ByteSize{ffffffff}, Index{2}, Version{1}, IsArray{1}, MetaFlag{4041}
-                        //      int size // ByteSize{4}, Index{3}, Version{1}, IsArray{0}, MetaFlag{41}
-                        //      ComponentPair data // ByteSize{c}, Index{4}, Version{1}, IsArray{0}, MetaFlag{41}
-                        if self.children.len() == 1 && self.children[0].m_Type == "Array" {
-                            let array = &self.children[0];
-                            align |= array.requires_align();
-
-                            let size = reader.read_array_len::<B>().unwrap();
-                            let array_node = &array.children[1];
-                            $conv_array(reader, size, array_node)
-                        } else {
-                            // class
-                            $conv_cls(reader, &self.children)
-                        }
-                    }
-                };
-                if align {
-                    reader.align4()?;
-                }
-                Ok(value)
-            }
-        }
-    };
-}
-
 #[derive(Debug, Clone)]
 pub struct TypeTreeNode {
-    m_Version: i32,
-    m_Level: u8,
-    m_TypeFlags: i32,
-    m_ByteSize: i32,
-    m_Index: Option<i32>,
-    m_MetaFlag: Option<i32>,
-    m_Type: String,
-    m_Name: String,
+    pub m_Version: i32,
+    pub m_Level: u8,
+    pub m_TypeFlags: i32,
+    pub m_ByteSize: i32,
+    pub m_Index: Option<i32>,
+    pub m_MetaFlag: Option<i32>,
+    pub m_Type: String,
+    pub m_Name: String,
     //unsigned short children_count,
     //struct TypeTreeNodeObject **children,
     // UnityFS
     // unsigned int m_TypeStrOffset,
     // unsigned int m_NameStrOffset,
     // UnityFS - version >= 19
-    m_RefTypeHash: Option<u64>,
+    pub m_RefTypeHash: Option<u64>,
     // UnityRaw - versin = 2
-    m_VariableCount: Option<i32>,
+    pub m_VariableCount: Option<i32>,
     // helper fields
     //typehash: u32,
-    children: Vec<TypeTreeNode>,
+    pub children: Vec<TypeTreeNode>,
 }
 impl TypeTreeNode {
     pub fn from_reader<R: std::io::Read + std::io::Seek, B: ByteOrder>(
@@ -314,133 +215,51 @@ impl TypeTreeNode {
         Ok(root_node)
     }
 
-    fn requires_align(&self) -> bool {
+    pub(crate) fn requires_align(&self) -> bool {
         (self.m_MetaFlag.unwrap_or(0) & TransferMetaFlags::ALIGN_BYTES_FLAG.bits()) != 0
     }
 
-    generate_read_as!(
-        json,
-        serde_json::Value,
-        |x: i8| serde_json::Value::Number(serde_json::Number::from(x)),
-        |x: u8| serde_json::Value::Number(serde_json::Number::from(x)),
-        |x: i16| serde_json::Value::Number(serde_json::Number::from(x)),
-        |x: u16| serde_json::Value::Number(serde_json::Number::from(x)),
-        |x: i32| serde_json::Value::Number(serde_json::Number::from(x)),
-        |x: u32| serde_json::Value::Number(serde_json::Number::from(x)),
-        |x: i64| serde_json::Value::Number(serde_json::Number::from(x)),
-        |x: u64| serde_json::Value::Number(serde_json::Number::from(x)),
-        |x: f32| serde_json::Value::Number(serde_json::Number::from_f64(x as f64).unwrap()),
-        |x: f64| serde_json::Value::Number(serde_json::Number::from_f64(x).unwrap()),
-        serde_json::Value::Bool,
-        serde_json::Value::String,
-        (|x: &[u8]| serde_json::Value::Array(
-            x.iter()
-                .map(|y| serde_json::Value::Number(serde_json::Number::from(*y)))
-                .collect()
-        )),
-        // map
-        (|reader: &mut R, size: usize, first: &TypeTreeNode, second: &TypeTreeNode| {
-            serde_json::Value::Array(
-                (0..size)
-                    .map(|_| {
-                        serde_json::Value::Array(vec![
-                            first.read_as_json::<R, B>(reader).unwrap(),
-                            second.read_as_json::<R, B>(reader).unwrap(),
-                        ])
-                    })
-                    .collect(),
-            )
-        }),
-        // array
-        (|reader: &mut R, size: usize, array_node: &TypeTreeNode| {
-            serde_json::Value::Array(
-                (0..size)
-                    .map(|_| array_node.read_as_json::<R, B>(reader).unwrap())
-                    .collect(),
-            )
-        }),
-        // class
-        |reader: &mut R, children: &[TypeTreeNode]| {
-            let mut map = serde_json::Map::new();
-            for child in children {
-                map.insert(
-                    child.m_Name.clone(),
-                    child.read_as_json::<R, B>(reader).unwrap(),
-                );
-            }
-            serde_json::Value::from(map)
-        }
-    );
+    pub fn read<'de, T: serde::Deserialize<'de>, R: Read + Seek, B: ByteOrder>(
+        &self,
+        reader: &mut R,
+    ) -> Result<T, crate::serde_typetree::Error> {
+        crate::serde_typetree::from_reader::<_, B>(reader, self)
+    }
 
-    generate_read_as!(
-        yaml,
-        Result<serde_yaml::Value, serde_yaml::Error>,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        serde_yaml::to_value,
-        // map
-        (|reader: &mut R, size: usize, first: &TypeTreeNode, second: &TypeTreeNode| {
-            serde_yaml::to_value(
-                (0..size)
-                    .map(|_| {
-                        serde_yaml::to_value(vec![
-                            first.read_as_yaml::<R, B>(reader).unwrap().unwrap(),
-                            second.read_as_yaml::<R, B>(reader).unwrap().unwrap(),
-                        ])
-                    })
-                    .collect::<Result<Vec<serde_yaml::Value>, _>>()?,
-            )
-        }),
-        // array
-        (|reader: &mut R, size: usize, array_node: &TypeTreeNode| {
-            serde_yaml::to_value(
-                (0..size)
-                    .map(|_| array_node.read_as_yaml::<R, B>(reader).unwrap())
-                    .collect::<Result<Vec<serde_yaml::Value>, _>>()?,
-            )
-        }),
-        // class
-        |reader: &mut R, children: &[TypeTreeNode]| {
-            let mut map = serde_yaml::Mapping::new();
-            for child in children {
-                map.insert(
-                    serde_yaml::Value::String(child.m_Name.clone()),
-                    child.read_as_yaml::<R, B>(reader).unwrap().unwrap()
-                );
-            }
-            serde_yaml::to_value(map)
-        }
-    );
+    #[cfg(feature = "formats")]
+    pub fn read_as_json<R: Read + Seek, B: ByteOrder>(
+        &self,
+        reader: &mut R,
+    ) -> Result<serde_json::Value, crate::serde_typetree::Error> {
+        crate::serde_typetree::from_reader::<_, B>(reader, self)
+    }
+    #[cfg(feature = "formats")]
+    pub fn read_as_yaml<R: Read + Seek, B: ByteOrder>(
+        &self,
+        reader: &mut R,
+    ) -> Result<serde_yaml::Value, crate::serde_typetree::Error> {
+        crate::serde_typetree::from_reader::<_, B>(reader, self)
+    }
 
-    #[doc = "Parses the data as of the object into the msgpack."]
+    /// Parses the data as of the object into the msgpack.
+    #[cfg(feature = "formats")]
     pub fn read_as_msgpack<R: Read + Seek, B: ByteOrder>(
         &self,
         reader: &mut R,
-    ) -> Result<Vec<u8>, std::io::Error> {
+    ) -> Result<Vec<u8>, crate::serde_typetree::Error> {
         let mut buf = std::io::Cursor::new(Vec::new());
         self._read_as_msgpack::<R, B, std::io::Cursor<Vec<u8>>>(reader, &mut buf)?;
         Ok(buf.into_inner())
     }
 
-    pub fn _read_as_msgpack<R: Read + Seek, B: ByteOrder, W: Write>(
+    #[cfg(feature = "formats")]
+    pub fn _read_as_msgpack<R: Read + Seek, B: ByteOrder, W: std::io::Write>(
         &self,
         reader: &mut R,
         writer: &mut W,
     ) -> Result<(), std::io::Error> {
-        // pub fn read_as_json2<R: Read + Seek, B: ByteOrder>(
-        //     &self,
-        //     reader: &mut R,
-        // ) -> Result<serde_json::Value, std::io::Error> {
+        use crate::read_ext::ReadSeekUrexExt;
+
         let mut align = self.requires_align();
         match self.m_Type.as_str() {
             "SInt8" => rmp::encode::write_i8::<W>(writer, reader.read_i8().unwrap()),
@@ -536,5 +355,23 @@ impl TypeTreeNode {
             reader.align4()?;
         }
         Ok(())
+    }
+
+    pub fn dump(&self) -> String {
+        use std::fmt::Write;
+        pub fn dump_inner(tt: &TypeTreeNode, out: &mut String, indent: usize) {
+            for i in 0..indent {
+                out.push_str("  ");
+            }
+            let _ = writeln!(out, "{} {}", tt.m_Type, tt.m_Name);
+
+            for child in &tt.children {
+                dump_inner(child, out, indent + 1);
+            }
+        }
+
+        let mut out = String::new();
+        dump_inner(self, &mut out, 0);
+        out
     }
 }

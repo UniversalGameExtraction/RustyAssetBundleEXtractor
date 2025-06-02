@@ -1,5 +1,5 @@
 mod bundlefile;
-mod serialzedfile;
+pub mod serialzedfile;
 mod unityfile;
 mod webfile;
 

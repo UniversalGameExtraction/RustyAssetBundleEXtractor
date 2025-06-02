@@ -43,7 +43,7 @@ pub trait ReadUrexExt: ReadBytesExt {
     }
 
     fn read_string_sized(&mut self, len: usize) -> Result<String, std::io::Error> {
-        match String::from_utf8(self.read_bytes_sized(len).unwrap()) {
+        match String::from_utf8(self.read_bytes_sized(len)?) {
             Ok(s) => Ok(s),
             Err(e) => Err(std::io::Error::new(std::io::ErrorKind::InvalidData, e)),
         }
@@ -63,6 +63,11 @@ pub trait ReadUrexExt: ReadBytesExt {
     fn read_bool(&mut self) -> Result<bool, std::io::Error> {
         let b = self.read_u8()?;
         Ok(b != 0)
+    }
+
+    fn read_char(&mut self) -> Result<char, std::io::Error> {
+        let c = self.read_u8()? as char;
+        Ok(c)
     }
 
     generate_read_array_method!(i16);

@@ -7,7 +7,11 @@ pub mod config;
 pub mod files;
 pub mod objects;
 pub mod read_ext;
+pub mod serde_typetree;
+pub mod tpk;
 pub mod typetree;
+pub mod unity_version;
+pub mod write_ext;
 
 mod archive_storage_manager;
 // mod test;

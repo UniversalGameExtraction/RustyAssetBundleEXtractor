@@ -1,4 +1,6 @@
 use super::UnityFile;
+use crate::objects::ClassId;
+use crate::serde_typetree;
 use crate::typetree::TypeTreeNode;
 use crate::{
     config::ExtractionConfig,
@@ -7,67 +9,67 @@ use crate::{
 use bitflags::bitflags;
 use byteorder::{BigEndian, ByteOrder, LittleEndian, ReadBytesExt};
 
+use num_enum::TryFromPrimitive;
+
+#[derive(Clone, Copy, Debug, TryFromPrimitive, PartialEq, Eq)]
+#[repr(u8)]
+pub enum Endianness {
+    Little = 0,
+    Big = 1,
+}
+
 #[derive(Debug, Copy, Clone)]
 pub struct SerializedFileHeader {
     m_MetadataSize: u32,
     m_FileSize: i64,
     m_Version: u32,
     m_DataOffset: i64,
-    m_Endianess: u8,
+    m_Endianess: Endianness,
     m_Reserved: [u8; 3],
     unknown: i64,
 }
 impl SerializedFileHeader {
-    fn from_reader<T: std::io::Read + std::io::Seek, B: ByteOrder>(
+    fn from_reader<T: std::io::Read + std::io::Seek>(
         reader: &mut T,
         config: &crate::config::ExtractionConfig,
     ) -> Result<SerializedFileHeader, std::io::Error> {
         let mut header = SerializedFileHeader {
-            m_MetadataSize: reader.read_u32::<B>()?,
-            m_FileSize: reader.read_u32::<B>()? as i64,
-            m_Version: reader.read_u32::<B>()?,
-            m_DataOffset: reader.read_u32::<B>()? as i64,
-            m_Endianess: 0,
+            m_MetadataSize: reader.read_u32::<BigEndian>()?,
+            m_FileSize: reader.read_u32::<BigEndian>()? as i64,
+            m_Version: reader.read_u32::<BigEndian>()?,
+            m_DataOffset: reader.read_u32::<BigEndian>()? as i64,
+            m_Endianess: Endianness::Little,
             m_Reserved: [0, 0, 0],
             unknown: 0,
         };
 
-        if header.m_Version >= 9 {
-            header.m_Endianess = reader.read_u8()?;
+        let endianness = if header.m_Version >= 9 {
+            let endianness = reader.read_u8()?;
             header.m_Reserved = reader.read_bytes_sized(3)?.as_slice().try_into().unwrap();
+            endianness
         } else {
             reader.seek(std::io::SeekFrom::Current(
                 header.m_FileSize - header.m_MetadataSize as i64,
             ))?;
-            header.m_Endianess = reader.read_u8()?;
-        }
+            reader.read_u8()?
+        };
+        header.m_Endianess = endianness.try_into().map_err(|_| {
+            std::io::Error::new(std::io::ErrorKind::InvalidData, "Invalid Endianness")
+        })?;
 
         if header.m_Version >= 22 {
-            match header.m_Endianess {
-                0 => header.read_large_file_header::<T, LittleEndian>(reader, config)?,
-                1 => header.read_large_file_header::<T, BigEndian>(reader, config)?,
-                _ => panic!("Invalid endianess"),
-            };
+            header.m_MetadataSize = reader.read_u32::<BigEndian>()?;
+            header.m_FileSize = reader.read_i64::<BigEndian>()?;
+            header.m_DataOffset = reader.read_i64::<BigEndian>()?;
+            header.unknown = reader.read_i64::<BigEndian>()?; // unknown
         };
         Ok(header)
-    }
-
-    fn read_large_file_header<T: std::io::Read + std::io::Seek, B: ByteOrder>(
-        &mut self,
-        reader: &mut T,
-        config: &crate::config::ExtractionConfig,
-    ) -> Result<(), std::io::Error> {
-        self.m_MetadataSize = reader.read_u32::<B>()?;
-        self.m_FileSize = reader.read_i64::<B>()?;
-        self.m_DataOffset = reader.read_i64::<B>()?;
-        self.unknown = reader.read_i64::<B>()?; // unknown
-        Ok(())
     }
 }
 
 #[derive(Debug, Clone)]
 pub struct SerializedType {
-    pub m_ClassID: i32,
+    pub m_ClassID: ClassId,
     pub m_IsStrippedType: bool,
     pub m_ScriptTypeIndex: i16,
     pub m_ScriptID: [u8; 16],
@@ -88,7 +90,7 @@ impl SerializedType {
         isRefType: bool,
     ) -> Result<SerializedType, std::io::Error> {
         let mut typ = SerializedType {
-            m_ClassID: -1,
+            m_ClassID: ClassId::UnknownType,
             m_IsStrippedType: false,
             m_ScriptTypeIndex: -1,
             m_ScriptID: [0; 16],
@@ -99,7 +101,7 @@ impl SerializedType {
             m_AsmName: None,
             m_TypeDependencies: Vec::new(),
         };
-        typ.m_ClassID = reader.read_i32::<B>()?;
+        typ.m_ClassID = ClassId(reader.read_i32::<B>()?);
 
         if header.m_Version >= SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits() {
             typ.m_IsStrippedType = reader.read_bool()?;
@@ -112,10 +114,10 @@ impl SerializedType {
         if header.m_Version >= SerializedFileFormatVersion::HAS_TYPE_TREE_HASHES.bits() {
             if (isRefType && typ.m_ScriptTypeIndex >= 0)
                 || ((header.m_Version < SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits()
-                    && typ.m_ClassID < 0)
+                    && typ.m_ClassID.0 < 0)
                     || (header.m_Version
                         >= SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits()
-                        && typ.m_ClassID == 114))
+                        && typ.m_ClassID == ClassId::MonoBehaviour))
             {
                 typ.m_ScriptID = reader.read_bytes_sized(16)?.as_slice().try_into().unwrap();
             }
@@ -176,7 +178,7 @@ pub struct ObjectInfo {
     pub m_Offset: i64,
     pub m_Size: u32,
     pub m_TypeID: i32,
-    pub m_ClassID: i32,
+    pub m_ClassID: ClassId,
     pub m_IsDestroyed: Option<u16>,
     pub m_ScriptTypeIndex: Option<i16>,
     pub m_Stripped: Option<u8>,
@@ -193,7 +195,7 @@ impl ObjectInfo {
             m_Offset: 0,
             m_Size: 0,
             m_TypeID: 0,
-            m_ClassID: 0,
+            m_ClassID: ClassId(0),
             m_IsDestroyed: None,
             m_ScriptTypeIndex: None,
             m_Stripped: None,
@@ -216,7 +218,7 @@ impl ObjectInfo {
         objectInfo.m_Size = reader.read_u32::<B>()?;
         objectInfo.m_TypeID = reader.read_i32::<B>()?;
         if header.m_Version < SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits() {
-            objectInfo.m_ClassID = reader.read_u16::<B>()? as i32;
+            objectInfo.m_ClassID = ClassId(reader.read_u16::<B>()? as i32);
         } else {
             objectInfo.m_ClassID = types[objectInfo.m_TypeID as usize].m_ClassID;
         }
@@ -267,9 +269,22 @@ impl ScriptType {
 #[derive(Debug, Clone)]
 pub struct FileIdentifier {
     tempEmpty: Option<String>,
-    guid: Option<Vec<u8>>,
+    guid: Option<Guid>,
     typeId: Option<i32>,
     pathName: String,
+}
+
+#[derive(Clone)]
+pub struct Guid(pub Vec<u8>);
+
+impl std::fmt::Debug for Guid {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str("Guid(")?;
+        for byte in &self.0 {
+            write!(f, "{:02x}", byte)?;
+        }
+        f.write_str(")")
+    }
 }
 
 impl FileIdentifier {
@@ -284,7 +299,7 @@ impl FileIdentifier {
                 None
             },
             guid: if header.m_Version >= SerializedFileFormatVersion::UNKNOWN_5.bits() {
-                Some(reader.read_bytes_sized(16)?)
+                Some(Guid(reader.read_bytes_sized(16)?))
             } else {
                 None
             },
@@ -304,34 +319,6 @@ pub struct ObjectHandler<'a, R: std::io::Read + std::io::Seek> {
     pub typ: Option<&'a SerializedType>,
     pub file: &'a SerializedFile,
     pub reader: &'a mut R,
-}
-
-macro_rules! parse_as {
-    ($name:ident, $ret_typ: ty) => {
-        paste::item! {
-            #[doc = "Parses the object as" $name "."]
-            pub fn [< parse_as_ $name >](&mut self) -> Result<$ret_typ, std::io::Error>{
-                match self.get_typetree().cloned() {
-                    Some(node) => {
-                        self.reader
-                            .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
-                        match self.file.m_Header.m_Endianess {
-                            0 => node.[< read_as_ $name >]::<R, LittleEndian>(self.reader),
-                            1 => node.[< read_as_ $name >]::<R, BigEndian>(self.reader),
-                            _ => Err(std::io::Error::new(
-                                std::io::ErrorKind::NotFound,
-                                "Unknown endianess!",
-                            )),
-                        }
-                    }
-                    _ => Err(std::io::Error::new(
-                        std::io::ErrorKind::NotFound,
-                        "Couldn't find typetree!",
-                    )),
-                }
-            }
-        }
-    };
 }
 
 impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
@@ -369,23 +356,54 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
 
         // todo - check against typeid
         match self.file.m_Header.m_Endianess {
-            0 => self.reader.read_string::<LittleEndian>(),
-            1 => self.reader.read_string::<BigEndian>(),
-            _ => Err(std::io::Error::new(
-                std::io::ErrorKind::NotFound,
-                "Unknown endianess!",
+            Endianness::Little => self.reader.read_string::<LittleEndian>(),
+            Endianness::Big => self.reader.read_string::<BigEndian>(),
+        }
+    }
+
+    pub fn parse<'de, T: serde::de::Deserialize<'de>>(
+        &mut self,
+    ) -> Result<T, serde_typetree::Error> {
+        match self.get_typetree().cloned() {
+            Some(node) => {
+                self.reader
+                    .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
+                match self.file.m_Header.m_Endianess {
+                    Endianness::Little => node.read::<T, R, LittleEndian>(self.reader),
+                    Endianness::Big => node.read::<T, R, BigEndian>(self.reader),
+                }
+            }
+            _ => Err(crate::serde_typetree::Error::custom(
+                "Couldn't find typetree",
             )),
         }
     }
 
-    pub fn parse<T: serde::de::DeserializeOwned>(&mut self) -> std::io::Result<T> {
-        let transmission = self.parse_as_msgpack().unwrap();
-        Ok(rmp_serde::from_slice::<T>(&transmission.as_slice()).unwrap())
+    #[cfg(feature = "formats")]
+    pub fn parse_as_json(&mut self) -> Result<serde_json::Value, serde_typetree::Error> {
+        self.parse::<serde_json::Value>()
     }
 
-    parse_as!(json, serde_json::Value);
-    parse_as!(yaml, Result<serde_yaml::Value, serde_yaml::Error>);
-    parse_as!(msgpack, Vec<u8>);
+    #[cfg(feature = "formats")]
+    pub fn parse_as_yaml(&mut self) -> Result<serde_yaml::Value, serde_typetree::Error> {
+        self.parse::<serde_yaml::Value>()
+    }
+
+    /// Parses the object as msgpack
+    #[cfg(feature = "formats")]
+    pub fn parse_as_msgpack(&mut self) -> Result<Vec<u8>, serde_typetree::Error> {
+        match self.get_typetree().cloned() {
+            Some(node) => {
+                self.reader
+                    .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
+                match self.file.m_Header.m_Endianess {
+                    Endianness::Little => node.read_as_msgpack::<R, LittleEndian>(self.reader),
+                    Endianness::Big => node.read_as_msgpack::<R, BigEndian>(self.reader),
+                }
+            }
+            _ => Err(serde_typetree::Error::custom("No Typetree foun")),
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -407,12 +425,15 @@ impl SerializedFile {
         reader: &mut T,
         config: &crate::config::ExtractionConfig,
     ) -> Result<SerializedFile, std::io::Error> {
-        let header = SerializedFileHeader::from_reader::<T, BigEndian>(reader, config)?;
+        let header = SerializedFileHeader::from_reader::<T>(reader, config)?;
 
         match header.m_Endianess {
-            0 => SerializedFile::from_reader_endianed::<T, LittleEndian>(reader, header, config),
-            1 => SerializedFile::from_reader_endianed::<T, BigEndian>(reader, header, config),
-            _ => panic!("Invalid endianess"),
+            Endianness::Little => {
+                SerializedFile::from_reader_endianed::<T, LittleEndian>(reader, header, config)
+            }
+            Endianness::Big => {
+                SerializedFile::from_reader_endianed::<T, BigEndian>(reader, header, config)
+            }
         }
     }
 
