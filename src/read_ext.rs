@@ -53,7 +53,23 @@ pub trait ReadUrexExt: ReadBytesExt {
     }
 
     fn read_bytes_sized(&mut self, len: usize) -> Result<Vec<u8>, std::io::Error> {
+        let threshold = 1024 * 1024 * 1024 * 16;
+        if len > threshold {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::OutOfMemory,
+                format!(
+                    "Attempted to make an allocation of {len} bytes, exceeding the threshold {}",
+                    threshold
+                ),
+            ));
+        }
         let mut buf = vec![0; len];
+        self.read_exact(&mut buf)?;
+        Ok(buf)
+    }
+
+    fn read_bytes_array<const L: usize>(&mut self) -> Result<[u8; L], std::io::Error> {
+        let mut buf = [0; L];
         self.read_exact(&mut buf)?;
         Ok(buf)
     }

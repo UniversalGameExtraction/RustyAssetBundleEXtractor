@@ -93,37 +93,37 @@ impl TypeTreeNode {
         ) -> Result<TypeTreeNode, std::io::Error> {
             let mut node = TypeTreeNode {
                 m_Level: level,
-                m_Type: reader.read_cstr().unwrap(),
-                m_Name: reader.read_cstr().unwrap(),
-                m_ByteSize: reader.read_i32::<B>().unwrap(),
+                m_Type: reader.read_cstr()?,
+                m_Name: reader.read_cstr()?,
+                m_ByteSize: reader.read_i32::<B>()?,
                 m_VariableCount: if version == 2 {
-                    Some(reader.read_i32::<B>().unwrap())
+                    Some(reader.read_i32::<B>()?)
                 } else {
                     None
                 },
                 m_Index: if version != 3 {
-                    Some(reader.read_i32::<B>().unwrap())
+                    Some(reader.read_i32::<B>()?)
                 } else {
                     None
                 },
                 // in version 4, m_TypeFlags are m_IsArray
-                m_TypeFlags: reader.read_i32::<B>().unwrap(),
-                m_Version: reader.read_i32::<B>().unwrap(),
+                m_TypeFlags: reader.read_i32::<B>()?,
+                m_Version: reader.read_i32::<B>()?,
                 m_MetaFlag: if version != 3 {
-                    Some(reader.read_i32::<B>().unwrap())
+                    Some(reader.read_i32::<B>()?)
                 } else {
                     None
                 },
                 m_RefTypeHash: None,
                 children: Vec::new(),
             };
-            let children_count = reader.read_i32::<B>().unwrap();
+            let children_count = reader.read_i32::<B>()?;
             node.children = (0..children_count)
-                .map(|_| read_node_base::<R, B>(reader, version, node.m_Level + 1).unwrap())
-                .collect();
+                .map(|_| read_node_base::<R, B>(reader, version, node.m_Level + 1))
+                .collect::<Result<_, _>>()?;
             Ok(node)
         }
-        Ok(read_node_base::<R, B>(reader, version, 0).unwrap())
+        Ok(read_node_base::<R, B>(reader, version, 0)?)
     }
 
     pub fn blob_from_reader<R: std::io::Read + std::io::Seek, B: ByteOrder>(
@@ -137,7 +137,7 @@ impl TypeTreeNode {
         let string_buffer_size = reader.read_i32::<B>()?;
 
         let mut node_reader = std::io::Cursor::new(
-            reader.read_bytes_sized(node_size as usize * node_count as usize)?,
+            reader.read_bytes_sized((node_size as usize).saturating_mul(node_count as usize))?,
         );
         let mut string_buffer_reader =
             std::io::Cursor::new(reader.read_bytes_sized(string_buffer_size as usize)?);
@@ -149,9 +149,7 @@ impl TypeTreeNode {
             // TODO - cache strings
             let isOffset = (value & 0x80000000) == 0;
             if isOffset {
-                string_buffer_reader
-                    .seek(std::io::SeekFrom::Start(value as u64))
-                    .unwrap();
+                string_buffer_reader.seek(std::io::SeekFrom::Start(value as u64))?;
                 return string_buffer_reader.read_cstr();
             }
             let offset = value & 0x7FFFFFFF;
@@ -166,32 +164,32 @@ impl TypeTreeNode {
         }
 
         let nodes: Vec<TypeTreeNode> = (0..node_count)
-            .map(|_| TypeTreeNode {
-                m_Version: node_reader.read_u16::<B>().unwrap() as i32,
-                m_Level: node_reader.read_u8().unwrap(),
-                m_TypeFlags: node_reader.read_u8().unwrap() as i32,
-                m_Type: read_string::<std::io::Cursor<Vec<u8>>, B>(
-                    &mut string_buffer_reader,
-                    node_reader.read_u32::<B>().unwrap(),
-                )
-                .unwrap(),
-                m_Name: read_string::<std::io::Cursor<Vec<u8>>, B>(
-                    &mut string_buffer_reader,
-                    node_reader.read_u32::<B>().unwrap(),
-                )
-                .unwrap(),
-                m_ByteSize: node_reader.read_i32::<B>().unwrap(),
-                m_Index: Some(node_reader.read_i32::<B>().unwrap()),
-                m_MetaFlag: Some(node_reader.read_i32::<B>().unwrap()),
-                m_RefTypeHash: if version >= 19 {
-                    Some(node_reader.read_u64::<B>().unwrap())
-                } else {
-                    None
-                },
-                children: Vec::new(),
-                m_VariableCount: None,
+            .map(|_| {
+                std::io::Result::Ok(TypeTreeNode {
+                    m_Version: node_reader.read_u16::<B>()? as i32,
+                    m_Level: node_reader.read_u8()?,
+                    m_TypeFlags: node_reader.read_u8()? as i32,
+                    m_Type: read_string::<std::io::Cursor<Vec<u8>>, B>(
+                        &mut string_buffer_reader,
+                        node_reader.read_u32::<B>()?,
+                    )?,
+                    m_Name: read_string::<std::io::Cursor<Vec<u8>>, B>(
+                        &mut string_buffer_reader,
+                        node_reader.read_u32::<B>()?,
+                    )?,
+                    m_ByteSize: node_reader.read_i32::<B>()?,
+                    m_Index: Some(node_reader.read_i32::<B>()?),
+                    m_MetaFlag: Some(node_reader.read_i32::<B>()?),
+                    m_RefTypeHash: if version >= 19 {
+                        Some(node_reader.read_u64::<B>()?)
+                    } else {
+                        None
+                    },
+                    children: Vec::new(),
+                    m_VariableCount: None,
+                })
             })
-            .collect();
+            .collect::<Result<_, _>>()?;
 
         fn add_children(parent: &mut TypeTreeNode, nodes: &[TypeTreeNode], offset: usize) -> i32 {
             let mut added: i32 = 0;
@@ -207,7 +205,10 @@ impl TypeTreeNode {
             added
         }
 
-        let mut root_node = nodes[0].clone();
+        let mut root_node = nodes
+            .get(0)
+            .ok_or_else(|| std::io::Error::new(std::io::ErrorKind::InvalidData, "typetree"))?
+            .clone();
         let added = add_children(&mut root_node, &nodes, 0);
         if added != node_count - 1 {
             println!("Warning: not all nodes were added to the tree");
@@ -262,41 +263,35 @@ impl TypeTreeNode {
 
         let mut align = self.requires_align();
         match self.m_Type.as_str() {
-            "SInt8" => rmp::encode::write_i8::<W>(writer, reader.read_i8().unwrap()),
-            "UInt8" => rmp::encode::write_u8::<W>(writer, reader.read_u8().unwrap()),
+            "SInt8" => rmp::encode::write_i8::<W>(writer, reader.read_i8()?),
+            "UInt8" => rmp::encode::write_u8::<W>(writer, reader.read_u8()?),
             "char" => rmp::encode::write_str::<W>(
                 writer,
-                (reader.read_u8().unwrap() as char).to_string().as_str(),
+                (reader.read_u8()? as char).to_string().as_str(),
             ),
-            "SInt16" | "short" => {
-                rmp::encode::write_i16::<W>(writer, reader.read_i16::<B>().unwrap())
-            }
+            "SInt16" | "short" => rmp::encode::write_i16::<W>(writer, reader.read_i16::<B>()?),
             "UInt16" | "unsigned short" => {
-                rmp::encode::write_u16::<W>(writer, reader.read_u16::<B>().unwrap())
+                rmp::encode::write_u16::<W>(writer, reader.read_u16::<B>()?)
             }
-            "SInt32" | "int" => {
-                rmp::encode::write_i32::<W>(writer, reader.read_i32::<B>().unwrap())
-            }
+            "SInt32" | "int" => rmp::encode::write_i32::<W>(writer, reader.read_i32::<B>()?),
             "UInt32" | "unsigned int" | "Type*" => {
-                rmp::encode::write_u32::<W>(writer, reader.read_u32::<B>().unwrap())
+                rmp::encode::write_u32::<W>(writer, reader.read_u32::<B>()?)
             }
-            "SInt64" | "long long" => {
-                rmp::encode::write_i64::<W>(writer, reader.read_i64::<B>().unwrap())
-            }
+            "SInt64" | "long long" => rmp::encode::write_i64::<W>(writer, reader.read_i64::<B>()?),
             "UInt64" | "unsigned long long" | "FileSize" => {
-                rmp::encode::write_u64::<W>(writer, reader.read_u64::<B>().unwrap())
+                rmp::encode::write_u64::<W>(writer, reader.read_u64::<B>()?)
             }
-            "bool" => match rmp::encode::write_bool::<W>(writer, reader.read_bool().unwrap()) {
+            "bool" => match rmp::encode::write_bool::<W>(writer, reader.read_bool()?) {
                 Ok(_) => Ok(()),
                 Err(e) => Err(rmp::encode::ValueWriteError::InvalidDataWrite(e)),
             },
-            "float" => rmp::encode::write_f32::<W>(writer, reader.read_f32::<B>().unwrap()),
-            "double" => rmp::encode::write_f64::<W>(writer, reader.read_f64::<B>().unwrap()),
+            "float" => rmp::encode::write_f32::<W>(writer, reader.read_f32::<B>()?),
+            "double" => rmp::encode::write_f64::<W>(writer, reader.read_f64::<B>()?),
             "string" => {
                 align |= &self.children[0].requires_align();
-                rmp::encode::write_str::<W>(writer, &reader.read_string::<B>().unwrap())
+                rmp::encode::write_str::<W>(writer, &reader.read_string::<B>()?)
             }
-            "TypelessData" => rmp::encode::write_bin(writer, &reader.read_bytes::<B>().unwrap()),
+            "TypelessData" => rmp::encode::write_bin(writer, &reader.read_bytes::<B>()?),
             "map" => {
                 // map m_Container
                 //  Array Array
@@ -305,7 +300,7 @@ impl TypeTreeNode {
                 //          TYPE first
                 //          TYPE second
                 //assert_eq!(self.children.len(), 1);
-                let size = reader.read_array_len::<B>().unwrap();
+                let size = reader.read_array_len::<B>()?;
                 //assert_eq!(self.children[0].children.len(), 2);
                 let pair = &self.children[0].children[1];
                 align |= pair.requires_align();
@@ -313,9 +308,9 @@ impl TypeTreeNode {
                 let first = &pair.children[0];
                 let second = &pair.children[1];
 
-                rmp::encode::write_array_len(writer, size as u32).unwrap();
+                rmp::encode::write_array_len(writer, size as u32)?;
                 for _ in 0..size {
-                    rmp::encode::write_array_len(writer, 2).unwrap();
+                    rmp::encode::write_array_len(writer, 2)?;
                     first._read_as_msgpack::<R, B, W>(reader, writer)?;
                     second._read_as_msgpack::<R, B, W>(reader, writer)?;
                 }
@@ -331,26 +326,25 @@ impl TypeTreeNode {
                     let array = &self.children[0];
                     align |= array.requires_align();
 
-                    let size = reader.read_array_len::<B>().unwrap();
+                    let size = reader.read_array_len::<B>()?;
                     let array_node = &array.children[1];
 
-                    rmp::encode::write_array_len(writer, size as u32).unwrap();
+                    rmp::encode::write_array_len(writer, size as u32)?;
                     for _ in 0..size {
                         array_node._read_as_msgpack::<R, B, W>(reader, writer)?;
                     }
                     Ok(())
                 } else {
                     // class
-                    rmp::encode::write_map_len(writer, self.children.len() as u32).unwrap();
+                    rmp::encode::write_map_len(writer, self.children.len() as u32)?;
                     for child in &self.children {
-                        rmp::encode::write_str(writer, &child.m_Name).unwrap();
+                        rmp::encode::write_str(writer, &child.m_Name)?;
                         child._read_as_msgpack::<R, B, W>(reader, writer)?;
                     }
                     Ok(())
                 }
             }
-        }
-        .unwrap();
+        }?;
         if align {
             reader.align4()?;
         }

@@ -45,7 +45,7 @@ impl SerializedFileHeader {
 
         let endianness = if header.m_Version >= 9 {
             let endianness = reader.read_u8()?;
-            header.m_Reserved = reader.read_bytes_sized(3)?.as_slice().try_into().unwrap();
+            header.m_Reserved = reader.read_bytes_array::<3>()?;
             endianness
         } else {
             reader.seek(std::io::SeekFrom::Current(
@@ -119,17 +119,19 @@ impl SerializedType {
                         >= SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits()
                         && typ.m_ClassID == ClassId::MonoBehaviour))
             {
-                typ.m_ScriptID = reader.read_bytes_sized(16)?.as_slice().try_into().unwrap();
+                typ.m_ScriptID = reader.read_bytes_array::<16>()?;
             }
-            typ.m_OldTypeHash = reader.read_bytes_sized(16)?.as_slice().try_into().unwrap();
+            typ.m_OldTypeHash = reader.read_bytes_array::<16>()?;
         }
 
         if m_EnableTypeTree {
             if header.m_Version >= SerializedFileFormatVersion::UNKNOWN_12.bits()
                 || header.m_Version == SerializedFileFormatVersion::UNKNOWN_10.bits()
             {
-                typ.m_Type =
-                    Some(TypeTreeNode::blob_from_reader::<T, B>(reader, header.m_Version).unwrap());
+                typ.m_Type = Some(TypeTreeNode::blob_from_reader::<T, B>(
+                    reader,
+                    header.m_Version,
+                )?);
             } else {
                 typ.m_Type = Some(TypeTreeNode::from_reader::<T, B>(reader, header.m_Version)?);
             }
@@ -200,7 +202,7 @@ impl ObjectInfo {
             m_ScriptTypeIndex: None,
             m_Stripped: None,
         };
-        if bigIDEnabled.is_some() && bigIDEnabled.unwrap() > 0 {
+        if bigIDEnabled.map_or(false, |enabled| enabled > 0) {
             objectInfo.m_PathID = reader.read_i64::<B>()?;
         } else if header.m_Version < 14 {
             objectInfo.m_PathID = reader.read_i32::<B>()? as i64;
@@ -220,7 +222,15 @@ impl ObjectInfo {
         if header.m_Version < SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits() {
             objectInfo.m_ClassID = ClassId(reader.read_u16::<B>()? as i32);
         } else {
-            objectInfo.m_ClassID = types[objectInfo.m_TypeID as usize].m_ClassID;
+            objectInfo.m_ClassID = types
+                .get(objectInfo.m_TypeID as usize)
+                .ok_or_else(|| {
+                    std::io::Error::new(
+                        std::io::ErrorKind::InvalidData,
+                        "reference to undefined type",
+                    )
+                })?
+                .m_ClassID;
         }
         if header.m_Version < SerializedFileFormatVersion::HAS_SCRIPT_TYPE_INDEX.bits() {
             objectInfo.m_IsDestroyed = Some(reader.read_u16::<B>()?);
@@ -275,7 +285,7 @@ pub struct FileIdentifier {
 }
 
 #[derive(Clone)]
-pub struct Guid(pub Vec<u8>);
+pub struct Guid(pub [u8; 16]);
 
 impl Guid {
     pub fn is_zero(&self) -> bool {
@@ -305,7 +315,7 @@ impl FileIdentifier {
                 None
             },
             guid: if header.m_Version >= SerializedFileFormatVersion::UNKNOWN_5.bits() {
-                Some(Guid(reader.read_bytes_sized(16)?))
+                Some(Guid(reader.read_bytes_array::<16>()?))
             } else {
                 None
             },
@@ -357,8 +367,7 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
 
     pub fn peak_name(&mut self) -> Result<String, std::io::Error> {
         self.reader
-            .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))
-            .unwrap();
+            .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
 
         // todo - check against typeid
         match self.file.m_Header.m_Endianess {
@@ -476,12 +485,8 @@ impl SerializedFile {
         // Read Types
         let typeCount = reader.read_i32::<B>()?;
         let m_Types: Vec<SerializedType> = (0..typeCount)
-            .map(|_| {
-                let x =
-                    SerializedType::from_reader::<T, B>(reader, &header, m_EnabledTypeTree, false);
-                x.unwrap()
-            })
-            .collect();
+            .map(|_| SerializedType::from_reader::<T, B>(reader, &header, m_EnabledTypeTree, false))
+            .collect::<Result<Vec<_>, _>>()?;
 
         let m_bigIDEnabled = None;
         if header.m_Version >= SerializedFileFormatVersion::UNKNOWN_7.bits()
@@ -493,28 +498,23 @@ impl SerializedFile {
         // Read Objects
         let objectCount = reader.read_i32::<B>()?;
         let m_Objects: Vec<ObjectInfo> = (0..objectCount)
-            .map(|_| {
-                ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled, &m_Types).unwrap()
-            })
-            .collect();
+            .map(|_| ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled, &m_Types))
+            .collect::<Result<_, _>>()?;
 
         let m_ScriptTypes = None;
         if header.m_Version >= SerializedFileFormatVersion::HAS_SCRIPT_TYPE_INDEX.bits() {
             let scriptCount = reader.read_i32::<B>()?;
             let m_ScriptTypes: Option<Vec<LocalSerializedObjectIdentifier>> = Some(
                 (0..scriptCount)
-                    .map(|_| {
-                        LocalSerializedObjectIdentifier::from_reader::<T, B>(reader, &header)
-                            .unwrap()
-                    })
-                    .collect(),
+                    .map(|_| LocalSerializedObjectIdentifier::from_reader::<T, B>(reader, &header))
+                    .collect::<Result<_, _>>()?,
             );
         }
 
         let externalsCount = reader.read_i32::<B>()?;
         let m_Externals = (0..externalsCount)
-            .map(|_| FileIdentifier::from_reader::<T, B>(reader, &header).unwrap())
-            .collect();
+            .map(|_| FileIdentifier::from_reader::<T, B>(reader, &header))
+            .collect::<Result<_, _>>()?;
 
         let m_RefTypes = None;
         if header.m_Version >= SerializedFileFormatVersion::SUPPORTS_REF_OBJECT.bits() {
@@ -528,9 +528,8 @@ impl SerializedFile {
                             m_EnabledTypeTree,
                             true,
                         )
-                        .unwrap()
                     })
-                    .collect(),
+                    .collect::<Result<_, _>>()?,
             );
         }
 
