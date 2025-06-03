@@ -9,6 +9,7 @@ use bitflags::bitflags;
 use byteorder::{BigEndian, ReadBytesExt};
 use num_enum::TryFromPrimitive;
 use std::io::{Error, Read, Seek, Write};
+use std::str::FromStr;
 
 bitflags! {
     struct ArchiveFlags: u32 {
@@ -47,8 +48,29 @@ pub enum CompressionType {
     Lzham = 4,
 }
 
+#[derive(Debug)]
+pub enum BundleSignature {
+    UnityArchive,
+    UnityWeb,
+    UnityRaw,
+    UnityFS,
+}
+impl FromStr for BundleSignature {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Ok(match s {
+            "UnityArchive" => BundleSignature::UnityArchive,
+            "UnityWeb" => BundleSignature::UnityWeb,
+            "UnityRaw" => BundleSignature::UnityRaw,
+            "UnityFS" => BundleSignature::UnityFS,
+            _ => return Err(()),
+        })
+    }
+}
+
 pub struct BundleFileHeader {
-    signature: String,
+    signature: BundleSignature,
     version: u32,
     unity_version: String,
     unity_revision: String,
@@ -58,7 +80,7 @@ pub struct BundleFileHeader {
 impl BundleFileHeader {
     fn from_reader<T: Read + Seek>(reader: &mut T) -> Result<Self, Error> {
         Ok(BundleFileHeader {
-            signature: reader.read_cstr().unwrap(),
+            signature: reader.read_cstr().unwrap().parse().unwrap(),
             version: reader.read_u32::<BigEndian>().unwrap(),
             unity_version: reader.read_cstr().unwrap(),
             unity_revision: reader.read_cstr().unwrap(),
@@ -118,11 +140,11 @@ impl BundleFile {
             _decryptor: None,
         };
 
-        (bundle.m_DirectoryInfo, bundle.m_BlockData) = match bundle.m_Header.signature.as_str() {
-            "UnityArchive" => {
+        (bundle.m_DirectoryInfo, bundle.m_BlockData) = match bundle.m_Header.signature {
+            BundleSignature::UnityArchive => {
                 panic!("UnityArchive is not supported");
             }
-            "UnityWeb" | "UnityRaw" => {
+            BundleSignature::UnityWeb | BundleSignature::UnityRaw => {
                 if bundle.m_Header.version == 6 {
                     let mut out = Vec::new();
                     let file_entries = bundle.read_unityfs(reader, &mut out, config)?;
@@ -131,13 +153,10 @@ impl BundleFile {
                     bundle.read_unity_raw(reader, config)?
                 }
             }
-            "UnityFS" => {
+            BundleSignature::UnityFS => {
                 let mut out = Vec::new();
                 let file_entries = bundle.read_unityfs(reader, &mut out, config)?;
                 (file_entries, out)
-            }
-            _ => {
-                panic!("Unknown signature");
             }
         };
         Ok(bundle)
@@ -183,7 +202,7 @@ impl BundleFile {
 
         //ReadBlocksAndDirectory
         // is compressed -> lzma compression -> can be passed to decompress_block
-        if self.m_Header.signature == "UnityWeb" {
+        if let BundleSignature::UnityWeb = self.m_Header.signature {
             m_BlocksInfo.flags += CompressionType::Lzma as u32;
         }
 
@@ -226,7 +245,7 @@ impl BundleFile {
             uncompressed_size: reader.read_u32::<BigEndian>()?,
             flags: reader.read_u32::<BigEndian>()?,
         };
-        if self.m_Header.signature != "UnityFS" {
+        if let BundleSignature::UnityFS = self.m_Header.signature {
             reader.read_bool()?;
         }
 
