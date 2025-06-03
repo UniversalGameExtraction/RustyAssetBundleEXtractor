@@ -8,7 +8,7 @@ use crate::{
 use bitflags::bitflags;
 use byteorder::{BigEndian, ReadBytesExt};
 use num_enum::TryFromPrimitive;
-use std::io::{Cursor, Error, Read, Seek};
+use std::io::{Error, Read, Seek, Write};
 
 bitflags! {
     struct ArchiveFlags: u32 {
@@ -124,12 +124,18 @@ impl BundleFile {
             }
             "UnityWeb" | "UnityRaw" => {
                 if bundle.m_Header.version == 6 {
-                    bundle.read_unityfs(reader, config)?
+                    let mut out = Vec::new();
+                    let file_entries = bundle.read_unityfs(reader, &mut out, config)?;
+                    (file_entries, out)
                 } else {
                     bundle.read_unity_raw(reader, config)?
                 }
             }
-            "UnityFS" => bundle.read_unityfs(reader, config)?,
+            "UnityFS" => {
+                let mut out = Vec::new();
+                let file_entries = bundle.read_unityfs(reader, &mut out, config)?;
+                (file_entries, out)
+            }
             _ => {
                 panic!("Unknown signature");
             }
@@ -181,7 +187,8 @@ impl BundleFile {
             m_BlocksInfo.flags += CompressionType::Lzma as u32;
         }
 
-        let blocks_info_bytes = self.decompress_block(reader, &m_BlocksInfo, 0)?;
+        let mut blocks_info_bytes = Vec::with_capacity(m_BlocksInfo.uncompressed_size as usize);
+        self.decompress_block(reader, &mut blocks_info_bytes, &m_BlocksInfo, 0)?;
         let block_info_reader = &mut blocks_info_bytes.as_slice();
 
         let FileEntrys_count = block_info_reader.read_i32::<BigEndian>().unwrap();
@@ -197,11 +204,12 @@ impl BundleFile {
         Ok((m_DirectoryInfo, blocks_info_bytes))
     }
 
-    fn read_unityfs<T: Read + Seek>(
+    fn read_unityfs<T: Read + Seek, W: Write>(
         &mut self,
         reader: &mut T,
+        writer: &mut W,
         config: &ExtractionConfig,
-    ) -> Result<(Vec<FileEntry>, Vec<u8>), Error> {
+    ) -> Result<Vec<FileEntry>, Error> {
         let use_new_archive_flags = !{
             let version = self.m_Header.get_revision_tuple(config);
             (version < (2020, 0, 0))
@@ -211,16 +219,15 @@ impl BundleFile {
         };
 
         //ReadHeader
-        self.m_Header.size = reader.read_i64::<BigEndian>().unwrap() as u32;
+        self.m_Header.size = reader.read_i64::<BigEndian>()? as u32;
 
         let block_info = StorageBlock {
-            compressed_size: reader.read_u32::<BigEndian>().unwrap(),
-            uncompressed_size: reader.read_u32::<BigEndian>().unwrap(),
-            flags: reader.read_u32::<BigEndian>().unwrap(),
+            compressed_size: reader.read_u32::<BigEndian>()?,
+            uncompressed_size: reader.read_u32::<BigEndian>()?,
+            flags: reader.read_u32::<BigEndian>()?,
         };
-
         if self.m_Header.signature != "UnityFS" {
-            reader.read_bool().unwrap();
+            reader.read_bool()?;
         }
 
         //ReadBlocksInfoAndDirectory
@@ -229,18 +236,16 @@ impl BundleFile {
             reader.align(16)?;
         }
 
-        let blocks_info_bytes: Vec<u8>;
+        let mut blocks_info_bytes = Vec::with_capacity(block_info.uncompressed_size as usize);
         if block_info.flags & ArchiveFlags::BLOCKS_INFO_AT_THE_END.bits() != 0 {
-            //0x80 BlocksInfoAtTheEnd
-            let position = reader.stream_position().unwrap();
+            // 0x80 BlocksInfoAtTheEnd
+            let position = reader.stream_position()?;
             // originally reader.length
-            reader
-                .seek(std::io::SeekFrom::End(block_info.compressed_size as i64))
-                .unwrap();
-            blocks_info_bytes = self.decompress_block(reader, &block_info, 0)?;
+            reader.seek(std::io::SeekFrom::End(block_info.compressed_size as i64))?;
+            self.decompress_block(reader, &mut blocks_info_bytes, &block_info, 0)?;
             reader.seek(std::io::SeekFrom::Start(position))?;
         } else {
-            //0x40 BlocksAndDirectoryInfoCombined
+            // 0x40 BlocksAndDirectoryInfoCombined
             if (use_new_archive_flags
                 & (block_info.flags & ArchiveFlags::USES_ASSET_BUNDLE_ENCRYPTION.bits() > 0))
                 | (!use_new_archive_flags
@@ -251,14 +256,13 @@ impl BundleFile {
                     config.unitycn_key.unwrap(),
                 )?);
             }
-            blocks_info_bytes = self.decompress_block(reader, &block_info, 0)?;
+            self.decompress_block(reader, &mut blocks_info_bytes, &block_info, 0)?;
         }
 
-        let mut block_info_reader = Cursor::new(&blocks_info_bytes);
+        let block_info_reader = &mut blocks_info_bytes.as_slice();
+        let uncompressed_data_hash = block_info_reader.read_u128::<BigEndian>()?;
 
-        let uncompressed_data_hash = block_info_reader.read_u128::<BigEndian>().unwrap();
-
-        let block_info_count = block_info_reader.read_i32::<BigEndian>().unwrap();
+        let block_info_count = block_info_reader.read_i32::<BigEndian>()?;
         let m_BlocksInfo: Vec<StorageBlock> = (0..block_info_count)
             .map(|_| StorageBlock {
                 uncompressed_size: block_info_reader.read_u32::<BigEndian>().unwrap(),
@@ -267,7 +271,7 @@ impl BundleFile {
             })
             .collect();
 
-        let FileEntrys_count = block_info_reader.read_i32::<BigEndian>().unwrap();
+        let FileEntrys_count = block_info_reader.read_i32::<BigEndian>()?;
         let m_DirectoryInfo: Vec<FileEntry> = (0..FileEntrys_count)
             .map(|_| FileEntry {
                 offset: block_info_reader.read_i64::<BigEndian>().unwrap(),
@@ -283,13 +287,11 @@ impl BundleFile {
             reader.align(16)?;
         }
 
-        let block_data: Vec<u8> = m_BlocksInfo
-            .iter()
-            .enumerate()
-            .map(|(i, block)| self.decompress_block(reader, block, i).unwrap())
-            .collect::<Vec<Vec<u8>>>()
-            .concat();
-        Ok((m_DirectoryInfo, block_data))
+        for (i, block) in m_BlocksInfo.iter().enumerate() {
+            self.decompress_block(reader, writer, block, i)?;
+        }
+
+        Ok(m_DirectoryInfo)
     }
 
     fn read_files<T: Read + Seek>(
@@ -311,21 +313,21 @@ impl BundleFile {
         Ok(())
     }
 
-    fn decompress_block<T: Read + Seek>(
+    fn decompress_block<T: Read + Seek, W: Write>(
         &mut self,
         reader: &mut T,
+        writer: &mut W,
         block: &StorageBlock,
         index: usize,
-    ) -> Result<Vec<u8>, Error> {
+    ) -> Result<(), Error> {
         let mut compressed = reader
             .read_bytes_sized(block.compressed_size as usize)
             .unwrap();
         match CompressionType::try_from(block.flags & 0x3F).unwrap() {
             CompressionType::Lzma => {
                 let mut compressed_reader = std::io::Cursor::new(&compressed);
-                let mut uncompressed = vec![0; block.uncompressed_size as usize];
-                lzma_rs::lzma_decompress(&mut compressed_reader, &mut uncompressed).unwrap();
-                Ok(uncompressed)
+                lzma_rs::lzma_decompress(&mut compressed_reader, writer).unwrap();
+                Ok(())
             }
             CompressionType::Lz4 | CompressionType::Lz4hc => {
                 if block.flags & 0x100 > 0 {
@@ -336,15 +338,19 @@ impl BundleFile {
                         index,
                     )?;
                 }
-                Ok(
+                let data =
                     lz4_flex::block::decompress(&compressed, block.uncompressed_size as usize)
-                        .unwrap(),
-                )
+                        .unwrap();
+                writer.write_all(&data)?;
+                Ok(())
             }
             CompressionType::Lzham => {
                 panic!("LZHAM is not supported");
             }
-            CompressionType::None => Ok(compressed),
+            CompressionType::None => {
+                writer.write_all(&compressed)?;
+                Ok(())
+            }
         }
     }
 }
