@@ -1,6 +1,6 @@
-mod bundlefile;
+pub mod bundlefile;
 pub mod serialzedfile;
-mod unityfile;
+pub mod unityfile;
 mod webfile;
 
 pub use bundlefile::BundleFile;

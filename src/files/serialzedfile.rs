@@ -268,14 +268,20 @@ impl ScriptType {
 
 #[derive(Debug, Clone)]
 pub struct FileIdentifier {
-    tempEmpty: Option<String>,
-    guid: Option<Guid>,
-    typeId: Option<i32>,
-    pathName: String,
+    pub tempEmpty: Option<String>,
+    pub guid: Option<Guid>,
+    pub typeId: Option<i32>,
+    pub pathName: String,
 }
 
 #[derive(Clone)]
 pub struct Guid(pub Vec<u8>);
+
+impl Guid {
+    pub fn is_zero(&self) -> bool {
+        self.0.iter().all(|&x| x == 0)
+    }
+}
 
 impl std::fmt::Debug for Guid {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
