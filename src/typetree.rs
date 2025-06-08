@@ -159,26 +159,26 @@ macro_rules! generate_read_as {
 
 #[derive(Debug, Clone)]
 pub struct TypeTreeNode {
-    m_Version: i32,
-    m_Level: u8,
-    m_TypeFlags: i32,
-    m_ByteSize: i32,
-    m_Index: Option<i32>,
-    m_MetaFlag: Option<i32>,
-    m_Type: String,
-    m_Name: String,
+    pub m_Version: i32,
+    pub m_Level: u8,
+    pub m_TypeFlags: i32,
+    pub m_ByteSize: i32,
+    pub m_Index: Option<i32>,
+    pub m_MetaFlag: Option<i32>,
+    pub m_Type: String,
+    pub m_Name: String,
     //unsigned short children_count,
     //struct TypeTreeNodeObject **children,
     // UnityFS
     // unsigned int m_TypeStrOffset,
     // unsigned int m_NameStrOffset,
     // UnityFS - version >= 19
-    m_RefTypeHash: Option<u64>,
+    pub m_RefTypeHash: Option<u64>,
     // UnityRaw - versin = 2
-    m_VariableCount: Option<i32>,
+    pub m_VariableCount: Option<i32>,
     // helper fields
     //typehash: u32,
-    children: Vec<TypeTreeNode>,
+    pub children: Vec<TypeTreeNode>,
 }
 impl TypeTreeNode {
     pub fn from_reader<R: std::io::Read + std::io::Seek, B: ByteOrder>(
@@ -314,7 +314,7 @@ impl TypeTreeNode {
         Ok(root_node)
     }
 
-    fn requires_align(&self) -> bool {
+    pub(crate) fn requires_align(&self) -> bool {
         (self.m_MetaFlag.unwrap_or(0) & TransferMetaFlags::ALIGN_BYTES_FLAG.bits()) != 0
     }
 
@@ -467,11 +467,9 @@ impl TypeTreeNode {
             "UInt64" | "unsigned long long" | "FileSize" => {
                 rmp::encode::write_u64::<W>(writer, reader.read_u64::<B>().unwrap())
             }
-            "bool" => match rmp::encode::write_bool::<W>(writer, reader.read_bool().unwrap()){
+            "bool" => match rmp::encode::write_bool::<W>(writer, reader.read_bool().unwrap()) {
                 Ok(_) => Ok(()),
-                Err(e) => {
-                    Err(rmp::encode::ValueWriteError::InvalidDataWrite(e))
-                }
+                Err(e) => Err(rmp::encode::ValueWriteError::InvalidDataWrite(e)),
             },
             "float" => rmp::encode::write_f32::<W>(writer, reader.read_f32::<B>().unwrap()),
             "double" => rmp::encode::write_f64::<W>(writer, reader.read_f64::<B>().unwrap()),
@@ -499,8 +497,8 @@ impl TypeTreeNode {
                 rmp::encode::write_array_len(writer, size as u32).unwrap();
                 for _ in 0..size {
                     rmp::encode::write_array_len(writer, 2).unwrap();
-                    first._read_as_msgpack::<R,B,W>(reader, writer)?;
-                    second._read_as_msgpack::<R,B,W>(reader, writer)?;
+                    first._read_as_msgpack::<R, B, W>(reader, writer)?;
+                    second._read_as_msgpack::<R, B, W>(reader, writer)?;
                 }
                 Ok(())
             }
@@ -519,7 +517,7 @@ impl TypeTreeNode {
 
                     rmp::encode::write_array_len(writer, size as u32).unwrap();
                     for _ in 0..size {
-                        array_node._read_as_msgpack::<R,B,W>(reader, writer)?;
+                        array_node._read_as_msgpack::<R, B, W>(reader, writer)?;
                     }
                     Ok(())
                 } else {
@@ -527,7 +525,7 @@ impl TypeTreeNode {
                     rmp::encode::write_map_len(writer, self.children.len() as u32).unwrap();
                     for child in &self.children {
                         rmp::encode::write_str(writer, &child.m_Name).unwrap();
-                        child._read_as_msgpack::<R,B,W>(reader, writer)?;
+                        child._read_as_msgpack::<R, B, W>(reader, writer)?;
                     }
                     Ok(())
                 }
