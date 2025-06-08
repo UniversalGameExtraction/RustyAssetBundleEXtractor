@@ -2,6 +2,7 @@ use super::UnityFile;
 use crate::objects::ClassId;
 use crate::serde_typetree;
 use crate::typetree::TypeTreeNode;
+use crate::unity_version::UnityVersion;
 use crate::{
     config::ExtractionConfig,
     read_ext::{ReadSeekUrexExt, ReadUrexExt},
@@ -388,9 +389,7 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
                     Endianness::Big => node.read::<T, R, BigEndian>(self.reader),
                 }
             }
-            _ => Err(crate::serde_typetree::Error::custom(
-                "Couldn't find typetree",
-            )),
+            _ => Err(serde_typetree::Error::custom("Couldn't find typetree")),
         }
     }
 
@@ -424,7 +423,7 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
 #[derive(Debug, Clone)]
 pub struct SerializedFile {
     pub m_Header: SerializedFileHeader,
-    pub m_UnityVersion: Option<String>,
+    pub m_UnityVersion: Option<UnityVersion>,
     pub m_TargetPlatform: Option<i32>,
     pub m_bigIDEnabled: Option<i32>,
     pub m_Types: Vec<SerializedType>,
@@ -464,7 +463,7 @@ impl SerializedFile {
         // Read Metadata
         let mut m_UnityVersion = None;
         if header.m_Version >= 9 {
-            m_UnityVersion = Some(reader.read_cstr()?);
+            m_UnityVersion = Some(reader.read_cstr()?.parse().unwrap());
             // SetVersion(unity_version);
         }
 
