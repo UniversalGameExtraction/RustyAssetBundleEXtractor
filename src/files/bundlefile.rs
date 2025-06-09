@@ -146,9 +146,9 @@ impl<R: Read + Seek> BundleFileReader<R> {
             bundle_file: self,
             blocks: blocks.into_iter().enumerate(),
             files: files.into_iter(),
-            skip_read: 0,
             scratch_pending_clear: 0,
             scratch: Vec::new(),
+            scratch_offset: 0,
         })
     }
 
@@ -485,24 +485,34 @@ mod iter {
 
     impl<R: Read + Seek> BundleFileRef<'_, '_, R> {
         pub fn read(&mut self) -> Result<&[u8], std::io::Error> {
-            self.iter.skip_read -= self.size;
-
             // clear part of scratch that was already read
             discard_front(&mut self.iter.scratch, self.iter.scratch_pending_clear);
+            self.iter.scratch_offset += self.iter.scratch_pending_clear;
             self.iter.scratch_pending_clear = 0;
 
-            if self.iter.skip_read > 0 {
-                self.iter.skip_read -= self.iter.scratch.len();
-                self.iter.scratch.clear();
+            // This is nonzero if you call `BundleIterator::next` without reading the file,
+            // OR if two files in the asset bundle aren't actually contiguous and there's a gap.
+            let mut skip_read = self.offset as usize - self.iter.scratch_offset;
+
+            if skip_read > 0 {
+                if self.iter.scratch.len() > skip_read {
+                    discard_front(&mut self.iter.scratch, skip_read);
+                    self.iter.scratch_offset += skip_read;
+                } else {
+                    skip_read -= self.iter.scratch.len();
+                    self.iter.scratch_offset += self.iter.scratch.len();
+                    self.iter.scratch.clear();
+                }
             }
 
             while let Some((block_index, block)) = self.iter.blocks.next() {
-                if self.iter.skip_read >= block.uncompressed_size as usize {
-                    self.iter.skip_read -= block.uncompressed_size as usize;
+                if skip_read >= block.uncompressed_size as usize {
+                    skip_read -= block.uncompressed_size as usize;
                     self.iter
                         .bundle_file
                         .reader
                         .seek_relative(block.compressed_size as i64)?;
+                    self.iter.scratch_offset += block.compressed_size as usize;
                     continue;
                 }
 
@@ -512,10 +522,10 @@ mod iter {
                     block_index,
                 )?;
 
-                if self.iter.skip_read > 0 {
-                    debug_assert!(self.iter.skip_read <= self.iter.scratch.len());
-                    discard_front(&mut self.iter.scratch, self.iter.skip_read);
-                    self.iter.skip_read = 0;
+                if skip_read > 0 {
+                    debug_assert!(skip_read <= self.iter.scratch.len());
+                    discard_front(&mut self.iter.scratch, skip_read);
+                    skip_read = 0;
                 }
 
                 if self.iter.scratch.len() >= self.size {
@@ -536,21 +546,19 @@ mod iter {
         pub(crate) bundle_file: &'a mut BundleFileReader<R>,
         pub(crate) blocks: std::iter::Enumerate<std::vec::IntoIter<StorageBlock>>,
         pub(crate) files: std::vec::IntoIter<FileEntry>,
-        /// When you call `BundleIterator::next` without calling `BundleFileRef::read`,
-        /// we can skip decoding some block, but need to advance the underlying reader.
-        /// To track this, `skip_read` is incremented by the file size in `next`,
-        /// and substracted when `read` is actually called.
-        pub(crate) skip_read: usize,
         /// Amount of bytes in `scratch` that were returned by `read`, and need to be clear before the next file
         pub(crate) scratch_pending_clear: usize,
         /// Scratch buffer which `read` returns a slice to
         pub(crate) scratch: Vec<u8>,
+        /// The current (uncompressed) position for which the scratch buffer stores data
+        /// Mainly used when files aren't continuosly next to each other, but have some
+        /// space in between them.
+        pub(crate) scratch_offset: usize,
     }
 
     impl<'a, 'r, R: Read + Seek> BundleIterator<'a, R> {
         pub fn next<'s>(&'s mut self) -> Option<BundleFileRef<'s, 'a, R>> {
             let file = self.files.next()?;
-            self.skip_read += file.size as usize;
 
             Some(BundleFileRef {
                 iter: self,
