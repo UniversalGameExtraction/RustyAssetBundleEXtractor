@@ -101,42 +101,47 @@ impl<R: Read + Seek> BundleFileRef<'_, R> {
             if self.iter.scratch.len() > skip_read {
                 discard_front(&mut self.iter.scratch, skip_read);
                 self.iter.scratch_offset += skip_read;
-            } else {
+                skip_read = 0;
+            } else if self.iter.scratch.len() > 0 {
                 skip_read -= self.iter.scratch.len();
                 self.iter.scratch_offset += self.iter.scratch.len();
                 self.iter.scratch.clear();
             }
         }
 
-        while let Some((block_index, block)) = self.iter.blocks.next() {
-            if skip_read >= block.uncompressed_size as usize {
-                skip_read -= block.uncompressed_size as usize;
-                self.iter
-                    .reader
-                    .seek_relative(block.compressed_size as i64)?;
-                self.iter.scratch_offset += block.compressed_size as usize;
-                continue;
-            }
+        if self.iter.scratch.len() < self.size {
+            while let Some((block_index, block)) = self.iter.blocks.next() {
+                if skip_read >= block.uncompressed_size as usize {
+                    skip_read -= block.uncompressed_size as usize;
+                    self.iter
+                        .reader
+                        .seek_relative(block.compressed_size as i64)?;
+                    self.iter.scratch_offset += block.uncompressed_size as usize;
+                    continue;
+                }
 
-            super::decompress_block(
-                self.iter.reader.by_ref(),
-                &mut self.iter.scratch,
-                &block,
-                block_index,
-                self.iter.decryptor.as_ref(),
-            )?;
+                super::decompress_block(
+                    self.iter.reader.by_ref(),
+                    &mut self.iter.scratch,
+                    &block,
+                    block_index,
+                    self.iter.decryptor.as_ref(),
+                )?;
 
-            if skip_read > 0 {
-                debug_assert!(skip_read <= self.iter.scratch.len());
-                discard_front(&mut self.iter.scratch, skip_read);
-                skip_read = 0;
-            }
+                if skip_read > 0 {
+                    debug_assert!(skip_read <= self.iter.scratch.len());
+                    discard_front(&mut self.iter.scratch, skip_read);
+                    self.iter.scratch_offset += skip_read;
+                    skip_read = 0;
+                }
 
-            if self.iter.scratch.len() >= self.size {
-                break;
+                if self.iter.scratch.len() >= self.size {
+                    break;
+                }
             }
         }
 
+        assert_eq!(self.iter.scratch_offset, self.offset as usize);
         self.iter.scratch_pending_clear = self.size;
         Ok(&self.iter.scratch[..self.size])
     }
