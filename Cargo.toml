@@ -41,6 +41,8 @@ brotli = { version = "8.0", optional = true }
 # LZ4 - https://crates.io/crates/lz4_flex
 lz4_flex = "0.10"
 
+lz4 = "1.28"
+
 # FMOD - https://crates.io/crates/libfmod
 # libfmod = "2.2.606" - no wasm support (due to having to provide .dll/.so)
 
@@ -76,4 +78,6 @@ rmp = { version = "0.8", optional = true }
 [dev-dependencies]
 anyhow = "1.0"
 memmap2 = "0.9"
+pretty_assertions = "1.4"
 rayon = "1.10"
+serde_json = { version = "1.0", features = ["preserve_order"] }

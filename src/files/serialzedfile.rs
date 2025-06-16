@@ -1,13 +1,21 @@
+use std::borrow::Cow;
+use std::collections::HashMap;
+use std::io::{Seek, Write};
+
 use super::UnityFile;
 use crate::objects::ClassId;
 use crate::serde_typetree;
+use crate::tpk::TpkTypeTreeBlob;
 use crate::typetree::TypeTreeNode;
 use crate::unity_version::UnityVersion;
+use crate::write_ext::WriteExt;
+use crate::write_ext::WriteSeekExt;
 use crate::{
     config::ExtractionConfig,
     read_ext::{ReadSeekUrexExt, ReadUrexExt},
 };
 use bitflags::bitflags;
+use byteorder::WriteBytesExt;
 use byteorder::{BigEndian, ByteOrder, LittleEndian, ReadBytesExt};
 
 use num_enum::TryFromPrimitive;
@@ -21,13 +29,13 @@ pub enum Endianness {
 
 #[derive(Debug, Copy, Clone)]
 pub struct SerializedFileHeader {
-    m_MetadataSize: u32,
-    m_FileSize: i64,
-    m_Version: u32,
-    m_DataOffset: i64,
-    m_Endianess: Endianness,
-    m_Reserved: [u8; 3],
-    unknown: i64,
+    pub m_MetadataSize: u32,
+    pub m_FileSize: i64,
+    pub m_Version: u32,
+    pub m_DataOffset: i64,
+    pub m_Endianess: Endianness,
+    pub m_Reserved: [u8; 3],
+    pub unknown: i64,
 }
 impl SerializedFileHeader {
     fn from_reader<T: std::io::Read + std::io::Seek>(
@@ -65,6 +73,34 @@ impl SerializedFileHeader {
         };
         Ok(header)
     }
+
+    fn write<W: Write>(&self, writer: &mut W) -> Result<(), std::io::Error> {
+        if self.m_Version < 9 {
+            todo!()
+        }
+
+        if self.m_Version >= SerializedFileFormatVersion::LARGE_FILES_SUPPORT.bits() {
+            writer.write_u32::<BigEndian>(0)?;
+            writer.write_u32::<BigEndian>(0)?;
+            writer.write_u32::<BigEndian>(self.m_Version)?;
+            writer.write_u32::<BigEndian>(0)?;
+            writer.write_u8(self.m_Endianess as u8)?;
+            writer.write_u8(0)?; // reserved
+            writer.write_u8(0)?;
+            writer.write_u8(0)?;
+            writer.write_u32::<BigEndian>(self.m_MetadataSize)?;
+            writer.write_i64::<BigEndian>(self.m_FileSize)?;
+            writer.write_i64::<BigEndian>(self.m_DataOffset)?;
+            writer.write_i64::<BigEndian>(self.unknown)?;
+        } else {
+            writer.write_u32::<BigEndian>(self.m_MetadataSize)?;
+            writer.write_u32::<BigEndian>(self.m_FileSize as u32)?;
+            writer.write_u32::<BigEndian>(self.m_Version)?;
+            writer.write_u32::<BigEndian>(self.m_DataOffset as u32)?;
+            todo!();
+        }
+        Ok(())
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -82,7 +118,22 @@ pub struct SerializedType {
     // for non ref-types
     pub m_TypeDependencies: Vec<i32>,
 }
+
 impl SerializedType {
+    pub fn simple(class_id: ClassId, typetree: Option<TypeTreeNode>) -> SerializedType {
+        SerializedType {
+            m_ClassID: class_id,
+            m_IsStrippedType: false,
+            m_ScriptTypeIndex: -1,
+            m_ScriptID: [0; 16],
+            m_OldTypeHash: [0; 16],
+            m_Type: typetree,
+            m_ClassName: None,
+            m_NameSpace: None,
+            m_AsmName: None,
+            m_TypeDependencies: Vec::new(),
+        }
+    }
     pub fn from_reader<T: std::io::Read + std::io::Seek, B: ByteOrder>(
         reader: &mut T,
         header: &SerializedFileHeader,
@@ -148,6 +199,57 @@ impl SerializedType {
 
         Ok(typ)
     }
+
+    fn write<W: Write, B: ByteOrder>(
+        &self,
+        mut writer: W,
+        version: u32,
+        is_ref_type: bool,
+        enable_type_tree: bool,
+        common_offset_map: &HashMap<&str, u32>,
+    ) -> Result<(), std::io::Error> {
+        writer.write_i32::<B>(self.m_ClassID.0)?;
+
+        if version >= 16 {
+            writer.write_u8(self.m_IsStrippedType as u8)?;
+        }
+        if version >= 17 {
+            writer.write_i16::<B>(self.m_ScriptTypeIndex)?;
+        }
+        if version >= 13 {
+            if is_ref_type && self.m_ScriptTypeIndex >= 0
+                || version < 16 && self.m_ClassID.0 < 0
+                || version >= 16 && self.m_ClassID == ClassId::MonoBehaviour
+            {
+                writer.write_all(&self.m_ScriptID)?;
+            }
+            writer.write_all(&self.m_OldTypeHash)?;
+        }
+
+        if enable_type_tree {
+            let ty = self.m_Type.as_ref().unwrap();
+            if version >= 12 || version == 10 {
+                ty.write_blob::<_, B>(writer.by_ref(), version, common_offset_map)?;
+            } else {
+                todo!()
+            }
+
+            if version >= 21 {
+                if is_ref_type {
+                    writer.write_cstr(self.m_ClassName.as_ref().unwrap())?;
+                    writer.write_cstr(self.m_NameSpace.as_ref().unwrap())?;
+                    writer.write_cstr(self.m_AsmName.as_ref().unwrap())?;
+                } else {
+                    writer.write_i32::<B>(self.m_TypeDependencies.len() as i32)?;
+                    for &type_dependency in &self.m_TypeDependencies {
+                        writer.write_i32::<B>(type_dependency)?;
+                    }
+                }
+            }
+        }
+
+        Ok(())
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -174,7 +276,7 @@ impl LocalSerializedObjectIdentifier {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct ObjectInfo {
     pub m_PathID: i64,
     pub m_Offset: i64,
@@ -424,10 +526,11 @@ pub struct SerializedFile {
     pub m_Header: SerializedFileHeader,
     pub m_UnityVersion: Option<UnityVersion>,
     pub m_TargetPlatform: Option<i32>,
+    pub m_EnableTypeTree: bool,
     pub m_bigIDEnabled: Option<i32>,
     pub m_Types: Vec<SerializedType>,
     pub m_Objects: Vec<ObjectInfo>,
-    pub m_ScriptTypes: Option<Vec<ScriptType>>,
+    pub m_ScriptTypes: Option<Vec<LocalSerializedObjectIdentifier>>,
     pub m_Externals: Vec<FileIdentifier>,
     pub m_RefTypes: Option<Vec<SerializedType>>,
     pub m_UserInformation: Option<String>,
@@ -471,15 +574,15 @@ impl SerializedFile {
             // }
         }
 
-        let mut m_EnabledTypeTree = false;
+        let mut m_EnableTypeTree = false;
         if header.m_Version >= 11 {
-            m_EnabledTypeTree = reader.read_bool()?;
+            m_EnableTypeTree = reader.read_bool()?;
         }
 
         // Read Types
         let typeCount = reader.read_i32::<B>()?;
         let m_Types: Vec<SerializedType> = (0..typeCount)
-            .map(|_| SerializedType::from_reader::<T, B>(reader, &header, m_EnabledTypeTree, false))
+            .map(|_| SerializedType::from_reader::<T, B>(reader, &header, m_EnableTypeTree, false))
             .collect::<Result<Vec<_>, _>>()?;
 
         let m_bigIDEnabled = None;
@@ -495,10 +598,10 @@ impl SerializedFile {
             .map(|_| ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled, &m_Types))
             .collect::<Result<_, _>>()?;
 
-        let m_ScriptTypes = None;
+        let mut m_ScriptTypes = None;
         if header.m_Version >= SerializedFileFormatVersion::HAS_SCRIPT_TYPE_INDEX.bits() {
             let scriptCount = reader.read_i32::<B>()?;
-            let _m_ScriptTypes: Option<Vec<LocalSerializedObjectIdentifier>> = Some(
+            m_ScriptTypes = Some(
                 (0..scriptCount)
                     .map(|_| LocalSerializedObjectIdentifier::from_reader::<T, B>(reader, &header))
                     .collect::<Result<_, _>>()?,
@@ -510,26 +613,21 @@ impl SerializedFile {
             .map(|_| FileIdentifier::from_reader::<T, B>(reader, &header))
             .collect::<Result<_, _>>()?;
 
-        let m_RefTypes = None;
+        let mut m_RefTypes = None;
         if header.m_Version >= SerializedFileFormatVersion::SUPPORTS_REF_OBJECT.bits() {
             let refTypesCount = reader.read_i32::<B>()?;
-            let _m_RefTypes: Option<Vec<SerializedType>> = Some(
+            m_RefTypes = Some(
                 (0..refTypesCount)
                     .map(|_| {
-                        SerializedType::from_reader::<T, B>(
-                            reader,
-                            &header,
-                            m_EnabledTypeTree,
-                            true,
-                        )
+                        SerializedType::from_reader::<T, B>(reader, &header, m_EnableTypeTree, true)
                     })
                     .collect::<Result<_, _>>()?,
             );
         }
 
-        let m_UserInformation = None;
+        let mut m_UserInformation = None;
         if header.m_Version >= SerializedFileFormatVersion::UNKNOWN_5.bits() {
-            let _m_UserInformation = Some(reader.read_cstr()?);
+            m_UserInformation = Some(reader.read_cstr()?);
         }
 
         //reader.AlignStream(16);
@@ -537,6 +635,7 @@ impl SerializedFile {
             m_Header: header,
             m_UnityVersion,
             m_TargetPlatform,
+            m_EnableTypeTree,
             m_bigIDEnabled,
             m_Types,
             m_Objects,
@@ -615,4 +714,259 @@ bitflags! {
         /// 2020.1 to x
         const LARGE_FILES_SUPPORT = 22;
     }
+}
+
+/// Header is ignored and recomputed except for version
+pub fn write_serialized<W: Write + Seek>(
+    writer: W,
+    serialized: &SerializedFile,
+    file_data: &[u8],
+    common_offset_map: &HashMap<&str, u32>,
+) -> Result<(), std::io::Error> {
+    write_serialized_with(
+        writer,
+        serialized,
+        common_offset_map,
+        serialized.m_Objects.iter().map(|obj| {
+            let data =
+                &file_data[obj.m_Offset as usize..obj.m_Offset as usize + obj.m_Size as usize];
+            (obj.clone(), Cow::Borrowed(data))
+        }),
+    )
+}
+
+pub fn build_common_offset_map(
+    tt: &TpkTypeTreeBlob,
+    unity_version: UnityVersion,
+) -> HashMap<&str, u32> {
+    let common_offset_map = {
+        let strings = tt
+            .common_string
+            .string_buffer_indices
+            .iter()
+            .map(|&i| &tt.string_buffer[i as usize])
+            .collect::<Vec<_>>();
+        let count = tt.common_string.get_count(unity_version).unwrap();
+        let strings = &strings[..count as usize];
+
+        let mut ret = HashMap::new();
+        let mut offset = 0;
+        for str in strings {
+            ret.insert(str.as_str(), offset as u32);
+            offset += str.len() + 1
+        }
+        ret
+    };
+    common_offset_map
+}
+
+/// Header is ignored and recomputed except for version
+/// Objects are ignored and taken from `objects`
+///
+/// m_Offset and m_Sized are ignored in `objects`
+pub fn write_serialized_with<'a, W: Write + Seek>(
+    writer: W,
+    serialized: &SerializedFile,
+    common_offset_map: &HashMap<&str, u32>,
+    objects: impl Iterator<Item = (ObjectInfo, Cow<'a, [u8]>)>,
+) -> Result<(), std::io::Error> {
+    match serialized.m_Header.m_Endianess {
+        Endianness::Little => write_serialized_endianed::<W, LittleEndian>(
+            writer,
+            serialized,
+            common_offset_map,
+            objects,
+        ),
+        Endianness::Big => write_serialized_endianed::<W, BigEndian>(
+            writer,
+            serialized,
+            common_offset_map,
+            objects,
+        ),
+    }
+}
+
+fn write_serialized_endianed<'a, W: Write + Seek, B: ByteOrder>(
+    mut writer: W,
+    serialized: &SerializedFile,
+    common_offset_map: &HashMap<&str, u32>,
+    objects: impl Iterator<Item = (ObjectInfo, Cow<'a, [u8]>)>,
+) -> Result<(), std::io::Error> {
+    let start = writer.stream_position()?;
+
+    serialized.m_Header.write(writer.by_ref())?;
+
+    let metadata_start = writer.stream_position()?;
+
+    let version = serialized.m_Header.m_Version;
+    // in the reader this is 9 10 11, in UnityPy 7 8 13
+    if version >= 7 {
+        writer.write_cstr(&serialized.m_UnityVersion.unwrap().to_string())?;
+    }
+    if version >= 8 {
+        writer.write_i32::<B>(serialized.m_TargetPlatform.unwrap())?;
+    }
+
+    if version >= 13 {
+        writer.write_u8(serialized.m_EnableTypeTree as u8)?;
+    }
+
+    writer.write_i32::<B>(serialized.m_Types.len() as i32)?;
+    for ty in &serialized.m_Types {
+        ty.write::<_, B>(
+            writer.by_ref(),
+            version,
+            false,
+            serialized.m_EnableTypeTree,
+            common_offset_map,
+        )?;
+    }
+
+    if (7..14).contains(&version) {
+        writer.write_i32::<B>(serialized.m_bigIDEnabled.unwrap())?;
+    }
+
+    let mut data_writer = Vec::<u8>::new();
+
+    // writer.write_i32::<B>(serialized.m_Objects.len() as i32)?;
+    let object_length_pos = writer.stream_position()?;
+    writer.write_i32::<B>(0x0FFFFFFF)?; // written later
+
+    let mut object_count = 0;
+    for (mut obj, obj_data) in objects {
+        crate::write_ext::align_vec::<8>(&mut data_writer);
+
+        obj.m_Size = obj_data.len() as u32;
+        let offset = data_writer.len() as i64;
+
+        if serialized.m_bigIDEnabled.unwrap_or(0) > 0 {
+            writer.write_i64::<B>(obj.m_PathID)?;
+        } else if version < 14 {
+            writer.write_i32::<B>(obj.m_PathID as i32)?;
+        } else {
+            writer.align::<4>()?;
+            writer.write_i64::<B>(obj.m_PathID)?;
+        }
+
+        if version >= 22 {
+            writer.write_i64::<B>(offset)?;
+        } else {
+            writer.write_i32::<B>(offset as i32)?;
+        }
+
+        data_writer.extend_from_slice(obj_data.as_ref());
+
+        writer.write_u32::<B>(obj.m_Size)?;
+        writer.write_i32::<B>(obj.m_TypeID)?;
+
+        if version < 16 {
+            writer.write_i16::<B>(obj.m_ClassID.0.try_into().unwrap())?;
+        }
+        if version < 11 {
+            // write self.is_destroyed
+            todo!()
+        }
+
+        if (11..17).contains(&version) {
+            writer.write_i16::<B>(obj.m_ScriptTypeIndex.unwrap())?;
+        }
+
+        object_count += 1;
+    }
+
+    if version >= 11 {
+        let script_types = serialized.m_ScriptTypes.as_deref().unwrap_or_default();
+        writer.write_i32::<B>(script_types.len() as i32)?;
+        for ty in script_types {
+            writer.write_i32::<B>(ty.m_LocalSerializedFileIndex)?;
+            if version < 14 {
+                writer.write_i32::<B>(ty.m_LocalIdentifierInFile as i32)?;
+            } else {
+                writer.align::<4>()?;
+                writer.write_i64::<B>(ty.m_LocalIdentifierInFile)?;
+            }
+        }
+    }
+
+    writer.write_i32::<B>(serialized.m_Externals.len() as i32)?;
+    for external in &serialized.m_Externals {
+        if version >= 6 {
+            let temp_empty = external.tempEmpty.as_deref().unwrap();
+            writer.write_cstr(temp_empty)?;
+        }
+        if version >= 5 {
+            let guid = external.guid.as_ref().unwrap();
+            writer.write_all(&guid.0)?;
+            writer.write_i32::<B>(external.typeId.unwrap())?;
+        }
+        writer.write_cstr(&external.pathName)?;
+    }
+
+    if version >= 20 {
+        let ref_types = serialized.m_RefTypes.as_deref().unwrap();
+        writer.write_i32::<B>(ref_types.len() as i32)?;
+        for _ in ref_types {
+            todo!();
+        }
+    }
+
+    if version >= 5 {
+        let user_info = serialized.m_UserInformation.as_deref().unwrap();
+        writer.write_cstr(user_info)?;
+    }
+
+    let computed_metadata_size = writer.stream_position()? as usize - metadata_start as usize;
+
+    writer.align::<16>()?;
+    if serialized.m_Header.m_DataOffset == 4096 {
+        // unity behaviour
+        if writer.stream_position()? < 4096 {
+            writer.seek(std::io::SeekFrom::Start(4096))?;
+        }
+    }
+
+    let computed_dataoffset = writer.stream_position()? as usize;
+    writer.write_all(&data_writer)?;
+    let computed_filesize = writer.stream_position()? as usize;
+
+    let mut modified_header = serialized.m_Header;
+    modified_header.m_MetadataSize = computed_metadata_size as u32;
+    modified_header.m_DataOffset = computed_dataoffset as i64;
+    modified_header.m_FileSize = computed_filesize as i64;
+
+    // Write early data depending on unknown sizes
+
+    writer.seek(std::io::SeekFrom::Start(start))?;
+    modified_header.write(writer.by_ref())?;
+
+    writer.seek(std::io::SeekFrom::Start(object_length_pos))?;
+    writer.write_i32::<B>(object_count)?;
+
+    /*
+    // only if the objects weren't modified
+    assert_eq!(
+        serialized.m_Header.m_MetadataSize as usize,
+        computed_metadata_size
+    );
+    assert_eq!(
+        serialized.m_Header.m_DataOffset as usize,
+        _computed_dataoffset
+    );
+    assert_eq!(serialized.m_Header.m_FileSize as usize, computed_filesize);
+    */
+
+    Ok(())
+}
+
+fn write_n_zeroes<W: Write>(writer: &mut W, n: usize) -> std::io::Result<()> {
+    const ZERO_BUF_SIZE: usize = 1024;
+    let zero_buf = [0u8; ZERO_BUF_SIZE];
+
+    let mut remaining = n;
+    while remaining > 0 {
+        let to_write = remaining.min(ZERO_BUF_SIZE);
+        writer.write_all(&zero_buf[..to_write])?;
+        remaining -= to_write;
+    }
+    Ok(())
 }

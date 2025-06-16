@@ -1,9 +1,11 @@
 #![allow(clippy::redundant_closure_call)]
 use crate::commonstring::COMMONSTRING;
 use crate::read_ext::ReadUrexExt;
+use crate::write_ext::WriteExt;
 use bitflags::bitflags;
-use byteorder::{ByteOrder, ReadBytesExt};
-use std::io::{Read, Seek};
+use byteorder::{ByteOrder, ReadBytesExt, WriteBytesExt};
+use std::collections::HashMap;
+use std::io::{Read, Seek, Write};
 
 bitflags! {
     struct TransferMetaFlags: i32 {
@@ -58,7 +60,7 @@ bitflags! {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct TypeTreeNode {
     pub m_Version: i32,
     pub m_Level: u8,
@@ -214,6 +216,93 @@ impl TypeTreeNode {
             println!("Warning: not all nodes were added to the tree");
         }
         Ok(root_node)
+    }
+
+    pub fn write_blob<W: Write, B: ByteOrder>(
+        &self,
+        mut writer: W,
+        version: u32,
+        offset_map: &HashMap<&str, u32>,
+    ) -> Result<(), std::io::Error> {
+        let mut count = 0;
+
+        let mut node_out = Vec::new();
+        let mut string_out = Vec::new();
+
+        let mut cache: HashMap<&str, u32> = HashMap::new();
+        fn write_string<'a>(
+            cache: &mut HashMap<&'a str, u32>,
+            string_out: &mut Vec<u8>,
+            str: &'a str,
+            common_offset_map: &HashMap<&str, u32>,
+        ) -> u32 {
+            *cache
+                .entry(str)
+                .or_insert_with(|| match common_offset_map.get(str) {
+                    Some(common_offset) => *common_offset | 0x80000000,
+                    None => {
+                        let offset = string_out.len();
+                        let _ = string_out.write_cstr(str);
+                        offset as u32
+                    }
+                })
+        }
+
+        fn write_node<'a, B: ByteOrder>(
+            version: u32,
+            node_out: &mut Vec<u8>,
+            cache: &mut HashMap<&'a str, u32>,
+            string_out: &mut Vec<u8>,
+            common_offset_map: &HashMap<&str, u32>,
+            node: &'a TypeTreeNode,
+        ) -> Result<(), std::io::Error> {
+            node_out.write_i16::<B>(node.m_Version as i16)?;
+            node_out.write_u8(node.m_Level)?;
+            node_out.write_u8(node.m_TypeFlags as u8)?;
+            node_out.write_u32::<B>(write_string(
+                cache,
+                string_out,
+                &node.m_Type,
+                common_offset_map,
+            ))?;
+            node_out.write_u32::<B>(write_string(
+                cache,
+                string_out,
+                &node.m_Name,
+                common_offset_map,
+            ))?;
+            node_out.write_i32::<B>(node.m_ByteSize)?;
+            node_out.write_i32::<B>(node.m_Index.unwrap())?;
+            node_out.write_i32::<B>(node.m_MetaFlag.unwrap())?;
+            if version >= 19 {
+                node_out.write_u64::<B>(node.m_RefTypeHash.unwrap_or(0))?;
+            }
+
+            Ok(())
+        }
+
+        let mut stack = vec![self];
+        while let Some(node) = stack.pop() {
+            count += 1;
+
+            write_node::<B>(
+                version,
+                &mut node_out,
+                &mut cache,
+                &mut string_out,
+                offset_map,
+                node,
+            )?;
+
+            stack.extend(node.children.iter().rev());
+        }
+
+        writer.write_i32::<B>(count)?;
+        writer.write_i32::<B>(string_out.len() as i32)?;
+        writer.write_all(&node_out)?;
+        writer.write_all(&string_out)?;
+
+        Ok(())
     }
 
     pub(crate) fn requires_align(&self) -> bool {

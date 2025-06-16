@@ -1,4 +1,5 @@
 use crate::unity_version::UnityVersion;
+use crate::write_ext::{WriteExt, WriteSeekExt};
 use crate::{
     archive_storage_manager::ArchiveStorageDecryptor,
     config::ExtractionConfig,
@@ -6,6 +7,7 @@ use crate::{
     read_ext::{ReadSeekUrexExt, ReadUrexExt},
 };
 use bitflags::bitflags;
+use byteorder::WriteBytesExt;
 use byteorder::{BigEndian, ReadBytesExt};
 use num_enum::TryFromPrimitive;
 use std::io::{Error, Read, Seek, Write};
@@ -41,7 +43,7 @@ bitflags! {
 //     }
 // }
 
-#[derive(Debug, Eq, PartialEq, TryFromPrimitive)]
+#[derive(Debug, Eq, PartialEq, TryFromPrimitive, Clone, Copy)]
 #[repr(u32)]
 pub enum CompressionType {
     None = 0,
@@ -57,6 +59,16 @@ pub enum BundleSignature {
     UnityWeb,
     UnityRaw,
     UnityFS,
+}
+impl std::fmt::Display for BundleSignature {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            BundleSignature::UnityArchive => f.write_str("UnityArchive"),
+            BundleSignature::UnityWeb => f.write_str("UnityWeb"),
+            BundleSignature::UnityRaw => f.write_str("UnityRaw"),
+            BundleSignature::UnityFS => f.write_str("UnityFS"),
+        }
+    }
 }
 impl FromStr for BundleSignature {
     type Err = ();
@@ -81,6 +93,18 @@ pub struct BundleFileHeader {
 }
 
 impl BundleFileHeader {
+    pub fn write<T: Write>(&self, mut writer: T) -> Result<(), Error> {
+        writer.write_cstr(&self.signature.to_string())?;
+        writer.write_u32::<BigEndian>(self.version)?;
+        writer.write_cstr(&self.unity_version)?;
+        writer.write_cstr(
+            self.unity_revision
+                .map(|v| v.to_string())
+                .as_deref()
+                .unwrap_or("0.0.0"),
+        )?;
+        Ok(())
+    }
     pub fn from_reader<T: Read + Seek>(reader: &mut T) -> Result<Self, Error> {
         Ok(BundleFileHeader {
             signature: reader.read_cstr().unwrap().parse().unwrap(),
@@ -101,6 +125,271 @@ impl BundleFileHeader {
     }
 }
 
+fn write_infoblock(block_infos: &[StorageBlock], files: &[FileEntry]) -> Result<Vec<u8>, Error> {
+    let mut info_block_writer = Vec::<u8>::new();
+    info_block_writer.write_u128::<BigEndian>(0)?;
+
+    info_block_writer.write_i32::<BigEndian>(block_infos.len() as i32)?;
+    for block in block_infos {
+        info_block_writer.write_u32::<BigEndian>(block.uncompressed_size)?;
+        info_block_writer.write_u32::<BigEndian>(block.compressed_size)?;
+        info_block_writer.write_u16::<BigEndian>(block.flags as u16)?;
+    }
+
+    info_block_writer.write_i32::<BigEndian>(files.len() as i32)?;
+    for file in files {
+        info_block_writer.write_i64::<BigEndian>(file.offset)?;
+        info_block_writer.write_i64::<BigEndian>(file.size)?;
+        info_block_writer.write_u32::<BigEndian>(file.flags)?;
+        info_block_writer.write_cstr(&file.path)?;
+    }
+    Ok(info_block_writer)
+}
+
+pub fn write_bundle<W: Write + Seek>(
+    header: &BundleFileHeader,
+    mut writer: W,
+    header_compression: CompressionType,
+    compression: CompressionType,
+    files: &[FileEntry],
+    uncompressed_data: &[u8],
+) -> Result<(), Error> {
+    header.write(&mut writer)?;
+    if let BundleSignature::UnityFS = header.signature {
+    } else {
+        todo!();
+    }
+    write_fs(
+        header,
+        writer,
+        header_compression,
+        compression,
+        files,
+        uncompressed_data,
+    )
+}
+
+pub fn write_bundle_iter<W: Write + Seek, R: Read>(
+    header: &BundleFileHeader,
+    mut writer: W,
+    header_compression: CompressionType,
+    compression: CompressionType,
+    files: impl Iterator<Item = Result<(String, R), std::io::Error>>,
+) -> Result<(), Error> {
+    header.write(&mut writer)?;
+    if let BundleSignature::UnityFS = header.signature {
+    } else {
+        todo!();
+    }
+    write_fs_iter(header, writer, header_compression, compression, files)
+}
+
+fn write_fs_iter<W: Write + Seek, R: Read>(
+    header: &BundleFileHeader,
+    writer: W,
+    header_compression: CompressionType,
+    compression: CompressionType,
+    files: impl Iterator<Item = Result<(String, R), std::io::Error>>,
+) -> Result<(), Error> {
+    let mut uncompressed_data = Vec::new();
+    let mut dir_info = Vec::new();
+    for item in files {
+        let (path, mut data) = item?;
+        let offset = uncompressed_data.len();
+        let len = std::io::copy(&mut data, &mut uncompressed_data)?;
+        dir_info.push(FileEntry {
+            offset: offset as i64,
+            size: len as i64,
+            flags: 4,
+            path,
+        });
+    }
+    write_fs(
+        header,
+        writer,
+        header_compression,
+        compression,
+        &dir_info,
+        &uncompressed_data,
+    )
+}
+
+pub fn write_fs<W: Write + Seek>(
+    header: &BundleFileHeader,
+    mut writer: W,
+    header_compression: CompressionType,
+    compression: CompressionType,
+    files: &[FileEntry],
+    uncompressed_data: &[u8],
+) -> Result<(), Error> {
+    let use_new_archive_flags = use_new_archive_flags(header, &ExtractionConfig::default());
+    let info_block_flags = match use_new_archive_flags {
+        true => (ArchiveFlags::BLOCKS_AND_DIRECTORY_INFO_COMBINED
+            | ArchiveFlags::BLOCK_INFO_NEED_PADDING_AT_START)
+            .bits(),
+        false => ArchiveFlagsOld::BLOCKS_AND_DIRECTORY_INFO_COMBINED.bits(),
+    } | header_compression as u32;
+
+    let (compressed_block_data, block_infos) = {
+        let mut compressed_block_data = Vec::new();
+        let mut block_infos = Vec::new();
+
+        let flags = match compression {
+            CompressionType::Lz4hc => ArchiveFlags::empty().bits(),
+            _ => ArchiveFlags::BLOCKS_AND_DIRECTORY_INFO_COMBINED.bits(),
+        } | compression as u32;
+
+        match compression {
+            CompressionType::None => {
+                compressed_block_data.extend_from_slice(uncompressed_data);
+                block_infos.push(StorageBlock {
+                    compressed_size: uncompressed_data.len() as u32,
+                    uncompressed_size: uncompressed_data.len() as u32,
+                    flags,
+                });
+            }
+            _ => {
+                const CHUNK_SIZE: usize = 0x20000;
+
+                let mut reader = uncompressed_data;
+                loop {
+                    let chunk = read_chunk_slice::<CHUNK_SIZE>(&mut reader);
+
+                    let start_len = compressed_block_data.len();
+                    write_block(&mut compressed_block_data, chunk, flags)?;
+                    let end_len = compressed_block_data.len();
+                    let compressed_size = end_len - start_len;
+                    block_infos.push(StorageBlock {
+                        compressed_size: compressed_size as u32,
+                        uncompressed_size: chunk.len() as u32,
+                        flags,
+                    });
+
+                    if chunk.len() < CHUNK_SIZE {
+                        break;
+                    }
+                }
+            }
+        };
+
+        (compressed_block_data, block_infos)
+    };
+
+    let (info_block_compressed, info_storage_block) = {
+        let mut info_block = Vec::new();
+        info_block.write_u128::<BigEndian>(0)?;
+
+        info_block.write_i32::<BigEndian>(block_infos.len() as i32)?;
+        for block in block_infos {
+            info_block.write_u32::<BigEndian>(block.uncompressed_size)?;
+            info_block.write_u32::<BigEndian>(block.compressed_size)?;
+            info_block.write_u16::<BigEndian>(block.flags as u16)?;
+        }
+
+        info_block.write_i32::<BigEndian>(files.len() as i32)?;
+        for file in files {
+            info_block.write_i64::<BigEndian>(file.offset)?;
+            info_block.write_i64::<BigEndian>(file.size)?;
+            info_block.write_u32::<BigEndian>(file.flags)?;
+            info_block.write_cstr(&file.path)?;
+        }
+
+        let mut info_block_compressed = Vec::new();
+        write_block(&mut info_block_compressed, &info_block, info_block_flags)?;
+        let info_storage_block = StorageBlock {
+            compressed_size: info_block_compressed.len() as u32,
+            uncompressed_size: info_block.len() as u32,
+            flags: info_block_flags,
+        };
+        (info_block_compressed, info_storage_block)
+    };
+
+    // begin writing
+
+    let start_position = writer.stream_position()?;
+    writer.write_i64::<BigEndian>(i64::from_be_bytes([255, 255, 255, 255, 255, 255, 255, 255]))?; // total size
+
+    writer.write_u32::<BigEndian>(info_storage_block.compressed_size)?;
+    writer.write_u32::<BigEndian>(info_storage_block.uncompressed_size)?;
+    writer.write_u32::<BigEndian>(info_storage_block.flags)?;
+
+    if header.version >= 7 {
+        // todo >= (2019,4)
+        writer.align::<16>()?;
+    }
+
+    if (info_block_flags & ArchiveFlags::BLOCKS_INFO_AT_THE_END.bits()) != 0 {
+        todo!()
+    }
+
+    let do_encryption = match use_new_archive_flags {
+        true => info_block_flags & ArchiveFlags::USES_ASSET_BUNDLE_ENCRYPTION.bits() > 0,
+        false => info_block_flags & ArchiveFlagsOld::USES_ASSET_BUNDLE_ENCRYPTION.bits() > 0,
+    };
+    if do_encryption {
+        todo!();
+    }
+
+    writer.write_all(&info_block_compressed)?;
+
+    if use_new_archive_flags
+        & (info_storage_block.flags & ArchiveFlags::BLOCK_INFO_NEED_PADDING_AT_START.bits() > 0)
+    {
+        writer.align::<16>()?;
+    }
+
+    writer.write_all(&compressed_block_data)?;
+
+    let length = writer.stream_position().unwrap();
+
+    writer.seek(std::io::SeekFrom::Start(start_position))?;
+    writer.write_i64::<BigEndian>(length as i64)?;
+    writer.seek(std::io::SeekFrom::Start(length))?;
+
+    Ok(())
+}
+
+fn write_block<W: Write>(
+    writer: &mut W,
+    block_data: &[u8],
+    block_flags: u32,
+) -> Result<(), std::io::Error> {
+    if (block_flags & 0x100) > 0 {
+        todo!();
+    }
+    match CompressionType::try_from(block_flags & 0x3F).unwrap() {
+        CompressionType::None => {
+            writer.write_all(block_data)?;
+        }
+        CompressionType::Lzma => {
+            let mut block_data_reader = block_data;
+            lzma_rs::lzma_compress_with_options(
+                &mut block_data_reader,
+                writer,
+                &lzma_rs::compress::Options {
+                    unpacked_size: lzma_rs::compress::UnpackedSize::SkipWritingToHeader,
+                },
+            )?;
+        }
+        CompressionType::Lz4 => {
+            let out = lz4_flex::block::compress(block_data);
+            writer.write_all(&out)?;
+        }
+        CompressionType::Lz4hc => {
+            let out = lz4::block::compress(
+                block_data,
+                Some(lz4::block::CompressionMode::HIGHCOMPRESSION(12)), // TODO 6-12 works so far
+                false,
+            )?;
+            writer.write_all(&out)?;
+        }
+
+        CompressionType::Lzham => todo!(),
+    }
+    Ok(())
+}
+
+#[derive(Debug, PartialEq, Eq)]
 pub struct StorageBlock {
     pub compressed_size: u32,
     pub uncompressed_size: u32,
@@ -229,12 +518,23 @@ impl BundleFile {
             read_unityfs_info(&mut self.m_Header, reader, config)?;
         self._decryptor = decryptor;
 
-        for (i, block) in block_infos.iter().enumerate() {
+        self.m_BlocksInfo = block_infos;
+
+        for (i, block) in self.m_BlocksInfo.iter().enumerate() {
             decompress_block(reader, writer, block, i, self._decryptor.as_ref())?;
         }
 
         Ok(directory_infos)
     }
+}
+
+fn use_new_archive_flags(m_Header: &BundleFileHeader, config: &ExtractionConfig) -> bool {
+    let version = m_Header.get_revision_tuple(config);
+    let old = (version < (2020, 0, 0))
+        | ((version.0 == 2020) & (version < (2020, 3, 34)))
+        | ((version.0 == 2021) & (version < (2021, 3, 2)))
+        | ((version.0 == 2022) & (version < (2022, 1, 1)));
+    !old
 }
 
 #[allow(clippy::type_complexity)]
@@ -250,13 +550,7 @@ pub fn read_unityfs_info<R: Read + Seek>(
     ),
     Error,
 > {
-    let use_new_archive_flags = !{
-        let version = m_Header.get_revision_tuple(config);
-        (version < (2020, 0, 0))
-            | ((version.0 == 2020) & (version < (2020, 3, 34)))
-            | ((version.0 == 2021) & (version < (2021, 3, 2)))
-            | ((version.0 == 2022) & (version < (2022, 1, 1)))
-    };
+    let use_new_archive_flags = use_new_archive_flags(m_Header, config);
 
     //ReadHeader
     m_Header.size = reader.read_i64::<BigEndian>()? as u32;
@@ -266,6 +560,7 @@ pub fn read_unityfs_info<R: Read + Seek>(
         uncompressed_size: reader.read_u32::<BigEndian>()?,
         flags: reader.read_u32::<BigEndian>()?,
     };
+
     if let BundleSignature::UnityFS = m_Header.signature {
         reader.read_bool()?;
     }
@@ -394,5 +689,35 @@ impl UnityFile for BundleFile {
         Self: Sized,
     {
         BundleFile::from_reader(reader, config)
+    }
+}
+
+fn read_chunk<'a, R: Read, const C: usize>(
+    reader: &mut R,
+    buf: &'a mut [u8; C],
+) -> Result<&'a [u8], std::io::Error> {
+    let mut total_read = 0;
+
+    while total_read < C {
+        match reader.read(&mut buf[total_read..])? {
+            0 => break,
+            n => total_read += n,
+        }
+    }
+
+    Ok(&buf[..total_read])
+}
+
+fn read_chunk_slice<'a, const C: usize>(reader: &mut &'a [u8]) -> &'a [u8] {
+    match reader.split_at_checked(C) {
+        Some((start, rest)) => {
+            *reader = rest;
+            start
+        }
+        None => {
+            let data = &**reader;
+            *reader = &[];
+            data
+        }
     }
 }

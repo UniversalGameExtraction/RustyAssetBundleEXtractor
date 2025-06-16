@@ -311,6 +311,26 @@ impl TpkCommonString {
             string_buffer_indices,
         })
     }
+
+    pub fn get_count(&self, target_version: UnityVersion) -> Option<u8> {
+        let mut ret = None;
+        for (version, item) in &self.version_information {
+            if target_version >= *version {
+                ret = Some(*item)
+            } else {
+                break;
+            }
+        }
+
+        let iter = self
+            .version_information
+            .iter()
+            .rev()
+            .find_map(|(version, item)| (target_version >= *version).then_some(*item));
+        assert_eq!(iter, ret);
+
+        ret
+    }
 }
 
 #[derive(Debug, Clone)]

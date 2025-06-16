@@ -10,3 +10,9 @@ Cargo.lock
 **/*.rs.bk
 
 *.tpk
+
+/dump
+/out*
+
+/*.bundle
+/*.unity3d
