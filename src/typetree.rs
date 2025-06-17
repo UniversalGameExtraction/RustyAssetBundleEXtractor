@@ -1,11 +1,9 @@
 #![allow(clippy::redundant_closure_call)]
 use crate::commonstring::COMMONSTRING;
-use crate::read_ext::ReadSeekUrexExt;
 use crate::read_ext::ReadUrexExt;
 use bitflags::bitflags;
 use byteorder::{ByteOrder, ReadBytesExt};
-use rmp;
-use std::io::{Read, Seek, Write};
+use std::io::{Read, Seek};
 
 bitflags! {
     struct TransferMetaFlags: i32 {
@@ -228,12 +226,14 @@ impl TypeTreeNode {
         crate::serde_typetree::from_reader::<_, B>(reader, self)
     }
 
+    #[cfg(feature = "formats")]
     pub fn read_as_json<R: Read + Seek, B: ByteOrder>(
         &self,
         reader: &mut R,
     ) -> Result<serde_json::Value, crate::serde_typetree::Error> {
         crate::serde_typetree::from_reader::<_, B>(reader, self)
     }
+    #[cfg(feature = "formats")]
     pub fn read_as_yaml<R: Read + Seek, B: ByteOrder>(
         &self,
         reader: &mut R,
@@ -242,6 +242,7 @@ impl TypeTreeNode {
     }
 
     /// Parses the data as of the object into the msgpack.
+    #[cfg(feature = "formats")]
     pub fn read_as_msgpack<R: Read + Seek, B: ByteOrder>(
         &self,
         reader: &mut R,
@@ -251,11 +252,14 @@ impl TypeTreeNode {
         Ok(buf.into_inner())
     }
 
-    pub fn _read_as_msgpack<R: Read + Seek, B: ByteOrder, W: Write>(
+    #[cfg(feature = "formats")]
+    pub fn _read_as_msgpack<R: Read + Seek, B: ByteOrder, W: std::io::Write>(
         &self,
         reader: &mut R,
         writer: &mut W,
     ) -> Result<(), std::io::Error> {
+        use crate::read_ext::ReadSeekUrexExt;
+
         let mut align = self.requires_align();
         match self.m_Type.as_str() {
             "SInt8" => rmp::encode::write_i8::<W>(writer, reader.read_i8().unwrap()),

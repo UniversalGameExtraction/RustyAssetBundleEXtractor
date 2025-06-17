@@ -365,14 +365,18 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
         }
     }
 
+    #[cfg(feature = "formats")]
     pub fn parse_as_json(&mut self) -> Result<serde_json::Value, serde_typetree::Error> {
         self.parse::<serde_json::Value>()
     }
+
+    #[cfg(feature = "formats")]
     pub fn parse_as_yaml(&mut self) -> Result<serde_yaml::Value, serde_typetree::Error> {
         self.parse::<serde_yaml::Value>()
     }
 
     /// Parses the object as msgpack
+    #[cfg(feature = "formats")]
     pub fn parse_as_msgpack(&mut self) -> Result<Vec<u8>, serde_typetree::Error> {
         match self.get_typetree().cloned() {
             Some(node) => {
