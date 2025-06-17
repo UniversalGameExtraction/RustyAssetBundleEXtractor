@@ -350,7 +350,18 @@ pub fn decompress_block<R: Read + Seek, W: Write>(
     match CompressionType::try_from(block.flags & 0x3F).unwrap() {
         CompressionType::Lzma => {
             let mut compressed_reader = std::io::Cursor::new(&compressed);
-            lzma_rs::lzma_decompress(&mut compressed_reader, writer).unwrap();
+            lzma_rs::lzma_decompress_with_options(
+                &mut compressed_reader,
+                writer,
+                &lzma_rs::decompress::Options {
+                    unpacked_size: lzma_rs::decompress::UnpackedSize::UseProvided(Some(
+                        block.uncompressed_size as u64,
+                    )),
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+
             Ok(())
         }
         CompressionType::Lz4 | CompressionType::Lz4hc => {
