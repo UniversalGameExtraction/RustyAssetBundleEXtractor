@@ -103,7 +103,7 @@ class AllClassHandler:
             [
                 "#![allow(warnings)]\n",
                 "use crate::objects::PPtr;\n",
-                "use serde::{Deserialize, Serialize};\n",
+                "use serde_derive::{Deserialize, Serialize};\n",
                 "\n",
             ]
         )
@@ -390,7 +390,7 @@ class Field:
     def generate_rust_field(self) -> str:
         typ = self.generate_rust_type()
         if self.aliases:
-            return f"""  #[serde({', '.join(f'alias = "{alias}"' for alias in self.aliases)})]\n  pub {self.name}: {typ},"""
+            return f"""  #[serde({", ".join(f'alias = "{alias}"' for alias in self.aliases)})]\n  pub {self.name}: {typ},"""
         return f"  pub {self.name}: {typ},"
 
 
