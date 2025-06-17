@@ -228,6 +228,7 @@ impl TpkClassInformation {
 }
 
 bitflags! {
+#[derive(Clone, Debug)]
 pub struct TpkUnityClassFlags : u8 {
     /// None of the flags apply to this class
     const NONE = 0;
