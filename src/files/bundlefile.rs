@@ -343,15 +343,11 @@ pub fn decompress_block<R: Read + Seek, W: Write>(
     index: usize,
     decryptor: Option<&ArchiveStorageDecryptor>,
 ) -> Result<(), Error> {
-    let mut compressed = reader
-        .read_bytes_sized(block.compressed_size as usize)
-        .unwrap();
-
     match CompressionType::try_from(block.flags & 0x3F).unwrap() {
         CompressionType::Lzma => {
-            let mut compressed_reader = std::io::Cursor::new(&compressed);
+            let compressed = reader.read_bytes_sized(block.compressed_size as usize)?;
             lzma_rs::lzma_decompress_with_options(
-                &mut compressed_reader,
+                &mut compressed.as_slice(),
                 writer,
                 &lzma_rs::decompress::Options {
                     unpacked_size: lzma_rs::decompress::UnpackedSize::UseProvided(Some(
@@ -365,6 +361,8 @@ pub fn decompress_block<R: Read + Seek, W: Write>(
             Ok(())
         }
         CompressionType::Lz4 | CompressionType::Lz4hc => {
+            let mut compressed = reader.read_bytes_sized(block.compressed_size as usize)?;
+
             if block.flags & 0x100 > 0 {
                 // UnityCN encryption
                 decryptor.unwrap().decrypt_block(
@@ -382,7 +380,7 @@ pub fn decompress_block<R: Read + Seek, W: Write>(
             panic!("LZHAM is not supported");
         }
         CompressionType::None => {
-            writer.write_all(&compressed)?;
+            std::io::copy(&mut reader.take(block.compressed_size as u64), writer)?;
             Ok(())
         }
     }
