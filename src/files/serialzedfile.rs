@@ -1,4 +1,5 @@
 use super::UnityFile;
+use crate::serde_typetree;
 use crate::typetree::TypeTreeNode;
 use crate::{
     config::ExtractionConfig,
@@ -306,30 +307,6 @@ pub struct ObjectHandler<'a, R: std::io::Read + std::io::Seek> {
     pub reader: &'a mut R,
 }
 
-macro_rules! parse_as {
-    ($name:ident, $ret_typ: ty) => {
-        paste::item! {
-            #[doc = "Parses the object as" $name "."]
-            pub fn [< parse_as_ $name >](&mut self) -> Result<$ret_typ, std::io::Error>{
-                match self.get_typetree().cloned() {
-                    Some(node) => {
-                        self.reader
-                            .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
-                        match self.file.m_Header.m_Endianess {
-                            Endianness::Little => node.[< read_as_ $name >]::<R, LittleEndian>(self.reader),
-                            Endianness::Big => node.[< read_as_ $name >]::<R, BigEndian>(self.reader),
-                        }
-                    }
-                    _ => Err(std::io::Error::new(
-                        std::io::ErrorKind::NotFound,
-                        "Couldn't find typetree!",
-                    )),
-                }
-            }
-        }
-    };
-}
-
 impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
     pub fn new(
         info: &'a ObjectInfo,
@@ -370,14 +347,45 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
         }
     }
 
-    pub fn parse<T: serde::de::DeserializeOwned>(&mut self) -> std::io::Result<T> {
-        let transmission = self.parse_as_msgpack().unwrap();
-        Ok(rmp_serde::from_slice::<T>(&transmission.as_slice()).unwrap())
+    pub fn parse<'de, T: serde::de::Deserialize<'de>>(
+        &mut self,
+    ) -> Result<T, serde_typetree::Error> {
+        match self.get_typetree().cloned() {
+            Some(node) => {
+                self.reader
+                    .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
+                match self.file.m_Header.m_Endianess {
+                    Endianness::Little => node.read::<T, R, LittleEndian>(self.reader),
+                    Endianness::Big => node.read::<T, R, BigEndian>(self.reader),
+                }
+            }
+            _ => Err(crate::serde_typetree::Error::custom(
+                "Couldn't find typetree",
+            )),
+        }
     }
 
-    parse_as!(json, serde_json::Value);
-    parse_as!(yaml, Result<serde_yaml::Value, serde_yaml::Error>);
-    parse_as!(msgpack, Vec<u8>);
+    pub fn parse_as_json(&mut self) -> Result<serde_json::Value, serde_typetree::Error> {
+        self.parse::<serde_json::Value>()
+    }
+    pub fn parse_as_yaml(&mut self) -> Result<serde_yaml::Value, serde_typetree::Error> {
+        self.parse::<serde_yaml::Value>()
+    }
+
+    /// Parses the object as msgpack
+    pub fn parse_as_msgpack(&mut self) -> Result<Vec<u8>, serde_typetree::Error> {
+        match self.get_typetree().cloned() {
+            Some(node) => {
+                self.reader
+                    .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
+                match self.file.m_Header.m_Endianess {
+                    Endianness::Little => node.read_as_msgpack::<R, LittleEndian>(self.reader),
+                    Endianness::Big => node.read_as_msgpack::<R, BigEndian>(self.reader),
+                }
+            }
+            _ => Err(serde_typetree::Error::custom("No Typetree foun")),
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
