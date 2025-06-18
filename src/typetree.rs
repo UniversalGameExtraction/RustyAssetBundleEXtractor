@@ -316,7 +316,7 @@ impl TypeTreeNode {
                 }
                 Ok(())
             }
-            default => {
+            _ => {
                 // array
                 //vector m_Component // ByteSize{ffffffff}, Index{1}, Version{1}, IsArray{0}, MetaFlag{8041}
                 //  Array Array // ByteSize{ffffffff}, Index{2}, Version{1}, IsArray{1}, MetaFlag{4041}
@@ -354,7 +354,7 @@ impl TypeTreeNode {
     pub fn dump(&self) -> String {
         use std::fmt::Write;
         pub fn dump_inner(tt: &TypeTreeNode, out: &mut String, indent: usize) {
-            for i in 0..indent {
+            for _ in 0..indent {
                 out.push_str("  ");
             }
             let _ = writeln!(out, "{} {}", tt.m_Type, tt.m_Name);

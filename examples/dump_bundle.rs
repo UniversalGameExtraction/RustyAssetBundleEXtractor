@@ -35,7 +35,7 @@ fn main() -> Result<()> {
         if !file.path.ends_with("resS") {
             size_main += file.size;
             let mut data = Cursor::new(file.read()?);
-            let serialized = SerializedFile::from_reader(&mut data, &config)?;
+            let serialized = SerializedFile::from_reader(&mut data)?;
             println!("  Object Count: {}", serialized.m_Objects.len());
         }
     }

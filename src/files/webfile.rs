@@ -16,11 +16,10 @@ const GZIP_MAGIC: u16 = 0x1f8b;
 const BROTLI_MAGIC: &str = "brotli";
 
 impl UnityFile for WebFile {
-    fn from_reader<T: Read + Seek>(reader: &mut T, config: &ExtractionConfig) -> Result<Self, Error>
+    fn from_reader<T: Read + Seek>(reader: &mut T, _: &ExtractionConfig) -> Result<Self, Error>
     where
         Self: Sized,
     {
-        let start_pos = reader.stream_position()?;
         let mut compression: WebCompressionType = WebCompressionType::None;
         // GZIP
         if reader.read_u16::<BigEndian>()? == GZIP_MAGIC {

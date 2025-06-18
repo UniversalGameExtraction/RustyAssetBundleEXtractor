@@ -153,17 +153,18 @@ impl BundleFile {
     fn read_unity_raw<T: Read + Seek>(
         &mut self,
         reader: &mut T,
-        config: &ExtractionConfig,
+        _config: &ExtractionConfig,
     ) -> Result<(Vec<FileEntry>, Vec<u8>), Error> {
         if self.m_Header.version >= 4 {
-            let hash = reader.read_u128::<BigEndian>().unwrap();
-            let crc = reader.read_u32::<BigEndian>().unwrap();
+            let _hash = reader.read_u128::<BigEndian>().unwrap();
+            let _crc = reader.read_u32::<BigEndian>().unwrap();
         }
-        let minimum_streamed_bytes = reader.read_u32::<BigEndian>().unwrap();
+        let _minimum_streamed_bytes = reader.read_u32::<BigEndian>().unwrap();
 
         self.m_Header.size = reader.read_u32::<BigEndian>().unwrap();
 
-        let number_of_levels_to_download_before_streaming = reader.read_u32::<BigEndian>().unwrap();
+        let _number_of_levels_to_download_before_streaming =
+            reader.read_u32::<BigEndian>().unwrap();
         let level_count = reader.read_u32::<BigEndian>().unwrap();
 
         // jump to last level
@@ -179,10 +180,10 @@ impl BundleFile {
         };
 
         if self.m_Header.version >= 2 {
-            let complete_file_size = reader.read_u32::<BigEndian>().unwrap();
+            let _complete_file_size = reader.read_u32::<BigEndian>().unwrap();
         }
         if self.m_Header.version >= 3 {
-            let file_info_header_size = reader.read_u128::<BigEndian>().unwrap();
+            let _file_info_header_size = reader.read_u128::<BigEndian>().unwrap();
         }
         reader
             .seek(std::io::SeekFrom::Start(self.m_Header.size as u64))
@@ -307,7 +308,7 @@ pub fn read_unityfs_info<R: Read + Seek>(
     }
 
     let block_info_reader = &mut blocks_info_bytes.as_slice();
-    let uncompressed_data_hash = block_info_reader.read_u128::<BigEndian>()?;
+    let _uncompressed_data_hash = block_info_reader.read_u128::<BigEndian>()?;
 
     let block_info_count = block_info_reader.read_i32::<BigEndian>()?;
     let m_BlocksInfo: Vec<StorageBlock> = (0..block_info_count)

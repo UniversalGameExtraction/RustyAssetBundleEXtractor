@@ -74,7 +74,7 @@ macro_rules! deserialize_by {
 }
 macro_rules! deserialize_unsupported {
     ($name:ident, $expected:literal) => {
-        fn $name<V>(self, visitor: V) -> Result<V::Value, Self::Error>
+        fn $name<V>(self, _: V) -> Result<V::Value, Self::Error>
         where
             V: serde::de::Visitor<'de>,
         {
@@ -231,11 +231,7 @@ impl<'de, R: Read + Seek, B: ByteOrder> serde::Deserializer<'de> for &mut Deseri
         visitor.visit_unit()
     }
 
-    fn deserialize_unit_struct<V>(
-        self,
-        name: &'static str,
-        visitor: V,
-    ) -> Result<V::Value, Self::Error>
+    fn deserialize_unit_struct<V>(self, _: &'static str, _: V) -> Result<V::Value, Self::Error>
     where
         V: serde::de::Visitor<'de>,
     {
@@ -247,7 +243,7 @@ impl<'de, R: Read + Seek, B: ByteOrder> serde::Deserializer<'de> for &mut Deseri
 
     fn deserialize_newtype_struct<V>(
         self,
-        name: &'static str,
+        _: &'static str,
         visitor: V,
     ) -> Result<V::Value, Self::Error>
     where
@@ -300,7 +296,7 @@ impl<'de, R: Read + Seek, B: ByteOrder> serde::Deserializer<'de> for &mut Deseri
         sequence
     }
 
-    fn deserialize_tuple<V>(self, len: usize, visitor: V) -> Result<V::Value, Self::Error>
+    fn deserialize_tuple<V>(self, _: usize, visitor: V) -> Result<V::Value, Self::Error>
     where
         V: serde::de::Visitor<'de>,
     {
@@ -309,8 +305,8 @@ impl<'de, R: Read + Seek, B: ByteOrder> serde::Deserializer<'de> for &mut Deseri
 
     fn deserialize_tuple_struct<V>(
         self,
-        name: &'static str,
-        len: usize,
+        _: &'static str,
+        _: usize,
         visitor: V,
     ) -> Result<V::Value, Self::Error>
     where
@@ -358,8 +354,8 @@ impl<'de, R: Read + Seek, B: ByteOrder> serde::Deserializer<'de> for &mut Deseri
 
     fn deserialize_struct<V>(
         self,
-        name: &'static str,
-        fields: &'static [&'static str],
+        _: &'static str,
+        _: &'static [&'static str],
         visitor: V,
     ) -> Result<V::Value, Self::Error>
     where
@@ -371,8 +367,8 @@ impl<'de, R: Read + Seek, B: ByteOrder> serde::Deserializer<'de> for &mut Deseri
     fn deserialize_enum<V>(
         self,
         name: &'static str,
-        variants: &'static [&'static str],
-        visitor: V,
+        _: &'static [&'static str],
+        _: V,
     ) -> Result<V::Value, Self::Error>
     where
         V: serde::de::Visitor<'de>,

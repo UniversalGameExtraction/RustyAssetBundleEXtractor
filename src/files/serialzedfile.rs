@@ -32,7 +32,6 @@ pub struct SerializedFileHeader {
 impl SerializedFileHeader {
     fn from_reader<T: std::io::Read + std::io::Seek>(
         reader: &mut T,
-        config: &crate::config::ExtractionConfig,
     ) -> Result<SerializedFileHeader, std::io::Error> {
         let mut header = SerializedFileHeader {
             m_MetadataSize: reader.read_u32::<BigEndian>()?,
@@ -437,24 +436,20 @@ pub struct SerializedFile {
 impl SerializedFile {
     pub fn from_reader<T: std::io::Read + std::io::Seek>(
         reader: &mut T,
-        config: &crate::config::ExtractionConfig,
     ) -> Result<SerializedFile, std::io::Error> {
-        let header = SerializedFileHeader::from_reader::<T>(reader, config)?;
+        let header = SerializedFileHeader::from_reader::<T>(reader)?;
 
         match header.m_Endianess {
             Endianness::Little => {
-                SerializedFile::from_reader_endianed::<T, LittleEndian>(reader, header, config)
+                SerializedFile::from_reader_endianed::<T, LittleEndian>(reader, header)
             }
-            Endianness::Big => {
-                SerializedFile::from_reader_endianed::<T, BigEndian>(reader, header, config)
-            }
+            Endianness::Big => SerializedFile::from_reader_endianed::<T, BigEndian>(reader, header),
         }
     }
 
     fn from_reader_endianed<T, B>(
         reader: &mut T,
         header: SerializedFileHeader,
-        config: &crate::config::ExtractionConfig,
     ) -> Result<SerializedFile, std::io::Error>
     where
         T: std::io::Read + std::io::Seek,
@@ -491,7 +486,7 @@ impl SerializedFile {
         if header.m_Version >= SerializedFileFormatVersion::UNKNOWN_7.bits()
             && header.m_Version < SerializedFileFormatVersion::UNKNOWN_14.bits()
         {
-            let bigIDEnabled = Some(reader.read_i32::<B>()?);
+            let _bigIDEnabled = Some(reader.read_i32::<B>()?);
         }
 
         // Read Objects
@@ -503,7 +498,7 @@ impl SerializedFile {
         let m_ScriptTypes = None;
         if header.m_Version >= SerializedFileFormatVersion::HAS_SCRIPT_TYPE_INDEX.bits() {
             let scriptCount = reader.read_i32::<B>()?;
-            let m_ScriptTypes: Option<Vec<LocalSerializedObjectIdentifier>> = Some(
+            let _m_ScriptTypes: Option<Vec<LocalSerializedObjectIdentifier>> = Some(
                 (0..scriptCount)
                     .map(|_| LocalSerializedObjectIdentifier::from_reader::<T, B>(reader, &header))
                     .collect::<Result<_, _>>()?,
@@ -518,7 +513,7 @@ impl SerializedFile {
         let m_RefTypes = None;
         if header.m_Version >= SerializedFileFormatVersion::SUPPORTS_REF_OBJECT.bits() {
             let refTypesCount = reader.read_i32::<B>()?;
-            let m_RefTypes: Option<Vec<SerializedType>> = Some(
+            let _m_RefTypes: Option<Vec<SerializedType>> = Some(
                 (0..refTypesCount)
                     .map(|_| {
                         SerializedType::from_reader::<T, B>(
@@ -534,7 +529,7 @@ impl SerializedFile {
 
         let m_UserInformation = None;
         if header.m_Version >= SerializedFileFormatVersion::UNKNOWN_5.bits() {
-            let m_UserInformation = Some(reader.read_cstr()?);
+            let _m_UserInformation = Some(reader.read_cstr()?);
         }
 
         //reader.AlignStream(16);
@@ -569,12 +564,12 @@ impl SerializedFile {
 impl UnityFile for SerializedFile {
     fn from_reader<T: std::io::Read + std::io::Seek>(
         reader: &mut T,
-        config: &ExtractionConfig,
+        _: &ExtractionConfig,
     ) -> Result<Self, std::io::Error>
     where
         Self: Sized,
     {
-        SerializedFile::from_reader(reader, config)
+        SerializedFile::from_reader(reader)
     }
 }
 

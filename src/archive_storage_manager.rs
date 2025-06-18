@@ -44,7 +44,7 @@ pub struct ArchiveStorageDecryptor {
 
 impl ArchiveStorageDecryptor {
     pub fn from_reader<T: Read + Seek>(reader: &mut T, archive_key: [u8; 16]) -> Result<Self> {
-        let unknown = reader.read_u32::<BigEndian>().unwrap();
+        let _unknown = reader.read_u32::<BigEndian>().unwrap();
 
         let info_bytes: [u8; 16] = reader.read_bytes_sized(16)?.try_into().unwrap();
         let info_key: [u8; 16] = reader.read_bytes_sized(16)?.try_into().unwrap();
@@ -74,7 +74,7 @@ impl ArchiveStorageDecryptor {
         let mut index = index;
         let mut offset = 0;
 
-        let data_sum: usize = bytes.iter().fold(0, |acc, x| acc + *x as usize);
+        let _data_sum: usize = bytes.iter().fold(0, |acc, x| acc + *x as usize);
 
         while offset < size {
             offset = self.decrypt(bytes, offset, index, size)?;
