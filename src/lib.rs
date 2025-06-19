@@ -9,6 +9,7 @@ pub mod objects;
 pub mod read_ext;
 pub mod serde_typetree;
 pub mod typetree;
+pub mod write_ext;
 
 mod archive_storage_manager;
 // mod test;

@@ -52,3 +52,9 @@ impl serde::de::Error for Error {
         Error::custom(msg)
     }
 }
+
+impl serde::ser::Error for Error {
+    fn custom<T: std::fmt::Display>(msg: T) -> Self {
+        Error::custom(msg)
+    }
+}

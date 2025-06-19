@@ -12,7 +12,7 @@ use num_enum::TryFromPrimitive;
 
 #[derive(Clone, Copy, Debug, TryFromPrimitive, PartialEq, Eq)]
 #[repr(u8)]
-enum Endianness {
+pub enum Endianness {
     Little = 0,
     Big = 1,
 }

@@ -356,4 +356,22 @@ impl TypeTreeNode {
         }
         Ok(())
     }
+
+    pub fn dump(&self) -> String {
+        use std::fmt::Write;
+        pub fn dump_inner(tt: &TypeTreeNode, out: &mut String, indent: usize) {
+            for i in 0..indent {
+                out.push_str("  ");
+            }
+            let _ = writeln!(out, "{} {}", tt.m_Type, tt.m_Name);
+
+            for child in &tt.children {
+                dump_inner(child, out, indent + 1);
+            }
+        }
+
+        let mut out = String::new();
+        dump_inner(self, &mut out, 0);
+        out
+    }
 }
