@@ -57,7 +57,7 @@ fn assert_roundtrip_all(path: &Path, tts: &TpkTypeTreeBlob) -> Result<()> {
     let serialized = SerializedFile::from_reader(reader)?;
     assert_eq!(serialized.m_Header.m_Endianess, Endianness::Little);
 
-    for object in serialized.m_Objects.values() {
+    for object in serialized.objects() {
         let tt = tts
             .get_typetree_node(object.m_ClassID, serialized.m_UnityVersion.unwrap())
             .unwrap();

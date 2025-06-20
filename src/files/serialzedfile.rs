@@ -1,5 +1,5 @@
 use std::borrow::Cow;
-use std::collections::{BTreeMap, HashMap};
+use std::collections::HashMap;
 use std::io::{Seek, Write};
 
 use super::UnityFile;
@@ -19,6 +19,7 @@ use byteorder::WriteBytesExt;
 use byteorder::{BigEndian, ByteOrder, LittleEndian, ReadBytesExt};
 
 use num_enum::TryFromPrimitive;
+use rustc_hash::FxHashMap;
 
 #[derive(Clone, Copy, Debug, TryFromPrimitive, PartialEq, Eq)]
 #[repr(u8)]
@@ -529,7 +530,9 @@ pub struct SerializedFile {
     pub m_EnableTypeTree: bool,
     pub m_bigIDEnabled: Option<i32>,
     pub m_Types: Vec<SerializedType>,
-    pub m_Objects: BTreeMap<i64, ObjectInfo>,
+    m_Objects: Vec<ObjectInfo>,
+    // PERF: 20% faster in end-to-end benchmark compared to BTreeMap<i64, ObjectInfo>
+    pub m_Objects_lookup: FxHashMap<i64, usize>,
     pub m_ScriptTypes: Option<Vec<LocalSerializedObjectIdentifier>>,
     pub m_Externals: Vec<FileIdentifier>,
     pub m_RefTypes: Option<Vec<SerializedType>>,
@@ -537,8 +540,33 @@ pub struct SerializedFile {
 }
 
 impl SerializedFile {
+    pub fn objects(&self) -> impl ExactSizeIterator<Item = &ObjectInfo> {
+        self.m_Objects.iter()
+    }
+
+    pub fn modify_objects(&mut self, f: impl FnOnce(&mut Vec<ObjectInfo>)) {
+        f(&mut self.m_Objects);
+        self.recompute_lookup();
+    }
+
+    pub fn take_objects(&mut self) -> Vec<ObjectInfo> {
+        self.m_Objects_lookup.clear();
+        std::mem::take(&mut self.m_Objects)
+    }
+
+    fn recompute_lookup(&mut self) {
+        self.m_Objects_lookup = self
+            .m_Objects
+            .iter()
+            .enumerate()
+            .map(|(i, obj)| (obj.m_PathID, i))
+            .collect();
+    }
+
     pub fn get_object(&self, path_id: i64) -> Option<&ObjectInfo> {
-        self.m_Objects.get(&path_id)
+        self.m_Objects_lookup
+            .get(&path_id)
+            .map(|&i| &self.m_Objects[i])
     }
 
     pub fn from_reader<T: std::io::Read + std::io::Seek>(
@@ -598,11 +626,8 @@ impl SerializedFile {
 
         // Read Objects
         let objectCount = reader.read_i32::<B>()?;
-        let m_Objects: BTreeMap<i64, ObjectInfo> = (0..objectCount)
-            .map(|_| {
-                ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled, &m_Types)
-                    .map(|obj| (obj.m_PathID, obj))
-            })
+        let m_Objects: Vec<ObjectInfo> = (0..objectCount)
+            .map(|_| ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled, &m_Types))
             .collect::<Result<_, _>>()?;
 
         let mut m_ScriptTypes = None;
@@ -638,19 +663,22 @@ impl SerializedFile {
         }
 
         //reader.AlignStream(16);
-        Ok(SerializedFile {
+        let mut file = SerializedFile {
             m_Header: header,
             m_UnityVersion,
             m_TargetPlatform,
             m_EnableTypeTree,
             m_bigIDEnabled,
             m_Types,
+            m_Objects_lookup: FxHashMap::default(),
             m_Objects,
             m_ScriptTypes,
             m_Externals,
             m_RefTypes,
             m_UserInformation,
-        })
+        };
+        file.recompute_lookup();
+        Ok(file)
     }
 
     pub fn get_object_handler<'a, R: std::io::Read + std::io::Seek>(
@@ -734,7 +762,7 @@ pub fn write_serialized<W: Write + Seek>(
         writer,
         serialized,
         common_offset_map,
-        serialized.m_Objects.values().map(|obj| {
+        serialized.objects().map(|obj| {
             let data =
                 &file_data[obj.m_Offset as usize..obj.m_Offset as usize + obj.m_Size as usize];
             (obj.clone(), Cow::Borrowed(data))
