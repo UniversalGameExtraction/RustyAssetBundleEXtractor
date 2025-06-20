@@ -1,5 +1,5 @@
 use std::borrow::Cow;
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 use std::io::{Seek, Write};
 
 use super::UnityFile;
@@ -529,7 +529,7 @@ pub struct SerializedFile {
     pub m_EnableTypeTree: bool,
     pub m_bigIDEnabled: Option<i32>,
     pub m_Types: Vec<SerializedType>,
-    pub m_Objects: Vec<ObjectInfo>,
+    pub m_Objects: BTreeMap<i64, ObjectInfo>,
     pub m_ScriptTypes: Option<Vec<LocalSerializedObjectIdentifier>>,
     pub m_Externals: Vec<FileIdentifier>,
     pub m_RefTypes: Option<Vec<SerializedType>>,
@@ -537,6 +537,10 @@ pub struct SerializedFile {
 }
 
 impl SerializedFile {
+    pub fn get_object(&self, path_id: i64) -> Option<&ObjectInfo> {
+        self.m_Objects.get(&path_id)
+    }
+
     pub fn from_reader<T: std::io::Read + std::io::Seek>(
         reader: &mut T,
     ) -> Result<SerializedFile, std::io::Error> {
@@ -594,8 +598,11 @@ impl SerializedFile {
 
         // Read Objects
         let objectCount = reader.read_i32::<B>()?;
-        let m_Objects: Vec<ObjectInfo> = (0..objectCount)
-            .map(|_| ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled, &m_Types))
+        let m_Objects: BTreeMap<i64, ObjectInfo> = (0..objectCount)
+            .map(|_| {
+                ObjectInfo::from_reader::<T, B>(reader, &header, m_bigIDEnabled, &m_Types)
+                    .map(|obj| (obj.m_PathID, obj))
+            })
             .collect::<Result<_, _>>()?;
 
         let mut m_ScriptTypes = None;
@@ -727,7 +734,7 @@ pub fn write_serialized<W: Write + Seek>(
         writer,
         serialized,
         common_offset_map,
-        serialized.m_Objects.iter().map(|obj| {
+        serialized.m_Objects.values().map(|obj| {
             let data =
                 &file_data[obj.m_Offset as usize..obj.m_Offset as usize + obj.m_Size as usize];
             (obj.clone(), Cow::Borrowed(data))
