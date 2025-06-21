@@ -9,6 +9,7 @@ pub mod read_ext;
 pub mod serde_typetree;
 pub mod tpk;
 pub mod typetree;
+pub mod typetree_cache;
 pub mod unity_version;
 pub mod write_ext;
 

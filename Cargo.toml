@@ -75,6 +75,7 @@ serde_json = { version = "1.0", optional = true, features = ["preserve_order"] }
 serde_yaml = { version = "0.9", optional = true }
 rmp = { version = "0.8", optional = true }
 rustc-hash = "2.1"
+elsa = "1.11"
 
 [dev-dependencies]
 anyhow = "1.0"
