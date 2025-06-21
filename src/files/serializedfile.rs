@@ -1,3 +1,5 @@
+pub mod builder;
+
 use std::borrow::Cow;
 use std::collections::HashMap;
 use std::io::{Read, Seek, Write};
