@@ -1,9 +1,9 @@
 use std::borrow::Cow;
 use std::collections::HashMap;
-use std::io::{Seek, Write};
+use std::io::{Read, Seek, Write};
 
 use super::UnityFile;
-use crate::objects::ClassId;
+use crate::objects::{ClassId, ClassIdType, PPtr};
 use crate::serde_typetree;
 use crate::tpk::TpkTypeTreeBlob;
 use crate::typetree::TypeTreeNode;
@@ -20,6 +20,7 @@ use byteorder::{BigEndian, ByteOrder, LittleEndian, ReadBytesExt};
 
 use num_enum::TryFromPrimitive;
 use rustc_hash::FxHashMap;
+use serde::Deserialize;
 
 #[derive(Clone, Copy, Debug, TryFromPrimitive, PartialEq, Eq)]
 #[repr(u8)]
@@ -289,6 +290,13 @@ pub struct ObjectInfo {
     pub m_Stripped: Option<u8>,
 }
 impl ObjectInfo {
+    pub fn as_local_pptr(&self) -> PPtr {
+        PPtr {
+            m_FileID: 0,
+            m_PathID: self.m_PathID,
+        }
+    }
+
     pub fn from_reader<T: std::io::Read + std::io::Seek, B: ByteOrder>(
         reader: &mut T,
         header: &SerializedFileHeader,
@@ -692,6 +700,143 @@ impl SerializedFile {
         }
 
         ObjectHandler::new(objectinfo, typ, self, reader)
+    }
+
+    pub fn read_object_of_class_id<'de, T: ClassIdType + Deserialize<'de>>(
+        &self,
+        tpk: impl TypeTreeProvider,
+        reader: &mut (impl Read + Seek),
+    ) -> Result<Option<T>, Error> {
+        self.object_of_class_id(T::CLASS_ID)
+            .map(|obj| self.read::<T>(obj, tpk, reader))
+            .transpose()
+    }
+
+    pub fn object_of_class_id(&self, class_id: ClassId) -> Option<&ObjectInfo> {
+        self.m_Objects
+            .iter()
+            .find(move |object| object.m_ClassID == class_id)
+    }
+    pub fn objects_of_class_id(&self, class_id: ClassId) -> impl Iterator<Item = &ObjectInfo> {
+        self.m_Objects
+            .iter()
+            .filter(move |object| object.m_ClassID == class_id)
+    }
+
+    pub fn get_typetree_for<'tt>(
+        &self,
+        object: &ObjectInfo,
+        tpk: &'tt impl TypeTreeProvider,
+    ) -> Result<Cow<'tt, TypeTreeNode>, Error> {
+        tpk.get_typetree_node(object.m_ClassID, self.m_UnityVersion.unwrap())
+            .ok_or(Error::NoTypetree(object.m_ClassID))
+    }
+
+    pub fn read_as<'de, T: Deserialize<'de>>(
+        &self,
+        object: &ObjectInfo,
+        typetree: &TypeTreeNode,
+        reader: &mut (impl Read + Seek),
+    ) -> Result<T, Error> {
+        reader.seek(std::io::SeekFrom::Start(object.m_Offset as u64))?;
+        match self.m_Header.m_Endianess {
+            Endianness::Little => serde_typetree::from_reader::<_, byteorder::LE>(reader, typetree),
+            Endianness::Big => serde_typetree::from_reader::<_, byteorder::BE>(reader, typetree),
+        }
+        .map_err(Error::Deserialize)
+    }
+
+    pub fn read_single<'de, T: Deserialize<'de>>(
+        &self,
+        class_id: ClassId,
+        tpk: impl TypeTreeProvider,
+        reader: &mut (impl Read + Seek),
+    ) -> Result<T, Error> {
+        let info = self
+            .object_of_class_id(class_id)
+            .expect("read_single doesn't exist");
+        self.read(info, tpk, reader)
+    }
+
+    pub fn read<'de, T: Deserialize<'de>>(
+        &self,
+        object: &ObjectInfo,
+        tpk: impl TypeTreeProvider,
+        reader: &mut (impl Read + Seek),
+    ) -> Result<T, Error> {
+        let tt = tpk
+            .get_typetree_node(object.m_ClassID, self.m_UnityVersion.unwrap())
+            .ok_or(Error::NoTypetree(object.m_ClassID))?;
+        reader.seek(std::io::SeekFrom::Start(object.m_Offset as u64))?;
+        match self.m_Header.m_Endianess {
+            Endianness::Little => serde_typetree::from_reader::<_, byteorder::LE>(reader, &tt),
+            Endianness::Big => serde_typetree::from_reader::<_, byteorder::BE>(reader, &tt),
+        }
+        .map_err(Error::Deserialize)
+    }
+
+    pub fn read_raw(
+        &self,
+        object: &ObjectInfo,
+        reader: &mut (impl Read + Seek),
+    ) -> Result<Vec<u8>, Error> {
+        reader.seek(std::io::SeekFrom::Start(object.m_Offset as u64))?;
+        let bytes = reader.read_bytes_sized(object.m_Size as usize)?;
+        Ok(bytes)
+    }
+}
+
+pub trait TypeTreeProvider {
+    fn get_typetree_node(
+        &self,
+        class_id: ClassId,
+        target_version: UnityVersion,
+    ) -> Option<Cow<'_, TypeTreeNode>>;
+}
+
+impl TypeTreeProvider for TpkTypeTreeBlob {
+    fn get_typetree_node(
+        &self,
+        class_id: ClassId,
+        target_version: UnityVersion,
+    ) -> Option<Cow<'_, TypeTreeNode>> {
+        TpkTypeTreeBlob::get_typetree_node(self, class_id, target_version).map(Cow::Owned)
+    }
+}
+impl<T: TypeTreeProvider> TypeTreeProvider for &T {
+    fn get_typetree_node(
+        &self,
+        class_id: ClassId,
+        target_version: UnityVersion,
+    ) -> Option<Cow<'_, TypeTreeNode>> {
+        (*self).get_typetree_node(class_id, target_version)
+    }
+}
+
+#[derive(Debug)]
+pub enum Error {
+    NoTypetree(ClassId),
+    Deserialize(serde_typetree::Error),
+    Serialize(serde_typetree::Error),
+    IO(std::io::Error),
+}
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Error::NoTypetree(class_id) => {
+                write!(f, "No typetree found for class {class_id:?}")
+            }
+            Error::Deserialize(error) => write!(f, "Error trying to deserialize: {error}"),
+            Error::Serialize(error) => write!(f, "Error trying to serialize: {error}"),
+            Error::IO(error) => write!(f, "IO error: {error}"),
+        }
+    }
+}
+impl std::error::Error for Error {}
+
+impl From<std::io::Error> for Error {
+    fn from(error: std::io::Error) -> Self {
+        Error::IO(error)
     }
 }
 
