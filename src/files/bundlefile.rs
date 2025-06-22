@@ -281,7 +281,7 @@ pub fn read_unityfs_info<R: Read + Seek>(
         // 0x80 BlocksInfoAtTheEnd
         let position = reader.stream_position()?;
         // originally reader.length
-        reader.seek(std::io::SeekFrom::End(block_info.compressed_size as i64))?;
+        reader.seek(std::io::SeekFrom::End(-(block_info.compressed_size as i64)))?;
         decompress_block(reader, &mut blocks_info_bytes, &block_info, 0, None)?;
         reader.seek(std::io::SeekFrom::Start(position))?;
     } else {
