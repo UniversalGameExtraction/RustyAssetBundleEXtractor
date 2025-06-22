@@ -30,7 +30,12 @@ pub fn from_reader<'de, T: Deserialize<'de>, B: ByteOrder>(
     reader: &mut (impl Read + Seek),
     typetree: &TypeTreeNode,
 ) -> Result<T> {
-    T::deserialize(&mut Deserializer::<_, B>::from_reader(reader, typetree))
+    let deserializer = &mut Deserializer::<_, B>::from_reader(reader, typetree);
+    #[cfg(feature = "serde_path_to_error")]
+    return serde_path_to_error::deserialize::<_, T>(deserializer)
+        .map_err(|e| Error::custom(format!("{}", e)));
+    #[cfg(not(feature = "serde_path_to_error"))]
+    T::deserialize(deserializer)
 }
 
 impl<'a, R: Read + Seek, B: ByteOrder> Deserializer<'a, R, B> {
