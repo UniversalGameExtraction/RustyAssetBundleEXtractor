@@ -148,6 +148,9 @@ impl TpkFile {
                 .map_err(|e| Error::Decompression(Box::new(e)))?;
                 Cow::Owned(uncompressed)
             }
+            #[cfg(not(feature = "tpk-compression-brotli"))]
+            TpkCompressionType::Brotli => return Err(Error::UnsupportedCompression("brotli")),
+            #[cfg(feature = "tpk-compression-brotli")]
             TpkCompressionType::Brotli => {
                 let mut uncompressed = vec![0; self.uncompressed_size as usize];
                 brotli::BrotliDecompress(&mut self.compressed_bytes.as_slice(), &mut uncompressed)?;
