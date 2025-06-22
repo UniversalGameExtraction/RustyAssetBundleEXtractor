@@ -1,16 +1,14 @@
 use byteorder::{ByteOrder, ReadBytesExt};
 use std::io::Seek;
 
-macro_rules! generate_read_array_method{
-    ($typ:ty) => {
-        paste::item! {
-            #[doc = "Reads an array of [`" $typ "`]s. If len is none the reader will determine the length by reading it."]
-            fn [< read_ $typ _array >]<T: ByteOrder> (&mut self, len: Option<usize>) -> Result<Vec<$typ>, std::io::Error>{
-                let len = len.unwrap_or_else(|| self.read_array_len::<T>().unwrap());
-                let mut buf = vec![0; len];
-                self.[< read_ $typ _into >]::<T>(&mut buf)?;
-                Ok(buf)
-            }
+macro_rules! generate_read_array_method {
+    ($name:ident $read_into_name:ident $typ:ty) => {
+        // #[doc = "Reads an array of [`" $typ "`]s. If len is none the reader will determine the length by reading it."]
+        fn $name<T: ByteOrder>(&mut self, len: Option<usize>) -> Result<Vec<$typ>, std::io::Error> {
+            let len = len.unwrap_or_else(|| self.read_array_len::<T>().unwrap());
+            let mut buf = vec![0; len];
+            self.$read_into_name::<T>(&mut buf)?;
+            Ok(buf)
         }
     };
 }
@@ -70,12 +68,12 @@ pub trait ReadUrexExt: ReadBytesExt {
         Ok(c)
     }
 
-    generate_read_array_method!(i16);
-    generate_read_array_method!(i32);
-    generate_read_array_method!(i64);
-    generate_read_array_method!(u16);
-    generate_read_array_method!(u32);
-    generate_read_array_method!(u64);
+    generate_read_array_method!(read_i16_array read_i16_into i16);
+    generate_read_array_method!(read_i32_array read_i32_into i32);
+    generate_read_array_method!(read_i64_array read_i64_into i64);
+    generate_read_array_method!(read_u16_array read_u16_into u16);
+    generate_read_array_method!(read_u32_array read_u32_into u32);
+    generate_read_array_method!(read_u64_array read_u64_into u64);
     //generate_read_array_method!(f32);
     //generate_read_array_method!(f64);
 }

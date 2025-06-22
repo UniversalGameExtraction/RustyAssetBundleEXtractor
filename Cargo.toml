@@ -28,14 +28,6 @@ serde_path_to_error = ["dep:serde_path_to_error"]
 # binary-reader = "0.4.5"
 byteorder = "1.5"
 
-# paste - https://crates.io/crates/paste
-# make macros easier
-paste = "1.0.12"
-
-# Compression Libs
-# ZLIB & GZIP - https://crates.io/crates/libflate
-libflate = "2.1"
-
 # LZMA - https://crates.io/crates/lzma-rs
 lzma-rs = "0.3.0"
 
