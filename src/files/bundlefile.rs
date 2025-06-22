@@ -1,3 +1,5 @@
+pub mod builder;
+
 use crate::unity_version::UnityVersion;
 use crate::write_ext::{WriteExt, WriteSeekExt};
 use crate::{
