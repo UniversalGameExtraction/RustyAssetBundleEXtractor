@@ -1,3 +1,4 @@
+use crate::unity_version::UnityVersion;
 use crate::{
     archive_storage_manager::ArchiveStorageDecryptor,
     config::ExtractionConfig,
@@ -75,7 +76,7 @@ pub struct BundleFileHeader {
     pub signature: BundleSignature,
     pub version: u32,
     pub unity_version: String,
-    pub unity_revision: String,
+    pub unity_revision: Option<UnityVersion>,
     pub size: u32,
 }
 
@@ -85,33 +86,18 @@ impl BundleFileHeader {
             signature: reader.read_cstr().unwrap().parse().unwrap(),
             version: reader.read_u32::<BigEndian>().unwrap(),
             unity_version: reader.read_cstr().unwrap(),
-            unity_revision: reader.read_cstr().unwrap(),
+            unity_revision: {
+                let str = reader.read_cstr().unwrap();
+                (str != "0.0.0").then(|| str.parse::<UnityVersion>().unwrap())
+            },
             size: 0,
         })
     }
 
-    fn get_revision_tuple(&self, config: &ExtractionConfig) -> (u32, u32, u32) {
-        // could be done way better, but this works for now
-        let mut revision = self.unity_revision.clone();
-        if revision.is_empty() | (revision == "0.0.0") {
-            revision = config.fallback_unity_version.clone();
-        }
-        let mut revision_split = revision.split('.');
-        (
-            revision_split.next().unwrap().parse().unwrap(),
-            revision_split.next().unwrap().parse().unwrap(),
-            {
-                let mut val = 0;
-                let last_split = revision_split.next().unwrap();
-                for (i, c) in last_split.chars().enumerate() {
-                    if !c.is_numeric() {
-                        val = last_split[..i].parse::<u32>().unwrap();
-                        break;
-                    }
-                }
-                val
-            },
-        )
+    fn get_revision_tuple(&self, config: &ExtractionConfig) -> (u16, u16, u16) {
+        self.unity_revision
+            .unwrap_or(config.fallback_unity_version)
+            .version_tuple()
     }
 }
 

@@ -19,7 +19,9 @@ fn main() -> Result<()> {
     let header = bundle.header();
     println!(
         "{:?} {} {}",
-        header.signature, header.version, header.unity_revision,
+        header.signature,
+        header.version,
+        header.unity_revision.unwrap(),
     );
 
     let mut size_all = 0;
