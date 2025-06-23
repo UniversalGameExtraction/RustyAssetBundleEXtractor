@@ -1,12 +1,12 @@
 use std::borrow::Cow;
 
-use crate::files::serializedfile::TypeTreeProvider;
 use crate::objects::ClassId;
 use crate::typetree::TypeTreeNode;
+use crate::typetree::TypeTreeProvider;
 use crate::unity_version::UnityVersion;
 
 pub struct TypeTreeCache<T> {
-    inner: T,
+    pub inner: T,
     typetree_cache: elsa::FrozenMap<ClassId, Box<Option<TypeTreeNode>>>,
 }
 impl<T: TypeTreeProvider> TypeTreeCache<T> {

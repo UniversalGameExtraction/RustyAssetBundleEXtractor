@@ -10,12 +10,14 @@ use crate::read_ext::{ReadSeekUrexExt, ReadUrexExt};
 use crate::serde_typetree::error::ErrorImpl;
 use crate::typetree::TypeTreeNode;
 
+/// A structure that deserializes typetree data into Rust values.
 pub struct Deserializer<'cx, R, B> {
     typetree: &'cx TypeTreeNode,
     reader: &'cx mut R,
     marker: PhantomData<B>,
 }
 
+/// Deserialize an instance of type `T` from a a slice.
 pub fn from_slice<'de, T: Deserialize<'de>, B: ByteOrder>(
     slice: &'de [u8],
     typetree: &'de TypeTreeNode,
@@ -26,6 +28,8 @@ pub fn from_slice<'de, T: Deserialize<'de>, B: ByteOrder>(
         typetree,
     ))
 }
+
+/// Deserialize an instance of type `T` from an I/O stream.
 pub fn from_reader<'de, T: Deserialize<'de>, B: ByteOrder>(
     reader: &mut (impl Read + Seek),
     typetree: &TypeTreeNode,

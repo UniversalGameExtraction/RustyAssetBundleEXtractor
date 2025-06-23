@@ -1,10 +1,20 @@
+//! Bundle files, a (possibly compressed) collection of other files.
+//!
+//! - For reading an entire bundle into memory, use [`BundleFile::from_reader`].
+//! - To iterate over its contents, streaming the data as you go, use [`BundleFileReader`].
+//! - To create a bundle from scratch, use [`builder::BundleFileBuilder`]
 pub mod builder;
+mod config;
+pub mod reader;
+
+pub use builder::BundleFileBuilder;
+pub use config::ExtractionConfig;
+pub use reader::BundleFileReader;
 
 use crate::unity_version::UnityVersion;
 use crate::write_ext::{WriteExt, WriteSeekExt};
 use crate::{
     archive_storage_manager::ArchiveStorageDecryptor,
-    config::ExtractionConfig,
     files::unityfile::{FileEntry, UnityFile},
     read_ext::{ReadSeekUrexExt, ReadUrexExt},
 };
@@ -14,9 +24,6 @@ use byteorder::{BigEndian, ReadBytesExt};
 use num_enum::TryFromPrimitive;
 use std::io::{Error, Read, Seek, Write};
 use std::str::FromStr;
-
-mod reader;
-pub use reader::BundleFileReader;
 
 bitflags! {
     struct ArchiveFlags: u32 {
@@ -216,7 +223,7 @@ fn write_fs_iter<W: Write + Seek, R: Read>(
     )
 }
 
-pub fn write_fs<W: Write + Seek>(
+fn write_fs<W: Write + Seek>(
     header: &BundleFileHeader,
     mut writer: W,
     header_compression: CompressionType,
@@ -540,7 +547,7 @@ fn use_new_archive_flags(m_Header: &BundleFileHeader, config: &ExtractionConfig)
 }
 
 #[allow(clippy::type_complexity)]
-pub fn read_unityfs_info<R: Read + Seek>(
+fn read_unityfs_info<R: Read + Seek>(
     m_Header: &mut BundleFileHeader,
     reader: &mut R,
     config: &ExtractionConfig,
@@ -635,7 +642,7 @@ pub fn read_unityfs_info<R: Read + Seek>(
     Ok((m_BlocksInfo, m_DirectoryInfo, decryptor))
 }
 
-pub fn decompress_block<R: Read + Seek, W: Write>(
+fn decompress_block<R: Read + Seek, W: Write>(
     reader: &mut R,
     writer: &mut W,
     block: &StorageBlock,

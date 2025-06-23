@@ -1,3 +1,4 @@
+//! Support for reading and writing unity files.
 pub mod bundlefile;
 pub mod serializedfile;
 pub mod unityfile;

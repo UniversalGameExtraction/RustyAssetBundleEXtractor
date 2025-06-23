@@ -11,6 +11,7 @@ use serde::ser::Impossible;
 
 use crate::{serde_typetree::Error, typetree::TypeTreeNode};
 
+/// Serialize the given data to typetree bytes
 pub fn to_vec<T: Serialize + ?Sized, B: ByteOrder + 'static>(
     value: &T,
     typetree: &TypeTreeNode,
@@ -21,6 +22,7 @@ pub fn to_vec<T: Serialize + ?Sized, B: ByteOrder + 'static>(
     Ok(writer.into_inner())
 }
 
+/// Serialize the given data to typetree bytes, with the endianness supplied at runtime
 pub fn to_vec_endianed<T: Serialize + ?Sized>(
     value: &T,
     typetree: &TypeTreeNode,
@@ -32,6 +34,7 @@ pub fn to_vec_endianed<T: Serialize + ?Sized>(
     }
 }
 
+/// Serialize the given data into an I/O stream
 pub fn to_writer<W: Write + Seek, T: Serialize + ?Sized, B: ByteOrder + 'static>(
     writer: &mut W,
     value: &T,
@@ -40,6 +43,7 @@ pub fn to_writer<W: Write + Seek, T: Serialize + ?Sized, B: ByteOrder + 'static>
     value.serialize(&mut Serializer::<_, B>::new(writer, typetree))
 }
 
+/// A structure for serializing Rust values into typetree data
 pub struct Serializer<'cx, W, B> {
     pub typetree: &'cx TypeTreeNode,
     pub writer: &'cx mut W,

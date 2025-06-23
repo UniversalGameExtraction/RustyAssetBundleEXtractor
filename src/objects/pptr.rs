@@ -2,7 +2,8 @@ use std::io::{Read, Seek};
 use std::marker::PhantomData;
 
 use crate::files::SerializedFile;
-use crate::files::serializedfile::{self, ObjectInfo, TypeTreeProvider};
+use crate::files::serializedfile::{self, ObjectInfo};
+use crate::typetree::TypeTreeProvider;
 use serde_derive::{Deserialize, Serialize};
 
 pub type PathId = i64;

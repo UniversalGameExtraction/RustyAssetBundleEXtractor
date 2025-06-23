@@ -5,7 +5,6 @@ use byteorder::LittleEndian;
 use rabex::files::SerializedFile;
 use rabex::files::serializedfile::Endianness;
 use rabex::objects::ClassId;
-use rabex::read_ext::ReadUrexExt;
 use rabex::serde_typetree;
 use rabex::tpk::TpkTypeTreeBlob;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
@@ -67,7 +66,7 @@ fn assert_roundtrip_all(path: &Path, tts: &TpkTypeTreeBlob) -> Result<()> {
         }
 
         reader.set_position(object.m_Offset as u64);
-        let raw = reader.read_bytes_sized(object.m_Size as usize)?;
+        let raw = serialized.read_raw(object, reader)?;
         reader.set_position(object.m_Offset as u64);
         let value = tt
             .read::<serde_json::Value, _, LittleEndian>(reader)

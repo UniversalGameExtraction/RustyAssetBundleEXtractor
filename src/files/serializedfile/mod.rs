@@ -1,3 +1,7 @@
+//! The main unity data file.
+//!
+//! - To read the file, use [`SerializedFile::from_reader`].
+//! - To create a new serialized file from scratch, use [`builder::SerializedFileBuilder`]
 pub mod builder;
 
 use std::borrow::Cow;
@@ -5,17 +9,15 @@ use std::collections::HashMap;
 use std::io::{Read, Seek, Write};
 
 use super::UnityFile;
+use super::bundlefile::ExtractionConfig;
 use crate::objects::{ClassId, ClassIdType, PPtr};
+use crate::read_ext::{ReadSeekUrexExt, ReadUrexExt};
 use crate::serde_typetree;
 use crate::tpk::TpkTypeTreeBlob;
-use crate::typetree::TypeTreeNode;
+use crate::typetree::{TypeTreeNode, TypeTreeProvider};
 use crate::unity_version::UnityVersion;
 use crate::write_ext::WriteExt;
 use crate::write_ext::WriteSeekExt;
-use crate::{
-    config::ExtractionConfig,
-    read_ext::{ReadSeekUrexExt, ReadUrexExt},
-};
 use bitflags::bitflags;
 use byteorder::WriteBytesExt;
 use byteorder::{BigEndian, ByteOrder, LittleEndian, ReadBytesExt};
@@ -114,6 +116,7 @@ pub struct SerializedType {
     pub m_ScriptTypeIndex: i16,
     pub m_ScriptID: [u8; 16],
     pub m_OldTypeHash: [u8; 16],
+    /// Only set if [`SerializedFile::m_EnableTypeTree`] is `true`.
     pub m_Type: Option<TypeTreeNode>,
     // for reftypes
     pub m_ClassName: Option<String>,
@@ -299,7 +302,7 @@ impl ObjectInfo {
         }
     }
 
-    pub fn from_reader<T: std::io::Read + std::io::Seek, B: ByteOrder>(
+    fn from_reader<T: std::io::Read + std::io::Seek, B: ByteOrder>(
         reader: &mut T,
         header: &SerializedFileHeader,
         bigIDEnabled: Option<i32>,
@@ -389,7 +392,7 @@ impl ScriptType {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct FileIdentifier {
     pub tempEmpty: Option<String>,
     pub guid: Option<Guid>,
@@ -397,7 +400,7 @@ pub struct FileIdentifier {
     pub pathName: String,
 }
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq)]
 pub struct Guid(pub [u8; 16]);
 
 impl Guid {
@@ -478,15 +481,16 @@ impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
         }
     }
 
-    pub fn peak_name(&mut self) -> Result<String, std::io::Error> {
+    pub fn peek_name(&mut self) -> Result<String, std::io::Error> {
         self.reader
             .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
 
+        todo!("not implemented yet");
         // todo - check against typeid
-        match self.file.m_Header.m_Endianess {
+        /*match self.file.m_Header.m_Endianess {
             Endianness::Little => self.reader.read_string::<LittleEndian>(),
             Endianness::Big => self.reader.read_string::<BigEndian>(),
-        }
+        }*/
     }
 
     pub fn parse<'de, T: serde::de::Deserialize<'de>>(
@@ -542,8 +546,9 @@ pub struct SerializedFile {
     pub m_Types: Vec<SerializedType>,
     m_Objects: Vec<ObjectInfo>,
     // PERF: 20% faster in end-to-end benchmark compared to BTreeMap<i64, ObjectInfo>
-    pub m_Objects_lookup: FxHashMap<i64, usize>,
+    m_Objects_lookup: FxHashMap<i64, usize>,
     pub m_ScriptTypes: Option<Vec<LocalSerializedObjectIdentifier>>,
+    /// Determines what external files [`PPtr`]s in the file can refer to.
     pub m_Externals: Vec<FileIdentifier>,
     pub m_RefTypes: Option<Vec<SerializedType>>,
     pub m_UserInformation: Option<String>,
@@ -760,6 +765,19 @@ impl SerializedFile {
         self.read(info, tpk, reader)
     }
 
+    /// Deserialize the object data as type `T`.
+    ///
+    /// Equivalent to
+    /// ```rust,no_run
+    /// # type T = ();
+    /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
+    /// # let file: rabex::files::SerializedFile = todo!();
+    /// # let tpk: &rabex::tpk::TpkTypeTreeBlob = todo!();
+    /// # let mut reader: &mut std::io::Cursor<Vec<u8>> = &mut Default::default();
+    /// file.get_object::<T>(1234, tpk)?.read(reader)
+    /// # ;Ok(())
+    /// # }
+    /// ```
     pub fn read<'de, T: Deserialize<'de>>(
         &self,
         object: &ObjectInfo,
@@ -777,6 +795,7 @@ impl SerializedFile {
         .map_err(Error::Deserialize)
     }
 
+    /// Read the raw bytes of the object.
     pub fn read_raw(
         &self,
         object: &ObjectInfo,
@@ -785,33 +804,6 @@ impl SerializedFile {
         reader.seek(std::io::SeekFrom::Start(object.m_Offset as u64))?;
         let bytes = reader.read_bytes_sized(object.m_Size as usize)?;
         Ok(bytes)
-    }
-}
-
-pub trait TypeTreeProvider {
-    fn get_typetree_node(
-        &self,
-        class_id: ClassId,
-        target_version: UnityVersion,
-    ) -> Option<Cow<'_, TypeTreeNode>>;
-}
-
-impl TypeTreeProvider for TpkTypeTreeBlob {
-    fn get_typetree_node(
-        &self,
-        class_id: ClassId,
-        target_version: UnityVersion,
-    ) -> Option<Cow<'_, TypeTreeNode>> {
-        TpkTypeTreeBlob::get_typetree_node(self, class_id, target_version).map(Cow::Owned)
-    }
-}
-impl<T: TypeTreeProvider> TypeTreeProvider for &T {
-    fn get_typetree_node(
-        &self,
-        class_id: ClassId,
-        target_version: UnityVersion,
-    ) -> Option<Cow<'_, TypeTreeNode>> {
-        (*self).get_typetree_node(class_id, target_version)
     }
 }
 
@@ -898,14 +890,22 @@ bitflags! {
     }
 }
 
-/// Header is ignored and recomputed except for version
+/// Write the file into the I/O stream.
+///
+/// Only the version from the header is respected,
+/// the rest of the metadata is recomputed from the file's contents.
+///
+/// `file_data` is the place where the object's data is read from, according to
+/// [`ObjectInfo::m_Offset`] and [`ObjectInfo::m_Size`].
+///
+/// If you want more flexibility with the objects, use [`write_serialized_with_objects`].
 pub fn write_serialized<W: Write + Seek>(
     writer: W,
     serialized: &SerializedFile,
     file_data: &[u8],
     common_offset_map: &HashMap<&str, u32>,
 ) -> Result<(), std::io::Error> {
-    write_serialized_with(
+    write_serialized_with_objects(
         writer,
         serialized,
         common_offset_map,
@@ -917,36 +917,11 @@ pub fn write_serialized<W: Write + Seek>(
     )
 }
 
-pub fn build_common_offset_map(
-    tt: &TpkTypeTreeBlob,
-    unity_version: UnityVersion,
-) -> HashMap<&str, u32> {
-    let common_offset_map = {
-        let strings = tt
-            .common_string
-            .string_buffer_indices
-            .iter()
-            .map(|&i| &tt.string_buffer[i as usize])
-            .collect::<Vec<_>>();
-        let count = tt.common_string.get_count(unity_version).unwrap();
-        let strings = &strings[..count as usize];
-
-        let mut ret = HashMap::new();
-        let mut offset = 0;
-        for str in strings {
-            ret.insert(str.as_str(), offset as u32);
-            offset += str.len() + 1
-        }
-        ret
-    };
-    common_offset_map
-}
-
-/// Header is ignored and recomputed except for version
-/// Objects are ignored and taken from `objects`
+/// Write the file with the given objects into the I/O stream.
 ///
-/// m_Offset and m_Sized are ignored in `objects`
-pub fn write_serialized_with<'a, W: Write + Seek>(
+/// Only the version from the header is respected,
+/// the rest of the metadata is recomputed from the file's contents.
+pub fn write_serialized_with_objects<'a, W: Write + Seek>(
     writer: W,
     serialized: &SerializedFile,
     common_offset_map: &HashMap<&str, u32>,
@@ -1138,6 +1113,29 @@ fn write_serialized_endianed<'a, W: Write + Seek, B: ByteOrder>(
     */
 
     Ok(())
+}
+
+/// Required for serializing typetrees in [`write_serialized`].
+pub fn build_common_offset_map(
+    tpk: &TpkTypeTreeBlob,
+    unity_version: UnityVersion,
+) -> HashMap<&str, u32> {
+    let strings = tpk
+        .common_string
+        .string_buffer_indices
+        .iter()
+        .map(|&i| &tpk.string_buffer[i as usize])
+        .collect::<Vec<_>>();
+    let count = tpk.common_string.get_count(unity_version).unwrap();
+    let strings = &strings[..count as usize];
+
+    let mut map = HashMap::new();
+    let mut offset = 0;
+    for str in strings {
+        map.insert(str.as_str(), offset as u32);
+        offset += str.len() + 1
+    }
+    map
 }
 
 fn write_n_zeroes<W: Write>(writer: &mut W, n: usize) -> std::io::Result<()> {

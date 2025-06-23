@@ -1,4 +1,4 @@
-use crate::config::ExtractionConfig;
+use crate::files::bundlefile::ExtractionConfig;
 use std::io::{Error, Read, Seek};
 
 pub trait UnityFile {

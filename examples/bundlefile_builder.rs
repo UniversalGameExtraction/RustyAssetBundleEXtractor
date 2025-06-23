@@ -3,8 +3,8 @@ use std::io::{BufReader, BufWriter};
 use std::path::Path;
 
 use anyhow::Result;
+use rabex::files::bundlefile::BundleFileBuilder;
 use rabex::files::bundlefile::CompressionType;
-use rabex::files::bundlefile::builder::BundleFileBuilder;
 
 fn main() -> Result<()> {
     let mut builder = BundleFileBuilder::unityfs(7, "2020.2.2f1".parse().unwrap());

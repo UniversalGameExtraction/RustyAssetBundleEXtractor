@@ -2,6 +2,9 @@ use std::str::FromStr;
 
 use num_enum::TryFromPrimitive;
 
+/// A parsed unity version.
+///
+/// Example: `2023.2.18f1`
 #[derive(Copy, Clone, PartialEq, PartialOrd)]
 pub struct UnityVersion {
     pub major: u16,

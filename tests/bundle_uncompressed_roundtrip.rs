@@ -1,7 +1,7 @@
 use std::io::Cursor;
 
 use rabex::{
-    config::ExtractionConfig,
+    files::bundlefile::ExtractionConfig,
     files::{
         BundleFile,
         bundlefile::{self, CompressionType},

@@ -1,4 +1,11 @@
-#![allow(clippy::redundant_closure_call)]
+//! The serialization format used by unity.
+
+mod provider;
+mod typetree_cache;
+
+pub use provider::TypeTreeProvider;
+pub use typetree_cache::TypeTreeCache;
+
 use crate::commonstring::COMMONSTRING;
 use crate::read_ext::ReadUrexExt;
 use crate::write_ext::WriteExt;
@@ -305,7 +312,7 @@ impl TypeTreeNode {
         Ok(())
     }
 
-    pub(crate) fn requires_align(&self) -> bool {
+    pub fn requires_align(&self) -> bool {
         (self.m_MetaFlag.unwrap_or(0) & TransferMetaFlags::ALIGN_BYTES_FLAG.bits()) != 0
     }
 
@@ -447,6 +454,46 @@ impl TypeTreeNode {
                 out.push_str("  ");
             }
             let _ = writeln!(out, "{} {}", tt.m_Type, tt.m_Name);
+
+            for child in &tt.children {
+                dump_inner(child, out, indent + 1);
+            }
+        }
+
+        let mut out = String::new();
+        dump_inner(self, &mut out, 0);
+        out
+    }
+
+    pub fn dump_pretty(&self) -> String {
+        use std::fmt::Write;
+        pub fn dump_inner(tt: &TypeTreeNode, out: &mut String, indent: usize) {
+            for _ in 0..indent {
+                out.push_str("  ");
+            }
+
+            if let [child] = tt.children.as_slice()
+                && child.m_Type == "Array"
+                && let [_, data] = child.children.as_slice()
+            {
+                let _ = writeln!(
+                    out,
+                    "{}<{}> {}",
+                    tt.m_Type.trim_end_matches("`1"),
+                    data.m_Type,
+                    tt.m_Name
+                );
+                if !data.children.is_empty() {
+                    dump_inner(data, out, indent + 1);
+                }
+                return;
+            } else {
+                let _ = writeln!(out, "{} {}", tt.m_Type, tt.m_Name);
+            }
+
+            if ["string"].contains(&tt.m_Type.as_str()) || tt.m_Type.starts_with("PPtr<") {
+                return;
+            }
 
             for child in &tt.children {
                 dump_inner(child, out, indent + 1);

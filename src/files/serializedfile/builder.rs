@@ -178,7 +178,7 @@ impl<'a, P: TypeTreeProvider> SerializedFileBuilder<'a, P> {
     }
 
     pub fn write<W: Write + Seek>(self, writer: W) -> Result<(), Error> {
-        serializedfile::write_serialized_with(
+        serializedfile::write_serialized_with_objects(
             writer,
             &self.serialized,
             self.common_offset_map,

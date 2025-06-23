@@ -1,7 +1,7 @@
 use anyhow::Result;
-use rabex::config::ExtractionConfig;
 use rabex::files::SerializedFile;
 use rabex::files::bundlefile::BundleFileReader;
+use rabex::files::bundlefile::ExtractionConfig;
 use std::fs::File;
 use std::io::Cursor;
 

@@ -1,6 +1,6 @@
 use anyhow::Result;
-use rabex::config::ExtractionConfig;
 use rabex::files::bundlefile::BundleFileReader;
+use rabex::files::bundlefile::ExtractionConfig;
 use rayon::iter::IntoParallelIterator;
 use rayon::iter::ParallelIterator;
 use std::fs::File;

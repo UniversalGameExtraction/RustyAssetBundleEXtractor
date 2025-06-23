@@ -4,6 +4,30 @@ use crate::files::bundlefile::{self, BundleFileHeader, CompressionType};
 use crate::files::unityfile::FileEntry;
 use crate::unity_version::UnityVersion;
 
+/// Builder for ergonomically creating a bundlefile.
+///
+/// # Example
+/// ```rust,no_run
+/// use std::fs::File;
+/// use std::io::{BufReader, BufWriter};
+/// use std::path::Path;
+///
+/// use anyhow::Result;
+/// use rabex::files::bundlefile::builder::BundleFileBuilder;
+/// use rabex::files::bundlefile::CompressionType;
+///
+/// fn main() -> Result<()> {
+///     let mut builder = BundleFileBuilder::unityfs(7, "2020.2.2f1".parse().unwrap());
+///
+///     builder.add_file("File1", BufReader::new(File::open("file1")?))?;
+///     builder.add_file("File1.sharedAssets", BufReader::new(File::open("file1-assets")?))?;
+///
+///     let mut out = BufWriter::new(File::open("out.unity3d")?);
+///     builder.write(&mut out, CompressionType::None)?;
+///
+///     Ok(())
+/// }
+/// ```
 pub struct BundleFileBuilder {
     version: u32,
     unity_version: UnityVersion,

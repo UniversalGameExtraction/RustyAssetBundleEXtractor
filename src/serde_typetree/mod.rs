@@ -1,3 +1,4 @@
+//! [serde] support for unity typetrees.
 mod de;
 mod error;
 mod ser;
