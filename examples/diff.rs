@@ -6,16 +6,12 @@ use std::{
 use anyhow::Result;
 use rabex::{
     files::{BundleFile, SerializedFile, bundlefile::ExtractionConfig},
-    tpk::TpkFile,
-    typetree::TypeTreeProvider,
+    tpk::TpkTypeTreeBlob,
+    typetree::{TypeTreeCache, TypeTreeProvider},
 };
 
 fn main() -> Result<()> {
-    let mut tpk_file = File::open("lz4.tpk").map_err(|_| {
-        anyhow::anyhow!("missing lz4.tpk file, download from https://github.com/AssetRipper/Tpk")
-    })?;
-    let tpk_file = TpkFile::from_reader(&mut tpk_file)?;
-    let tpk = tpk_file.as_type_tree()?.unwrap();
+    let tpk = TypeTreeCache::new(TpkTypeTreeBlob::embedded());
 
     let config = ExtractionConfig::default();
 

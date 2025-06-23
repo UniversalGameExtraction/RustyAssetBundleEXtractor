@@ -10,11 +10,7 @@ use rabex::files::SerializedFile;
 use rabex::files::bundlefile::ExtractionConfig;
 
 fn main() -> Result<()> {
-    let mut tpk_file = File::open("lz4.tpk").map_err(|_| {
-        anyhow::anyhow!("missing lz4.tpk file, download from https://github.com/AssetRipper/Tpk")
-    })?;
-    let tpk_file = TpkFile::from_reader(&mut tpk_file)?;
-    let typetrees = tpk_file.as_type_tree()?.unwrap();
+    let tpk = TypeTreeCache::new(TpkTypeTreeBlob::embedded());
 
     let path =
         "/home/jakob/.local/share/Steam/steamapps/common/Nine Sols/NineSols_Data/data.unity3d";

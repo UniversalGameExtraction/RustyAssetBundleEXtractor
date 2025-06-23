@@ -1,16 +1,13 @@
-use std::{fs::File, io::Cursor, path::Path};
+use std::{io::Cursor, path::Path};
 
 use anyhow::Result;
 use rabex::files::SerializedFile;
 use rabex::objects::{ClassId, ClassIdType};
-use rabex::tpk::TpkFile;
+use rabex::tpk::TpkTypeTreeBlob;
+use rabex::typetree::TypeTreeCache;
 
 fn main() -> Result<()> {
-    let mut tpk_file = File::open("lz4.tpk").map_err(|_| {
-        anyhow::anyhow!("missing lz4.tpk file, download from https://github.com/AssetRipper/Tpk")
-    })?;
-    let tpk_file = TpkFile::from_reader(&mut tpk_file)?;
-    let tpk = tpk_file.as_type_tree()?.unwrap();
+    let tpk = TypeTreeCache::new(TpkTypeTreeBlob::embedded());
 
     let path = Path::new(
         "/home/jakob/.local/share/Steam/steamapps/common/Nine Sols-Speedrunpatch/NineSols_Data/globalgamemanagers",

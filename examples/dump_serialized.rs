@@ -1,5 +1,5 @@
 use anyhow::Result;
-use rabex::{files::SerializedFile, tpk::TpkFile};
+use rabex::{files::SerializedFile, tpk::TpkTypeTreeBlob, typetree::TypeTreeCache};
 use std::fs::File;
 
 fn main() -> Result<()> {
@@ -8,11 +8,7 @@ fn main() -> Result<()> {
         .ok_or_else(|| anyhow::anyhow!("Expected path to unity bundle argument"))?;
     let mut data = File::open(path)?;
 
-    let mut tpk_file = File::open("lz4.tpk").map_err(|_| {
-        anyhow::anyhow!("missing lz4.tpk file, download from https://github.com/AssetRipper/Tpk")
-    })?;
-    let tpk_file = TpkFile::from_reader(&mut tpk_file)?;
-    let tpk = tpk_file.as_type_tree()?.unwrap();
+    let tpk = TypeTreeCache::new(TpkTypeTreeBlob::embedded());
 
     let file = SerializedFile::from_reader(&mut data)?;
     for obj in file.objects() {

@@ -20,6 +20,18 @@
 //! }
 //!
 //! ```
+//!
+//! [`TpkTypeTreeBlob`] implements the [`TypeTreeProvider`](crate::typetree::TypeTreeProvider) crate, so with
+//! the `embed-tpk` feature, using TPK to look up types is as easy as
+//! ```rust
+//! # use rabex::tpk::TpkTypeTreeBlob;
+//! # use rabex::typetree::TypeTreeCache;
+//! # use rabex::typetree::TypeTreeProvider;
+//! # use rabex::objects::ClassId;
+//! # let unity_version = "2020.2.2f1".parse().unwrap();
+//! let tpk = TypeTreeCache::new(TpkTypeTreeBlob::embedded());
+//! let node = tpk.get_typetree_node(ClassId::Transform, unity_version);
+//! ```
 
 #[non_exhaustive]
 #[derive(Debug)]
@@ -169,6 +181,15 @@ impl TpkFile {
             }
             _ => Ok(None),
         }
+    }
+}
+
+impl TpkTypeTreeBlob {
+    #[cfg(feature = "embed-tpk")]
+    pub fn embedded() -> Self {
+        let bytes = include_bytes!("../resources/lz4.tpk");
+        let tpk_file = TpkFile::from_reader(&mut bytes.as_slice()).unwrap();
+        tpk_file.as_type_tree().unwrap().unwrap()
     }
 }
 

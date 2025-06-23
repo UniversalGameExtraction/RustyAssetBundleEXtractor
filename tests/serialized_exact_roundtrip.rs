@@ -1,14 +1,12 @@
 use std::{io::Cursor, path::Path};
 
 use rabex::files::{SerializedFile, serializedfile};
-use rabex::tpk::{TpkFile, TpkTypeTreeBlob};
+use rabex::tpk::TpkTypeTreeBlob;
 
 #[test]
 #[cfg(false)]
 fn roundtrip_serialized_hk_gamefiles() -> Result<(), std::io::Error> {
-    let mut file = std::fs::File::open("lz4.tpk")?;
-    let tpk_file = TpkFile::from_reader(&mut file).unwrap();
-    let tt = tpk_file.as_type_tree().unwrap().unwrap();
+    let tt = TpkTypeTreeBlob::embedded();
 
     let hk_dir = "/home/jakob/.local/share/Steam/steamapps/common/Hollow Knight/hollow_knight_Data";
 
@@ -28,9 +26,7 @@ fn roundtrip_serialized_hk_gamefiles() -> Result<(), std::io::Error> {
 #[test]
 #[cfg(false)]
 fn roundtrip_serialized_ninesols_gamefiles() -> Result<(), std::io::Error> {
-    let mut file = std::fs::File::open("lz4.tpk")?;
-    let tpk_file = TpkFile::from_reader(&mut file).unwrap();
-    let tt = tpk_file.as_type_tree().unwrap().unwrap();
+    let tt = TpkTypeTreeBlob::embedded();
 
     let ninesols_dir = Path::new(
         "/home/jakob/.local/share/Steam/steamapps/common/Nine Sols-Speedrunpatch/NineSols_Data",
@@ -51,13 +47,11 @@ fn roundtrip_serialized_ninesols_gamefiles() -> Result<(), std::io::Error> {
 
 #[test]
 fn roundtrip_serialized_unitypy() -> Result<(), std::io::Error> {
-    let mut file = std::fs::File::open("lz4.tpk")?;
-    let tpk_file = TpkFile::from_reader(&mut file).unwrap();
-    let tt = tpk_file.as_type_tree().unwrap().unwrap();
+    let tpk = TpkTypeTreeBlob::embedded();
 
     for entry in std::fs::read_dir("tests/files/hk_serialized")? {
         let entry = entry?;
-        assert_roundtrip(&entry.path(), &tt)?;
+        assert_roundtrip(&entry.path(), &tpk)?;
     }
 
     Ok(())
@@ -73,7 +67,7 @@ fn assert_roundtrip(path: &Path, tt: &TpkTypeTreeBlob) -> Result<(), std::io::Er
     let mut out = Cursor::new(Vec::new());
 
     let common_offset_map =
-        serializedfile::build_common_offset_map(tt, serialized.m_UnityVersion.unwrap());
+        serializedfile::build_common_offset_map(&tt, serialized.m_UnityVersion.unwrap());
     serializedfile::write_serialized(&mut out, &serialized, reader.get_ref(), &common_offset_map)?;
 
     let start = 0;
