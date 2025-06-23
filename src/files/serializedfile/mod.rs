@@ -568,97 +568,6 @@ impl<'a, T> ObjectRef<'a, T> {
     }
 }
 
-#[derive(Debug)]
-pub struct ObjectHandler<'a, R: std::io::Read + std::io::Seek> {
-    pub info: &'a ObjectInfo,
-    pub typ: Option<&'a SerializedType>,
-    pub file: &'a SerializedFile,
-    pub reader: &'a mut R,
-}
-
-impl<'a, R: std::io::Read + std::io::Seek> ObjectHandler<'a, R> {
-    pub fn new(
-        info: &'a ObjectInfo,
-        typ: Option<&'a SerializedType>,
-        file: &'a SerializedFile,
-        reader: &'a mut R,
-    ) -> Self {
-        ObjectHandler {
-            info,
-            typ,
-            file,
-            reader,
-        }
-    }
-
-    pub fn get_raw_data(&mut self) -> Result<Vec<u8>, std::io::Error> {
-        self.reader
-            .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
-        self.reader.read_bytes_sized(self.info.m_Size as usize)
-    }
-
-    fn get_typetree(&self) -> Option<&TypeTreeNode> {
-        match self.typ {
-            Some(typ) => typ.m_Type.as_ref(),
-            _ => None,
-        }
-    }
-
-    pub fn peek_name(&mut self) -> Result<String, std::io::Error> {
-        self.reader
-            .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
-
-        todo!("not implemented yet");
-        // todo - check against typeid
-        /*match self.file.m_Header.m_Endianess {
-            Endianness::Little => self.reader.read_string::<LittleEndian>(),
-            Endianness::Big => self.reader.read_string::<BigEndian>(),
-        }*/
-    }
-
-    pub fn parse<'de, T: serde::de::Deserialize<'de>>(
-        &mut self,
-    ) -> Result<T, serde_typetree::Error> {
-        match self.get_typetree().cloned() {
-            Some(node) => {
-                self.reader
-                    .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
-                match self.file.m_Header.m_Endianess {
-                    Endianness::Little => node.read::<T, R, LittleEndian>(self.reader),
-                    Endianness::Big => node.read::<T, R, BigEndian>(self.reader),
-                }
-            }
-            _ => Err(serde_typetree::Error::custom("Couldn't find typetree")),
-        }
-    }
-
-    #[cfg(feature = "formats")]
-    pub fn parse_as_json(&mut self) -> Result<serde_json::Value, serde_typetree::Error> {
-        self.parse::<serde_json::Value>()
-    }
-
-    #[cfg(feature = "formats")]
-    pub fn parse_as_yaml(&mut self) -> Result<serde_yaml::Value, serde_typetree::Error> {
-        self.parse::<serde_yaml::Value>()
-    }
-
-    /// Parses the object as msgpack
-    #[cfg(feature = "formats")]
-    pub fn parse_as_msgpack(&mut self) -> Result<Vec<u8>, serde_typetree::Error> {
-        match self.get_typetree().cloned() {
-            Some(node) => {
-                self.reader
-                    .seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
-                match self.file.m_Header.m_Endianess {
-                    Endianness::Little => node.read_as_msgpack::<R, LittleEndian>(self.reader),
-                    Endianness::Big => node.read_as_msgpack::<R, BigEndian>(self.reader),
-                }
-            }
-            _ => Err(serde_typetree::Error::custom("No Typetree foun")),
-        }
-    }
-}
-
 #[derive(Debug, Clone)]
 pub struct SerializedFile {
     pub m_Header: SerializedFileHeader,
@@ -824,19 +733,6 @@ impl SerializedFile {
         self.m_Objects_lookup
             .get(&path_id)
             .map(|&i| &self.m_Objects[i])
-    }
-
-    pub fn get_object_handler<'a, R: std::io::Read + std::io::Seek>(
-        &'a self,
-        objectinfo: &'a ObjectInfo,
-        reader: &'a mut R,
-    ) -> ObjectHandler<'a, R> {
-        let mut typ = None;
-        if self.m_Header.m_Version >= SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits() {
-            typ = Some(&self.m_Types[objectinfo.m_TypeID as usize]);
-        }
-
-        ObjectHandler::new(objectinfo, typ, self, reader)
     }
 }
 
