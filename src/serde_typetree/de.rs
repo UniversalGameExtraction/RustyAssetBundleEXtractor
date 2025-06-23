@@ -401,10 +401,7 @@ impl<'de, R: Read + Seek, B: ByteOrder> SeqAccess<'de> for SeqDeserializer<'_, R
     fn next_element_seed<K: DeserializeSeed<'de>>(
         &mut self,
         seed: K,
-    ) -> Result<Option<K::Value>, Self::Error>
-    where
-        K: DeserializeSeed<'de>,
-    {
+    ) -> Result<Option<K::Value>, Self::Error> {
         if *self.count == 0 {
             return Ok(None);
         }
@@ -424,7 +421,7 @@ struct StructDeserializer<'cx, R, B> {
     next_index: usize,
     marker: PhantomData<B>,
 }
-impl<'de, 'cx, R, B> StructDeserializer<'cx, R, B> {
+impl<'cx, R, B> StructDeserializer<'cx, R, B> {
     fn new(de: &'cx mut Deserializer<'_, R, B>) -> Self {
         StructDeserializer {
             typetree: de.typetree,
@@ -441,10 +438,7 @@ impl<'de, R: Read + Seek, B: ByteOrder> MapAccess<'de> for StructDeserializer<'_
     fn next_key_seed<K: DeserializeSeed<'de>>(
         &mut self,
         seed: K,
-    ) -> Result<Option<K::Value>, Self::Error>
-    where
-        K: DeserializeSeed<'de>,
-    {
+    ) -> Result<Option<K::Value>, Self::Error> {
         if self.next_index >= self.typetree.children.len() {
             return Ok(None);
         }
@@ -488,10 +482,7 @@ impl<'de, R: Read + Seek, B: ByteOrder> SeqAccess<'de> for StructDeserializer<'_
     fn next_element_seed<K: DeserializeSeed<'de>>(
         &mut self,
         seed: K,
-    ) -> Result<Option<K::Value>, Self::Error>
-    where
-        K: DeserializeSeed<'de>,
-    {
+    ) -> Result<Option<K::Value>, Self::Error> {
         if self.next_index >= self.typetree.children.len() {
             return Ok(None);
         }
@@ -522,10 +513,7 @@ impl<'de, R: Read + Seek, B: ByteOrder> MapAccess<'de> for MapDeserializer<'_, R
     fn next_key_seed<K: DeserializeSeed<'de>>(
         &mut self,
         seed: K,
-    ) -> Result<Option<K::Value>, Self::Error>
-    where
-        K: DeserializeSeed<'de>,
-    {
+    ) -> Result<Option<K::Value>, Self::Error> {
         if self.count == 0 {
             return Ok(None);
         }
@@ -592,10 +580,7 @@ struct ByteSeqDeserializer {
 impl<'de> serde::de::SeqAccess<'de> for ByteSeqDeserializer {
     type Error = Error;
 
-    fn next_element_seed<T>(
-        &mut self,
-        seed: T,
-    ) -> std::result::Result<Option<T::Value>, Self::Error>
+    fn next_element_seed<T>(&mut self, seed: T) -> Result<Option<T::Value>, Self::Error>
     where
         T: DeserializeSeed<'de>,
     {

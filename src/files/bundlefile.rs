@@ -236,6 +236,7 @@ impl BundleFile {
     }
 }
 
+#[allow(clippy::type_complexity)]
 pub fn read_unityfs_info<R: Read + Seek>(
     m_Header: &mut BundleFileHeader,
     reader: &mut R,

@@ -11,7 +11,6 @@ use serde::ser::Impossible;
 
 use crate::{serde_typetree::Error, typetree::TypeTreeNode};
 
-#[must_use]
 pub fn to_vec<T: Serialize + ?Sized, B: ByteOrder + 'static>(
     value: &T,
     typetree: &TypeTreeNode,
@@ -22,7 +21,6 @@ pub fn to_vec<T: Serialize + ?Sized, B: ByteOrder + 'static>(
     Ok(writer.into_inner())
 }
 
-#[must_use]
 pub fn to_vec_endianed<T: Serialize + ?Sized>(
     value: &T,
     typetree: &TypeTreeNode,
@@ -460,9 +458,7 @@ pub struct SerializerSeq<'cx, W, B> {
     marker: PhantomData<B>,
 }
 
-impl<'a, W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeSeq
-    for SerializerSeq<'_, W, B>
-{
+impl<W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeSeq for SerializerSeq<'_, W, B> {
     type Ok = ();
 
     type Error = Error;
@@ -484,7 +480,7 @@ impl<'a, W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeSeq
     }
 }
 
-impl<'a, W: Write, B: ByteOrder> serde::ser::SerializeTuple for &'a mut Serializer<'_, W, B> {
+impl<W: Write, B: ByteOrder> serde::ser::SerializeTuple for &mut Serializer<'_, W, B> {
     type Ok = ();
 
     type Error = Error;
@@ -497,7 +493,7 @@ impl<'a, W: Write, B: ByteOrder> serde::ser::SerializeTuple for &'a mut Serializ
         todo!("{}", self.typetree.dump())
     }
 }
-impl<'a, W: Write, B: ByteOrder> serde::ser::SerializeTupleStruct for &'a mut Serializer<'_, W, B> {
+impl<W: Write, B: ByteOrder> serde::ser::SerializeTupleStruct for &mut Serializer<'_, W, B> {
     type Ok = ();
 
     type Error = Error;
@@ -510,9 +506,7 @@ impl<'a, W: Write, B: ByteOrder> serde::ser::SerializeTupleStruct for &'a mut Se
         todo!("{}", self.typetree.dump())
     }
 }
-impl<'a, W: Write, B: ByteOrder> serde::ser::SerializeTupleVariant
-    for &'a mut Serializer<'_, W, B>
-{
+impl<W: Write, B: ByteOrder> serde::ser::SerializeTupleVariant for &mut Serializer<'_, W, B> {
     type Ok = ();
 
     type Error = Error;
@@ -600,7 +594,7 @@ impl<'cx, W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeMap
                 Ok(())
             }
             SerializerMapMode::Map { key_type, .. } => key.serialize(&mut Serializer {
-                typetree: &key_type,
+                typetree: key_type,
                 writer: self.writer,
                 marker: self.marker,
                 requires_align: key_type.requires_align(),
@@ -622,7 +616,7 @@ impl<'cx, W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeMap
                 Ok(())
             }
             SerializerMapMode::Map { value_type, .. } => value.serialize(&mut Serializer {
-                typetree: &value_type,
+                typetree: value_type,
                 writer: self.writer,
                 marker: self.marker,
                 requires_align: value_type.requires_align(),
@@ -644,7 +638,7 @@ pub struct SerializerStruct<'cx, W, B> {
     index: usize,
 }
 
-impl<'a, W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeStruct
+impl<W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeStruct
     for SerializerStruct<'_, W, B>
 {
     type Ok = ();
@@ -700,9 +694,7 @@ impl<'a, W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeStruct
     }
 }
 
-impl<'a, W: Write, B: ByteOrder> serde::ser::SerializeStructVariant
-    for &'a mut Serializer<'_, W, B>
-{
+impl<W: Write, B: ByteOrder> serde::ser::SerializeStructVariant for &mut Serializer<'_, W, B> {
     type Ok = ();
 
     type Error = Error;
@@ -729,7 +721,7 @@ pub struct SerializerTuple<'cx, W, B> {
     index: usize,
 }
 
-impl<'a, W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeTuple
+impl<W: Write + Seek, B: ByteOrder + 'static> serde::ser::SerializeTuple
     for SerializerTuple<'_, W, B>
 {
     type Ok = ();

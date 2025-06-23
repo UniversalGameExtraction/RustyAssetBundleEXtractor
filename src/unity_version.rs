@@ -52,7 +52,7 @@ impl std::error::Error for UnityVersionParseError {}
 impl FromStr for UnityVersion {
     type Err = UnityVersionParseError;
 
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         (|| {
             let mut split = s.split('.');
             let major = split.next()?.parse().ok()?;

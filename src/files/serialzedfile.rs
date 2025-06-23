@@ -203,7 +203,7 @@ impl ObjectInfo {
             m_ScriptTypeIndex: None,
             m_Stripped: None,
         };
-        if bigIDEnabled.map_or(false, |enabled| enabled > 0) {
+        if bigIDEnabled.is_some_and(|enabled| enabled > 0) {
             objectInfo.m_PathID = reader.read_i64::<B>()?;
         } else if header.m_Version < 14 {
             objectInfo.m_PathID = reader.read_i32::<B>()? as i64;
@@ -298,7 +298,7 @@ impl std::fmt::Debug for Guid {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.write_str("Guid(")?;
         for byte in &self.0 {
-            write!(f, "{:02x}", byte)?;
+            write!(f, "{byte:02x}")?;
         }
         f.write_str(")")
     }

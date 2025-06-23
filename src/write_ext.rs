@@ -25,6 +25,6 @@ pub trait WriteSeekExt: Write + Seek {
 impl<T: Write + Seek> WriteSeekExt for T {}
 
 pub fn align_vec<const ALIGN: usize>(vec: &mut Vec<u8>) {
-    let new_pos = (vec.len() + ALIGN as usize - 1) & !(ALIGN as usize - 1);
+    let new_pos = (vec.len() + ALIGN - 1) & !(ALIGN - 1);
     vec.resize_with(new_pos, || 0);
 }

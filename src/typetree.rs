@@ -123,7 +123,7 @@ impl TypeTreeNode {
                 .collect::<Result<_, _>>()?;
             Ok(node)
         }
-        Ok(read_node_base::<R, B>(reader, version, 0)?)
+        read_node_base::<R, B>(reader, version, 0)
     }
 
     pub fn blob_from_reader<R: std::io::Read + std::io::Seek, B: ByteOrder>(
@@ -142,7 +142,7 @@ impl TypeTreeNode {
         let mut string_buffer_reader =
             std::io::Cursor::new(reader.read_bytes_sized(string_buffer_size as usize)?);
 
-        fn read_string<R: std::io::Read + std::io::Seek, B: ByteOrder>(
+        fn read_string<R: std::io::Read + std::io::Seek>(
             string_buffer_reader: &mut R,
             value: u32,
         ) -> Result<String, std::io::Error> {
@@ -169,11 +169,11 @@ impl TypeTreeNode {
                     m_Version: node_reader.read_u16::<B>()? as i32,
                     m_Level: node_reader.read_u8()?,
                     m_TypeFlags: node_reader.read_u8()? as i32,
-                    m_Type: read_string::<std::io::Cursor<Vec<u8>>, B>(
+                    m_Type: read_string::<std::io::Cursor<Vec<u8>>>(
                         &mut string_buffer_reader,
                         node_reader.read_u32::<B>()?,
                     )?,
-                    m_Name: read_string::<std::io::Cursor<Vec<u8>>, B>(
+                    m_Name: read_string::<std::io::Cursor<Vec<u8>>>(
                         &mut string_buffer_reader,
                         node_reader.read_u32::<B>()?,
                     )?,
@@ -206,7 +206,7 @@ impl TypeTreeNode {
         }
 
         let mut root_node = nodes
-            .get(0)
+            .first()
             .ok_or_else(|| std::io::Error::new(std::io::ErrorKind::InvalidData, "typetree"))?
             .clone();
         let added = add_children(&mut root_node, &nodes, 0);

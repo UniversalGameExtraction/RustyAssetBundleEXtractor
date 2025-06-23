@@ -58,8 +58,7 @@ pub trait ReadUrexExt: ReadBytesExt {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::OutOfMemory,
                 format!(
-                    "Attempted to make an allocation of {len} bytes, exceeding the threshold {}",
-                    threshold
+                    "Attempted to make an allocation of {len} bytes, exceeding the threshold {threshold}",
                 ),
             ));
         }

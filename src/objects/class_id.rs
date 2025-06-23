@@ -10,7 +10,7 @@ impl Default for ClassId {
 
 impl ClassId {
     pub fn name(&self) -> Option<&str> {
-        CLASS_ID_NAME.get(&self).map(|name| *name)
+        CLASS_ID_NAME.get(self).copied()
     }
 }
 
