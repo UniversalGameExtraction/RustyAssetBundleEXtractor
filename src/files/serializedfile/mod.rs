@@ -2,14 +2,78 @@
 //!
 //! - To read the file, use [`SerializedFile::from_reader`].
 //! - To create a new serialized file from scratch, use [`builder::SerializedFileBuilder`]
+//!
+//! # Example
+//!
+//! ```rust,no_run
+//! # #![allow(non_snake_case)]
+//! use anyhow::Result;
+//! use rabex::files::SerializedFile;
+//! use rabex::objects::{ClassId, ClassIdType, PPtr, TypedPPtr};
+//! use rabex::{tpk::TpkTypeTreeBlob, typetree::TypeTreeCache};
+//! use serde_derive::{Deserialize, Serialize};
+//! use std::{fs::File, io::BufReader};
+//!
+//! fn main() -> Result<()> {
+//!     let path = std::env::args()
+//!         .nth(1)
+//!         .ok_or_else(|| anyhow::anyhow!("Expected path to unity bundle argument"))?;
+//!     let reader = &mut BufReader::new(File::open(path)?);
+//!     let tpk = &TypeTreeCache::new(TpkTypeTreeBlob::embedded());
+//!     let file = SerializedFile::from_reader(reader)?;
+//!
+//!     for transform_obj in file.objects_of::<Transform>(tpk)? {
+//!         let transform = transform_obj.read(reader)?;
+//!
+//!         if transform.m_Father.is_null() {
+//!             let go = transform
+//!                 .m_GameObject
+//!                 .deref_local(&file, tpk)?
+//!                 .read(reader)?;
+//!             println!("Root object: {}", go.m_Name);
+//!         }
+//!     }
+//!
+//!     Ok(())
+//! }
+//!
+//! #[derive(Deserialize)]
+//! pub struct Transform {
+//!     pub m_GameObject: TypedPPtr<GameObject>,
+//!     pub m_LocalRotation: (f32, f32, f32, f32),
+//!     pub m_LocalPosition: (f32, f32, f32),
+//!     pub m_LocalScale: (f32, f32, f32),
+//!     pub m_Children: Vec<TypedPPtr<Transform>>,
+//!     pub m_Father: TypedPPtr<Transform>,
+//! }
+//! impl ClassIdType for Transform {
+//!     const CLASS_ID: ClassId = ClassId::Transform;
+//! }
+//!
+//! #[derive(Deserialize)]
+//! pub struct GameObject {
+//!     pub m_Component: Vec<ComponentPair>,
+//!     pub m_Layer: u32,
+//!     pub m_Name: String,
+//!     pub m_Tag: u16,
+//!     pub m_IsActive: bool,
+//! }
+//!
+//! #[derive(Deserialize)]
+//! pub struct ComponentPair {
+//!     pub component: PPtr,
+//! }
+//! ```
 pub mod builder;
 
 use std::borrow::Cow;
 use std::collections::HashMap;
 use std::io::{Read, Seek, Write};
+use std::marker::PhantomData;
 
 use super::UnityFile;
 use super::bundlefile::ExtractionConfig;
+use crate::objects::pptr::PathId;
 use crate::objects::{ClassId, ClassIdType, PPtr};
 use crate::read_ext::{ReadSeekUrexExt, ReadUrexExt};
 use crate::serde_typetree;
@@ -25,6 +89,8 @@ use byteorder::{BigEndian, ByteOrder, LittleEndian, ReadBytesExt};
 use num_enum::TryFromPrimitive;
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
+
+pub type Result<T, E = Error> = std::result::Result<T, E>;
 
 #[derive(Clone, Copy, Debug, TryFromPrimitive, PartialEq, Eq)]
 #[repr(u8)]
@@ -261,8 +327,8 @@ impl SerializedType {
 
 #[derive(Debug, Clone)]
 pub struct LocalSerializedObjectIdentifier {
-    m_LocalSerializedFileIndex: i32,
-    m_LocalIdentifierInFile: i64,
+    pub m_LocalSerializedFileIndex: i32,
+    pub m_LocalIdentifierInFile: i64,
 }
 
 impl LocalSerializedObjectIdentifier {
@@ -370,8 +436,8 @@ impl ObjectInfo {
 
 #[derive(Debug, Clone)]
 pub struct ScriptType {
-    localSerializedFileIndex: i32,
-    localIdentifierInFile: i64,
+    pub localSerializedFileIndex: i32,
+    pub localIdentifierInFile: i64,
 }
 
 impl ScriptType {
@@ -442,6 +508,63 @@ impl FileIdentifier {
             },
             pathName: reader.read_cstr()?,
         })
+    }
+}
+
+/// A handle to an object, equipped with a [`TypeTreeNode`] for (de)serialization.
+///
+/// `T` can either a specific type for e.g. `Transform`s, or something like `serde_json::Value` for
+/// dynamic deserialization.
+pub struct ObjectRef<'a, T> {
+    pub file: &'a SerializedFile,
+    pub info: &'a ObjectInfo,
+    pub tt: Cow<'a, TypeTreeNode>,
+
+    marker: PhantomData<T>,
+}
+
+impl<'a, T> ObjectRef<'a, T> {
+    pub fn new(file: &'a SerializedFile, info: &'a ObjectInfo, tt: Cow<'a, TypeTreeNode>) -> Self {
+        ObjectRef {
+            file,
+            info,
+            tt,
+            marker: PhantomData,
+        }
+    }
+
+    /// Read and deserialize the object.
+    pub fn read<'de>(&self, mut reader: &mut (impl Read + Seek)) -> Result<T>
+    where
+        T: Deserialize<'de>,
+    {
+        reader.seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
+        serde_typetree::from_reader_endianed(&mut reader, &self.tt, self.file.m_Header.m_Endianess)
+            .map_err(Error::Deserialize)
+    }
+
+    pub fn get_raw_data(&self, reader: &mut (impl Read + Seek)) -> Result<Vec<u8>, std::io::Error> {
+        reader.seek(std::io::SeekFrom::Start(self.info.m_Offset as u64))?;
+        reader.read_bytes_sized(self.info.m_Size as usize)
+    }
+
+    /// Specify another typetree to be used for the handle. This is useful to replace a `ObjectRef<MonoBehaviour>`
+    /// with a specific typetree for a certain monoscript.
+    pub fn with_typetree<U>(&self, typetree: &'a TypeTreeNode) -> ObjectRef<'a, U> {
+        ObjectRef {
+            file: self.file,
+            info: self.info,
+            tt: Cow::Borrowed(typetree),
+            marker: PhantomData,
+        }
+    }
+    pub fn cast<U>(&'a self) -> ObjectRef<'a, U> {
+        ObjectRef {
+            file: self.file,
+            info: self.info,
+            tt: Cow::Borrowed(&self.tt),
+            marker: PhantomData,
+        }
     }
 }
 
@@ -555,35 +678,6 @@ pub struct SerializedFile {
 }
 
 impl SerializedFile {
-    pub fn objects(&self) -> impl ExactSizeIterator<Item = &ObjectInfo> {
-        self.m_Objects.iter()
-    }
-
-    pub fn modify_objects(&mut self, f: impl FnOnce(&mut Vec<ObjectInfo>)) {
-        f(&mut self.m_Objects);
-        self.recompute_lookup();
-    }
-
-    pub fn take_objects(&mut self) -> Vec<ObjectInfo> {
-        self.m_Objects_lookup.clear();
-        std::mem::take(&mut self.m_Objects)
-    }
-
-    fn recompute_lookup(&mut self) {
-        self.m_Objects_lookup = self
-            .m_Objects
-            .iter()
-            .enumerate()
-            .map(|(i, obj)| (obj.m_PathID, i))
-            .collect();
-    }
-
-    pub fn get_object(&self, path_id: i64) -> Option<&ObjectInfo> {
-        self.m_Objects_lookup
-            .get(&path_id)
-            .map(|&i| &self.m_Objects[i])
-    }
-
     pub fn from_reader<T: std::io::Read + std::io::Seek>(
         reader: &mut T,
     ) -> Result<SerializedFile, std::io::Error> {
@@ -695,6 +789,42 @@ impl SerializedFile {
         file.recompute_lookup();
         Ok(file)
     }
+}
+
+impl SerializedFile {
+    /// List all object infos in the file
+    pub fn objects(&self) -> impl ExactSizeIterator<Item = &ObjectInfo> {
+        self.m_Objects.iter()
+    }
+
+    /// Mutate the object infos in the file.
+    ///
+    /// We don't expose unconstrained mutable access to maintain an index accelerating the lookup
+    /// of path ids internally.
+    pub fn modify_objects(&mut self, f: impl FnOnce(&mut Vec<ObjectInfo>)) {
+        f(&mut self.m_Objects);
+        self.recompute_lookup();
+    }
+
+    pub fn take_objects(&mut self) -> Vec<ObjectInfo> {
+        self.m_Objects_lookup.clear();
+        std::mem::take(&mut self.m_Objects)
+    }
+
+    fn recompute_lookup(&mut self) {
+        self.m_Objects_lookup = self
+            .m_Objects
+            .iter()
+            .enumerate()
+            .map(|(i, obj)| (obj.m_PathID, i))
+            .collect();
+    }
+
+    pub fn get_object_info(&self, path_id: i64) -> Option<&ObjectInfo> {
+        self.m_Objects_lookup
+            .get(&path_id)
+            .map(|&i| &self.m_Objects[i])
+    }
 
     pub fn get_object_handler<'a, R: std::io::Read + std::io::Seek>(
         &'a self,
@@ -708,61 +838,89 @@ impl SerializedFile {
 
         ObjectHandler::new(objectinfo, typ, self, reader)
     }
+}
 
-    pub fn read_object_of_class_id<'de, T: ClassIdType + Deserialize<'de>>(
-        &self,
-        tpk: impl TypeTreeProvider,
-        reader: &mut (impl Read + Seek),
-    ) -> Result<Option<T>, Error> {
-        self.object_of_class_id(T::CLASS_ID)
-            .map(|obj| self.read::<T>(obj, tpk, reader))
+impl SerializedFile {
+    /// Iterate over all [`ObjectInfo`]s of type `T`
+    pub fn object_infos_of<T>(&self) -> impl Iterator<Item = &ObjectInfo>
+    where
+        T: ClassIdType,
+    {
+        self.m_Objects
+            .iter()
+            .filter(move |object| object.m_ClassID == T::CLASS_ID)
+    }
+
+    /// Find the first [`ObjectInfo`] of type `T`
+    pub fn find_object_info_of<T>(&self) -> Option<&ObjectInfo>
+    where
+        T: ClassIdType,
+    {
+        self.m_Objects
+            .iter()
+            .find(move |object| object.m_ClassID == T::CLASS_ID)
+    }
+
+    /// Get a reference to the object at `path_id`. The [`TypeTreeProvider`] is used for
+    /// [`SerializedFile`]s without serialized type tree information.
+    pub fn get_object<'a, T>(
+        &'a self,
+        path_id: PathId,
+        tpk: &'a impl TypeTreeProvider,
+    ) -> Result<ObjectRef<'a, T>> {
+        let info = self
+            .get_object_info(path_id)
+            .ok_or(Error::NoObject(path_id))?;
+        let tt = self.get_typetree_for(info, tpk)?;
+        // breaks for Transform/RectTransform?
+        // assert_eq!(info.m_ClassID, T::CLASS_ID, "get_object<{:?}> was actually {:?}", T::CLASS_ID, info.m_ClassID);
+        Ok(ObjectRef::new(self, info, tt))
+    }
+
+    /// Iterate over all objects of type `T`
+    pub fn objects_of<'a, T>(
+        &'a self,
+        tpk: &'a impl TypeTreeProvider,
+    ) -> Result<impl Iterator<Item = ObjectRef<'a, T>>>
+    where
+        T: ClassIdType,
+    {
+        let ty = tpk
+            .get_typetree_node(T::CLASS_ID, self.m_UnityVersion.unwrap())
+            .ok_or(Error::NoTypetree(T::CLASS_ID))?;
+
+        Ok(self.object_infos_of::<T>().map(move |info| {
+            let tt = self
+                .get_serialized_objectinfo_type(info)
+                .map(Cow::Borrowed)
+                .unwrap_or(ty.clone());
+            ObjectRef::new(self, info, tt)
+        }))
+    }
+
+    /// Find the first object of type `T`
+    pub fn find_object_of<'a, T>(
+        &'a self,
+        tpk: &'a impl TypeTreeProvider,
+    ) -> Result<Option<ObjectRef<'a, T>>>
+    where
+        T: ClassIdType,
+    {
+        self.find_object_info_of::<T>()
+            .map(move |info| {
+                let tt = self.get_typetree_for(info, tpk)?;
+                Ok(ObjectRef::new(self, info, tt))
+            })
             .transpose()
     }
 
-    pub fn object_of_class_id(&self, class_id: ClassId) -> Option<&ObjectInfo> {
-        self.m_Objects
-            .iter()
-            .find(move |object| object.m_ClassID == class_id)
-    }
-    pub fn objects_of_class_id(&self, class_id: ClassId) -> impl Iterator<Item = &ObjectInfo> {
-        self.m_Objects
-            .iter()
-            .filter(move |object| object.m_ClassID == class_id)
-    }
-
-    pub fn get_typetree_for<'tt>(
-        &self,
-        object: &ObjectInfo,
-        tpk: &'tt impl TypeTreeProvider,
-    ) -> Result<Cow<'tt, TypeTreeNode>, Error> {
-        tpk.get_typetree_node(object.m_ClassID, self.m_UnityVersion.unwrap())
-            .ok_or(Error::NoTypetree(object.m_ClassID))
-    }
-
-    pub fn read_as<'de, T: Deserialize<'de>>(
-        &self,
-        object: &ObjectInfo,
-        typetree: &TypeTreeNode,
-        reader: &mut (impl Read + Seek),
-    ) -> Result<T, Error> {
-        reader.seek(std::io::SeekFrom::Start(object.m_Offset as u64))?;
-        match self.m_Header.m_Endianess {
-            Endianness::Little => serde_typetree::from_reader::<_, byteorder::LE>(reader, typetree),
-            Endianness::Big => serde_typetree::from_reader::<_, byteorder::BE>(reader, typetree),
+    fn get_serialized_objectinfo_type(&self, object: &ObjectInfo) -> Option<&TypeTreeNode> {
+        if self.m_Header.m_Version >= SerializedFileFormatVersion::REFACTORED_CLASS_ID.bits()
+            && let Some(ty) = &self.m_Types[object.m_TypeID as usize].m_Type
+        {
+            return Some(ty);
         }
-        .map_err(Error::Deserialize)
-    }
-
-    pub fn read_single<'de, T: Deserialize<'de>>(
-        &self,
-        class_id: ClassId,
-        tpk: impl TypeTreeProvider,
-        reader: &mut (impl Read + Seek),
-    ) -> Result<T, Error> {
-        let info = self
-            .object_of_class_id(class_id)
-            .expect("read_single doesn't exist");
-        self.read(info, tpk, reader)
+        None
     }
 
     /// Deserialize the object data as type `T`.
@@ -783,16 +941,11 @@ impl SerializedFile {
         object: &ObjectInfo,
         tpk: impl TypeTreeProvider,
         reader: &mut (impl Read + Seek),
-    ) -> Result<T, Error> {
-        let tt = tpk
-            .get_typetree_node(object.m_ClassID, self.m_UnityVersion.unwrap())
-            .ok_or(Error::NoTypetree(object.m_ClassID))?;
+    ) -> Result<T> {
+        let tt = self.get_typetree_for(object, &tpk)?;
         reader.seek(std::io::SeekFrom::Start(object.m_Offset as u64))?;
-        match self.m_Header.m_Endianess {
-            Endianness::Little => serde_typetree::from_reader::<_, byteorder::LE>(reader, &tt),
-            Endianness::Big => serde_typetree::from_reader::<_, byteorder::BE>(reader, &tt),
-        }
-        .map_err(Error::Deserialize)
+        serde_typetree::from_reader_endianed(reader, &tt, self.m_Header.m_Endianess)
+            .map_err(Error::Deserialize)
     }
 
     /// Read the raw bytes of the object.
@@ -800,10 +953,30 @@ impl SerializedFile {
         &self,
         object: &ObjectInfo,
         reader: &mut (impl Read + Seek),
-    ) -> Result<Vec<u8>, Error> {
+    ) -> Result<Vec<u8>> {
         reader.seek(std::io::SeekFrom::Start(object.m_Offset as u64))?;
         let bytes = reader.read_bytes_sized(object.m_Size as usize)?;
         Ok(bytes)
+    }
+
+    pub fn get_typetree_for_class<'a>(
+        &'a self,
+        class_id: ClassId,
+        tpk: &'a impl TypeTreeProvider,
+    ) -> Result<Cow<'a, TypeTreeNode>> {
+        tpk.get_typetree_node(class_id, self.m_UnityVersion.unwrap())
+            .ok_or(Error::NoTypetree(class_id))
+    }
+
+    pub fn get_typetree_for<'a>(
+        &'a self,
+        info: &ObjectInfo,
+        tpk: &'a impl TypeTreeProvider,
+    ) -> Result<Cow<'a, TypeTreeNode>> {
+        self.get_serialized_objectinfo_type(info)
+            .map(Cow::Borrowed)
+            .or_else(|| tpk.get_typetree_node(info.m_ClassID, self.m_UnityVersion.unwrap()))
+            .ok_or(Error::NoTypetree(info.m_ClassID))
     }
 }
 
@@ -812,6 +985,7 @@ pub enum Error {
     NoTypetree(ClassId),
     Deserialize(serde_typetree::Error),
     Serialize(serde_typetree::Error),
+    NoObject(PathId),
     IO(std::io::Error),
 }
 impl std::fmt::Display for Error {
@@ -823,6 +997,9 @@ impl std::fmt::Display for Error {
             Error::Deserialize(error) => write!(f, "Error trying to deserialize: {error}"),
             Error::Serialize(error) => write!(f, "Error trying to serialize: {error}"),
             Error::IO(error) => write!(f, "IO error: {error}"),
+            Error::NoObject(path_id) => {
+                write!(f, "No object with path id {path_id} exists",)
+            }
         }
     }
 }
@@ -847,7 +1024,7 @@ impl UnityFile for SerializedFile {
 }
 
 bitflags! {
-    pub struct SerializedFileFormatVersion: u32 {
+    struct SerializedFileFormatVersion: u32 {
         const UNSUPPORTED = 1;
         const UNKNOWN_2 = 2;
         const UNKNOWN_3 = 3;

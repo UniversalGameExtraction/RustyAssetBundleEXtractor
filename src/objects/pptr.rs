@@ -1,8 +1,7 @@
-use std::io::{Read, Seek};
 use std::marker::PhantomData;
 
 use crate::files::SerializedFile;
-use crate::files::serializedfile::{self, ObjectInfo};
+use crate::files::serializedfile::{ObjectRef, Result};
 use crate::typetree::TypeTreeProvider;
 use serde_derive::{Deserialize, Serialize};
 
@@ -16,8 +15,27 @@ pub struct PPtr {
 }
 
 impl PPtr {
+    pub fn new(file_id: FileId, path_id: PathId) -> PPtr {
+        PPtr {
+            m_FileID: file_id,
+            m_PathID: path_id,
+        }
+    }
+
+    pub fn local(path_id: PathId) -> PPtr {
+        PPtr::new(0, path_id)
+    }
+
     pub fn null() -> PPtr {
-        PPtr::default()
+        PPtr::new(0, 0)
+    }
+
+    pub fn is_null(self) -> bool {
+        self == PPtr::null()
+    }
+
+    pub fn optional(self) -> Option<PPtr> {
+        (self.m_PathID != 0).then_some(self)
     }
 
     pub fn typed<T>(self) -> TypedPPtr<T> {
@@ -28,18 +46,7 @@ impl PPtr {
         }
     }
 
-    pub fn optional(self) -> Option<PPtr> {
-        (self.m_PathID != 0).then_some(self)
-    }
-
-    pub fn local(path_id: PathId) -> PPtr {
-        PPtr {
-            m_FileID: 0,
-            m_PathID: path_id,
-        }
-    }
-
-    pub fn into_local(self) -> PPtr {
+    pub fn make_local(self) -> PPtr {
         PPtr {
             m_FileID: 0,
             m_PathID: self.m_PathID,
@@ -50,48 +57,18 @@ impl PPtr {
         self.m_FileID == 0
     }
 
-    pub fn try_deref_local(self, serialized: &SerializedFile) -> Option<&ObjectInfo> {
-        if self.m_PathID == 0 {
-            return None;
-        }
-        serialized.get_object(self.m_PathID)
-    }
-
-    pub fn deref_local(self, serialized: &SerializedFile) -> &ObjectInfo {
-        self.try_deref_local(serialized).unwrap()
-    }
-
-    pub fn try_deref_read<'de, T>(
-        self,
-        serialized: &SerializedFile,
-        tpk: impl TypeTreeProvider,
-        reader: &mut (impl Read + Seek),
-    ) -> Option<T>
-    where
-        T: serde::Deserialize<'de>,
-    {
-        let info = self.try_deref_local(serialized)?;
-        Some(serialized.read(info, tpk, reader).unwrap())
+    pub fn as_local(self) -> Option<Self> {
+        self.is_local().then_some(self)
     }
 
     #[track_caller]
-    pub fn deref_read_local<'de, T>(
+    pub fn deref_local<'a, T>(
         self,
-        serialized: &SerializedFile,
-        tpk: impl TypeTreeProvider,
-        reader: &mut (impl Read + Seek),
-    ) -> Result<T, serializedfile::Error>
-    where
-        T: serde::Deserialize<'de>,
-    {
-        if self.m_FileID != 0 {
-            panic!("Non-local pptr in deref_read_local");
-        }
-        let info = serialized
-            .get_object(self.m_PathID)
-            .expect("Object did not exist in serialized file");
-
-        serialized.read(info, tpk, reader)
+        file: &'a SerializedFile,
+        tpk: &'a impl TypeTreeProvider,
+    ) -> Result<ObjectRef<'a, T>> {
+        assert!(self.is_local(), "Non-local pptr in deref_read_local");
+        file.get_object(self.m_PathID, tpk)
     }
 
     pub fn get_object_handler<'a, R: std::io::Read + std::io::Seek>(
@@ -99,7 +76,7 @@ impl PPtr {
         asset: &'a crate::files::SerializedFile,
         reader: &'a mut R,
     ) -> Result<crate::files::ObjectHandler<'a, R>, std::io::Error> {
-        match asset.get_object(self.m_PathID) {
+        match asset.get_object_info(self.m_PathID) {
             Some(objectinfo) => Ok(asset.get_object_handler(objectinfo, reader)),
             None => Err(std::io::Error::new(
                 std::io::ErrorKind::NotFound,
@@ -115,6 +92,13 @@ pub struct TypedPPtr<T> {
     pub m_PathID: i64,
     #[serde(skip)]
     marker: PhantomData<T>,
+}
+
+impl<T> Eq for TypedPPtr<T> {}
+impl<T> PartialEq for TypedPPtr<T> {
+    fn eq(&self, other: &Self) -> bool {
+        self.m_FileID == other.m_FileID && self.m_PathID == other.m_PathID
+    }
 }
 
 impl<T> Default for TypedPPtr<T> {
@@ -137,20 +121,36 @@ impl<T: std::fmt::Debug + 'static> std::fmt::Debug for TypedPPtr<T> {
 }
 
 impl<T> Copy for TypedPPtr<T> {}
-#[allow(clippy::non_canonical_clone_impl)]
+
 impl<T> Clone for TypedPPtr<T> {
     fn clone(&self) -> Self {
-        Self {
-            m_FileID: self.m_FileID,
-            m_PathID: self.m_PathID,
-            marker: self.marker,
-        }
+        *self
     }
 }
 
 impl<T> TypedPPtr<T> {
+    pub fn new(file_id: FileId, path_id: PathId) -> TypedPPtr<T> {
+        TypedPPtr {
+            m_FileID: file_id,
+            m_PathID: path_id,
+            marker: PhantomData,
+        }
+    }
+
+    pub fn local(path_id: PathId) -> TypedPPtr<T> {
+        TypedPPtr::new(0, path_id)
+    }
+
     pub fn null() -> TypedPPtr<T> {
         TypedPPtr::default()
+    }
+
+    pub fn is_null(self) -> bool {
+        self == TypedPPtr::null()
+    }
+
+    pub fn optional(self) -> Option<TypedPPtr<T>> {
+        (self.m_PathID != 0).then_some(self)
     }
 
     pub fn untyped(self) -> PPtr {
@@ -160,7 +160,7 @@ impl<T> TypedPPtr<T> {
         }
     }
 
-    pub fn into_local(self) -> TypedPPtr<T> {
+    pub fn make_local(self) -> TypedPPtr<T> {
         TypedPPtr {
             m_FileID: 0,
             m_PathID: self.m_PathID,
@@ -168,35 +168,16 @@ impl<T> TypedPPtr<T> {
         }
     }
 
-    pub fn try_deref(self, serialized: &SerializedFile) -> Option<&ObjectInfo> {
-        self.untyped().try_deref_local(serialized)
+    pub fn is_local(self) -> bool {
+        self.m_FileID == 0
     }
 
-    pub fn deref_local(self, serialized: &SerializedFile) -> &ObjectInfo {
-        self.untyped().deref_local(serialized)
-    }
-
-    pub fn try_deref_read<'de>(
+    #[track_caller]
+    pub fn deref_local<'a>(
         self,
-        serialized: &SerializedFile,
-        tpk: impl TypeTreeProvider,
-        reader: &mut (impl Read + Seek),
-    ) -> Option<T>
-    where
-        T: serde::Deserialize<'de>,
-    {
-        self.untyped().try_deref_read::<T>(serialized, tpk, reader)
-    }
-
-    pub fn deref_read_local<'de>(
-        self,
-        serialized: &SerializedFile,
-        tpk: impl TypeTreeProvider,
-        reader: &mut (impl Read + Seek),
-    ) -> Result<T, serializedfile::Error>
-    where
-        T: serde::Deserialize<'de>,
-    {
-        self.untyped().deref_read_local(serialized, tpk, reader)
+        file: &'a SerializedFile,
+        tpk: &'a impl TypeTreeProvider,
+    ) -> Result<ObjectRef<'a, T>> {
+        self.untyped().deref_local::<T>(file, tpk)
     }
 }

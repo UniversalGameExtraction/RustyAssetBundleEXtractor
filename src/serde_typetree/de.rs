@@ -6,6 +6,7 @@ use byteorder::{ByteOrder, ReadBytesExt};
 use serde::Deserialize;
 use serde::de::{DeserializeSeed, Error as _, IntoDeserializer, MapAccess, SeqAccess, Visitor};
 
+use crate::files::serializedfile::Endianness;
 use crate::read_ext::{ReadSeekUrexExt, ReadUrexExt};
 use crate::serde_typetree::error::ErrorImpl;
 use crate::typetree::TypeTreeNode;
@@ -40,6 +41,18 @@ pub fn from_reader<'de, T: Deserialize<'de>, B: ByteOrder>(
         .map_err(|e| Error::custom(format!("{}", e)));
     #[cfg(not(feature = "serde_path_to_error"))]
     T::deserialize(deserializer)
+}
+
+/// Deserialize an instance of type `T` from an I/O stream, with the endianness supplied at runtime.
+pub fn from_reader_endianed<'de, T: Deserialize<'de>>(
+    reader: &mut (impl Read + Seek),
+    typetree: &TypeTreeNode,
+    endianness: Endianness,
+) -> Result<T> {
+    match endianness {
+        Endianness::Little => from_reader::<T, byteorder::LE>(reader, typetree),
+        Endianness::Big => from_reader::<T, byteorder::BE>(reader, typetree),
+    }
 }
 
 impl<'a, R: Read + Seek, B: ByteOrder> Deserializer<'a, R, B> {
