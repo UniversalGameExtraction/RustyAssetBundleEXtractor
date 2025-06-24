@@ -1,7 +1,7 @@
 use std::fs::File;
 
 use anyhow::Result;
-use rabex::{objects::ClassId, tpk::TpkFile, typetree::TypeTreeNode};
+use rabex::{objects::ClassId, tpk::TpkFile};
 
 fn main() -> Result<()> {
     let mut args = std::env::args().skip(1);

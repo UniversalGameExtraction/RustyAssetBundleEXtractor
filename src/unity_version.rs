@@ -37,8 +37,20 @@ impl std::fmt::Display for UnityVersion {
     }
 }
 
+#[non_exhaustive]
+#[derive(Debug)]
+pub struct UnityVersionParseError(String);
+
+impl std::fmt::Display for UnityVersionParseError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "Could not parse unity version {}", self.0)
+    }
+}
+
+impl std::error::Error for UnityVersionParseError {}
+
 impl FromStr for UnityVersion {
-    type Err = anyhow::Error;
+    type Err = UnityVersionParseError;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
         (|| {
@@ -68,7 +80,7 @@ impl FromStr for UnityVersion {
                 build_number: build_number.parse().ok()?,
             })
         })()
-        .ok_or_else(|| anyhow::anyhow!("invalid unity version: '{s}'"))
+        .ok_or_else(|| UnityVersionParseError(s.to_owned()))
     }
 }
 

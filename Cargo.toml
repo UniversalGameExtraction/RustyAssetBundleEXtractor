@@ -8,7 +8,7 @@ include = [
     "README.md",
     "LICENSE-APACHE",
     "LICENSE-MIT",
-    "COPYRIGHT"
+    "COPYRIGHT",
 ]
 authors = ["Rudolf Kolbe <rkolbe96@gmail.com>"]
 description = "wip UnityRustExtractor and patcher"
@@ -73,10 +73,9 @@ aes = "0.8.2"
 cbc = "0.1.2"
 
 # Object Serialization & Export
-serde = {version = "1.0.164", features = ["derive"]}
+serde = { version = "1.0.164", features = ["derive"] }
 serde_json = "1.0"
 serde_yaml = "0.9"
 rmp = "^0.8"
 rmp-serde = "1.1.1"
 anyhow = "1.0"
-

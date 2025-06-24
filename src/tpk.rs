@@ -1,7 +1,80 @@
-use anyhow::{Error, Result};
+//! Support for parsing compressed type tree dumps from [`AssetRipper/Tpk`](https://github.com/AssetRipper/Tpk)
+//!
+//! ```rust,no_run
+//! use std::fs::File;
+//! use rabex::tpk::TpkFile;
+//! use rabex::objects::ClassId;
+//! # use anyhow::Result;
+//!
+//! fn main() -> Result<()> {
+//!     let mut tpk_file = File::open("lz4.tpk")?;
+//!     let tpk_file = TpkFile::from_reader(&mut tpk_file)?;
+//!     let tpk = tpk_file.as_type_tree()?.unwrap();
+//!
+//!     let version = "2023.2.18f1".parse().unwrap();
+//!
+//!     let ty = tpk.get_typetree_node(ClassId::GameObject, version).unwrap();
+//!     println!("{}", ty.dump());
+//!
+//!     Ok(())
+//! }
+//!
+//! ```
+
+#[non_exhaustive]
+#[derive(Debug)]
+pub enum Error {
+    InvalidMagic,
+    UnsupportedVersion(u8),
+    IO(std::io::Error),
+    UTF8(std::string::FromUtf8Error),
+    UnsupportedCompression(&'static str),
+    Decompression(Box<dyn std::error::Error + Send + Sync + 'static>),
+}
+impl std::fmt::Display for Error {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Error::InvalidMagic => write!(f, "Invalid TPK magic value"),
+            Error::UnsupportedVersion(ver) => write!(f, "Unsupported version: {ver}"),
+            Error::IO(e) => write!(f, "IO error: {e}"),
+            Error::UnsupportedCompression(method) => {
+                write!(f, "rabex feature for {method} support is not enabled")
+            }
+            Error::UTF8(e) => write!(f, "invalid utf8: {e}"),
+            Error::Decompression(e) => write!(f, "failed to decompress: {e}"),
+        }
+    }
+}
+
+impl std::error::Error for Error {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        match self {
+            Error::IO(e) => Some(e),
+            Error::UTF8(e) => Some(e),
+            _ => None,
+        }
+    }
+}
+
+impl From<std::io::Error> for Error {
+    fn from(err: std::io::Error) -> Self {
+        Error::IO(err)
+    }
+}
+impl<T: TryFromPrimitive> From<TryFromPrimitiveError<T>> for Error {
+    fn from(err: TryFromPrimitiveError<T>) -> Self {
+        Error::IO(std::io::Error::other(format!(
+            "No discriminant in enum `{name}` matches the value `{input:?}`",
+            name = T::NAME,
+            input = err.number,
+        )))
+    }
+}
+
+pub type Result<T, E = Error> = std::result::Result<T, E>;
+
 use bitflags::bitflags;
-use lzma_rs::decompress::UnpackedSize;
-use num_enum::TryFromPrimitive;
+use num_enum::{TryFromPrimitive, TryFromPrimitiveError};
 
 use std::borrow::Cow;
 use std::collections::{HashMap, VecDeque};
@@ -22,17 +95,15 @@ pub struct TpkFile {
 }
 
 impl TpkFile {
-    pub fn from_reader<T: std::io::Read>(reader: &mut T) -> Result<TpkFile, Error> {
+    pub fn from_reader<T: std::io::Read>(reader: &mut T) -> Result<TpkFile> {
         let magic = reader.read_u32::<LittleEndian>()?;
         if u32::to_le_bytes(magic) != *b"TPK*" {
-            return Err(anyhow::anyhow!("Wrong TPK magic",));
+            return Err(Error::InvalidMagic);
         }
 
         let version_number = reader.read_u8()?;
         if version_number != 1 {
-            return Err(anyhow::anyhow!(format!(
-                "Unsupported version {version_number}"
-            )));
+            return Err(Error::UnsupportedVersion(version_number));
         }
 
         let compression_type = TpkCompressionType::try_from(reader.read_u8()?)?;
@@ -53,27 +124,28 @@ impl TpkFile {
         })
     }
 
-    pub fn decompress(&self) -> Result<Cow<'_, [u8]>, Error> {
+    pub fn decompress(&self) -> Result<Cow<'_, [u8]>> {
         Ok(match self.compression_type {
             TpkCompressionType::None => Cow::Borrowed(&self.compressed_bytes),
-            TpkCompressionType::Lz4 => lz4_flex::block::decompress(
-                &self.compressed_bytes,
-                self.uncompressed_size as usize,
-            )?
-            .into(),
+            TpkCompressionType::Lz4 => {
+                lz4_flex::block::decompress(&self.compressed_bytes, self.uncompressed_size as usize)
+                    .map_err(|e| Error::Decompression(Box::new(e)))?
+                    .into()
+            }
             TpkCompressionType::Lzma => {
                 let mut uncompressed = vec![0; self.uncompressed_size as usize];
                 lzma_rs::lzma_decompress_with_options(
                     &mut self.compressed_bytes.as_slice(),
                     &mut uncompressed,
                     &lzma_rs::decompress::Options {
-                        unpacked_size: UnpackedSize::UseProvided(Some(
+                        unpacked_size: lzma_rs::decompress::UnpackedSize::UseProvided(Some(
                             self.uncompressed_size as u64,
                         )),
                         memlimit: None,
                         allow_incomplete: false,
                     },
-                )?;
+                )
+                .map_err(|e| Error::Decompression(Box::new(e)))?;
                 Cow::Owned(uncompressed)
             }
             TpkCompressionType::Brotli => {
@@ -139,7 +211,7 @@ pub struct TpkClassInformation {
     pub classes: Vec<(UnityVersion, Option<UnityClass>)>,
 }
 impl TpkClassInformation {
-    pub fn read<R: Read>(reader: &mut R) -> Result<TpkClassInformation, anyhow::Error> {
+    pub fn read<R: Read>(reader: &mut R) -> Result<TpkClassInformation> {
         let id = reader.read_i32::<LittleEndian>()?;
         let count = reader.read_i32::<LittleEndian>()?;
         let mut classes = Vec::with_capacity(count as usize);
@@ -188,7 +260,7 @@ pub struct UnityClass {
 }
 
 impl UnityClass {
-    pub fn read<R: Read>(reader: &mut R) -> Result<UnityClass, anyhow::Error> {
+    pub fn read<R: Read>(reader: &mut R) -> Result<UnityClass> {
         let name = reader.read_u16::<LittleEndian>()?;
         let base = reader.read_u16::<LittleEndian>()?;
         let flags = TpkUnityClassFlags::from_bits(reader.read_u8()?).unwrap();
@@ -216,7 +288,7 @@ pub struct TpkCommonString {
     pub string_buffer_indices: Vec<u16>,
 }
 impl TpkCommonString {
-    pub fn read<R: Read>(reader: &mut R) -> Result<TpkCommonString, anyhow::Error> {
+    pub fn read<R: Read>(reader: &mut R) -> Result<TpkCommonString> {
         let version_count = reader.read_i32::<LittleEndian>()?;
         let mut version_information = Vec::with_capacity(version_count as usize);
         for _ in 0..version_count {
@@ -248,7 +320,7 @@ pub struct TpkUnityNode {
     pub sub_nodes: Vec<u16>,
 }
 impl TpkUnityNode {
-    pub fn read<R: Read>(reader: &mut R) -> Result<TpkUnityNode, anyhow::Error> {
+    pub fn read<R: Read>(reader: &mut R) -> Result<TpkUnityNode> {
         let type_name = reader.read_u16::<LittleEndian>()?;
         let name = reader.read_u16::<LittleEndian>()?;
         let byte_size = reader.read_i32::<LittleEndian>()?;
@@ -274,7 +346,7 @@ impl TpkUnityNode {
 }
 
 impl UnityVersion {
-    fn read_tpk_encoding<R: Read>(reader: &mut R) -> Result<UnityVersion, anyhow::Error> {
+    fn read_tpk_encoding<R: Read>(reader: &mut R) -> Result<UnityVersion> {
         let version = reader.read_u64::<LittleEndian>()?;
         let major = ((version >> 48) & 0xFFFF) as u16;
         let minor = ((version >> 32) & 0xFFFF) as u16;
@@ -292,7 +364,7 @@ impl UnityVersion {
 }
 
 impl TpkTypeTreeBlob {
-    pub fn from_reader<R: Read>(reader: &mut R) -> Result<TpkTypeTreeBlob, anyhow::Error> {
+    pub fn from_reader<R: Read>(reader: &mut R) -> Result<TpkTypeTreeBlob> {
         let creation_time = reader.read_i64::<LittleEndian>()?;
 
         let version_count = reader.read_i32::<LittleEndian>()? as usize;
@@ -392,7 +464,7 @@ impl TpkTypeTreeBlob {
     }
 }
 
-fn read_7bit_encoded_int<R: Read>(reader: &mut R) -> Result<usize> {
+fn read_7bit_encoded_int<R: Read>(reader: &mut R) -> Result<usize, std::io::Error> {
     let mut result = 0usize;
     let mut shift = 0;
 
@@ -405,7 +477,10 @@ fn read_7bit_encoded_int<R: Read>(reader: &mut R) -> Result<usize> {
         shift += 7;
 
         if shift >= 35 {
-            return Err(anyhow::anyhow!("Too many bytes in 7-bit encoded int",));
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Too many bytes in 7-bit encoded int",
+            ));
         }
     }
 
@@ -417,7 +492,7 @@ fn read_7bit_encoded_string<R: Read>(reader: &mut R) -> Result<String> {
     let len = read_7bit_encoded_int(reader)?;
     let mut buffer = vec![0u8; len];
     reader.read_exact(&mut buffer)?;
-    let string = String::from_utf8(buffer).map_err(|_| anyhow::anyhow!("invalid utf8"))?;
+    let string = String::from_utf8(buffer).map_err(Error::UTF8)?;
     Ok(string)
 }
 
