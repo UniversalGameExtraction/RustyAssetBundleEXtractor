@@ -12,6 +12,7 @@ pub trait UnityFile {
     // fn to_writer(&self, writer: &mut impl Write+Seek) -> Result<(), Error>;
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct FileEntry {
     pub offset: i64,
     pub size: i64,

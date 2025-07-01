@@ -1,10 +1,11 @@
 use crate::archive_storage_manager::ArchiveStorageDecryptor;
-use crate::config::ExtractionConfig;
 use crate::files::bundlefile::{
     BundleFileHeader, BundleSignature, StorageBlock, read_unityfs_info,
 };
 use crate::files::unityfile::FileEntry;
 use std::io::{Read, Seek};
+
+use super::ExtractionConfig;
 
 // The chunks of the bundle file are compressed in blocks, but those blocks don't necessarily
 // align with the stored `FileEntry`s inside.
@@ -13,8 +14,10 @@ pub struct BundleFileReader<R> {
     pub(crate) decryptor: Option<ArchiveStorageDecryptor>,
     pub(crate) reader: R,
 
-    pub(crate) blocks: std::iter::Enumerate<std::vec::IntoIter<StorageBlock>>,
-    pub(crate) files: std::vec::IntoIter<FileEntry>,
+    pub(crate) blocks: Vec<StorageBlock>,
+    pub(crate) files: Vec<FileEntry>,
+    pub(crate) block_index: usize,
+    pub(crate) file_index: usize,
     /// Amount of bytes in `scratch` that were returned by `read`, and need to be clear before the next file
     pub(crate) scratch_pending_clear: usize,
     /// Scratch buffer which `read` returns a slice to
@@ -25,11 +28,16 @@ pub struct BundleFileReader<R> {
     pub(crate) scratch_offset: usize,
 }
 
-impl<'r, R: Read + Seek> BundleFileReader<R> {
-    pub fn header(&self) -> &BundleFileHeader {
-        &self.header
+impl<R: Read + Seek> BundleFileReader<R> {
+    pub fn reset(&mut self) {
+        self.block_index = 0;
+        self.file_index = 0;
+        self.scratch_pending_clear = 0;
+        self.scratch.clear();
+        self.scratch_offset = 0;
     }
 
+    /// Read the bundlefile from an I/O stream.
     pub fn from_reader(
         mut reader: R,
         config: &ExtractionConfig,
@@ -45,16 +53,20 @@ impl<'r, R: Read + Seek> BundleFileReader<R> {
             header,
             decryptor,
             reader,
-            blocks: blocks.into_iter().enumerate(),
-            files: files.into_iter(),
+            blocks,
+            files,
+            block_index: 0,
+            file_index: 0,
             scratch_pending_clear: 0,
             scratch: Vec::new(),
             scratch_offset: 0,
         })
     }
 
+    /// Advance the reader to the next file entry. Call [`BundleFileRef::read`] to get the actual data.
     pub fn next<'s>(&'s mut self) -> Option<BundleFileRef<'s, R>> {
-        let file = self.files.next()?;
+        let file = self.files.get(self.file_index)?.clone();
+        self.file_index += 1;
 
         Some(BundleFileRef {
             iter: self,
@@ -64,8 +76,20 @@ impl<'r, R: Read + Seek> BundleFileReader<R> {
         })
     }
 
+    pub fn header(&self) -> &BundleFileHeader {
+        &self.header
+    }
+
+    pub fn files(&self) -> &[FileEntry] {
+        &self.files
+    }
+
+    pub fn blocks(&self) -> &[StorageBlock] {
+        &self.blocks
+    }
+
     pub fn remaining(&self) -> &[FileEntry] {
-        self.files.as_slice()
+        &self.files[self.file_index..]
     }
 }
 
@@ -102,7 +126,7 @@ impl<R: Read + Seek> BundleFileRef<'_, R> {
                 discard_front(&mut self.iter.scratch, skip_read);
                 self.iter.scratch_offset += skip_read;
                 skip_read = 0;
-            } else if self.iter.scratch.len() > 0 {
+            } else if !self.iter.scratch.is_empty() {
                 skip_read -= self.iter.scratch.len();
                 self.iter.scratch_offset += self.iter.scratch.len();
                 self.iter.scratch.clear();
@@ -110,7 +134,10 @@ impl<R: Read + Seek> BundleFileRef<'_, R> {
         }
 
         if self.iter.scratch.len() < self.size {
-            while let Some((block_index, block)) = self.iter.blocks.next() {
+            while let Some(block) = self.iter.blocks.get(self.iter.block_index) {
+                let block_index = self.iter.block_index;
+                self.iter.block_index += 1;
+
                 if skip_read >= block.uncompressed_size as usize {
                     skip_read -= block.uncompressed_size as usize;
                     self.iter
@@ -123,7 +150,7 @@ impl<R: Read + Seek> BundleFileRef<'_, R> {
                 super::decompress_block(
                     self.iter.reader.by_ref(),
                     &mut self.iter.scratch,
-                    &block,
+                    block,
                     block_index,
                     self.iter.decryptor.as_ref(),
                 )?;
