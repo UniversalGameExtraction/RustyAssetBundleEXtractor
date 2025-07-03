@@ -3,7 +3,7 @@ use crate::files::bundlefile::{
     BundleFileHeader, BundleSignature, StorageBlock, read_unityfs_info,
 };
 use crate::files::unityfile::FileEntry;
-use std::io::{Read, Seek};
+use std::io::{Read, Seek, SeekFrom};
 
 use super::ExtractionConfig;
 
@@ -13,6 +13,8 @@ pub struct BundleFileReader<R> {
     pub(crate) header: BundleFileHeader,
     pub(crate) decryptor: Option<ArchiveStorageDecryptor>,
     pub(crate) reader: R,
+    /// The position in the reader after the header where the file data starts
+    pub(crate) data_offset: u64,
 
     pub(crate) blocks: Vec<StorageBlock>,
     pub(crate) files: Vec<FileEntry>,
@@ -29,14 +31,6 @@ pub struct BundleFileReader<R> {
 }
 
 impl<R: Read + Seek> BundleFileReader<R> {
-    pub fn reset(&mut self) {
-        self.block_index = 0;
-        self.file_index = 0;
-        self.scratch_pending_clear = 0;
-        self.scratch.clear();
-        self.scratch_offset = 0;
-    }
-
     /// Read the bundlefile from an I/O stream.
     pub fn from_reader(
         mut reader: R,
@@ -49,10 +43,12 @@ impl<R: Read + Seek> BundleFileReader<R> {
         };
         let (blocks, files, decryptor) = read_unityfs_info(&mut header, reader.by_ref(), config)?;
 
+        let data_offset = reader.stream_position()?;
         Ok(BundleFileReader {
             header,
             decryptor,
             reader,
+            data_offset,
             blocks,
             files,
             block_index: 0,
@@ -64,7 +60,7 @@ impl<R: Read + Seek> BundleFileReader<R> {
     }
 
     /// Advance the reader to the next file entry. Call [`BundleFileRef::read`] to get the actual data.
-    pub fn next<'s>(&'s mut self) -> Option<BundleFileRef<'s, R>> {
+    pub fn next(&mut self) -> Option<BundleFileRef<'_, R>> {
         let file = self.files.get(self.file_index)?.clone();
         self.file_index += 1;
 
@@ -73,6 +69,68 @@ impl<R: Read + Seek> BundleFileReader<R> {
             path: file.path,
             offset: file.offset,
             size: file.size as usize,
+        })
+    }
+
+    /// Go back to the start of the file, so that [`BundleFileReader::next`] will yield the first file.
+    pub fn reset(&mut self) -> Result<(), std::io::Error> {
+        self.block_index = 0;
+        self.file_index = 0;
+        self.scratch_pending_clear = 0;
+        self.scratch.clear();
+        self.scratch_offset = 0;
+        self.reader.seek(SeekFrom::Start(self.data_offset))?;
+        Ok(())
+    }
+
+    /// Get a [`BundleFileRef`] to an arbitrary file in the bundle by path.
+    pub fn seek_file(
+        &mut self,
+        file_path: &str,
+    ) -> Option<Result<BundleFileRef<'_, R>, std::io::Error>> {
+        self.files()
+            .iter()
+            .enumerate()
+            .find_map(|(file_index, file)| {
+                (file.path == file_path).then(|| (file_index, file.clone()))
+            })
+            .map(|(file_index, file_entry)| self.seek_file_inner(file_index, file_entry.clone()))
+    }
+
+    fn seek_file_inner(
+        &mut self,
+        file_index: usize,
+        file: FileEntry,
+    ) -> Result<BundleFileRef<'_, R>, std::io::Error> {
+        let mut block_offset_uncompressed = 0;
+        let mut block_offset_compressed = 0;
+        let mut block_index = 0;
+
+        // PERF: this linear scan on every seek could be avoided if the file block offsets
+        // were computed and saved once at creation
+        for block in &self.blocks {
+            if block_offset_uncompressed + block.uncompressed_size as u64 > file.offset as u64 {
+                break;
+            }
+
+            block_offset_uncompressed += block.uncompressed_size as u64;
+            block_offset_compressed += block.compressed_size as u64;
+            block_index += 1;
+        }
+
+        self.block_index = block_index;
+        self.file_index = file_index;
+        self.scratch_pending_clear = 0;
+        self.scratch.clear();
+        self.scratch_offset = block_offset_uncompressed as usize;
+        self.reader
+            .seek(SeekFrom::Start(self.data_offset + block_offset_compressed))?;
+
+        Ok(BundleFileRef {
+            path: file.path,
+            size: file.size as usize,
+            iter: self,
+            offset: file.offset,
         })
     }
 
