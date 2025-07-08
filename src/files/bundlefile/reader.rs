@@ -10,24 +10,24 @@ use super::ExtractionConfig;
 // The chunks of the bundle file are compressed in blocks, but those blocks don't necessarily
 // align with the stored `FileEntry`s inside.
 pub struct BundleFileReader<R> {
-    pub(crate) header: BundleFileHeader,
-    pub(crate) decryptor: Option<ArchiveStorageDecryptor>,
-    pub(crate) reader: R,
+    header: BundleFileHeader,
+    decryptor: Option<ArchiveStorageDecryptor>,
+    reader: R,
     /// The position in the reader after the header where the file data starts
-    pub(crate) data_offset: u64,
+    data_offset: u64,
 
-    pub(crate) blocks: Vec<StorageBlock>,
-    pub(crate) files: Vec<FileEntry>,
-    pub(crate) block_index: usize,
-    pub(crate) file_index: isize,
+    blocks: Vec<StorageBlock>,
+    files: Vec<FileEntry>,
+    block_index: usize,
+    file_index: isize,
     /// Amount of bytes in `scratch` that were returned by `read`, and need to be clear before the next file
-    pub(crate) scratch_pending_clear: usize,
+    scratch_pending_clear: usize,
     /// Scratch buffer which `read` returns a slice to
-    pub(crate) scratch: Vec<u8>,
+    scratch: Vec<u8>,
     /// The current (uncompressed) position for which the scratch buffer stores data
     /// Mainly used when files aren't continuosly next to each other, but have some
     /// space in between them.
-    pub(crate) scratch_offset: usize,
+    scratch_offset: usize,
 }
 
 impl<R: Read + Seek> BundleFileReader<R> {
