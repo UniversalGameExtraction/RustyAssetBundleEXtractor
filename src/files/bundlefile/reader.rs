@@ -3,7 +3,7 @@ use crate::files::bundlefile::{
     BundleFileHeader, BundleSignature, StorageBlock, read_unityfs_info,
 };
 use crate::files::unityfile::FileEntry;
-use std::io::{Read, Seek, SeekFrom};
+use std::io::{Cursor, Read, Seek, SeekFrom};
 
 use super::ExtractionConfig;
 
@@ -12,7 +12,7 @@ use super::ExtractionConfig;
 pub struct BundleFileReader<R> {
     header: BundleFileHeader,
     decryptor: Option<ArchiveStorageDecryptor>,
-    reader: R,
+    pub reader: R,
     /// The position in the reader after the header where the file data starts
     data_offset: u64,
 
@@ -59,6 +59,18 @@ impl<R: Read + Seek> BundleFileReader<R> {
         })
     }
 
+    pub fn header(&self) -> &BundleFileHeader {
+        &self.header
+    }
+
+    pub fn files(&self) -> &[FileEntry] {
+        &self.files
+    }
+
+    pub fn blocks(&self) -> &[StorageBlock] {
+        &self.blocks
+    }
+
     /// Advance the reader to the next file entry. Call [`BundleFileRef::read`] to get the actual data.
     #[allow(clippy::should_implement_trait)]
     pub fn next(&mut self) -> Option<BundleFileRef<'_, R>> {
@@ -103,21 +115,8 @@ impl<R: Read + Seek> BundleFileReader<R> {
         file_index: usize,
         file: FileEntry,
     ) -> Result<BundleFileRef<'_, R>, std::io::Error> {
-        let mut block_offset_uncompressed = 0;
-        let mut block_offset_compressed = 0;
-        let mut block_index = 0;
-
-        // PERF: this linear scan on every seek could be avoided if the file block offsets
-        // were computed and saved once at creation
-        for block in &self.blocks {
-            if block_offset_uncompressed + block.uncompressed_size as u64 > file.offset as u64 {
-                break;
-            }
-
-            block_offset_uncompressed += block.uncompressed_size as u64;
-            block_offset_compressed += block.compressed_size as u64;
-            block_index += 1;
-        }
+        let (block_index, block_offset_compressed, block_offset_uncompressed) =
+            scan_file_start(&self.blocks, &file);
 
         self.block_index = block_index;
         self.file_index = file_index as isize;
@@ -134,18 +133,74 @@ impl<R: Read + Seek> BundleFileReader<R> {
             offset: file.offset,
         })
     }
+}
 
-    pub fn header(&self) -> &BundleFileHeader {
-        &self.header
+impl<T: AsRef<[u8]>> BundleFileReader<Cursor<T>> {
+    pub fn read_at(&self, path: &str) -> Result<Option<Vec<u8>>, std::io::Error> {
+        self.files()
+            .iter()
+            .find(|entry| entry.path == path)
+            .map(|entry| self.read_at_entry(entry))
+            .transpose()
     }
 
-    pub fn files(&self) -> &[FileEntry] {
-        &self.files
+    pub fn read_at_entry(&self, file: &FileEntry) -> Result<Vec<u8>, std::io::Error> {
+        let data = &self.reader.get_ref().as_ref()[self.data_offset as usize..];
+        read_single_file(&self.blocks, file, data)
+    }
+}
+
+fn scan_file_start(blocks: &[StorageBlock], file: &FileEntry) -> (usize, u64, u64) {
+    let mut offset_uncompressed = 0;
+    let mut offset_compressed = 0;
+    let mut block_index = 0;
+
+    // PERF: this linear scan on every seek could be avoided if the file block offsets
+    // were computed and saved once at creation
+    for block in blocks {
+        if offset_uncompressed + block.uncompressed_size as u64 > file.offset as u64 {
+            break;
+        }
+
+        offset_uncompressed += block.uncompressed_size as u64;
+        offset_compressed += block.compressed_size as u64;
+        block_index += 1;
     }
 
-    pub fn blocks(&self) -> &[StorageBlock] {
-        &self.blocks
+    (block_index, offset_compressed, offset_uncompressed)
+}
+
+/// Reads a single file to memory
+fn read_single_file(
+    blocks: &[StorageBlock],
+    file: &FileEntry,
+    data: &[u8],
+) -> Result<Vec<u8>, std::io::Error> {
+    let (mut block_index, block_offset_compressed, block_offset_uncompressed) =
+        scan_file_start(blocks, file);
+
+    let data = &data[block_offset_compressed as usize..];
+    let mut reader = Cursor::new(data);
+
+    let mut skip_read = file.offset as usize - block_offset_uncompressed as usize;
+
+    let mut data = Vec::new();
+    let mut block_offset = block_offset_uncompressed as usize;
+
+    while let Some(block) = blocks.get(block_index) {
+        super::decompress_block(&mut reader, &mut data, block, block_index, None)?;
+        block_index += 1;
+        block_offset += block.uncompressed_size as usize;
+
+        discard_front(&mut data, std::mem::take(&mut skip_read));
+
+        if block_offset > file.end() as usize {
+            break;
+        }
     }
+    data.truncate(file.size as usize);
+
+    Ok(data)
 }
 
 pub struct BundleFileRef<'s, R> {

@@ -19,6 +19,11 @@ pub struct FileEntry {
     pub flags: u32,
     pub path: String,
 }
+impl FileEntry {
+    pub fn end(&self) -> i64 {
+        self.offset + self.size
+    }
+}
 
 impl FileEntry {
     // pub fn new(offset: i64, size: i64, flags: u32, path: String) -> Self {

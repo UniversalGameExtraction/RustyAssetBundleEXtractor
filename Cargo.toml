@@ -76,3 +76,4 @@ rmp = { version = "0.8", optional = true }
 [dev-dependencies]
 anyhow = "1.0"
 memmap2 = "0.9"
+rayon = "1.10"
