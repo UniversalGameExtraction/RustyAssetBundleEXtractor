@@ -19,7 +19,7 @@ pub struct BundleFileReader<R> {
     pub(crate) blocks: Vec<StorageBlock>,
     pub(crate) files: Vec<FileEntry>,
     pub(crate) block_index: usize,
-    pub(crate) file_index: usize,
+    pub(crate) file_index: isize,
     /// Amount of bytes in `scratch` that were returned by `read`, and need to be clear before the next file
     pub(crate) scratch_pending_clear: usize,
     /// Scratch buffer which `read` returns a slice to
@@ -52,7 +52,7 @@ impl<R: Read + Seek> BundleFileReader<R> {
             blocks,
             files,
             block_index: 0,
-            file_index: 0,
+            file_index: -1,
             scratch_pending_clear: 0,
             scratch: Vec::new(),
             scratch_offset: 0,
@@ -60,9 +60,10 @@ impl<R: Read + Seek> BundleFileReader<R> {
     }
 
     /// Advance the reader to the next file entry. Call [`BundleFileRef::read`] to get the actual data.
+    #[allow(clippy::should_implement_trait)]
     pub fn next(&mut self) -> Option<BundleFileRef<'_, R>> {
-        let file = self.files.get(self.file_index)?.clone();
         self.file_index += 1;
+        let file = self.files.get(self.file_index as usize)?.clone();
 
         Some(BundleFileRef {
             iter: self,
@@ -75,7 +76,7 @@ impl<R: Read + Seek> BundleFileReader<R> {
     /// Go back to the start of the file, so that [`BundleFileReader::next`] will yield the first file.
     pub fn reset(&mut self) -> Result<(), std::io::Error> {
         self.block_index = 0;
-        self.file_index = 0;
+        self.file_index = -1;
         self.scratch_pending_clear = 0;
         self.scratch.clear();
         self.scratch_offset = 0;
@@ -119,7 +120,7 @@ impl<R: Read + Seek> BundleFileReader<R> {
         }
 
         self.block_index = block_index;
-        self.file_index = file_index;
+        self.file_index = file_index as isize;
         self.scratch_pending_clear = 0;
         self.scratch.clear();
         self.scratch_offset = block_offset_uncompressed as usize;
@@ -144,10 +145,6 @@ impl<R: Read + Seek> BundleFileReader<R> {
 
     pub fn blocks(&self) -> &[StorageBlock] {
         &self.blocks
-    }
-
-    pub fn remaining(&self) -> &[FileEntry] {
-        &self.files[self.file_index..]
     }
 }
 
