@@ -5,9 +5,9 @@ use std::marker::PhantomData;
 use crate::files::serialzedfile::Endianness;
 use crate::write_ext::WriteSeekExt;
 use byteorder::{ByteOrder, WriteBytesExt};
+use serde::Serialize;
 use serde::de::Error as _;
 use serde::ser::Impossible;
-use serde::Serialize;
 
 use crate::{serde_typetree::Error, typetree::TypeTreeNode};
 
@@ -99,7 +99,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "i16", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -118,7 +118,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "i32", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -139,7 +139,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "i64", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -153,7 +153,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "u8", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -170,7 +170,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "u16", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -189,7 +189,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "u32", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -210,7 +210,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "u64", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -224,7 +224,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "float", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -239,7 +239,7 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
                 return Err(Error::custom(format_args!(
                     "invalid type: {}, expected {} {}",
                     "double", self.typetree.m_Type, self.typetree.m_Name,
-                )))
+                )));
             }
         }
 
@@ -272,7 +272,9 @@ impl<'a, 'cx, W: Write + Seek, B: ByteOrder + 'static> serde::Serializer
 
     fn serialize_unit(self) -> Result<Self::Ok, Self::Error> {
         match self.typetree.m_Type.as_str() {
-            "float" => Err(Error::custom("Trying to serialize unit as float. This can happen with e.g. serde_json and infinity/NaN")),
+            "float" => Err(Error::custom(
+                "Trying to serialize unit as float. This can happen with e.g. serde_json and infinity/NaN",
+            )),
             "Type" => Ok(()),
             _ => ensure_type(self.typetree, "unit"),
         }

@@ -3,8 +3,8 @@ use std::marker::PhantomData;
 
 use super::{Error, Result};
 use byteorder::{ByteOrder, ReadBytesExt};
-use serde::de::{DeserializeSeed, Error as _, IntoDeserializer, MapAccess, SeqAccess, Visitor};
 use serde::Deserialize;
+use serde::de::{DeserializeSeed, Error as _, IntoDeserializer, MapAccess, SeqAccess, Visitor};
 
 use crate::read_ext::{ReadSeekUrexExt, ReadUrexExt};
 use crate::serde_typetree::error::ErrorImpl;

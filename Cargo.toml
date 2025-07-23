@@ -1,7 +1,7 @@
 [package]
 name = "rabex"
 version = "0.0.3"
-edition = "2021"
+edition = "2024"
 include = [
     "src/*",
     "Cargo.toml",

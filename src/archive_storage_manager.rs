@@ -1,6 +1,6 @@
 // credits to: https://github.com/Razmoth/CNStudio/blob/master/AssetStudio/CNUnity.cs
 use crate::read_ext::ReadUrexExt;
-use aes::cipher::{block_padding::NoPadding, BlockEncryptMut, KeyIvInit};
+use aes::cipher::{BlockEncryptMut, KeyIvInit, block_padding::NoPadding};
 use byteorder::{BigEndian, ReadBytesExt};
 use std::io::{Read, Result, Seek, SeekFrom};
 type Aes128CbcEnc = cbc::Encryptor<aes::Aes128>;
