@@ -1,6 +1,6 @@
 use std::{io::Cursor, path::Path};
 
-use rabex::files::{SerializedFile, serialzedfile};
+use rabex::files::{SerializedFile, serializedfile};
 use rabex::tpk::{TpkFile, TpkTypeTreeBlob};
 
 #[test]
@@ -73,8 +73,8 @@ fn assert_roundtrip(path: &Path, tt: &TpkTypeTreeBlob) -> Result<(), std::io::Er
     let mut out = Cursor::new(Vec::new());
 
     let common_offset_map =
-        serialzedfile::build_common_offset_map(tt, serialized.m_UnityVersion.unwrap());
-    serialzedfile::write_serialized(&mut out, &serialized, reader.get_ref(), &common_offset_map)?;
+        serializedfile::build_common_offset_map(tt, serialized.m_UnityVersion.unwrap());
+    serializedfile::write_serialized(&mut out, &serialized, reader.get_ref(), &common_offset_map)?;
 
     let start = 0;
     let up_to = out.get_ref().len().min(data.len());

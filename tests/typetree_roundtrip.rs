@@ -3,7 +3,7 @@ use std::{io::Cursor, path::Path};
 use anyhow::{Context, Result};
 use byteorder::LittleEndian;
 use rabex::files::SerializedFile;
-use rabex::files::serialzedfile::Endianness;
+use rabex::files::serializedfile::Endianness;
 use rabex::objects::ClassId;
 use rabex::read_ext::ReadUrexExt;
 use rabex::serde_typetree;

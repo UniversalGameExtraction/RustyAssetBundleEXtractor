@@ -2,7 +2,7 @@
 use std::io::{Cursor, Seek, Write};
 use std::marker::PhantomData;
 
-use crate::files::serialzedfile::Endianness;
+use crate::files::serializedfile::Endianness;
 use crate::write_ext::WriteSeekExt;
 use byteorder::{ByteOrder, WriteBytesExt};
 use serde::Serialize;

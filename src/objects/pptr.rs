@@ -2,7 +2,7 @@ use std::io::{Read, Seek};
 use std::marker::PhantomData;
 
 use crate::files::SerializedFile;
-use crate::files::serialzedfile::{self, ObjectInfo, TypeTreeProvider};
+use crate::files::serializedfile::{self, ObjectInfo, TypeTreeProvider};
 use serde_derive::{Deserialize, Serialize};
 
 pub type PathId = i64;
@@ -79,7 +79,7 @@ impl PPtr {
         serialized: &SerializedFile,
         tpk: impl TypeTreeProvider,
         reader: &mut (impl Read + Seek),
-    ) -> Result<T, serialzedfile::Error>
+    ) -> Result<T, serializedfile::Error>
     where
         T: serde::Deserialize<'de>,
     {
@@ -192,7 +192,7 @@ impl<T> TypedPPtr<T> {
         serialized: &SerializedFile,
         tpk: impl TypeTreeProvider,
         reader: &mut (impl Read + Seek),
-    ) -> Result<T, serialzedfile::Error>
+    ) -> Result<T, serializedfile::Error>
     where
         T: serde::Deserialize<'de>,
     {
