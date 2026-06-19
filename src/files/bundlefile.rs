@@ -325,7 +325,9 @@ impl BundleFile {
             CompressionType::Lzma => {
                 let mut compressed_reader = std::io::Cursor::new(&compressed);
                 let mut uncompressed = vec![0; block.uncompressed_size as usize];
-                lzma_rs::lzma_decompress(&mut compressed_reader, &mut uncompressed).unwrap();
+                let mut option = lzma_rs::decompress::Options::default();
+                option.unpacked_size = lzma_rs::decompress::UnpackedSize::UseProvided(Some(block.compressed_size as u64));
+                lzma_rs::lzma_decompress_with_options(&mut compressed_reader, &mut uncompressed, &option).unwrap();
                 Ok(uncompressed)
             }
             CompressionType::Lz4 | CompressionType::Lz4hc => {
